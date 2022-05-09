@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:glass_kit/glass_kit.dart';
 
 class TrainsScreen extends StatelessWidget {
   const TrainsScreen({Key? key}) : super(key: key);
@@ -67,8 +69,41 @@ class TrainsScreen extends StatelessWidget {
                         color: Colors.transparent,
                       ),
                     ),
-                    // Сделать блок с кол-вом тренировок, типов и направленностью, полупрозрачный
                   ],
+                ),
+                GlassContainer(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 15,
+                  ),
+                  height: 75,
+                  width: 350,
+                  blur: 20,
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white.withOpacity(0.175),
+                      Colors.white.withOpacity(0.1),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderColor: Colors.white.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(25.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text('data'),
+                      GestureDetector(
+                        onTap: () async {
+                          await HapticFeedback.lightImpact();
+                        },
+                        child: Icon(
+                          Icons.play_arrow_rounded,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),

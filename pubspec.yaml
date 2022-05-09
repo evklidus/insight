@@ -30,6 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   styled_widget: ^0.4.0+3
+  glass_kit: ^2.0.1
 
 
   # The following adds the Cupertino Icons font to your application.
