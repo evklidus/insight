@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:m_sport/components/shadow_container.dart';
-import 'package:m_sport/trains.dart';
+import 'package:m_sport/trains_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -61,15 +60,16 @@ class MyHomePage extends StatelessWidget {
                     Container(
                       height: 40,
                       decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color.fromARGB(195, 0, 0, 0),
-                          Color.fromARGB(130, 0, 0, 0),
-                          Colors.transparent,
-                        ],
-                      )),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color.fromARGB(195, 0, 0, 0),
+                            Color.fromARGB(130, 0, 0, 0),
+                            Colors.transparent,
+                          ],
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(

@@ -1,29 +1,50 @@
-# This file configures the analyzer, which statically analyzes Dart code to
-# check for errors, warnings, and lints.
-#
-# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
-
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
-linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at
-  # https://dart-lang.github.io/linter/lints/index.html.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
-  rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+analyzer:
+  plugins:
+    - dart_code_metrics
+  exclude: [lib/**.freezed.dart, lib/**.g.dart]
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+dart_code_metrics:
+  anti-patterns:
+    - long-method
+    - long-parameter-list
+  metrics:
+    cyclomatic-complexity: 20
+    lines-of-executable-code: 50
+    number-of-parameters: 10
+    maximum-nesting-level: 5
+  metrics-exclude:
+    - test/**
+  rules:
+    - avoid-nested-conditional-expressions:
+        acceptable-level: 2
+    - avoid-unnecessary-type-assertions
+    - avoid-unnecessary-type-casts
+    - avoid-unused-parameters
+    - double-literal-format
+    - no-boolean-literal-compare
+    - no-empty-block
+    - no-equal-then-else
+    - prefer-commenting-analyzer-ignores
+    - prefer-conditional-expressions
+    - prefer-correct-identifier-length:
+        max-identifier-length: 50
+        min-identifier-length: 4
+    - prefer-correct-type-name
+    - prefer-first
+    - prefer-last
+    - prefer-match-file-name:
+        exclude:
+          - lib/main.dart
+    - prefer-moving-to-variable
+    - prefer-trailing-comma:
+        break-on: 6
+        severity: style
+    - avoid-returning-widgets
+    - avoid-wrapping-in-padding
+  rules-exclude:
+    - test/**
+
+linter:
+  rules:

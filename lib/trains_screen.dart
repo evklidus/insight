@@ -72,7 +72,7 @@ class TrainsScreen extends StatelessWidget {
                   ],
                 ),
                 GlassContainer(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     vertical: 8,
                     horizontal: 15,
                   ),
@@ -92,16 +92,16 @@ class TrainsScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text('data'),
+                      const Text('data'),
                       GestureDetector(
                         onTap: () async {
                           await HapticFeedback.lightImpact();
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.play_arrow_rounded,
                           color: Colors.white,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
