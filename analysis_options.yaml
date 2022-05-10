@@ -3,7 +3,7 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   plugins:
     - dart_code_metrics
-  exclude: [lib/**.freezed.dart, lib/**.g.dart]
+  exclude: [lib/**.freezed.dart, lib/**.g.dart, lib/**.gen.dart]
 
 dart_code_metrics:
   anti-patterns:
