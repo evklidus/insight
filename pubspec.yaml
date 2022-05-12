@@ -39,4 +39,4 @@ flutter:
   fonts:
     - family: RubikGlitch
       fonts:
-        - asset: assets/fonts/RubikGlitch-Regular.ttf
+        - asset: assets/fonts/Rubik_Glitch/RubikGlitch-Regular.ttf
