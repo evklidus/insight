@@ -9,8 +9,8 @@ class RootScreen extends StatelessWidget {
   Widget build(context) {
     return AutoTabsScaffold(
         routes: const [
-          CatalogRoute(),
-          MainSettingsRoute(),
+          ProgramsListRoute(),
+          SettingsRoute(),
         ],
         bottomNavigationBuilder: (_, tabsRouter) {
           return BottomNavigationBar(

@@ -30,7 +30,7 @@ class TrainingsListScreen extends StatelessWidget {
                 Row(
                   children: [
                     InkWell(
-                      onTap: () => context.popRoute(),
+                      onTap: () => context.router.popUntilRoot(),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
