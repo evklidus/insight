@@ -1,9 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:glass_kit/glass_kit.dart';
 
-class TrainsScreen extends StatelessWidget {
-  const TrainsScreen({Key? key}) : super(key: key);
+class TrainingsListScreen extends StatelessWidget {
+  const TrainingsListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class TrainsScreen extends StatelessWidget {
                 Row(
                   children: [
                     InkWell(
-                      onTap: () => Navigator.of(context).pop(),
+                      onTap: () => context.popRoute(),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
