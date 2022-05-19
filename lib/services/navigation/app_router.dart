@@ -20,8 +20,15 @@ part 'app_router.gr.dart';
         AutoRoute(page: SettingsScreen),
       ],
     ),
-    AutoRoute(page: TrainingsListScreen, guards: [InternetGuard]),
-    AutoRoute(page: InternetWarningScreen),
+    AutoRoute(
+      page: TrainingsListScreen,
+      guards: [InternetGuard],
+    ),
+    CustomRoute(
+      page: InternetWarningScreen,
+      transitionsBuilder: TransitionsBuilders.slideBottom,
+      durationInMilliseconds: 300,
+    ),
   ],
 )
 class AppRouter extends _$AppRouter {
