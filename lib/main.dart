@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:m_sport/services/di/locator_service.dart' as di;
+import 'package:m_sport/services/links/applinks_service.dart';
 import 'package:m_sport/services/navigation/app_router.dart';
-import 'package:m_sport/services/navigation/guards/internet_guard.dart';
 
-void main() {
+void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  di.setup();
+  checkIfStartedByLink();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
-  final _appRouter = AppRouter(internetGuard: InternetGuard());
+  final _appRouter = di.getIt<AppRouter>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,5 +27,13 @@ class MyApp extends StatelessWidget {
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
     );
+  }
+}
+
+Future<void> checkIfStartedByLink() async {
+  final appLinksService = di.getIt<AppLinksService>();
+  final uri = await appLinksService.appLinks.getInitialAppLink();
+  if (uri != null) {
+    appLinksService.appLinksProvider.pushUrlCoolBoot(uri);
   }
 }

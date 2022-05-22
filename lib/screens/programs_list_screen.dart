@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:m_sport/services/di/locator_service.dart';
+import 'package:m_sport/services/links/applinks_service.dart';
 import 'package:m_sport/services/navigation/app_router.dart';
 
 class ProgramsListScreen extends StatelessWidget {
@@ -24,6 +28,11 @@ class ProgramsListScreen extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(20)),
             child: InkWell(
               onTap: () {
+                String link = getIt<AppLinksService>().createDynamicLink(
+                  path: 'programs',
+                  queryMap: {},
+                );
+                log(link);
                 context.pushRoute(const TrainingsListRoute());
               },
               child: Container(
