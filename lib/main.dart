@@ -3,6 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:m_sport/services/di/locator_service.dart' as di;
 import 'package:m_sport/services/links/applinks_service.dart';
 import 'package:m_sport/services/navigation/app_router.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -21,12 +22,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
 
-    return MaterialApp.router(
-      title: 'Flutter Demo',
-      theme: ThemeData(),
-      routerDelegate: _appRouter.delegate(),
-      routeInformationParser: _appRouter.defaultRouteParser(),
-    );
+    return ResponsiveSizer(builder: (context, orientation, screenType) {
+      return MaterialApp.router(
+        title: 'Flutter Demo',
+        theme: ThemeData(),
+        routerDelegate: _appRouter.delegate(),
+        routeInformationParser: _appRouter.defaultRouteParser(),
+      );
+    });
   }
 }
 

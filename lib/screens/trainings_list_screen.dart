@@ -2,9 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:glass_kit/glass_kit.dart';
+import 'package:m_sport/components/hbox.dart';
+import 'package:m_sport/components/rounded_back_icon.dart';
+import 'package:m_sport/components/wbox.dart';
+import 'package:m_sport/models/program.dart';
+import 'package:m_sport/models/training.dart';
+import 'package:m_sport/services/navigation/app_router.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class TrainingsListScreen extends StatelessWidget {
-  const TrainingsListScreen({Key? key}) : super(key: key);
+  const TrainingsListScreen({Key? key, required this.program}) : super(key: key);
+
+  final Program program;
 
   @override
   Widget build(BuildContext context) {
@@ -24,92 +33,118 @@ class TrainingsListScreen extends StatelessWidget {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () => context.router.popUntilRoot(),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(111, 158, 158, 158),
-                            shape: BoxShape.circle,
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                          child: const Padding(
-                            padding: EdgeInsets.only(right: 1),
-                            child: Icon(
-                              Icons.arrow_back_ios_new_rounded,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                          ),
+                _Title(program.name),
+                const HBox(25),
+                Column(
+                  children: program.trainings
+                      .map(
+                        (training) => _Training(
+                          training: training,
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Hero(
-                      tag: 'Main title',
-                      child: Material(
-                        child: SizedBox(
-                          width: 140.0,
-                          child: Text(
-                            'Силовая 1',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ],
-                ),
-                GlassContainer(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 15,
-                  ),
-                  height: 75,
-                  width: 350,
-                  blur: 20,
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.white.withOpacity(0.175),
-                      Colors.white.withOpacity(0.1),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderColor: Colors.white.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Text('data'),
-                      GestureDetector(
-                        onTap: () async {
-                          await HapticFeedback.lightImpact();
-                        },
-                        child: const Icon(
-                          Icons.play_arrow_rounded,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                      )
+                      .toList(),
                 ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _Training extends StatelessWidget {
+  const _Training({Key? key, required this.training}) : super(key: key);
+
+  final Training training;
+
+  @override
+  Widget build(BuildContext context) {
+    return GlassContainer(
+      padding: const EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: 25,
+      ),
+      height: 9.h,
+      width: 92.5.w,
+      blur: 20,
+      gradient: LinearGradient(
+        colors: [
+          Colors.white.withOpacity(0.175),
+          Colors.white.withOpacity(0.1),
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      borderColor: Colors.white.withOpacity(0.5),
+      borderRadius: BorderRadius.circular(25.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            training.name,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          GestureDetector(
+            onTap: () async {
+              await HapticFeedback.lightImpact();
+              context.router.push(TrainingRoute(videoUrl: training.videoUrl));
+            },
+            child: const Icon(
+              Icons.play_arrow_rounded,
+              color: Colors.white,
+              size: 30,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Title extends StatelessWidget {
+  const _Title(this.title, {Key? key, this.onTap}) : super(key: key);
+
+  final String title;
+  final Function? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: Row(
+        children: [
+          RoundedBackIcon(
+            onTap: () {
+              onTap;
+            },
+          ),
+          const WBox(10),
+          Hero(
+            tag: 'Main title',
+            child: Material(
+              child: SizedBox(
+                width: 180,
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              color: Colors.transparent,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:m_sport/models/training.dart';
 import 'package:m_sport/screens/internet_warning.dart';
 import 'package:m_sport/screens/root_screen.dart';
 import 'package:m_sport/screens/settings_screen.dart';
 import 'package:m_sport/screens/programs_list_screen.dart';
+import 'package:m_sport/screens/training_screen.dart';
 import 'package:m_sport/screens/trainings_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:m_sport/services/navigation/guards/internet_guard.dart';
+import 'package:m_sport/models/program.dart';
 
 part 'app_router.gr.dart';
 
@@ -28,6 +31,11 @@ part 'app_router.gr.dart';
       page: InternetWarningScreen,
       transitionsBuilder: TransitionsBuilders.slideBottom,
       durationInMilliseconds: 300,
+    ),
+    CustomRoute(
+      page: TrainingScreen,
+      transitionsBuilder: TransitionsBuilders.fadeIn,
+      durationInMilliseconds: 250,
     ),
   ],
 )
