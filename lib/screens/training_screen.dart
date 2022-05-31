@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:m_sport/components/hbox.dart';
+import 'package:m_sport/components/boxes.dart';
+import 'package:m_sport/components/skeleton_loader.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 
@@ -16,15 +17,14 @@ class TrainingScreen extends StatefulWidget {
 
 class _TrainingScreenState extends State<TrainingScreen> {
   late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.videoUrl)
-      ..initialize().then((_) {
-        setState(() {});
-        _controller.play();
-      });
+    _controller = VideoPlayerController.network(widget.videoUrl);
+    _initializeVideoPlayerFuture = _controller.initialize();
+    _controller.play();
   }
 
   @override
@@ -48,19 +48,35 @@ class _TrainingScreenState extends State<TrainingScreen> {
                   color: Colors.grey,
                 ),
               ),
-              SizedBox(
-                height: 50.h,
-                child: AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    child: _controller.value.isInitialized
-                        ? VideoPlayer(_controller)
-                        : const CircularProgressIndicator.adaptive(),
-                  ),
+              const Spacer(
+                flex: 1,
+              ),
+              WPaddingBox(
+                child: Container(
+                  height: 60.h,
+                  child: FutureBuilder(
+                      future: _initializeVideoPlayerFuture,
+                      builder: (context, snapshot) {
+                        return AnimatedSwitcher(
+                          switchInCurve: Curves.easeInOut,
+                          duration: const Duration(milliseconds: 800),
+                          child: snapshot.connectionState == ConnectionState.done
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(25),
+                                  child: AspectRatio(
+                                      aspectRatio: _controller.value.aspectRatio, child: VideoPlayer(_controller)))
+                              : const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Color(0xff9F3953),
+                                  ),
+                                ),
+                        );
+                      }),
                 ),
               ),
-              const Spacer(),
+              const Spacer(
+                flex: 3,
+              ),
               GestureDetector(
                 onTap: () {
                   setState(() {
@@ -92,7 +108,9 @@ class _TrainingScreenState extends State<TrainingScreen> {
                   ),
                 ),
               ),
-              const Spacer(),
+              const Spacer(
+                flex: 2,
+              ),
             ],
           ),
         ),
