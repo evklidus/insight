@@ -1,0 +1,47 @@
+name: Flutter PR
+on:
+ pull_request:
+   branches:
+     - "main"
+    paths-ignore:
+     - "docs/**"
+     - "drz-swagger/**"
+     - ".vscode/**"
+
+jobs:
+ build:
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v1
+     - uses: actions/setup-java@v1
+       with:
+         java-version: "12.x"
+
+     - uses: subosito/flutter-action@v1
+       with:
+         channel: "stable"
+
+     - run: sh ./scripts/get.sh
+
+     - run: flutter analyze
+
+     - run: flutter build apk --release
+            env:
+              STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+              KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+              KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+              STORE_FILE: ${{ secrets.STORE_FILE }}
+
+     - uses: actions/upload-artifact@v1
+       with:
+         name: APK for QA
+         path: build/app/outputs/apk/dev/debug/apk_name.apk
+
+     - name: Upload artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_ANDROID_PROD_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: testers
+          file: build/app/outputs/apk/dev/debug/apk_name.apk
+          debug: true

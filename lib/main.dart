@@ -4,10 +4,15 @@ import 'package:m_sport/services/di/locator_service.dart' as di;
 import 'package:m_sport/services/links/applinks_service.dart';
 import 'package:m_sport/services/navigation/app_router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   di.setup();
   checkIfStartedByLink();
   runApp(MyApp());
