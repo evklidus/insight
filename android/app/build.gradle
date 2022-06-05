@@ -52,17 +52,6 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
-
-    signingConfigs {
-       release {
-           apply from: '../keystore/keystoreConfig.gradle'
-
-           keyAlias keystoreConfig.keyAlias
-           keyPassword keystoreConfig.keyPassword
-           storeFile file(keystoreConfig.storeFile)
-           storePassword keystoreConfig.storePassword
-       }
-   }
     buildTypes {
         release {
             signingConfig signingConfigs.release
