@@ -1,7 +1,7 @@
 name: Flutter PR
 on: pull_request
 jobs:
-  build:
+  job1:
     name: Build APK
     runs-on: ubuntu-latest
     steps:
