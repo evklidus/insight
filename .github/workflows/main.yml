@@ -17,3 +17,9 @@ jobs:
     - run: flutter packages pub run build_runner build
 
     - run: flutter analyze
+  distribution:
+    name: Upload to Firebase App Distribution
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+    - run: flutter build apk --release
