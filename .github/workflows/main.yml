@@ -1,6 +1,5 @@
-on: pull_request
 name: Flutter PR
-
+on: pull_request
 jobs:
   build:
     name: Build APK
