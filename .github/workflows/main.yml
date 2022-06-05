@@ -1,11 +1,4 @@
-on:
- pull_request:
-   branches:
-     - main
-    paths-ignore:
-     - 'docs/**'
-     - 'drz-swagger/**'
-     - '.vscode/**'
+on: pull_request
 name: Flutter PR
 
 jobs:
