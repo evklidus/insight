@@ -25,17 +25,17 @@ jobs:
     - uses: actions/upload-artifact@v1      
       with:        
         name: release-apk        
-        path: app/build/outputs/apk/release/m_sport.apk
+        path: build/app/outputs/apk/release/app-release.apk
   distribution:
     name: Upload to Firebase App Distribution
     needs: [build]
     runs-on: ubuntu-latest
     steps:
     - name: Firebase App Distribution
-      uses: wzieba/Firebase-Distribution-Github-Action@v1
+      uses: wzieba/Firebase-Distribution-Github-Action@v1.2.1
       with:
         appId: ${{secrets.FIREBASE_APP_ID}}
         token: ${{secrets.FIREBASE_TOKEN}}
         groups: testers
-        file: app/build/outputs/apk/release/m_sport.apk
+        file: app/build/outputs/apk/release/app-release.apk
         debug: true
