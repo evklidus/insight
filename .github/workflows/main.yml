@@ -26,7 +26,7 @@ jobs:
       with:    
         path: app-release.apk
 
-    - git config --global --add safe.directory /github/workspace
+    - run: git config --global --add safe.directory /github/workspace
 
     - name: Firebase App Distribution
       uses: wzieba/Firebase-Distribution-Github-Action@v1.3.3
