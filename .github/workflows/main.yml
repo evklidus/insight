@@ -25,9 +25,12 @@ jobs:
     - uses: actions/upload-artifact@v3      
       with:    
         path: app-release.apk
-
-    - run: git config --global --add safe.directory /github/workspace
-
+        
+  distribution:
+    name: Upload to Firebase App Distribution
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
     - name: Firebase App Distribution
       uses: wzieba/Firebase-Distribution-Github-Action@v1.3.3
       with:
