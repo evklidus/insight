@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:m_sport/components/boxes.dart';
-import 'package:m_sport/components/skeleton_loader.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 
@@ -52,7 +51,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                 flex: 1,
               ),
               WPaddingBox(
-                child: Container(
+                child: SizedBox(
                   height: 60.h,
                   child: FutureBuilder(
                       future: _initializeVideoPlayerFuture,

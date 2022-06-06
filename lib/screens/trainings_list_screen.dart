@@ -109,6 +109,7 @@ class _Training extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
+  // ignore: unused_element
   const _Title(this.title, {Key? key, this.onTap}) : super(key: key);
 
   final String title;

@@ -36,7 +36,7 @@ class SkeletonLoader extends StatelessWidget {
 
     return Shimmer.fromColors(
       child: body,
-      baseColor: Color.fromARGB(255, 208, 208, 208),
+      baseColor: const Color.fromARGB(255, 208, 208, 208),
       highlightColor: Colors.white,
     );
   }
