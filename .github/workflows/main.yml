@@ -32,10 +32,10 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-    - name: Download math result for job 2
-        uses: actions/download-artifact@v3
-        with:
-          name: app
+    - name: Download
+      uses: actions/download-artifact@v3
+      with:
+        name: app
     - name: Firebase App Distribution
       uses: wzieba/Firebase-Distribution-Github-Action@v1.3.3
       with:
