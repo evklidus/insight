@@ -37,5 +37,4 @@ jobs:
         appId: ${{secrets.FIREBASE_ANDROID_PROD_APP_ID}}
         token: ${{secrets.FIREBASE_TOKEN}}
         groups: testers
-        file: app/build/outputs/apk/release/app-release.apk
-        debug: true
+        file: app-release.apk
