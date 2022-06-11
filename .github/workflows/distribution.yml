@@ -3,10 +3,10 @@ on:
     branches:
       - main
       
-name: Bump version
+name: CD
 jobs:
-  bump:
-    name: Bump
+  build:
+    name: Build APK
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -17,11 +17,21 @@ jobs:
       with:
         channel: "stable"
 
-    - run: cider bump build
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: "stable"
+
+    - name: Build APK
+      run: flutter build apk
+      
+    - uses: actions/upload-artifact@v3
+      with:
+        name: app
+        path: /home/runner/work/m_sport/m_sport/build/app/outputs/apk/release/app-release.apk
   
   distribution:
     name: Upload to Firebase App Distribution
-    needs: [bump]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
     - name: Download
