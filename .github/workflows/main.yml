@@ -26,20 +26,3 @@ jobs:
       with:
         name: app
         path: /home/runner/work/m_sport/m_sport/build/app/outputs/apk/release/app-release.apk
-
-  distribution:
-    name: Upload to Firebase App Distribution
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download
-      uses: actions/download-artifact@v3
-      with:
-        name: app
-    - name: Firebase App Distribution
-      uses: wzieba/Firebase-Distribution-Github-Action@v1.3.3
-      with:
-        appId: ${{secrets.FIREBASE_ANDROID_PROD_APP_ID}}
-        token: ${{secrets.FIREBASE_TOKEN}}
-        groups: testers
-        file: app-release.apk

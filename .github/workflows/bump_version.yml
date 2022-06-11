@@ -1,0 +1,37 @@
+on:
+  push:
+    branches:
+      - main
+      
+name: Bump version
+jobs:
+  bump:
+    name: Bump
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: "stable"
+
+    - run: cider bump build
+  
+  distribution:
+    name: Upload to Firebase App Distribution
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download
+      uses: actions/download-artifact@v3
+      with:
+        name: app
+    - name: Firebase App Distribution
+      uses: wzieba/Firebase-Distribution-Github-Action@v1.3.3
+      with:
+        appId: ${{secrets.FIREBASE_ANDROID_PROD_APP_ID}}
+        token: ${{secrets.FIREBASE_TOKEN}}
+        groups: testers
+        file: app-release.apk
