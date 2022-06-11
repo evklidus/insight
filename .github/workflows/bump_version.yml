@@ -21,7 +21,6 @@ jobs:
   
   distribution:
     name: Upload to Firebase App Distribution
-    needs: [build]
     runs-on: ubuntu-latest
     steps:
     - name: Download
