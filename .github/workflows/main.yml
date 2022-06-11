@@ -16,10 +16,13 @@ jobs:
     - name: Get dependencies
       run: flutter pub get
 
-    - run: flutter packages pub run build_runner build
+    - name: Generating
+      run: flutter packages pub run build_runner build
 
-    - run: flutter analyze
+    - name: Analyze
+      run: flutter analyze
 
     - run: dart pub global activate cider
 
-    - run: cider bump build
+    - name: Bump version
+      run: cider bump build
