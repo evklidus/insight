@@ -1,9 +1,9 @@
 On this application i practice in Flutter and new libs / practices
 
-Making by Erik Minasov
+> Making by Erik Minasov
 
 
-Will be added:
+# Will be added:
 - [x]  Splash screen
 - [x] AutoRoute
 - [x] CI/CD
