@@ -1,18 +1,34 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:m_sport/components/boxes.dart';
 import 'package:m_sport/components/rounded_back_icon.dart';
-import 'package:m_sport/models/program.dart';
-import 'package:m_sport/models/training.dart';
+import 'package:m_sport/features/programs/domain/entities/program_entity.dart';
+import 'package:m_sport/features/trainings/domain/entities/training_entity.dart';
+import 'package:m_sport/features/trainings/presentation/store/program_page_store.dart';
+import 'package:m_sport/services/di/locator_service.dart';
 import 'package:m_sport/services/navigation/app_router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class TrainingsListScreen extends StatelessWidget {
+class TrainingsListScreen extends StatefulWidget {
   const TrainingsListScreen({Key? key, required this.program}) : super(key: key);
 
-  final Program program;
+  final ProgramEntity program;
+
+  @override
+  State<TrainingsListScreen> createState() => _TrainingsListScreenState();
+}
+
+class _TrainingsListScreenState extends State<TrainingsListScreen> {
+  final programPageStore = getIt.get<ProgramPageStore>();
+
+  @override
+  void initState() {
+    programPageStore.fetchProgramPage(widget.program.id);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +51,32 @@ class TrainingsListScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
               children: [
-                _Title(program.name),
+                _Title(widget.program),
                 const HBox(25),
-                Column(
-                  children: program.trainings
-                      .map(
-                        (training) => _Training(
-                          training: training,
-                        ),
-                      )
-                      .toList(),
-                ),
+                Observer(builder: (context) {
+                  if (programPageStore.loading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (programPageStore.error) {
+                    return const Center(
+                      child: Text('Error'),
+                    );
+                  }
+                  if (programPageStore.programPage != null) {
+                    return Column(
+                      children: programPageStore.programPage!.trainings
+                          .map(
+                            (training) => _Training(
+                              training: training,
+                            ),
+                          )
+                          .toList(),
+                    );
+                  }
+                  return Container();
+                }),
               ],
             ),
           ),
@@ -58,7 +89,7 @@ class TrainingsListScreen extends StatelessWidget {
 class _Training extends StatelessWidget {
   const _Training({Key? key, required this.training}) : super(key: key);
 
-  final Training training;
+  final TrainingEntity training;
 
   @override
   Widget build(BuildContext context) {
@@ -110,9 +141,9 @@ class _Training extends StatelessWidget {
 
 class _Title extends StatelessWidget {
   // ignore: unused_element
-  const _Title(this.title, {Key? key, this.onTap}) : super(key: key);
+  const _Title(this.program, {Key? key, this.onTap}) : super(key: key);
 
-  final String title;
+  final ProgramEntity program;
   final Function? onTap;
 
   @override
@@ -128,12 +159,12 @@ class _Title extends StatelessWidget {
           ),
           const WBox(10),
           Hero(
-            tag: 'Main title',
+            tag: program.id,
             child: Material(
               child: SizedBox(
                 width: 180,
                 child: Text(
-                  title,
+                  program.name,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

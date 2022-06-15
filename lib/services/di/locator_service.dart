@@ -7,6 +7,11 @@ import 'package:m_sport/features/programs/data/repositories/programs_repository_
 import 'package:m_sport/features/programs/domain/repositories/programs_repository.dart';
 import 'package:m_sport/features/programs/domain/usecases/get_programs.dart';
 import 'package:m_sport/features/programs/presentation/store/programs_store.dart';
+import 'package:m_sport/features/trainings/data/datasources/remote_datasource.dart';
+import 'package:m_sport/features/trainings/data/repositories/program_page_repository_impl.dart';
+import 'package:m_sport/features/trainings/domain/repositories/program_page_repository.dart';
+import 'package:m_sport/features/trainings/domain/usecases/get_program_page.dart';
+import 'package:m_sport/features/trainings/presentation/store/program_page_store.dart';
 import 'package:m_sport/services/http/network_info.dart';
 import 'package:m_sport/services/http/rest_client.dart';
 import 'package:m_sport/services/links/applinks_provider_service.dart';
@@ -33,12 +38,14 @@ void setup() {
 
   // MobX
   getIt.registerFactory(() => ProgramsStore(getIt()));
+  getIt.registerFactory(() => ProgramPageStore(getIt()));
 
   // Use Cases
   getIt.registerLazySingleton(
-    () => GetPrograms(
-      programsRepository: getIt(),
-    ),
+    () => GetPrograms(getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => GetProgramPage(getIt()),
   );
 
   // Repositories
@@ -48,12 +55,19 @@ void setup() {
       networkInfo: getIt(),
     ),
   );
+  getIt.registerFactory<ProgramPageRepository>(
+    () => ProgramPageRepositoryImpl(
+      remoteDataSource: getIt(),
+      networkInfo: getIt(),
+    ),
+  );
 
   // Data Sources
   getIt.registerLazySingleton<ProgramsRemoteDataSource>(
-    () => ProgramsRemoteDataSourceImpl(
-      client: getIt(),
-    ),
+    () => ProgramsRemoteDataSourceImpl(getIt()),
+  );
+  getIt.registerLazySingleton<ProgramPageRemoteDataSource>(
+    () => ProgramPageRemoteDataSourceImpl(getIt()),
   );
 
   getIt.registerLazySingleton<NetworkInfo>(

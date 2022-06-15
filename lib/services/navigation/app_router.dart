@@ -3,11 +3,11 @@ import 'package:m_sport/screens/internet_warning.dart';
 import 'package:m_sport/screens/root_screen.dart';
 import 'package:m_sport/screens/settings_screen.dart';
 import 'package:m_sport/features/programs/presentation/screens/programs_list_screen.dart';
-import 'package:m_sport/screens/training_screen.dart';
-import 'package:m_sport/screens/trainings_list_screen.dart';
+import 'package:m_sport/features/trainings/presentation/screens/training_screen.dart';
+import 'package:m_sport/features/trainings/presentation/screens/trainings_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:m_sport/services/navigation/guards/internet_guard.dart';
-import 'package:m_sport/models/program.dart';
+import 'package:m_sport/features/programs/domain/entities/program_entity.dart';
 
 part 'app_router.gr.dart';
 

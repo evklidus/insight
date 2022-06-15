@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:m_sport/features/programs/domain/entities/program_entity.dart';
 import 'package:m_sport/services/di/locator_service.dart';
 import 'package:m_sport/services/links/applinks_service.dart';
+import 'package:m_sport/services/navigation/app_router.dart';
 
 class ProgramWidget extends StatelessWidget {
   const ProgramWidget({Key? key, required this.program}) : super(key: key);
@@ -21,7 +23,7 @@ class ProgramWidget extends StatelessWidget {
             queryMap: {},
           );
           log(link);
-          // context.pushRoute(TrainingsListRoute(program: program));
+          context.pushRoute(TrainingsListRoute(program: program));
         },
         child: Container(
           padding: const EdgeInsets.all(0),
@@ -56,7 +58,7 @@ class ProgramWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Hero(
-                      tag: 'Main title',
+                      tag: program.id,
                       child: Material(
                         child: SizedBox(
                           width: 140.0,

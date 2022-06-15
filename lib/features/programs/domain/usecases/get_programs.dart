@@ -7,9 +7,7 @@ import 'package:m_sport/features/programs/domain/repositories/programs_repositor
 class GetPrograms extends UseCase<List<ProgramEntity>> {
   final ProgramsRepository programsRepository;
 
-  GetPrograms({
-    required this.programsRepository,
-  });
+  GetPrograms(this.programsRepository);
 
   @override
   Future<Either<Failure, List<ProgramEntity>>> call() async {
