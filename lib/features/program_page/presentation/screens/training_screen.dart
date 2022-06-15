@@ -127,7 +127,10 @@ class _PlayPauseButtonState extends State<PlayPauseButton> with TickerProviderSt
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 450));
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 450),
+    );
   }
 
   @override

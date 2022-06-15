@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:m_sport/features/trainings/domain/entities/training_entity.dart';
+import 'package:m_sport/features/program_page/domain/entities/training_entity.dart';
 import 'package:flutter/foundation.dart';
 
 part 'training_model.freezed.dart';

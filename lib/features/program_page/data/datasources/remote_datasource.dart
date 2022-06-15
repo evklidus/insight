@@ -1,4 +1,4 @@
-import 'package:m_sport/features/trainings/data/models/program_page_model.dart';
+import 'package:m_sport/features/program_page/data/models/program_page_model.dart';
 import 'package:m_sport/services/http/rest_client.dart';
 
 abstract class ProgramPageRemoteDataSource {

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:m_sport/features/trainings/data/models/training_model.dart';
-import 'package:m_sport/features/trainings/domain/entities/program_page_entity.dart';
+import 'package:m_sport/features/program_page/data/models/training_model.dart';
+import 'package:m_sport/features/program_page/domain/entities/program_page_entity.dart';
 import 'package:flutter/foundation.dart';
 
 part 'program_page_model.freezed.dart';

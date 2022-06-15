@@ -1,5 +1,5 @@
-import 'package:m_sport/features/trainings/domain/entities/program_page_entity.dart';
-import 'package:m_sport/features/trainings/domain/usecases/get_program_page.dart';
+import 'package:m_sport/features/program_page/domain/entities/program_page_entity.dart';
+import 'package:m_sport/features/program_page/domain/usecases/get_program_page.dart';
 import 'package:mobx/mobx.dart';
 
 part 'program_page_store.g.dart';

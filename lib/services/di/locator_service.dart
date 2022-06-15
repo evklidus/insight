@@ -7,11 +7,11 @@ import 'package:m_sport/features/programs/data/repositories/programs_repository_
 import 'package:m_sport/features/programs/domain/repositories/programs_repository.dart';
 import 'package:m_sport/features/programs/domain/usecases/get_programs.dart';
 import 'package:m_sport/features/programs/presentation/store/programs_store.dart';
-import 'package:m_sport/features/trainings/data/datasources/remote_datasource.dart';
-import 'package:m_sport/features/trainings/data/repositories/program_page_repository_impl.dart';
-import 'package:m_sport/features/trainings/domain/repositories/program_page_repository.dart';
-import 'package:m_sport/features/trainings/domain/usecases/get_program_page.dart';
-import 'package:m_sport/features/trainings/presentation/store/program_page_store.dart';
+import 'package:m_sport/features/program_page/data/datasources/remote_datasource.dart';
+import 'package:m_sport/features/program_page/data/repositories/program_page_repository_impl.dart';
+import 'package:m_sport/features/program_page/domain/repositories/program_page_repository.dart';
+import 'package:m_sport/features/program_page/domain/usecases/get_program_page.dart';
+import 'package:m_sport/features/program_page/presentation/store/program_page_store.dart';
 import 'package:m_sport/services/http/network_info.dart';
 import 'package:m_sport/services/http/rest_client.dart';
 import 'package:m_sport/services/links/applinks_provider_service.dart';
