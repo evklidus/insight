@@ -1,8 +1,8 @@
-class Training {
+class TrainingEntity {
   final String name;
   final String videoUrl;
 
-  Training({
+  TrainingEntity({
     required this.name,
     required this.videoUrl,
   });
