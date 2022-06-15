@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:m_sport/screens/internet_warning.dart';
 import 'package:m_sport/screens/root_screen.dart';
 import 'package:m_sport/screens/settings_screen.dart';
-import 'package:m_sport/screens/programs_list_screen.dart';
+import 'package:m_sport/features/programs/presentation/screens/programs_list_screen.dart';
 import 'package:m_sport/screens/training_screen.dart';
 import 'package:m_sport/screens/trainings_list_screen.dart';
 import 'package:flutter/material.dart';
