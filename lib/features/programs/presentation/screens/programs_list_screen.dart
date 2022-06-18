@@ -16,7 +16,7 @@ class _ProgramsListScreenState extends State<ProgramsListScreen> {
 
   @override
   void initState() {
-    programsStore.fetchPrograms();
+    programsStore.loadEntity();
     super.initState();
   }
 
@@ -32,12 +32,17 @@ class _ProgramsListScreenState extends State<ProgramsListScreen> {
             child: CircularProgressIndicator(),
           );
         }
-        if (programsStore.error) {
+        if (programsStore.failure) {
           return const Center(
             child: Text('Error'),
           );
         }
-        if (programsStore.programs != null) {
+        if (programsStore.empty) {
+          return const Center(
+            child: Text('Empty'),
+          );
+        }
+        if (programsStore.loaded) {
           return Padding(
             padding: const EdgeInsets.all(16),
             child: GridView(
@@ -46,7 +51,7 @@ class _ProgramsListScreenState extends State<ProgramsListScreen> {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
               ),
-              children: programsStore.programs!
+              children: programsStore.entity!
                   .map(
                     (program) => ProgramWidget(program: program),
                   )
