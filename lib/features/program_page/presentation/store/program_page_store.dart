@@ -1,33 +1,23 @@
 import 'package:m_sport/features/program_page/domain/entities/program_page_entity.dart';
 import 'package:m_sport/features/program_page/domain/usecases/get_program_page.dart';
+import 'package:m_sport/core/stores/entity_store.dart';
 import 'package:mobx/mobx.dart';
 
 part 'program_page_store.g.dart';
 
 class ProgramPageStore = _ProgramPageStore with _$ProgramPageStore;
 
-abstract class _ProgramPageStore with Store {
+abstract class _ProgramPageStore extends EntityStore<ProgramPageEntity> with Store {
   final GetProgramPage getProgramPage;
 
   _ProgramPageStore(this.getProgramPage);
 
-  @observable
-  bool loading = false;
+  @override
+  fetchEntity([LoadParams? params]) {
+    return getProgramPage(ProgramPageParams(id: params?.params!['id'] as int));
+  }
 
-  @observable
-  bool error = false;
-
-  @observable
-  ProgramPageEntity? programPage;
-
-  @action
-  Future<void> fetchProgramPage(int id) async {
-    loading = true;
-    final failureOrProgramPage = await getProgramPage(ProgramPageParams(id: id));
-    failureOrProgramPage.fold(
-      (failure) => error = true,
-      (programPage) => this.programPage = programPage,
-    );
-    loading = false;
+  void loadPragramPage(int id) {
+    loadEntity(LoadParams({'id': id}));
   }
 }

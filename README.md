@@ -7,12 +7,15 @@ On this application i practice in Flutter and new libs / practices
 - [x]  Splash screen
 - [x] AutoRoute
 - [x] CI/CD
-- [x] Clean Architecture with MobX and retrofit
-- [ ] Create wrapper for MobX stores
+- [x] Clean Architecture with MobX, retrofit and freezed
+- [x] Create wrapper for MobX stores
 - [ ] Create builder for MobX
-- [x] Add freezed
-- [ ] More than 1 video for training with step progress indicator
+- [ ] Bump app version after push on main on separated commit
 - [ ] unit tests
 - [ ] widget tests
 - [ ] integration tests
 - [ ] golden tests
+- [ ] More than 1 video for training with step progress indicator
+- [ ] Ability to create trainings
+- [ ] Good design
+- [ ] Animations

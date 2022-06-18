@@ -26,7 +26,7 @@ class _TrainingsListScreenState extends State<TrainingsListScreen> {
 
   @override
   void initState() {
-    programPageStore.fetchProgramPage(widget.program.id);
+    programPageStore.loadPragramPage(widget.program.id);
     super.initState();
   }
 
@@ -59,14 +59,19 @@ class _TrainingsListScreenState extends State<TrainingsListScreen> {
                       child: CircularProgressIndicator(),
                     );
                   }
-                  if (programPageStore.error) {
+                  if (programPageStore.failure) {
                     return const Center(
                       child: Text('Error'),
                     );
                   }
-                  if (programPageStore.programPage != null) {
+                  if (programPageStore.empty) {
+                    return const Center(
+                      child: Text('Empty'),
+                    );
+                  }
+                  if (programPageStore.loaded) {
                     return Column(
-                      children: programPageStore.programPage!.trainings
+                      children: programPageStore.entity!.trainings
                           .map(
                             (training) => _Training(
                               training: training,
