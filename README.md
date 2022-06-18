@@ -19,3 +19,4 @@ On this application i practice in Flutter and new libs / practices
 - [ ] Ability to create trainings
 - [ ] Good design
 - [ ] Animations
+- [ ] Separate some widgets in ui_kit package
