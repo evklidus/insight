@@ -20,7 +20,7 @@ class AppLinksProviderService {
       appRouter.navigate(
         const RootRoute(
           children: [
-            ProgramsListRoute(),
+            ProgramsRoute(),
           ],
         ),
       );

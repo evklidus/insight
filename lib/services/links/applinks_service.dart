@@ -12,7 +12,7 @@ class AppLinksService {
     required String path,
     required Map<String, String> queryMap,
   }) {
-    return 'https://minasov.am/$path${_createQueryParams(queryMap)}';
+    return 'https://minasov.am/$path${_createQueryParams(queryMap)}'; // TODO: will be changed, now it not work url
   }
 
   String _createQueryParams(Map<String, String> map) {

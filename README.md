@@ -15,6 +15,7 @@ On this application i practice in Flutter and new libs / practices
 - [ ] widget tests
 - [ ] integration tests
 - [ ] golden tests
+- [ ] Localization
 - [ ] More than 1 video for training with step progress indicator
 - [ ] Ability to create trainings
 - [ ] Good design
