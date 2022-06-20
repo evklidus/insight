@@ -11,13 +11,7 @@ abstract class _EntityStore<T> with Store {
   bool get loaded => loading != true && entity != null;
 
   @computed
-  bool get empty {
-    if (T is List<Object>) {
-      final entityList = entity as List<Object>;
-      entityList.isEmpty ? true : false;
-    }
-    return false;
-  }
+  bool get empty => entity == null ? true : false;
 
   @observable
   bool loading = false;
@@ -31,7 +25,7 @@ abstract class _EntityStore<T> with Store {
   @observable
   T? entity;
 
-  void _setEntity(T entity) {
+  void _setEntity(T? entity) {
     this.entity = entity;
   }
 
@@ -40,12 +34,12 @@ abstract class _EntityStore<T> with Store {
     failureType = failure;
   }
 
-  Future<Either<Failure, T>> fetchEntity([LoadParams? params]);
+  Future<Either<Failure, T?>> fetchEntity([LoadParams? params]);
 
   @action
   Future<void> loadEntity([LoadParams? params]) async {
     loading = true;
-    final Either<Failure, T> resultOrFailure = await fetchEntity(params);
+    final resultOrFailure = await fetchEntity(params);
     resultOrFailure.fold(
       (failure) {
         _setFailure(failure);
@@ -61,7 +55,7 @@ abstract class _EntityStore<T> with Store {
     // use only in store
     // after use it you have to set entity
     loading = true;
-    final Either<Failure, T> resultOrFailure = await fetchEntity();
+    final resultOrFailure = await fetchEntity();
     resultOrFailure.fold(
       (failure) {
         _setFailure(failure);

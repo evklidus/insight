@@ -16,10 +16,10 @@ class ProgramPageRepositoryImpl implements ProgramPageRepository {
   });
 
   @override
-  Future<Either<Failure, ProgramPageEntity>> getProgramPage(int id) async {
+  getProgramPage(int id) async {
     if (await networkInfo.isConnected) {
       try {
-        final ProgramPageEntity remoteData = await remoteDataSource.getProgramPage(id);
+        final ProgramPageEntity? remoteData = await remoteDataSource.getProgramPage(id);
         return Right(remoteData);
       } on ServerException {
         return Left(ServerFailure());

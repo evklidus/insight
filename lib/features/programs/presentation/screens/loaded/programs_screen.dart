@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:m_sport/features/programs/presentation/screens/others/programs_screen_empty.dart';
+import 'package:m_sport/features/programs/presentation/screens/others/programs_screen_failure.dart';
+import 'package:m_sport/features/programs/presentation/screens/others/programs_screen_loading.dart';
 import 'package:m_sport/features/programs/presentation/widgets/program_widget.dart';
 import 'package:m_sport/features/programs/presentation/store/programs_store.dart';
 import 'package:m_sport/services/di/locator_service.dart';
 
-class ProgramsListScreen extends StatefulWidget {
-  const ProgramsListScreen({Key? key}) : super(key: key);
+class ProgramsScreen extends StatefulWidget {
+  const ProgramsScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProgramsListScreen> createState() => _ProgramsListScreenState();
+  State<ProgramsScreen> createState() => _ProgramsScreenState();
 }
 
-class _ProgramsListScreenState extends State<ProgramsListScreen> {
+class _ProgramsScreenState extends State<ProgramsScreen> {
   final programsStore = getIt.get<ProgramsStore>();
 
   @override
@@ -28,19 +31,13 @@ class _ProgramsListScreenState extends State<ProgramsListScreen> {
       ),
       body: Observer(builder: (context) {
         if (programsStore.loading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const ProgramsScreenLoading();
         }
         if (programsStore.failure) {
-          return const Center(
-            child: Text('Error'),
-          );
+          return const ProgramsScreenFailure();
         }
         if (programsStore.empty) {
-          return const Center(
-            child: Text('Empty'),
-          );
+          return const ProgramsScreenEmpty();
         }
         if (programsStore.loaded) {
           return Padding(

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:m_sport/core/constants/color_constants.dart';
 import 'package:m_sport/features/programs/domain/entities/program_entity.dart';
 import 'package:m_sport/services/di/locator_service.dart';
 import 'package:m_sport/services/links/applinks_service.dart';
@@ -38,15 +39,7 @@ class ProgramWidget extends StatelessWidget {
               Container(
                 height: 40,
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color.fromARGB(195, 0, 0, 0),
-                      Color.fromARGB(130, 0, 0, 0),
-                      Colors.transparent,
-                    ],
-                  ),
+                  gradient: ColorConstants.shadowGradient,
                 ),
               ),
               Padding(

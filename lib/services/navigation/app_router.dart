@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:m_sport/screens/internet_warning.dart';
-import 'package:m_sport/screens/root_screen.dart';
-import 'package:m_sport/screens/settings_screen.dart';
-import 'package:m_sport/features/programs/presentation/screens/programs_list_screen.dart';
-import 'package:m_sport/features/program_page/presentation/screens/training_screen.dart';
-import 'package:m_sport/features/program_page/presentation/screens/trainings_list_screen.dart';
+import 'package:m_sport/components/screens/internet_warning.dart';
+import 'package:m_sport/components/screens/root_screen.dart';
+import 'package:m_sport/components/screens/settings_screen.dart';
+import 'package:m_sport/features/program_page/presentation/screens/loaded/training_screen.dart';
+import 'package:m_sport/features/program_page/presentation/screens/loaded/trainings_list_screen.dart';
+import 'package:m_sport/features/programs/presentation/screens/loaded/programs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:m_sport/services/navigation/guards/internet_guard.dart';
 import 'package:m_sport/features/programs/domain/entities/program_entity.dart';
@@ -18,7 +18,7 @@ part 'app_router.gr.dart';
       page: RootScreen,
       initial: true,
       children: [
-        AutoRoute(page: ProgramsListScreen, initial: true),
+        AutoRoute(page: ProgramsScreen, initial: true),
         AutoRoute(page: SettingsScreen),
       ],
     ),
