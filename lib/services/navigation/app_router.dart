@@ -3,7 +3,7 @@ import 'package:m_sport/components/screens/internet_warning.dart';
 import 'package:m_sport/components/screens/root_screen.dart';
 import 'package:m_sport/components/screens/settings_screen.dart';
 import 'package:m_sport/features/program_page/presentation/screens/loaded/training_screen.dart';
-import 'package:m_sport/features/program_page/presentation/screens/loaded/trainings_list_screen.dart';
+import 'package:m_sport/features/program_page/presentation/screens/loaded/program_page_screen.dart';
 import 'package:m_sport/features/programs/presentation/screens/loaded/programs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:m_sport/services/navigation/guards/internet_guard.dart';
@@ -23,7 +23,7 @@ part 'app_router.gr.dart';
       ],
     ),
     AutoRoute(
-      page: TrainingsListScreen,
+      page: ProgramPageScreen,
       guards: [InternetGuard],
     ),
     CustomRoute(

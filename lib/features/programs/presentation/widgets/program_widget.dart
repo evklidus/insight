@@ -24,7 +24,7 @@ class ProgramWidget extends StatelessWidget {
             queryMap: {},
           );
           log(link);
-          context.pushRoute(TrainingsListRoute(program: program));
+          context.pushRoute(ProgramPageRoute(program: program));
         },
         child: Container(
           padding: const EdgeInsets.all(0),
