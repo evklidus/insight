@@ -6,6 +6,7 @@ part 'training_model.freezed.dart';
 part 'training_model.g.dart';
 
 @freezed
+// @JsonSerializable(explicitToJson: true)
 class TrainingModel extends TrainingEntity with _$TrainingModel {
   const factory TrainingModel({
     required String name,
