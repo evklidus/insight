@@ -11,7 +11,7 @@ abstract class _EntityStore<T> with Store {
   bool get loaded => loading != true && entity != null;
 
   @computed
-  bool get empty => entity == null ? true : false;
+  bool get empty => (entity == null ? true : false) && failure == false;
 
   @observable
   bool loading = false;
@@ -25,7 +25,7 @@ abstract class _EntityStore<T> with Store {
   @observable
   T? entity;
 
-  void _setEntity(T? entity) {
+  void setEntity(T? entity) {
     this.entity = entity;
   }
 
@@ -45,27 +45,28 @@ abstract class _EntityStore<T> with Store {
         _setFailure(failure);
       },
       (entity) {
-        _setEntity(entity);
+        setEntity(entity);
       },
     );
     loading = false;
   }
 
-  Future<T?> getEntity() async {
+  Future<T?> getEntity([LoadParams? params]) async {
     // use only in store
-    // after use it you have to set entity
+    // after use it you have to set entity with setEntity func
     loading = true;
-    final resultOrFailure = await fetchEntity();
+    T? returnedEntity;
+    final resultOrFailure = await fetchEntity(params);
     resultOrFailure.fold(
       (failure) {
         _setFailure(failure);
       },
       (entity) {
-        return entity;
+        returnedEntity = entity;
       },
     );
     loading = false;
-    return null;
+    return returnedEntity;
   }
 }
 

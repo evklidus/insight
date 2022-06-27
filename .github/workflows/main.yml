@@ -22,7 +22,10 @@ jobs:
     - name: Analyze
       run: flutter analyze
 
-    - run: dart pub global activate cider
+    - name: Testing
+      run: flutter test
 
-    - name: Bump version
-      run: cider bump build
+    # - run: dart pub global activate cider
+
+    # - name: Bump version
+    #   run: cider bump build

@@ -7,6 +7,7 @@ part 'program_page_model.freezed.dart';
 part 'program_page_model.g.dart';
 
 @freezed
+// @JsonSerializable(explicitToJson: true)
 class ProgramPageModel extends ProgramPageEntity with _$ProgramPageModel {
   const factory ProgramPageModel({
     required int id,

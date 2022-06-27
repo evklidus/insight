@@ -17,7 +17,7 @@ abstract class _ProgramPageStore extends EntityStore<ProgramPageEntity> with Sto
     return getProgramPage(ProgramPageParams(id: params?.params!['id'] as int));
   }
 
-  void loadPragramPage(int id) {
-    loadEntity(LoadParams({'id': id}));
+  Future<void> loadPragramPage(int id) async {
+    await loadEntity(LoadParams({'id': id}));
   }
 }

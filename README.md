@@ -9,9 +9,9 @@ On this application i practice in Flutter and new libs / practices
 - [x] CI/CD
 - [x] Clean Architecture with MobX, retrofit and freezed
 - [x] Create wrapper for MobX stores
-- [ ] Create builder for MobX
+- [x] Create builder for MobX
 - [ ] Bump app version after push on main on separated commit
-- [ ] unit tests
+- [x] unit tests
 - [ ] widget tests
 - [ ] integration tests
 - [ ] golden tests
