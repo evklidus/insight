@@ -31,15 +31,16 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
         title: const Text('Minasov_Sport'),
       ),
       body: Provider<ProgramsStore>(
-          create: (context) => programsStore,
-          builder: (context, _) {
-            return const EntityBuilder<ProgramsStore>(
-              loadedWidget: ProgramsScreenLoaded(),
-              loadingWidget: ProgramsScreenLoading(),
-              failureWidget: ProgramsScreenFailure(),
-              emptyWidget: ProgramsScreenEmpty(),
-            );
-          }),
+        create: (context) => programsStore,
+        builder: (context, _) {
+          return const EntityBuilder<ProgramsStore>(
+            loadedWidget: ProgramsScreenLoaded(),
+            loadingWidget: ProgramsScreenLoading(),
+            failureWidget: ProgramsScreenFailure(),
+            emptyWidget: ProgramsScreenEmpty(),
+          );
+        },
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:m_sport/core/errors/failure.dart';
+import 'package:m_sport/core/stores/load_params.dart';
 import 'package:mobx/mobx.dart';
 
 part 'entity_store.g.dart';
@@ -8,10 +9,10 @@ abstract class EntityStore<T> = _EntityStore<T> with _$EntityStore;
 
 abstract class _EntityStore<T> with Store {
   @computed
-  bool get loaded => loading != true && entity != null;
+  bool get loaded => !loading && entity != null;
 
   @computed
-  bool get empty => (entity == null ? true : false) && failure == false;
+  bool get empty => (entity == null ? true : false) && !failure;
 
   @observable
   bool loading = false;
@@ -68,9 +69,4 @@ abstract class _EntityStore<T> with Store {
     loading = false;
     return returnedEntity;
   }
-}
-
-class LoadParams {
-  final Map<String, Object>? params;
-  const LoadParams([this.params]);
 }

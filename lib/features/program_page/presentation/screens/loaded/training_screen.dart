@@ -35,41 +35,42 @@ class _TrainingScreenState extends State<TrainingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: _initializeVideoPlayerFuture,
-          builder: (context, snapshot) {
-            return SafeArea(
-              child: SizedBox(
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    const CloseIcon(),
-                    const Spacer(
-                      flex: 1,
-                    ),
-                    TrainingVideo(
-                      connectionState: snapshot.connectionState,
-                      controller: _controller,
-                    ),
-                    const Spacer(
-                      flex: 3,
-                    ),
-                    PlayPauseButton(
-                      snapshot.connectionState,
-                      _controller.value.isPlaying,
-                      onTap: () {
-                        setState(() {
-                          _controller.value.isPlaying ? _controller.pause() : _controller.play();
-                        });
-                      },
-                    ),
-                    const Spacer(
-                      flex: 2,
-                    ),
-                  ],
-                ),
+        future: _initializeVideoPlayerFuture,
+        builder: (context, snapshot) {
+          return SafeArea(
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                children: [
+                  const CloseIcon(),
+                  const Spacer(
+                    flex: 1,
+                  ),
+                  TrainingVideo(
+                    connectionState: snapshot.connectionState,
+                    controller: _controller,
+                  ),
+                  const Spacer(
+                    flex: 3,
+                  ),
+                  PlayPauseButton(
+                    snapshot.connectionState,
+                    _controller.value.isPlaying,
+                    onTap: () {
+                      setState(() {
+                        _controller.value.isPlaying ? _controller.pause() : _controller.play();
+                      });
+                    },
+                  ),
+                  const Spacer(
+                    flex: 2,
+                  ),
+                ],
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 }

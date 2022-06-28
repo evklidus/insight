@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:m_sport/components/boxes.dart';
+import 'package:m_sport/components/boxes/h_box.dart';
 import 'package:m_sport/core/builders/entity_builder.dart';
 import 'package:m_sport/core/constants/color_constants.dart';
 import 'package:m_sport/features/program_page/presentation/screens/others/program_page_screen_empty.dart';
@@ -46,15 +46,16 @@ class _ProgramPageScreenState extends State<ProgramPageScreen> {
                 ProgramPageScreenTitle(widget.program),
                 const HBox(25),
                 Provider<ProgramPageStore>(
-                    create: (context) => programPageStore,
-                    builder: (context, _) {
-                      return const EntityBuilder<ProgramPageStore>(
-                        loadedWidget: ProgramPageScreenLoaded(),
-                        loadingWidget: ProgramPageScreenLoading(),
-                        failureWidget: ProgramPageScreenFailure(),
-                        emptyWidget: ProgramPageScreenEmpty(),
-                      );
-                    }),
+                  create: (context) => programPageStore,
+                  builder: (context, _) {
+                    return const EntityBuilder<ProgramPageStore>(
+                      loadedWidget: ProgramPageScreenLoaded(),
+                      loadingWidget: ProgramPageScreenLoading(),
+                      failureWidget: ProgramPageScreenFailure(),
+                      emptyWidget: ProgramPageScreenEmpty(),
+                    );
+                  },
+                ),
               ],
             ),
           ),

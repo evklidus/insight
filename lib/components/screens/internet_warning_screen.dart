@@ -20,7 +20,7 @@ class InternetWarningScreen extends StatelessWidget {
             IconButton(
               onPressed: () async {
                 final result = await InternetAddress.lookup('example.com');
-                if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                if (result.isNotEmpty && result.first.rawAddress.isNotEmpty) {
                   onResult(true);
                 }
               },

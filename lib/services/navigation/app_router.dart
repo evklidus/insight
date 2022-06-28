@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:m_sport/components/screens/internet_warning.dart';
+import 'package:m_sport/components/screens/internet_warning_screen.dart';
 import 'package:m_sport/components/screens/root_screen.dart';
 import 'package:m_sport/components/screens/settings_screen.dart';
 import 'package:m_sport/features/program_page/presentation/screens/loaded/training_screen.dart';

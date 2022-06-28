@@ -30,13 +30,14 @@ dart_code_metrics:
     - prefer-conditional-expressions
     - prefer-correct-identifier-length:
         max-identifier-length: 50
-        min-identifier-length: 4
+        min-identifier-length: 2
     - prefer-correct-type-name
     - prefer-first
     - prefer-last
     - prefer-match-file-name:
         exclude:
           - lib/main.dart
+          - lib/core/errors/exceptions.dart
     - prefer-moving-to-variable
     - prefer-trailing-comma:
         break-on: 6
@@ -45,6 +46,7 @@ dart_code_metrics:
     - avoid-wrapping-in-padding
   rules-exclude:
     - test/**
+    - lib/firebase_options.dart
 
 linter:
   rules:
