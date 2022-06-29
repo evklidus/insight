@@ -47,6 +47,7 @@ dart_code_metrics:
   rules-exclude:
     - test/**
     - lib/firebase_options.dart
+    - lib/generated_plugin_registrant.dart
 
 linter:
   rules:

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ProgramPageScreenLoading extends StatelessWidget {
-  const ProgramPageScreenLoading({Key? key}) : super(key: key);
+class StandartLoading extends StatelessWidget {
+  const StandartLoading({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

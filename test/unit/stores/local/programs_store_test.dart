@@ -4,6 +4,7 @@ import 'package:m_sport/core/errors/failure.dart';
 import 'package:m_sport/features/programs/domain/entities/program_entity.dart';
 import 'package:m_sport/features/programs/domain/usecases/get_programs.dart';
 import 'package:m_sport/features/programs/presentation/store/programs_store.dart';
+import 'package:m_sport/utilities/load_states.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../utilities/loaded_utilities.dart';
@@ -29,7 +30,7 @@ void main() {
     _test(LoadStates state) async {
       final loadedResult = loadedUtils.returnResult(state: state, entity: programs, someFailure: someFailure);
       when(() => usecase.call()).thenAnswer((_) async {
-        expect(store.loading, true);
+        expect(store.loadState, LoadStates.loading);
         return loadedResult;
       });
       await store.loadEntity();

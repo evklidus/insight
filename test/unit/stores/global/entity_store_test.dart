@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:m_sport/core/errors/failure.dart';
 import 'package:m_sport/core/stores/entity_store.dart';
 import 'package:m_sport/core/stores/load_params.dart';
+import 'package:m_sport/utilities/load_states.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../utilities/loaded_utilities.dart';
@@ -28,15 +29,23 @@ void main() {
     _test(LoadStates state) async {
       final loadedResult = loadedUtils.returnResult(state: state, entity: programPage, someFailure: someFailure);
       when(() => store.fetchEntity(any<LoadParams>())).thenAnswer((_) async {
-        expect(store.loading, true);
+        expect(store.loadState, LoadStates.loading);
         return loadedResult;
       });
       await store.loadEntity();
-      expect(state == LoadStates.failed ? Left(store.failureType) : Right(store.entity), loadedResult);
-      expect(store.loading, false);
-      expect(store.loaded, state == LoadStates.empty || state == LoadStates.failed ? false : true);
-      expect(store.empty, state == LoadStates.empty ? true : false);
-      expect(store.failure, state == LoadStates.failed ? true : false);
+      switch (state) {
+        case LoadStates.successful:
+          expect(Right(store.entity), loadedResult);
+          break;
+        case LoadStates.failed:
+          expect(Left(store.failureType), loadedResult);
+          break;
+        case LoadStates.empty:
+          expect(const Right(null), loadedResult);
+          break;
+        default:
+          break;
+      }
       verify(() => store.fetchEntity(any<LoadParams>())).called(1);
     }
 
@@ -57,16 +66,24 @@ void main() {
     _test(LoadStates state) async {
       final loadedResult = loadedUtils.returnResult(state: state, entity: programPage, someFailure: someFailure);
       when(() => store.fetchEntity()).thenAnswer((_) async {
-        expect(store.loading, true);
+        expect(store.loadState, LoadStates.loading);
         return loadedResult;
       });
       final result = await store.getEntity();
       store.setEntity(result);
-      expect(state == LoadStates.failed ? Left(store.failureType) : Right(result), loadedResult);
-      expect(store.loading, false);
-      expect(store.loaded, state == LoadStates.empty || state == LoadStates.failed ? false : true);
-      expect(store.empty, state == LoadStates.empty ? true : false);
-      expect(store.failure, state == LoadStates.failed ? true : false);
+      switch (state) {
+        case LoadStates.successful:
+          expect(Right(store.entity), loadedResult);
+          break;
+        case LoadStates.failed:
+          expect(Left(store.failureType), loadedResult);
+          break;
+        case LoadStates.empty:
+          expect(const Right(null), loadedResult);
+          break;
+        default:
+          break;
+      }
       verify(() => store.fetchEntity()).called(1);
     }
 

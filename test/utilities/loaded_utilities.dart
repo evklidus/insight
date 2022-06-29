@@ -1,11 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:m_sport/core/errors/failure.dart';
-
-enum LoadStates {
-  successful,
-  failed,
-  empty,
-}
+import 'package:m_sport/utilities/load_states.dart';
 
 class LoadedUtils<T> {
   Either<Failure, T?> returnResult({
@@ -20,6 +15,8 @@ class LoadedUtils<T> {
         return Left(someFailure);
       case LoadStates.empty:
         return const Right(null);
+      default:
+        return const Right(null);
     }
   }
 
@@ -33,6 +30,8 @@ class LoadedUtils<T> {
       case LoadStates.failed:
         return null;
       case LoadStates.empty:
+        return null;
+      default:
         return null;
     }
   }
