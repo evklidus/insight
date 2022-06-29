@@ -54,15 +54,16 @@ class _PlayPauseButtonState extends State<PlayPauseButton> with TickerProviderSt
         child: ClipRRect(
           borderRadius: BorderRadius.circular(radius),
           child: AnimatedContainer(
-              duration: const Duration(milliseconds: 500),
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(radius),
-              color: backgroundColor,
-              child: AnimatedIcon(
-                icon: AnimatedIcons.pause_play,
-                progress: _animationController,
-                color: iconColor,
-              )),
+            duration: const Duration(milliseconds: 500),
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(radius),
+            color: backgroundColor,
+            child: AnimatedIcon(
+              icon: AnimatedIcons.pause_play,
+              progress: _animationController,
+              color: iconColor,
+            ),
+          ),
         ),
       ),
     );

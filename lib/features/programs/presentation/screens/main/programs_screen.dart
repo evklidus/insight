@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m_sport/core/builders/entity_builder.dart';
-import 'package:m_sport/features/programs/presentation/screens/others/programs_screen_empty.dart';
-import 'package:m_sport/features/programs/presentation/screens/others/programs_screen_failure.dart';
-import 'package:m_sport/features/programs/presentation/screens/others/programs_screen_loaded.dart';
-import 'package:m_sport/features/programs/presentation/screens/others/programs_screen_loading.dart';
+import 'package:m_sport/features/programs/presentation/screens/states/programs_screen_loaded.dart';
 import 'package:m_sport/features/programs/presentation/store/programs_store.dart';
 import 'package:m_sport/services/di/locator_service.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +18,9 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
   @override
   void initState() {
     programsStore.loadEntity();
+    // programsStore.reloadFunc = () {
+    //   programsStore.loadEntity();
+    // };
     super.initState();
   }
 
@@ -31,15 +31,13 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
         title: const Text('Minasov_Sport'),
       ),
       body: Provider<ProgramsStore>(
-          create: (context) => programsStore,
-          builder: (context, _) {
-            return const EntityBuilder<ProgramsStore>(
-              loadedWidget: ProgramsScreenLoaded(),
-              loadingWidget: ProgramsScreenLoading(),
-              failureWidget: ProgramsScreenFailure(),
-              emptyWidget: ProgramsScreenEmpty(),
-            );
-          }),
+        create: (context) => programsStore,
+        builder: (context, _) {
+          return const EntityBuilder<ProgramsStore>(
+            loadedWidget: ProgramsScreenLoaded(),
+          );
+        },
+      ),
     );
   }
 }

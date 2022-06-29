@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:m_sport/core/errors/failure.dart';
+import 'package:m_sport/core/stores/load_params.dart';
+import 'package:m_sport/utilities/load_states.dart';
 import 'package:mobx/mobx.dart';
 
 part 'entity_store.g.dart';
@@ -7,17 +9,8 @@ part 'entity_store.g.dart';
 abstract class EntityStore<T> = _EntityStore<T> with _$EntityStore;
 
 abstract class _EntityStore<T> with Store {
-  @computed
-  bool get loaded => loading != true && entity != null;
-
-  @computed
-  bool get empty => (entity == null ? true : false) && failure == false;
-
   @observable
-  bool loading = false;
-
-  @observable
-  bool failure = false;
+  LoadStates loadState = LoadStates.empty;
 
   @observable
   Failure failureType = ServerFailure();
@@ -26,51 +19,54 @@ abstract class _EntityStore<T> with Store {
   T? entity;
 
   void setEntity(T? entity) {
+    loadState = entity == null ? LoadStates.empty : LoadStates.successful;
     this.entity = entity;
   }
 
   void _setFailure(Failure failure) {
-    this.failure = true;
+    loadState = LoadStates.failed;
     failureType = failure;
   }
 
+  // Must to define reloadFunc on setState. Reload button will not show if it not define
+  Future<void> Function()? reloadFunc;
+
   Future<Either<Failure, T?>> fetchEntity([LoadParams? params]);
 
+  // MobX not correctly notify about changes if func has await statement. This code 'hacking' this error
+  Future<Type> asyncAction<Type>(Future<Type> Function() function) => function();
+
   @action
-  Future<void> loadEntity([LoadParams? params]) async {
-    loading = true;
-    final resultOrFailure = await fetchEntity(params);
-    resultOrFailure.fold(
-      (failure) {
-        _setFailure(failure);
-      },
-      (entity) {
-        setEntity(entity);
-      },
-    );
-    loading = false;
-  }
+  Future<void> loadEntity([LoadParams? params]) => asyncAction<void>(() async {
+        loadState = LoadStates.loading;
+        await Future.delayed(const Duration(milliseconds: 500), () async {
+          final resultOrFailure = await fetchEntity(params);
+          resultOrFailure.fold(
+            (failure) {
+              _setFailure(failure);
+            },
+            (entity) {
+              setEntity(entity);
+            },
+          );
+        });
+      });
 
-  Future<T?> getEntity([LoadParams? params]) async {
-    // use only in store
-    // after use it you have to set entity with setEntity func
-    loading = true;
-    T? returnedEntity;
-    final resultOrFailure = await fetchEntity(params);
-    resultOrFailure.fold(
-      (failure) {
-        _setFailure(failure);
-      },
-      (entity) {
-        returnedEntity = entity;
-      },
-    );
-    loading = false;
-    return returnedEntity;
-  }
-}
-
-class LoadParams {
-  final Map<String, Object>? params;
-  const LoadParams([this.params]);
+  Future<T?> getEntity([LoadParams? params]) => asyncAction<T?>(() async {
+        // use only in store
+        // after use it you have to set entity with setEntity func
+        loadState = LoadStates.loading;
+        T? returnedEntity;
+        final resultOrFailure = await fetchEntity(params);
+        resultOrFailure.fold(
+          (failure) {
+            _setFailure(failure);
+          },
+          (entity) {
+            returnedEntity = entity;
+          },
+        );
+        loadState = LoadStates.successful;
+        return returnedEntity;
+      });
 }

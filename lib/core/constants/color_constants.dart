@@ -5,6 +5,7 @@ class ColorConstants {
   static const whiteScarlet = Color(0xffFFEEEF);
   static const white = Color.fromARGB(255, 239, 239, 239);
   static const gray = Color.fromARGB(255, 185, 185, 185);
+  static const grayWithOpacity = Color.fromARGB(111, 158, 158, 158);
 
   //gradients
   static const programPageGradient = LinearGradient(

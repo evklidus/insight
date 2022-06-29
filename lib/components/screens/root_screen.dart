@@ -8,25 +8,26 @@ class RootScreen extends StatelessWidget {
   @override
   Widget build(context) {
     return AutoTabsScaffold(
-        routes: const [
-          ProgramsRoute(),
-          SettingsRoute(),
-        ],
-        bottomNavigationBuilder: (_, tabsRouter) {
-          return BottomNavigationBar(
-            currentIndex: tabsRouter.activeIndex,
-            onTap: tabsRouter.setActiveIndex,
-            items: const [
-              BottomNavigationBarItem(
-                label: 'Users',
-                icon: Icon(Icons.list_rounded),
-              ),
-              BottomNavigationBarItem(
-                label: 'Posts',
-                icon: Icon(Icons.settings),
-              ),
-            ],
-          );
-        });
+      routes: const [
+        ProgramsRoute(),
+        SettingsRoute(),
+      ],
+      bottomNavigationBuilder: (_, tabsRouter) {
+        return BottomNavigationBar(
+          currentIndex: tabsRouter.activeIndex,
+          onTap: tabsRouter.setActiveIndex,
+          items: const [
+            BottomNavigationBarItem(
+              label: 'Users',
+              icon: Icon(Icons.list_rounded),
+            ),
+            BottomNavigationBarItem(
+              label: 'Posts',
+              icon: Icon(Icons.settings),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

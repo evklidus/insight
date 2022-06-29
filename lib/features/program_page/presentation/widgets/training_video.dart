@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:m_sport/components/boxes.dart';
+import 'package:m_sport/components/boxes/w_padding_box.dart';
 import 'package:m_sport/core/constants/color_constants.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
