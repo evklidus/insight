@@ -14,40 +14,40 @@ class TrainingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlassContainer(
-      padding: const EdgeInsets.symmetric(
-        vertical: 8,
-        horizontal: 25,
-      ),
-      height: 9.h,
-      width: 92.5.w,
-      blur: 20,
-      gradient: ColorConstants.trainingGradient,
-      borderColor: Colors.white.withOpacity(0.5),
-      borderRadius: BorderRadius.circular(25.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            training.name,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
+    return GestureDetector(
+      onTap: () async {
+        await HapticFeedback.lightImpact();
+        context.router.push(TrainingRoute(videoUrl: training.videoUrl));
+      },
+      child: GlassContainer(
+        padding: const EdgeInsets.symmetric(
+          vertical: 8,
+          horizontal: 25,
+        ),
+        height: 9.h,
+        width: 92.5.w,
+        blur: 20,
+        gradient: ColorConstants.trainingGradient,
+        borderColor: Colors.white.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(25.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              training.name,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          GestureDetector(
-            onTap: () async {
-              await HapticFeedback.lightImpact();
-              context.router.push(TrainingRoute(videoUrl: training.videoUrl));
-            },
-            child: const Icon(
+            const Icon(
               Icons.play_arrow_rounded,
               color: Colors.white,
               size: 30,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
