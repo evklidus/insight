@@ -13,7 +13,7 @@ On this application i practice in Flutter and new libs / practices
 - [ ] Bump app version after push on main on separated commit
 - [x] unit tests
 - [ ] widget tests
-- [ ] integration tests
+- [x] integration tests
 - [ ] golden tests
 - [ ] Localization
 - [ ] More than 1 video for training with step progress indicator
