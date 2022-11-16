@@ -6,7 +6,7 @@ On this application i practice in Flutter and new libs / practices
 # Will be added:
 - [x]  Splash screen
 - [x] AutoRoute
-- [x] CI/CD
+- [ ] CI/CD (Needs to be adapted to the new ci/cd architecture)
 - [x] Clean Architecture with MobX, retrofit and freezed
 - [x] Create wrapper for MobX stores
 - [x] Create builder for MobX
