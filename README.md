@@ -12,7 +12,7 @@ On this application i practice in Flutter and new libs / practices
 - [x] Create builder for MobX
 - [ ] Bump app version after push on main on separated commit
 - [x] unit tests
-- [ ] widget tests
+- [x] widget tests
 - [x] integration tests
 - [ ] golden tests
 - [ ] Localization
