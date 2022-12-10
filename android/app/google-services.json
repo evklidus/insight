@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "966237282337",
+    "firebase_url": "https://cicdtest-e5722-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "cicdtest-e5722",
     "storage_bucket": "cicdtest-e5722.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:966237282337:android:6770f57da6d63978ea8360",
+        "mobilesdk_app_id": "1:966237282337:android:6c1058dfd21d3f32ea8360",
         "android_client_info": {
-          "package_name": "com.example.m_sport"
+          "package_name": "com.example.insight"
         }
       },
       "oauth_client": [
@@ -29,6 +30,13 @@
             {
               "client_id": "966237282337-9rabbkg5e3l3265v34tt5a2tc88rd73c.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "966237282337-2hus3e9nvkugqlik4pkdjg2t8nmnu4nf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mSport"
+              }
             }
           ]
         }

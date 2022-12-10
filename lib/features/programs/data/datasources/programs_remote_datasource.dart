@@ -1,5 +1,5 @@
-import 'package:m_sport/features/programs/data/models/program_model.dart';
-import 'package:m_sport/services/http/rest_client.dart';
+import 'package:insight/features/programs/data/models/program_model.dart';
+import 'package:insight/services/http/rest_client.dart';
 
 abstract class ProgramsRemoteDataSource {
   Future<List<ProgramModel>?> getPrograms();

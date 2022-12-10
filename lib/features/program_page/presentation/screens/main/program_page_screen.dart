@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:m_sport/components/boxes/h_box.dart';
-import 'package:m_sport/core/builders/entity_builder.dart';
-import 'package:m_sport/core/constants/color_constants.dart';
-import 'package:m_sport/features/program_page/presentation/screens/states/program_page_screen_loaded.dart';
-import 'package:m_sport/features/program_page/presentation/widgets/program_page_screen_title.dart';
-import 'package:m_sport/features/programs/domain/entities/program_entity.dart';
-import 'package:m_sport/features/program_page/presentation/store/program_page_store.dart';
-import 'package:m_sport/services/di/locator_service.dart';
-import 'package:m_sport/utilities/load_states.dart';
+import 'package:insight/components/boxes/h_box.dart';
+import 'package:insight/core/builders/entity_builder.dart';
+import 'package:insight/core/constants/color_constants.dart';
+import 'package:insight/features/program_page/presentation/screens/states/program_page_screen_loaded.dart';
+import 'package:insight/features/program_page/presentation/widgets/program_page_screen_title.dart';
+import 'package:insight/features/programs/domain/entities/program_entity.dart';
+import 'package:insight/features/program_page/presentation/store/program_page_store.dart';
+import 'package:insight/services/di/locator_service.dart';
+import 'package:insight/utilities/load_states.dart';
 import 'package:provider/provider.dart';
 
 class ProgramPageScreen extends StatefulWidget {
@@ -26,7 +26,8 @@ class _ProgramPageScreenState extends State<ProgramPageScreen> {
   void initState() {
     programPageStore.loadPragramPage(widget.program.id);
     programPageStore.loadState = LoadStates.loading;
-    programPageStore.reloadFunc = () => programPageStore.loadPragramPage(widget.program.id);
+    programPageStore.reloadFunc =
+        () => programPageStore.loadPragramPage(widget.program.id);
     super.initState();
   }
 

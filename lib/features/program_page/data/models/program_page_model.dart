@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:m_sport/features/program_page/data/models/training_model.dart';
-import 'package:m_sport/features/program_page/domain/entities/program_page_entity.dart';
+import 'package:insight/features/program_page/data/models/training_model.dart';
+import 'package:insight/features/program_page/domain/entities/program_page_entity.dart';
 import 'package:flutter/foundation.dart';
 
 part 'program_page_model.freezed.dart';
@@ -14,5 +14,6 @@ class ProgramPageModel extends ProgramPageEntity with _$ProgramPageModel {
     required List<TrainingModel> trainings,
   }) = _ProgramPageModel;
 
-  factory ProgramPageModel.fromJson(Map<String, Object?> json) => _$ProgramPageModelFromJson(json);
+  factory ProgramPageModel.fromJson(Map<String, Object?> json) =>
+      _$ProgramPageModelFromJson(json);
 }

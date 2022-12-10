@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:m_sport/components/standart_loading.dart';
-import 'package:m_sport/components/information_widget.dart';
-import 'package:m_sport/core/stores/entity_store.dart';
-import 'package:m_sport/utilities/load_states.dart';
+import 'package:insight/components/standart_loading.dart';
+import 'package:insight/components/information_widget.dart';
+import 'package:insight/core/stores/entity_store.dart';
+import 'package:insight/utilities/load_states.dart';
 import 'package:provider/provider.dart';
 
 class EntityBuilder<T extends EntityStore> extends StatelessWidget {

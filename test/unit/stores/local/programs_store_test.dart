@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:m_sport/core/errors/failure.dart';
-import 'package:m_sport/features/programs/domain/entities/program_entity.dart';
-import 'package:m_sport/features/programs/domain/usecases/get_programs.dart';
-import 'package:m_sport/features/programs/presentation/store/programs_store.dart';
-import 'package:m_sport/utilities/load_states.dart';
+import 'package:insight/core/errors/failure.dart';
+import 'package:insight/features/programs/domain/entities/program_entity.dart';
+import 'package:insight/features/programs/domain/usecases/get_programs.dart';
+import 'package:insight/features/programs/presentation/store/programs_store.dart';
+import 'package:insight/utilities/load_states.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../utilities/loaded_utilities.dart';
@@ -28,13 +28,18 @@ void main() {
 
   group('load entity', () {
     _test(LoadStates state) async {
-      final loadedResult = loadedUtils.returnResult(state: state, entity: programs, someFailure: someFailure);
+      final loadedResult = loadedUtils.returnResult(
+          state: state, entity: programs, someFailure: someFailure);
       when(() => usecase.call()).thenAnswer((_) async {
         expect(store.loadState, LoadStates.loading);
         return loadedResult;
       });
       await store.loadEntity();
-      expect(state == LoadStates.failed ? Left(store.failureType) : Right(store.entity), loadedResult);
+      expect(
+          state == LoadStates.failed
+              ? Left(store.failureType)
+              : Right(store.entity),
+          loadedResult);
       verify(() => usecase.call()).called(1);
     }
 

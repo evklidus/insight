@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:m_sport/components/boxes/w_padding_box.dart';
-import 'package:m_sport/core/constants/color_constants.dart';
+import 'package:insight/components/boxes/w_padding_box.dart';
+import 'package:insight/core/constants/color_constants.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 
 class TrainingVideo extends StatelessWidget {
-  const TrainingVideo({Key? key, required this.connectionState, required this.controller}) : super(key: key);
+  const TrainingVideo(
+      {Key? key, required this.connectionState, required this.controller})
+      : super(key: key);
 
   final ConnectionState connectionState;
   final VideoPlayerController controller;

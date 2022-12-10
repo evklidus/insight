@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:m_sport/features/program_page/presentation/widgets/close_icon.dart';
-import 'package:m_sport/features/program_page/presentation/widgets/play_pause_button.dart';
-import 'package:m_sport/features/program_page/presentation/widgets/training_video.dart';
+import 'package:insight/features/program_page/presentation/widgets/close_icon.dart';
+import 'package:insight/features/program_page/presentation/widgets/play_pause_button.dart';
+import 'package:insight/features/program_page/presentation/widgets/training_video.dart';
 import 'package:video_player/video_player.dart';
 
 class TrainingScreen extends StatefulWidget {
@@ -58,7 +58,9 @@ class _TrainingScreenState extends State<TrainingScreen> {
                     _controller.value.isPlaying,
                     onTap: () {
                       setState(() {
-                        _controller.value.isPlaying ? _controller.pause() : _controller.play();
+                        _controller.value.isPlaying
+                            ? _controller.pause()
+                            : _controller.play();
                       });
                     },
                   ),

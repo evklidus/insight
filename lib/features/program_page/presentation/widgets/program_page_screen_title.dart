@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:m_sport/components/rounded_back_icon.dart';
-import 'package:m_sport/components/boxes/w_box.dart';
-import 'package:m_sport/features/programs/domain/entities/program_entity.dart';
+import 'package:insight/components/rounded_back_icon.dart';
+import 'package:insight/components/boxes/w_box.dart';
+import 'package:insight/features/programs/domain/entities/program_entity.dart';
 
 class ProgramPageScreenTitle extends StatelessWidget {
-  const ProgramPageScreenTitle(this.program, {Key? key, this.onTap}) : super(key: key);
+  const ProgramPageScreenTitle(this.program, {Key? key, this.onTap})
+      : super(key: key);
 
   final ProgramEntity program;
   final Function? onTap;

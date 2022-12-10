@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:m_sport/core/errors/exceptions.dart';
-import 'package:m_sport/features/programs/data/datasources/programs_remote_datasource.dart';
-import 'package:m_sport/features/programs/data/models/program_model.dart';
-import 'package:m_sport/services/http/rest_client.dart';
-import 'package:m_sport/utilities/load_states.dart';
+import 'package:insight/core/errors/exceptions.dart';
+import 'package:insight/features/programs/data/datasources/programs_remote_datasource.dart';
+import 'package:insight/features/programs/data/models/program_model.dart';
+import 'package:insight/services/http/rest_client.dart';
+import 'package:insight/utilities/load_states.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utilities/loaded_utilities.dart';
@@ -28,7 +28,8 @@ void main() {
   group('load', () {
     _test(LoadStates state) async {
       late dynamic result;
-      final loadedResult = loadedUtils.returnForDataSource(state: state, entity: programs);
+      final loadedResult =
+          loadedUtils.returnForDataSource(state: state, entity: programs);
       when(() => client.getPrograms()).thenAnswer((_) async {
         if (state == LoadStates.failed) {
           throw serverException;
@@ -40,7 +41,8 @@ void main() {
       } catch (e) {
         result = serverException;
       }
-      expect(result, state == LoadStates.failed ? serverException : loadedResult);
+      expect(
+          result, state == LoadStates.failed ? serverException : loadedResult);
       verify(() => client.getPrograms()).called(1);
     }
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:m_sport/components/boxes/h_box.dart';
-import 'package:m_sport/components/boxes/w_padding_box.dart';
-import 'package:m_sport/core/constants/color_constants.dart';
-import 'package:m_sport/core/stores/entity_store.dart';
-import 'package:m_sport/utilities/load_states.dart';
+import 'package:insight/components/boxes/h_box.dart';
+import 'package:insight/components/boxes/w_padding_box.dart';
+import 'package:insight/core/constants/color_constants.dart';
+import 'package:insight/core/stores/entity_store.dart';
+import 'package:insight/utilities/load_states.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:m_sport/gen/assets.gen.dart';
+import 'package:insight/gen/assets.gen.dart';
 
 class InformationWidget<T extends EntityStore> extends StatelessWidget {
   const InformationWidget(this.loadState, {Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:m_sport/features/programs/presentation/store/programs_store.dart';
-import 'package:m_sport/features/programs/presentation/widgets/program_widget.dart';
+import 'package:insight/features/programs/presentation/store/programs_store.dart';
+import 'package:insight/features/programs/presentation/widgets/program_widget.dart';
 import 'package:provider/provider.dart';
 
 class ProgramsScreenLoaded extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:m_sport/core/builders/entity_builder.dart';
-import 'package:m_sport/features/programs/presentation/screens/states/programs_screen_loaded.dart';
-import 'package:m_sport/features/programs/presentation/store/programs_store.dart';
-import 'package:m_sport/services/di/locator_service.dart';
+import 'package:insight/core/builders/entity_builder.dart';
+import 'package:insight/features/programs/presentation/screens/states/programs_screen_loaded.dart';
+import 'package:insight/features/programs/presentation/store/programs_store.dart';
+import 'package:insight/services/di/locator_service.dart';
 import 'package:provider/provider.dart';
 
 class ProgramsScreen extends StatefulWidget {
@@ -18,9 +18,6 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
   @override
   void initState() {
     programsStore.loadEntity();
-    // programsStore.reloadFunc = () {
-    //   programsStore.loadEntity();
-    // };
     super.initState();
   }
 
@@ -28,7 +25,7 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Minasov_Sport'),
+        title: const Text('Insight'),
       ),
       body: Provider<ProgramsStore>(
         create: (context) => programsStore,

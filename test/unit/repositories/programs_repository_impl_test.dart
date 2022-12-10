@@ -1,14 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:m_sport/core/errors/exceptions.dart';
-import 'package:m_sport/core/errors/failure.dart';
-import 'package:m_sport/features/programs/data/datasources/programs_remote_datasource.dart';
-import 'package:m_sport/features/programs/data/models/program_model.dart';
-import 'package:m_sport/features/programs/data/repositories/programs_repository_impl.dart';
-import 'package:m_sport/services/http/network_info.dart';
+import 'package:insight/core/errors/exceptions.dart';
+import 'package:insight/core/errors/failure.dart';
+import 'package:insight/features/programs/data/datasources/programs_remote_datasource.dart';
+import 'package:insight/features/programs/data/models/program_model.dart';
+import 'package:insight/features/programs/data/repositories/programs_repository_impl.dart';
+import 'package:insight/services/http/network_info.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockProgramsRemoteDataSource extends Mock implements ProgramsRemoteDataSource {}
+class MockProgramsRemoteDataSource extends Mock
+    implements ProgramsRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
@@ -28,7 +29,8 @@ void main() {
   setUp(() {
     mockRemoteDataSource = MockProgramsRemoteDataSource();
     mockNetworkInfo = MockNetworkInfo();
-    repository = ProgramsRepositoryImpl(remoteDataSource: mockRemoteDataSource, networkInfo: mockNetworkInfo);
+    repository = ProgramsRepositoryImpl(
+        remoteDataSource: mockRemoteDataSource, networkInfo: mockNetworkInfo);
     reset(mockRemoteDataSource);
   });
 
@@ -38,7 +40,8 @@ void main() {
     });
 
     test('successful', () async {
-      when(() => mockRemoteDataSource.getPrograms()).thenAnswer((_) async => programs);
+      when(() => mockRemoteDataSource.getPrograms())
+          .thenAnswer((_) async => programs);
       final result = await repository.getPrograms();
       expect(result, Right(programs));
       verify((() => mockRemoteDataSource.getPrograms())).called(1);
@@ -52,7 +55,8 @@ void main() {
     });
 
     test('unknown failure', () async {
-      when(() => mockRemoteDataSource.getPrograms()).thenThrow(unknownException);
+      when(() => mockRemoteDataSource.getPrograms())
+          .thenThrow(unknownException);
       final result = await repository.getPrograms();
       expect(result, Left(unknownFailure));
       verify((() => mockRemoteDataSource.getPrograms())).called(1);

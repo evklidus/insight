@@ -1,5 +1,5 @@
 import 'package:app_links/app_links.dart';
-import 'package:m_sport/services/links/applinks_provider_service.dart';
+import 'package:insight/services/links/applinks_provider_service.dart';
 
 class AppLinksService {
   final AppLinks appLinks;

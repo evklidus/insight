@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:m_sport/features/programs/domain/entities/program_entity.dart';
+import 'package:insight/features/programs/domain/entities/program_entity.dart';
 
 part 'program_model.freezed.dart';
 part 'program_model.g.dart';
@@ -13,5 +13,6 @@ class ProgramModel extends ProgramEntity with _$ProgramModel {
     required String imageUrl,
   }) = _ProgramModel;
 
-  factory ProgramModel.fromJson(Map<String, Object?> json) => _$ProgramModelFromJson(json);
+  factory ProgramModel.fromJson(Map<String, Object?> json) =>
+      _$ProgramModelFromJson(json);
 }

@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:glass_kit/glass_kit.dart';
-import 'package:m_sport/core/constants/color_constants.dart';
-import 'package:m_sport/features/program_page/domain/entities/training_entity.dart';
-import 'package:m_sport/services/navigation/app_router.dart';
+import 'package:insight/core/constants/color_constants.dart';
+import 'package:insight/features/program_page/domain/entities/training_entity.dart';
+import 'package:insight/services/navigation/app_router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class TrainingView extends StatelessWidget {

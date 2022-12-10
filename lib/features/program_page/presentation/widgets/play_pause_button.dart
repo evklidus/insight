@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:m_sport/core/constants/color_constants.dart';
+import 'package:insight/core/constants/color_constants.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class PlayPauseButton extends StatefulWidget {
@@ -18,7 +18,8 @@ class PlayPauseButton extends StatefulWidget {
   State<PlayPauseButton> createState() => _PlayPauseButtonState();
 }
 
-class _PlayPauseButtonState extends State<PlayPauseButton> with TickerProviderStateMixin {
+class _PlayPauseButtonState extends State<PlayPauseButton>
+    with TickerProviderStateMixin {
   late final AnimationController _animationController;
 
   var isAnimating = false;
@@ -34,9 +35,12 @@ class _PlayPauseButtonState extends State<PlayPauseButton> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor =
-        widget.connectionState == ConnectionState.done ? ColorConstants.whiteScarlet : ColorConstants.white;
-    final iconColor = widget.connectionState == ConnectionState.done ? ColorConstants.scarlet : ColorConstants.gray;
+    final backgroundColor = widget.connectionState == ConnectionState.done
+        ? ColorConstants.whiteScarlet
+        : ColorConstants.white;
+    final iconColor = widget.connectionState == ConnectionState.done
+        ? ColorConstants.scarlet
+        : ColorConstants.gray;
     final height = 17.w;
     const double radius = 20;
 
@@ -45,7 +49,9 @@ class _PlayPauseButtonState extends State<PlayPauseButton> with TickerProviderSt
         if (widget.connectionState == ConnectionState.done) {
           widget.onTap();
           isAnimating = !isAnimating;
-          isAnimating ? _animationController.forward() : _animationController.reverse();
+          isAnimating
+              ? _animationController.forward()
+              : _animationController.reverse();
         }
       },
       child: SizedBox(

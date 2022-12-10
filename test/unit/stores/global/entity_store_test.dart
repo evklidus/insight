@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:m_sport/core/errors/failure.dart';
-import 'package:m_sport/core/stores/entity_store.dart';
-import 'package:m_sport/core/stores/load_params.dart';
-import 'package:m_sport/utilities/load_states.dart';
+import 'package:insight/core/errors/failure.dart';
+import 'package:insight/core/stores/entity_store.dart';
+import 'package:insight/core/stores/load_params.dart';
+import 'package:insight/utilities/load_states.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../utilities/loaded_utilities.dart';
@@ -27,7 +27,8 @@ void main() {
 
   group('load entity', () {
     _test(LoadStates state) async {
-      final loadedResult = loadedUtils.returnResult(state: state, entity: programPage, someFailure: someFailure);
+      final loadedResult = loadedUtils.returnResult(
+          state: state, entity: programPage, someFailure: someFailure);
       when(() => store.fetchEntity(any<LoadParams>())).thenAnswer((_) async {
         expect(store.loadState, LoadStates.loading);
         return loadedResult;
@@ -64,7 +65,8 @@ void main() {
 
   group('get entity', () {
     _test(LoadStates state) async {
-      final loadedResult = loadedUtils.returnResult(state: state, entity: programPage, someFailure: someFailure);
+      final loadedResult = loadedUtils.returnResult(
+          state: state, entity: programPage, someFailure: someFailure);
       when(() => store.fetchEntity()).thenAnswer((_) async {
         expect(store.loadState, LoadStates.loading);
         return loadedResult;

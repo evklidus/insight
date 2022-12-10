@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:m_sport/core/errors/failure.dart';
-import 'package:m_sport/utilities/load_states.dart';
+import 'package:insight/core/errors/failure.dart';
+import 'package:insight/utilities/load_states.dart';
 
 class LoadedUtils<T> {
   Either<Failure, T?> returnResult({

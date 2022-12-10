@@ -1,6 +1,6 @@
 {
-    "name": "m_sport",
-    "short_name": "m_sport",
+    "name": "insight",
+    "short_name": "insight",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

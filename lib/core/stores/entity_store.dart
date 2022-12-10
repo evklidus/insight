@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:m_sport/core/errors/failure.dart';
-import 'package:m_sport/core/stores/load_params.dart';
-import 'package:m_sport/utilities/load_states.dart';
+import 'package:insight/core/errors/failure.dart';
+import 'package:insight/core/stores/load_params.dart';
+import 'package:insight/utilities/load_states.dart';
 import 'package:mobx/mobx.dart';
 
 part 'entity_store.g.dart';
@@ -34,7 +34,8 @@ abstract class _EntityStore<T> with Store {
   Future<Either<Failure, T?>> fetchEntity([LoadParams? params]);
 
   // MobX not correctly notify about changes if func has await statement. This code 'hacking' this error
-  Future<Type> asyncAction<Type>(Future<Type> Function() function) => function();
+  Future<Type> asyncAction<Type>(Future<Type> Function() function) =>
+      function();
 
   @action
   Future<void> loadEntity([LoadParams? params]) => asyncAction<void>(() async {

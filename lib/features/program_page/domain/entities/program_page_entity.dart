@@ -1,4 +1,4 @@
-import 'package:m_sport/features/program_page/domain/entities/training_entity.dart';
+import 'package:insight/features/program_page/domain/entities/training_entity.dart';
 
 class ProgramPageEntity {
   final int id;

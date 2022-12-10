@@ -1,4 +1,4 @@
-import 'package:m_sport/services/navigation/app_router.dart';
+import 'package:insight/services/navigation/app_router.dart';
 
 class AppLinksProviderService {
   final AppRouter appRouter;
@@ -9,7 +9,9 @@ class AppLinksProviderService {
     if (pathSegments.first == 'root') {
       appRouter.push(const RootRoute());
     }
-    handleUrl(Uri(pathSegments: [pathSegments.last], queryParameters: event.queryParameters));
+    handleUrl(Uri(
+        pathSegments: [pathSegments.last],
+        queryParameters: event.queryParameters));
   }
 
   void handleUrl(Uri event) {

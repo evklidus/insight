@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:m_sport/features/program_page/domain/entities/training_entity.dart';
+import 'package:insight/features/program_page/domain/entities/training_entity.dart';
 import 'package:flutter/foundation.dart';
 
 part 'training_model.freezed.dart';
@@ -13,5 +13,6 @@ class TrainingModel extends TrainingEntity with _$TrainingModel {
     required String videoUrl,
   }) = _TrainingModel;
 
-  factory TrainingModel.fromJson(Map<String, Object?> json) => _$TrainingModelFromJson(json);
+  factory TrainingModel.fromJson(Map<String, Object?> json) =>
+      _$TrainingModelFromJson(json);
 }

@@ -1,6 +1,6 @@
-import 'package:m_sport/core/constants/string_constants.dart';
-import 'package:m_sport/features/programs/data/models/program_model.dart';
-import 'package:m_sport/features/program_page/data/models/program_page_model.dart';
+import 'package:insight/core/constants/string_constants.dart';
+import 'package:insight/features/programs/data/models/program_model.dart';
+import 'package:insight/features/program_page/data/models/program_page_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -14,5 +14,6 @@ abstract class RestClient {
   Future<List<ProgramModel>?> getPrograms();
 
   @GET(StringConstants.fullProgramGetUrl)
-  Future<ProgramPageModel?> getProgramPage(@Path(StringConstants.fullProgramGetPath) int id);
+  Future<ProgramPageModel?> getProgramPage(
+      @Path(StringConstants.fullProgramGetPath) int id);
 }

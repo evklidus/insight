@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:m_sport/components/screens/internet_warning_screen.dart';
-import 'package:m_sport/components/screens/root_screen.dart';
-import 'package:m_sport/components/screens/settings_screen.dart';
+import 'package:insight/components/screens/internet_warning_screen.dart';
+import 'package:insight/components/screens/root_screen.dart';
+import 'package:insight/components/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:m_sport/features/program_page/presentation/screens/main/program_page_screen.dart';
-import 'package:m_sport/features/program_page/presentation/screens/main/training_screen.dart';
-import 'package:m_sport/features/programs/presentation/screens/main/programs_screen.dart';
-import 'package:m_sport/services/navigation/guards/internet_guard.dart';
-import 'package:m_sport/features/programs/domain/entities/program_entity.dart';
+import 'package:insight/features/program_page/presentation/screens/main/program_page_screen.dart';
+import 'package:insight/features/program_page/presentation/screens/main/training_screen.dart';
+import 'package:insight/features/programs/presentation/screens/main/programs_screen.dart';
+import 'package:insight/services/navigation/guards/internet_guard.dart';
+import 'package:insight/features/programs/domain/entities/program_entity.dart';
 
 part 'app_router.gr.dart';
 
@@ -39,5 +39,6 @@ part 'app_router.gr.dart';
   ],
 )
 class AppRouter extends _$AppRouter {
-  AppRouter({required InternetGuard internetGuard}) : super(internetGuard: internetGuard);
+  AppRouter({required InternetGuard internetGuard})
+      : super(internetGuard: internetGuard);
 }

@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:m_sport/core/errors/failure.dart';
-import 'package:m_sport/features/program_page/domain/entities/program_page_entity.dart';
-import 'package:m_sport/features/program_page/domain/repositories/program_page_repository.dart';
-import 'package:m_sport/features/program_page/domain/usecases/get_program_page.dart';
-import 'package:m_sport/utilities/load_states.dart';
+import 'package:insight/core/errors/failure.dart';
+import 'package:insight/features/program_page/domain/entities/program_page_entity.dart';
+import 'package:insight/features/program_page/domain/repositories/program_page_repository.dart';
+import 'package:insight/features/program_page/domain/usecases/get_program_page.dart';
+import 'package:insight/utilities/load_states.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utilities/loaded_utilities.dart';
@@ -31,8 +31,10 @@ void main() {
 
   group('load', () {
     _test(LoadStates state) async {
-      final loadedResult = loadedUtils.returnResult(state: state, entity: programPage, someFailure: someFailure);
-      when(() => repository.getProgramPage(programPageId)).thenAnswer((_) async => loadedResult);
+      final loadedResult = loadedUtils.returnResult(
+          state: state, entity: programPage, someFailure: someFailure);
+      when(() => repository.getProgramPage(programPageId))
+          .thenAnswer((_) async => loadedResult);
       final result = await usecase.call(programPageParams);
       expect(result, loadedResult);
       verify(() => repository.getProgramPage(programPageId)).called(1);
