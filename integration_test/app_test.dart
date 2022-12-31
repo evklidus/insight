@@ -1,13 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:insight/components/rounded_back_icon.dart';
-import 'package:insight/features/program_page/presentation/screens/main/program_page_screen.dart';
-import 'package:insight/features/program_page/presentation/screens/main/training_screen.dart';
-import 'package:insight/features/program_page/presentation/widgets/close_icon.dart';
-import 'package:insight/features/program_page/presentation/widgets/play_pause_button.dart';
-import 'package:insight/features/program_page/presentation/widgets/training_view.dart';
-import 'package:insight/features/programs/presentation/screens/main/programs_screen.dart';
-import 'package:insight/features/programs/presentation/widgets/program_widget.dart';
+import 'package:insight/features/courses_preview/presentation/screens/main/programs_screen.dart';
+import 'package:insight/features/courses_preview/presentation/widgets/course_preview_widget.dart';
 import 'package:insight/main.dart' as app;
 
 void main() {

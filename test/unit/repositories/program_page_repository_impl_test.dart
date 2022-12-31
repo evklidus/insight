@@ -2,9 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/core/errors/exceptions.dart';
 import 'package:insight/core/errors/failure.dart';
-import 'package:insight/features/program_page/data/datasources/program_page_remote_datasource.dart';
-import 'package:insight/features/program_page/data/models/program_page_model.dart';
-import 'package:insight/features/program_page/data/repositories/program_page_repository_impl.dart';
+import 'package:insight/features/courses_preview/data/datasources/program_page_remote_datasource.dart';
+import 'package:insight/features/courses_preview/data/models/program_page_model.dart';
+import 'package:insight/features/courses_preview/data/repositories/program_page_repository_impl.dart';
 import 'package:insight/services/http/network_info.dart';
 import 'package:mocktail/mocktail.dart';
 

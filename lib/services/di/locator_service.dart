@@ -2,16 +2,16 @@ import 'package:app_links/app_links.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:insight/features/programs/data/datasources/programs_remote_datasource.dart';
-import 'package:insight/features/programs/data/repositories/programs_repository_impl.dart';
-import 'package:insight/features/programs/domain/repositories/programs_repository.dart';
-import 'package:insight/features/programs/domain/usecases/get_programs.dart';
-import 'package:insight/features/programs/presentation/store/programs_store.dart';
-import 'package:insight/features/program_page/data/datasources/program_page_remote_datasource.dart';
-import 'package:insight/features/program_page/data/repositories/program_page_repository_impl.dart';
-import 'package:insight/features/program_page/domain/repositories/program_page_repository.dart';
-import 'package:insight/features/program_page/domain/usecases/get_program_page.dart';
-import 'package:insight/features/program_page/presentation/store/program_page_store.dart';
+import 'package:insight/features/courses_preview/data/datasources/courses_preview_remote_datasource.dart';
+import 'package:insight/features/courses_preview/data/repositories/courses_preview_repository_impl.dart';
+import 'package:insight/features/courses_preview/domain/repositories/courses_preview_repository.dart';
+import 'package:insight/features/courses_preview/domain/usecases/get_courses_preview_.dart';
+import 'package:insight/features/courses_preview/presentation/store/courses_preview_store.dart';
+import 'package:insight/features/courses_preview/data/datasources/program_page_remote_datasource.dart';
+import 'package:insight/features/courses_preview/data/repositories/program_page_repository_impl.dart';
+import 'package:insight/features/courses_preview/domain/repositories/program_page_repository.dart';
+import 'package:insight/features/courses_preview/domain/usecases/get_program_page.dart';
+import 'package:insight/features/courses_preview/presentation/store/program_page_store.dart';
 import 'package:insight/services/http/network_info.dart';
 import 'package:insight/services/http/rest_client.dart';
 import 'package:insight/services/links/applinks_provider_service.dart';
@@ -37,7 +37,7 @@ void setup() {
   );
 
   // MobX
-  getIt.registerFactory(() => ProgramsStore(getIt()));
+  getIt.registerFactory(() => CoursesPreviewStore(getIt()));
   getIt.registerFactory(() => ProgramPageStore(getIt()));
 
   // Use Cases

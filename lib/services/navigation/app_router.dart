@@ -3,11 +3,11 @@ import 'package:insight/components/screens/internet_warning_screen.dart';
 import 'package:insight/components/screens/root_screen.dart';
 import 'package:insight/components/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:insight/features/program_page/presentation/screens/main/program_page_screen.dart';
-import 'package:insight/features/program_page/presentation/screens/main/training_screen.dart';
-import 'package:insight/features/programs/presentation/screens/main/programs_screen.dart';
+import 'package:insight/features/course_page/presentation/screens/main/program_page_screen.dart';
+import 'package:insight/features/course_page/presentation/screens/main/training_screen.dart';
+import 'package:insight/features/courses_preview/presentation/screens/main/programs_screen.dart';
 import 'package:insight/services/navigation/guards/internet_guard.dart';
-import 'package:insight/features/programs/domain/entities/program_entity.dart';
+import 'package:insight/features/courses_preview/domain/entities/course_preview_entity.dart';
 
 part 'app_router.gr.dart';
 

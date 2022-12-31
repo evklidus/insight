@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/core/errors/failure.dart';
-import 'package:insight/features/programs/domain/entities/program_entity.dart';
-import 'package:insight/features/programs/domain/usecases/get_programs.dart';
-import 'package:insight/features/programs/presentation/store/programs_store.dart';
+import 'package:insight/features/courses_preview/domain/entities/course_preview_entity.dart';
+import 'package:insight/features/courses_preview/domain/usecases/get_courses_preview_.dart';
+import 'package:insight/features/courses_preview/presentation/store/courses_preview_store.dart';
 import 'package:insight/utilities/load_states.dart';
 import 'package:mocktail/mocktail.dart';
 

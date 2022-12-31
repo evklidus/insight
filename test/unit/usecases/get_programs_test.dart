@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/core/errors/failure.dart';
-import 'package:insight/features/programs/domain/entities/program_entity.dart';
-import 'package:insight/features/programs/domain/repositories/programs_repository.dart';
-import 'package:insight/features/programs/domain/usecases/get_programs.dart';
+import 'package:insight/features/courses_preview/domain/entities/course_preview_entity.dart';
+import 'package:insight/features/courses_preview/domain/repositories/courses_preview_repository.dart';
+import 'package:insight/features/courses_preview/domain/usecases/get_courses_preview_.dart';
 import 'package:insight/utilities/load_states.dart';
 import 'package:mocktail/mocktail.dart';
 

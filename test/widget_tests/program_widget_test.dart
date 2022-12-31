@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:insight/features/programs/data/models/program_model.dart';
-import 'package:insight/features/programs/presentation/widgets/program_widget.dart';
+import 'package:insight/features/courses_preview/data/models/course_preview_model.dart';
+import 'package:insight/features/courses_preview/presentation/widgets/course_preview_widget.dart';
 import 'package:mocktail_image_network/mocktail_image_network.dart';
 
 const programModel = ProgramModel(

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/core/errors/exceptions.dart';
-import 'package:insight/features/program_page/data/datasources/program_page_remote_datasource.dart';
-import 'package:insight/features/program_page/data/models/program_page_model.dart';
+import 'package:insight/features/courses_preview/data/datasources/program_page_remote_datasource.dart';
+import 'package:insight/features/courses_preview/data/models/program_page_model.dart';
 import 'package:insight/services/http/rest_client.dart';
 import 'package:insight/utilities/load_states.dart';
 import 'package:mocktail/mocktail.dart';

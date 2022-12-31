@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:insight/features/programs/data/models/program_model.dart';
+import 'package:insight/features/courses_preview/data/models/course_preview_model.dart';
 
 import '../../utilities/json_utilities.dart';
 
