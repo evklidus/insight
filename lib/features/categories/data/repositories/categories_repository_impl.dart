@@ -7,19 +7,19 @@ import 'package:insight/features/categories/domain/repositories/categories_repos
 import 'package:insight/services/http/network_info.dart';
 
 class CategoriesRepositoryImpl implements CategoriesRepository {
-  final NetworkInfo netforkInfo;
-  final CategoriesRemoteDataSource categoriesRemoteDataSource;
+  final NetworkInfo networkInfo;
+  final CategoriesRemoteDataSource remoteDataSource;
 
   CategoriesRepositoryImpl({
-    required this.netforkInfo,
-    required this.categoriesRemoteDataSource,
+    required this.networkInfo,
+    required this.remoteDataSource,
   });
 
   @override
   Future<Either<Failure, List<CategoryEntity>?>> getCategories() async {
-    if (await netforkInfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
-        final categories = await categoriesRemoteDataSource.getCategories();
+        final categories = await remoteDataSource.getCategories();
         return Right(categories);
       } on ServerException {
         return Left(ServerFailure());

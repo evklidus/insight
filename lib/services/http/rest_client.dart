@@ -1,7 +1,7 @@
 import 'package:insight/core/constants/http_constants.dart';
 import 'package:insight/features/categories/data/models/category_model.dart';
-import 'package:insight/features/courses_preview/data/models/course_preview_model.dart';
-import 'package:insight/features/course_page/data/models/program_page_model.dart';
+import 'package:insight/features/courses_previews/data/models/course_preview_model.dart';
+import 'package:insight/features/course_page/data/models/course_page_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -14,13 +14,13 @@ abstract class RestClient {
   @GET(HttpConstants.getCategories)
   Future<List<CategoryModel>?> getCategories();
 
-  @GET(HttpConstants.getCoursesPreviewByCategoryTag)
-  Future<List<CoursePreviewModel>?> getCoursesPreviewByCategoryTag(
-    @Path(HttpConstants.getCoursesPreviewByCategoryTagPath) String categoryTag,
+  @GET(HttpConstants.getCoursePreviewsByCategory)
+  Future<List<CoursePreviewModel>?> getCoursePreviewsByCategoryTag(
+    @Path('category') String categoryTag,
   );
 
-  @GET(HttpConstants.getCourse)
-  Future<ProgramPageModel?> getCourseByName(
-    @Path(HttpConstants.getCoursePath) String courseName,
+  @GET(HttpConstants.getCoursePageById)
+  Future<CoursePageModel?> getCoursePage(
+    @Path('id') int id,
   );
 }

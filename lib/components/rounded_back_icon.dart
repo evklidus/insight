@@ -9,7 +9,7 @@ class RoundedBackIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTap?.call() ?? context.router.popUntilRoot(),
+      onTap: () => onTap?.call() ?? context.popRoute(),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Container(

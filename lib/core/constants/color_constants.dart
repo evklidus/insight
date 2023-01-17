@@ -8,7 +8,7 @@ class ColorConstants {
   static const grayWithOpacity = Color.fromARGB(111, 158, 158, 158);
 
   //gradients
-  static const programPageGradient = LinearGradient(
+  static const coursePageGradient = LinearGradient(
     begin: Alignment.topRight,
     end: Alignment.bottomLeft,
     colors: [
@@ -17,7 +17,7 @@ class ColorConstants {
       Colors.black,
     ],
   );
-  static const trainingGradient = LinearGradient(
+  static const lessonGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [

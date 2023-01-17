@@ -14,7 +14,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   di.setup();
-  checkIfStartedByLink();
+  // checkIfStartedByLink();
   runApp(MyApp());
 }
 
@@ -37,10 +37,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
-Future<void> checkIfStartedByLink() async {
-  final appLinksService = di.getIt<AppLinksService>();
-  final uri = await appLinksService.appLinks.getInitialAppLink();
-  if (uri != null) {
-    appLinksService.appLinksProvider.pushUrlCoolBoot(uri);
-  }
-}
+// Future<void> checkIfStartedByLink() async {
+//   final appLinksService = di.getIt<AppLinksService>();
+//   final uri = await appLinksService.appLinks.getInitialAppLink();
+//   if (uri != null) {
+//     appLinksService.appLinksProvider.pushUrlCoolBoot(uri);
+//   }
+// }

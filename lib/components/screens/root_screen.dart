@@ -9,7 +9,7 @@ class RootScreen extends StatelessWidget {
   Widget build(context) {
     return AutoTabsScaffold(
       routes: const [
-        ProgramsRoute(),
+        CategoriesRoute(),
         SettingsRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
@@ -18,7 +18,7 @@ class RootScreen extends StatelessWidget {
           onTap: tabsRouter.setActiveIndex,
           items: const [
             BottomNavigationBarItem(
-              label: 'Users',
+              label: 'Categories',
               icon: Icon(Icons.list_rounded),
             ),
             BottomNavigationBarItem(
