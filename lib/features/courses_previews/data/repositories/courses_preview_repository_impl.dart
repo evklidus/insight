@@ -17,7 +17,8 @@ class CoursesPreviewRepositoryImpl implements CoursesPreviewRepository {
 
   @override
   Future<Either<Failure, List<CoursePreviewEntity>?>> getCoursesPreview(
-      String categoryTag) async {
+    String categoryTag,
+  ) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteData =

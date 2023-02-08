@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:insight/services/di/locator_service.dart' as di;
-import 'package:insight/services/links/applinks_service.dart';
 import 'package:insight/services/navigation/app_router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,7 +13,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   di.setup();
-  // checkIfStartedByLink();
   runApp(MyApp());
 }
 
@@ -36,11 +34,3 @@ class MyApp extends StatelessWidget {
     });
   }
 }
-
-// Future<void> checkIfStartedByLink() async {
-//   final appLinksService = di.getIt<AppLinksService>();
-//   final uri = await appLinksService.appLinks.getInitialAppLink();
-//   if (uri != null) {
-//     appLinksService.appLinksProvider.pushUrlCoolBoot(uri);
-//   }
-// }

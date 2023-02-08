@@ -6,6 +6,8 @@ import 'package:mobx/mobx.dart';
 
 part 'entity_store.g.dart';
 
+// Because it's standartmobx constuction, make with constructor is too large
+// ignore: library_private_types_in_public_api
 abstract class EntityStore<T> = _EntityStore<T> with _$EntityStore;
 
 abstract class _EntityStore<T> with Store {

@@ -5,9 +5,11 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 
 class LessonVideo extends StatelessWidget {
-  const LessonVideo(
-      {Key? key, required this.connectionState, required this.controller})
-      : super(key: key);
+  const LessonVideo({
+    Key? key,
+    required this.connectionState,
+    required this.controller,
+  }) : super(key: key);
 
   final ConnectionState connectionState;
   final VideoPlayerController controller;

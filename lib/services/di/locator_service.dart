@@ -1,4 +1,3 @@
-import 'package:app_links/app_links.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:insight/features/categories/data/datasources/categories_remote_datasource.dart';
@@ -19,8 +18,6 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:insight/features/courses_previews/presentation/store/courses_preview_store.dart';
 import 'package:insight/services/http/network_info.dart';
 import 'package:insight/services/http/rest_client.dart';
-import 'package:insight/services/links/applinks_provider_service.dart';
-import 'package:insight/services/links/applinks_service.dart';
 import 'package:insight/services/navigation/app_router.dart';
 import 'package:insight/services/navigation/guards/internet_guard.dart';
 
@@ -31,15 +28,6 @@ void setup() {
   getIt.registerSingleton<AppRouter>(
     AppRouter(internetGuard: InternetGuard()),
   );
-  // getIt.registerLazySingleton<AppLinksProviderService>(
-  //   () => AppLinksProviderService(appRouter: getIt()),
-  // );
-  // getIt.registerSingleton<AppLinksService>(
-  //   AppLinksService(
-  //     appLinks: AppLinks(),
-  //     appLinksProvider: getIt(),
-  //   ),
-  // );
 
   // MobX
   getIt.registerFactory(() => CategoriesStore(getIt()));

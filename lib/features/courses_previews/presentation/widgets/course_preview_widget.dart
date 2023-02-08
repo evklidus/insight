@@ -18,11 +18,6 @@ class CoursePreviewWidget extends StatelessWidget {
       borderRadius: const BorderRadius.all(Radius.circular(20)),
       child: GestureDetector(
         onTap: () {
-          // String link = getIt<AppLinksService>().createDynamicLink( // TODO: Create dynamic link on firebase
-          //   path: 'coursePreviews',
-          //   queryMap: {},
-          // );
-          // log(link);
           context.pushRoute(
             CoursePageRoute(
               coursePageId: coursePreview.id,
@@ -36,8 +31,11 @@ class CoursePreviewWidget extends StatelessWidget {
             Image.network(
               coursePreview.imageUrl,
               fit: BoxFit.cover,
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent? loadingProgress) {
+              loadingBuilder: (
+                BuildContext context,
+                Widget child,
+                ImageChunkEvent? loadingProgress,
+              ) {
                 if (loadingProgress == null) return child;
                 return const StandartLoading();
               },
@@ -61,6 +59,7 @@ class CoursePreviewWidget extends StatelessWidget {
                       Hero(
                         tag: coursePreview.name,
                         child: Material(
+                          color: Colors.transparent,
                           child: SizedBox(
                             width: 140.0,
                             child: Text(
@@ -72,7 +71,6 @@ class CoursePreviewWidget extends StatelessWidget {
                               ),
                             ),
                           ),
-                          color: Colors.transparent,
                         ),
                       ),
                     ],

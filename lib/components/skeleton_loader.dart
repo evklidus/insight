@@ -25,7 +25,11 @@ class SkeletonLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final decoration = BoxDecoration(gradient: linearGradient);
-    Widget body = Container(width: width, height: height, decoration: decoration);
+    Widget body = Container(
+      width: width,
+      height: height,
+      decoration: decoration,
+    );
 
     if (radius != null) {
       body = ClipRRect(
@@ -35,9 +39,9 @@ class SkeletonLoader extends StatelessWidget {
     }
 
     return Shimmer.fromColors(
-      child: body,
       baseColor: const Color.fromARGB(255, 208, 208, 208),
       highlightColor: Colors.white,
+      child: body,
     );
   }
 }

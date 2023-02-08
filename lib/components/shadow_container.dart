@@ -35,11 +35,13 @@ class ShadowContainer extends StatelessWidget {
       width: width,
       alignment: alignment,
       padding: customPadding ?? EdgeInsets.all(padding ?? 0),
-      child: child,
       decoration: BoxDecoration(
         color: color,
         borderRadius: topRounded
-            ? const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))
+            ? const BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              )
             : (isCircle ? null : BorderRadius.circular(radius)),
         boxShadow: [
           BoxShadow(
@@ -50,6 +52,7 @@ class ShadowContainer extends StatelessWidget {
         ],
         shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
       ),
+      child: child,
     );
   }
 }

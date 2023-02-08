@@ -6,6 +6,8 @@ import 'package:mobx/mobx.dart';
 
 part 'courses_preview_store.g.dart';
 
+// Because it's standartmobx constuction, make with constructor is too large
+// ignore: library_private_types_in_public_api
 class CoursesPreviewStore = _CoursesPreviewStore with _$CoursesPreviewStore;
 
 abstract class _CoursesPreviewStore

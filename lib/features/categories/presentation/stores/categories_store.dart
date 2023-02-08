@@ -6,6 +6,8 @@ import 'package:mobx/mobx.dart';
 
 part 'categories_store.g.dart';
 
+// Because it's standartmobx constuction, make with constructor is too large
+// ignore: library_private_types_in_public_api
 class CategoriesStore = _CategoriesStore with _$CategoriesStore;
 
 abstract class _CategoriesStore extends EntityStore<List<CategoryEntity>>

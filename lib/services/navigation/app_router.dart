@@ -4,7 +4,6 @@ import 'package:insight/components/screens/root_screen.dart';
 import 'package:insight/components/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/features/categories/presentation/screens/main/categories_screen.dart';
-import 'package:insight/features/course_page/domain/entities/course_page_entity.dart';
 import 'package:insight/features/course_page/presentation/screens/main/course_page_screen.dart';
 import 'package:insight/features/course_page/presentation/screens/main/lesson_screen.dart';
 import 'package:insight/features/courses_previews/presentation/screens/main/course_previews_screen.dart';
@@ -40,11 +39,6 @@ part 'app_router.gr.dart';
       transitionsBuilder: TransitionsBuilders.slideBottom,
       durationInMilliseconds: 300,
     ),
-    // CustomRoute(
-    //   page: TrainingScreen,
-    //   transitionsBuilder: TransitionsBuilders.fadeIn,
-    //   durationInMilliseconds: 250,
-    // ),
   ],
 )
 class AppRouter extends _$AppRouter {
