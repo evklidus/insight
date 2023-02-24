@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insight/components/boxes/w_padding_box.dart';
 import 'package:insight/core/constants/color_constants.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 
 class LessonVideo extends StatelessWidget {

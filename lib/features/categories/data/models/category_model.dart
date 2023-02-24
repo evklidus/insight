@@ -8,6 +8,7 @@ part 'category_model.g.dart';
 class CategoryModel extends CategoryEntity with _$CategoryModel {
   const factory CategoryModel({
     required String name,
+    required String imageUrl,
     required String tag,
   }) = _CategoryModel;
 

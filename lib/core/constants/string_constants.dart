@@ -1,1 +1,3 @@
-class StringConstants {}
+class StringConstants {
+  static const appName = 'Insight';
+}

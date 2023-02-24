@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insight/components/boxes/h_box.dart';
 import 'package:insight/components/boxes/w_padding_box.dart';
 import 'package:insight/core/constants/color_constants.dart';
 import 'package:insight/core/stores/entity_store.dart';
 import 'package:insight/utilities/load_states.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:insight/gen/assets.gen.dart';
 
 class InformationWidget<T extends EntityStore> extends StatelessWidget {

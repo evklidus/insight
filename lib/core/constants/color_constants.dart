@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ColorConstants {
+  static const primary = Color(0xff3965E3);
+
+  //
+
+  //
+
+  //
+
   static const scarlet = Color(0xff9F3953);
   static const whiteScarlet = Color(0xffFFEEEF);
   static const white = Color.fromARGB(255, 239, 239, 239);

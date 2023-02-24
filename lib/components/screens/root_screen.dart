@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/components/insight_navigation_bar.dart';
 import 'package:insight/services/navigation/app_router.dart';
 
 class RootScreen extends StatelessWidget {
@@ -8,26 +9,15 @@ class RootScreen extends StatelessWidget {
   @override
   Widget build(context) {
     return AutoTabsScaffold(
+      extendBody: true,
       routes: const [
         CategoriesRoute(),
         SettingsRoute(),
       ],
-      bottomNavigationBuilder: (_, tabsRouter) {
-        return BottomNavigationBar(
-          currentIndex: tabsRouter.activeIndex,
-          onTap: tabsRouter.setActiveIndex,
-          items: const [
-            BottomNavigationBarItem(
-              label: 'Categories',
-              icon: Icon(Icons.list_rounded),
-            ),
-            BottomNavigationBarItem(
-              label: 'Posts',
-              icon: Icon(Icons.settings),
-            ),
-          ],
-        );
-      },
+      bottomNavigationBuilder: (_, tabsRouter) => InsightNavigationBar(
+        currentIndex: tabsRouter.activeIndex,
+        onTap: tabsRouter.setActiveIndex,
+      ),
     );
   }
 }
