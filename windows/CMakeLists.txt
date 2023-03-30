@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(m_sport LANGUAGES CXX)
+project(insight LANGUAGES CXX)
 
-set(BINARY_NAME "m_sport")
+set(BINARY_NAME "insight")
 
 cmake_policy(SET CMP0063 NEW)
 

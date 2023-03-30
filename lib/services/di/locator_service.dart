@@ -1,23 +1,25 @@
-import 'package:app_links/app_links.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
+import 'package:insight/features/categories/data/datasources/categories_remote_datasource.dart';
+import 'package:insight/features/categories/data/repositories/categories_repository_impl.dart';
+import 'package:insight/features/categories/domain/repositories/categories_repository.dart';
+import 'package:insight/features/categories/domain/usecases/get_categories.dart';
+import 'package:insight/features/categories/presentation/stores/categories_store.dart';
+import 'package:insight/features/course_page/data/datasources/course_page_remote_datasource.dart';
+import 'package:insight/features/course_page/data/repositories/course_page_repository_impl.dart';
+import 'package:insight/features/course_page/domain/repositories/course_page_repository.dart';
+import 'package:insight/features/course_page/domain/usecases/get_course_page.dart';
+import 'package:insight/features/course_page/presentation/store/course_page_store.dart';
+import 'package:insight/features/courses_previews/data/datasources/courses_preview_remote_datasource.dart';
+import 'package:insight/features/courses_previews/data/repositories/courses_preview_repository_impl.dart';
+import 'package:insight/features/courses_previews/domain/repositories/courses_preview_repository.dart';
+import 'package:insight/features/courses_previews/domain/usecases/get_courses_preview_.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:m_sport/features/programs/data/datasources/programs_remote_datasource.dart';
-import 'package:m_sport/features/programs/data/repositories/programs_repository_impl.dart';
-import 'package:m_sport/features/programs/domain/repositories/programs_repository.dart';
-import 'package:m_sport/features/programs/domain/usecases/get_programs.dart';
-import 'package:m_sport/features/programs/presentation/store/programs_store.dart';
-import 'package:m_sport/features/program_page/data/datasources/program_page_remote_datasource.dart';
-import 'package:m_sport/features/program_page/data/repositories/program_page_repository_impl.dart';
-import 'package:m_sport/features/program_page/domain/repositories/program_page_repository.dart';
-import 'package:m_sport/features/program_page/domain/usecases/get_program_page.dart';
-import 'package:m_sport/features/program_page/presentation/store/program_page_store.dart';
-import 'package:m_sport/services/http/network_info.dart';
-import 'package:m_sport/services/http/rest_client.dart';
-import 'package:m_sport/services/links/applinks_provider_service.dart';
-import 'package:m_sport/services/links/applinks_service.dart';
-import 'package:m_sport/services/navigation/app_router.dart';
-import 'package:m_sport/services/navigation/guards/internet_guard.dart';
+import 'package:insight/features/courses_previews/presentation/store/courses_preview_store.dart';
+import 'package:insight/services/http/network_info.dart';
+import 'package:insight/services/http/rest_client.dart';
+import 'package:insight/services/navigation/app_router.dart';
+import 'package:insight/services/navigation/guards/internet_guard.dart';
 
 final getIt = GetIt.instance;
 
@@ -26,48 +28,52 @@ void setup() {
   getIt.registerSingleton<AppRouter>(
     AppRouter(internetGuard: InternetGuard()),
   );
-  getIt.registerLazySingleton<AppLinksProviderService>(
-    () => AppLinksProviderService(appRouter: getIt()),
-  );
-  getIt.registerSingleton<AppLinksService>(
-    AppLinksService(
-      appLinks: AppLinks(),
-      appLinksProvider: getIt(),
-    ),
-  );
 
   // MobX
-  getIt.registerFactory(() => ProgramsStore(getIt()));
-  getIt.registerFactory(() => ProgramPageStore(getIt()));
+  getIt.registerFactory(() => CategoriesStore(getIt()));
+  getIt.registerFactory(() => CoursesPreviewStore(getIt()));
+  getIt.registerFactory(() => CoursePageStore(getIt()));
 
   // Use Cases
   getIt.registerLazySingleton(
-    () => GetPrograms(getIt()),
+    () => GetCategories(getIt()),
   );
   getIt.registerLazySingleton(
-    () => GetProgramPage(getIt()),
+    () => GetCoursesPreview(getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => GetCoursePage(getIt()),
   );
 
   // Repositories
-  getIt.registerFactory<ProgramsRepository>(
-    () => ProgramsRepositoryImpl(
+  getIt.registerFactory<CategoriesRepository>(
+    () => CategoriesRepositoryImpl(
       remoteDataSource: getIt(),
       networkInfo: getIt(),
     ),
   );
-  getIt.registerFactory<ProgramPageRepository>(
-    () => ProgramPageRepositoryImpl(
+  getIt.registerFactory<CoursesPreviewRepository>(
+    () => CoursesPreviewRepositoryImpl(
+      remoteDataSource: getIt(),
+      networkInfo: getIt(),
+    ),
+  );
+  getIt.registerFactory<CoursePageRepository>(
+    () => CoursePageRepositoryImpl(
       remoteDataSource: getIt(),
       networkInfo: getIt(),
     ),
   );
 
   // Data Sources
-  getIt.registerLazySingleton<ProgramsRemoteDataSource>(
-    () => ProgramsRemoteDataSourceImpl(getIt()),
+  getIt.registerLazySingleton<CategoriesRemoteDataSource>(
+    () => CategoriesRemoteDataSourceImpl(getIt()),
   );
-  getIt.registerLazySingleton<ProgramPageRemoteDataSource>(
-    () => ProgramPageRemoteDataSourceImpl(getIt()),
+  getIt.registerLazySingleton<CoursesPreviewRemoteDataSource>(
+    () => CoursesPreviewRemoteDataSourceImpl(getIt()),
+  );
+  getIt.registerLazySingleton<CoursePageRemoteDataSource>(
+    () => CoursePageRemoteDataSourceImpl(getIt()),
   );
 
   getIt.registerLazySingleton<NetworkInfo>(

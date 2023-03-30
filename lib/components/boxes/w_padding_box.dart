@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WPaddingBox extends StatelessWidget {
-  const WPaddingBox({Key? key, required this.child, this.padding}) : super(key: key);
+  const WPaddingBox({Key? key, required this.child, this.padding})
+      : super(key: key);
 
   final Widget child;
   final double? padding;
@@ -10,7 +12,7 @@ class WPaddingBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: padding ?? 16,
+        horizontal: padding ?? 16.w,
       ),
       child: child,
     );

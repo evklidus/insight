@@ -48,29 +48,32 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBFqe8aE2vAf5JetiE-4goa2hlbte_MP5w',
-    appId: '1:966237282337:web:54b83cb98ce817d4ea8360',
+    appId: '1:966237282337:web:255abfa20ad84a0cea8360',
     messagingSenderId: '966237282337',
     projectId: 'cicdtest-e5722',
     authDomain: 'cicdtest-e5722.firebaseapp.com',
+    databaseURL: 'https://cicdtest-e5722-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'cicdtest-e5722.appspot.com',
-    measurementId: 'G-763TTLTXND',
+    measurementId: 'G-9LE2JPVDRT',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCCkNuDVmxm0fyTTPZsazKBols-DNNOKpM',
-    appId: '1:966237282337:android:6770f57da6d63978ea8360',
+    appId: '1:966237282337:android:6c1058dfd21d3f32ea8360',
     messagingSenderId: '966237282337',
     projectId: 'cicdtest-e5722',
+    databaseURL: 'https://cicdtest-e5722-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'cicdtest-e5722.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDAt0R8cmrCz7mq85cNW4JSaYhcq7KSfpo',
-    appId: '1:966237282337:ios:20d07035a0f24b38ea8360',
+    appId: '1:966237282337:ios:298070d39cabe6a6ea8360',
     messagingSenderId: '966237282337',
     projectId: 'cicdtest-e5722',
+    databaseURL: 'https://cicdtest-e5722-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'cicdtest-e5722.appspot.com',
-    iosClientId: '966237282337-2hus3e9nvkugqlik4pkdjg2t8nmnu4nf.apps.googleusercontent.com',
-    iosBundleId: 'com.example.mSport',
+    iosClientId: '966237282337-3s4ilh9o2q6295g7fgihsds5e43v145l.apps.googleusercontent.com',
+    iosBundleId: 'com.example.m-insight',
   );
 }

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.m_sport">
+    package="com.example.insight">
    <application
-        android:label="m_sport"
+        android:label="insight"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

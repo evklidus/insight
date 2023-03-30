@@ -38,7 +38,6 @@ dart_code_metrics:
         exclude:
           - lib/main.dart
           - lib/core/errors/exceptions.dart
-    - prefer-moving-to-variable
     - prefer-trailing-comma:
         break-on: 6
         severity: style

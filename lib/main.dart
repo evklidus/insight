@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:m_sport/services/di/locator_service.dart' as di;
-import 'package:m_sport/services/links/applinks_service.dart';
-import 'package:m_sport/services/navigation/app_router.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insight/app_theme.dart';
+import 'package:insight/services/di/locator_service.dart' as di;
+import 'package:insight/services/navigation/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -14,7 +14,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   di.setup();
-  checkIfStartedByLink();
   runApp(MyApp());
 }
 
@@ -22,26 +21,27 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
   final _appRouter = di.getIt<AppRouter>();
+  final appTheme = AppTheme();
+  final designSize = const Size(393, 852);
 
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
 
-    return ResponsiveSizer(builder: (context, orientation, screenType) {
-      return MaterialApp.router(
-        title: 'Flutter Demo',
-        theme: ThemeData(useMaterial3: true),
-        routerDelegate: _appRouter.delegate(),
-        routeInformationParser: _appRouter.defaultRouteParser(),
-      );
-    });
-  }
-}
-
-Future<void> checkIfStartedByLink() async {
-  final appLinksService = di.getIt<AppLinksService>();
-  final uri = await appLinksService.appLinks.getInitialAppLink();
-  if (uri != null) {
-    appLinksService.appLinksProvider.pushUrlCoolBoot(uri);
+    return ScreenUtilInit(
+      designSize: designSize,
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, _) {
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          theme: appTheme.getLightTheme(),
+          darkTheme: appTheme.getDartTheme(),
+          themeMode: ThemeMode.dark,
+          routerDelegate: _appRouter.delegate(),
+          routeInformationParser: _appRouter.defaultRouteParser(),
+        );
+      },
+    );
   }
 }

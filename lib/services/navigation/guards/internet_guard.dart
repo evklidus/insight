@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:m_sport/services/navigation/app_router.dart';
+import 'package:insight/services/navigation/app_router.dart';
 
 class InternetGuard extends AutoRouteGuard {
   @override

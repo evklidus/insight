@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:m_sport/services/navigation/app_router.dart';
+import 'package:insight/components/navigation_bars/insight_navigation_bar.dart';
+import 'package:insight/services/navigation/app_router.dart';
 
 class RootScreen extends StatelessWidget {
   const RootScreen({Key? key}) : super(key: key);
@@ -8,26 +9,15 @@ class RootScreen extends StatelessWidget {
   @override
   Widget build(context) {
     return AutoTabsScaffold(
+      extendBody: true,
       routes: const [
-        ProgramsRoute(),
+        CategoriesRoute(),
         SettingsRoute(),
       ],
-      bottomNavigationBuilder: (_, tabsRouter) {
-        return BottomNavigationBar(
-          currentIndex: tabsRouter.activeIndex,
-          onTap: tabsRouter.setActiveIndex,
-          items: const [
-            BottomNavigationBarItem(
-              label: 'Users',
-              icon: Icon(Icons.list_rounded),
-            ),
-            BottomNavigationBarItem(
-              label: 'Posts',
-              icon: Icon(Icons.settings),
-            ),
-          ],
-        );
-      },
+      bottomNavigationBuilder: (_, tabsRouter) => InsightNavigationBar(
+        currentIndex: tabsRouter.activeIndex,
+        onTap: tabsRouter.setActiveIndex,
+      ),
     );
   }
 }
