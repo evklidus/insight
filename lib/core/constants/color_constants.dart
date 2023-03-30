@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
 class ColorConstants {
-  static const primary = Color(0xff3965E3);
+  // static const primary = Color(0xff3965E3);
+  // static const secondary = Color(0xff333334);
+  // static const background = Color(0xff1C1C1E);
 
-  //
+  // //
 
-  //
+  // //
 
-  //
+  // //
 
-  static const scarlet = Color(0xff9F3953);
-  static const whiteScarlet = Color(0xffFFEEEF);
-  static const white = Color.fromARGB(255, 239, 239, 239);
-  static const gray = Color.fromARGB(255, 185, 185, 185);
-  static const grayWithOpacity = Color.fromARGB(111, 158, 158, 158);
+  // static const scarlet = Color(0xff9F3953);
+  // static const whiteScarlet = Color(0xffFFEEEF);
+  // static const white = Color.fromARGB(255, 239, 239, 239);
+  // static const gray = Color.fromARGB(255, 185, 185, 185);
+  // static const grayWithOpacity = Color.fromARGB(111, 158, 158, 158);
 
   //gradients
   static const coursePageGradient = LinearGradient(

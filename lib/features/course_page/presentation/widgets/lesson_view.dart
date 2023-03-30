@@ -17,34 +17,39 @@ class LessonView extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         HapticFeedback.lightImpact();
-        context.pushRoute(LessonRoute(videoUrl: lesson.videoUrl));
+        context.pushRoute(
+          LessonRoute(
+            videoUrl: lesson.videoUrl,
+            title: lesson.name,
+          ),
+        );
       },
       child: GlassContainer(
-        padding: const EdgeInsets.symmetric(
-          vertical: 8,
-          horizontal: 25,
+        padding: EdgeInsets.symmetric(
+          vertical: 8.h,
+          horizontal: 25.w,
         ),
         height: 9.h,
         width: 92.5.w,
         blur: 20,
         gradient: ColorConstants.lessonGradient,
         borderColor: Colors.white.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(25.0),
+        borderRadius: BorderRadius.circular(25.r),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               lesson.name,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 15,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const Icon(
+            Icon(
               Icons.play_arrow_rounded,
               color: Colors.white,
-              size: 30,
+              size: 30.sp,
             ),
           ],
         ),

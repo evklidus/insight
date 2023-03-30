@@ -11,6 +11,7 @@ part 'course_page_model.g.dart';
 class CoursePageModel extends CoursePageEntity with _$CoursePageModel {
   const factory CoursePageModel({
     required int id,
+    required String imageUrl,
     required List<LessonModel> lessons,
   }) = _CoursePageModel;
 

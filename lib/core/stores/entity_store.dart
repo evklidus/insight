@@ -40,36 +40,43 @@ abstract class _EntityStore<T> with Store {
       function();
 
   @action
-  Future<void> loadEntity([LoadParams? params]) => asyncAction<void>(() async {
-        loadState = LoadStates.loading;
-        await Future.delayed(const Duration(milliseconds: 500), () async {
+  Future<void> loadEntity([LoadParams? params]) => asyncAction<void>(
+        () async {
+          loadState = LoadStates.loading;
+          await Future.delayed(
+            const Duration(milliseconds: 500),
+            () async {
+              final resultOrFailure = await fetchEntity(params);
+              resultOrFailure.fold(
+                (failure) {
+                  _setFailure(failure);
+                },
+                (entity) {
+                  setEntity(entity);
+                },
+              );
+            },
+          );
+        },
+      );
+
+  Future<T?> getEntity([LoadParams? params]) => asyncAction<T?>(
+        () async {
+          // use only in store
+          // after use it you have to set entity with setEntity func
+          loadState = LoadStates.loading;
+          T? returnedEntity;
           final resultOrFailure = await fetchEntity(params);
           resultOrFailure.fold(
             (failure) {
               _setFailure(failure);
             },
             (entity) {
-              setEntity(entity);
+              returnedEntity = entity;
             },
           );
-        });
-      });
-
-  Future<T?> getEntity([LoadParams? params]) => asyncAction<T?>(() async {
-        // use only in store
-        // after use it you have to set entity with setEntity func
-        loadState = LoadStates.loading;
-        T? returnedEntity;
-        final resultOrFailure = await fetchEntity(params);
-        resultOrFailure.fold(
-          (failure) {
-            _setFailure(failure);
-          },
-          (entity) {
-            returnedEntity = entity;
-          },
-        );
-        loadState = LoadStates.successful;
-        return returnedEntity;
-      });
+          loadState = LoadStates.successful;
+          return returnedEntity;
+        },
+      );
 }

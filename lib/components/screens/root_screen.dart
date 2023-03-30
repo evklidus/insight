@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:insight/components/insight_navigation_bar.dart';
+import 'package:insight/components/navigation_bars/insight_navigation_bar.dart';
 import 'package:insight/services/navigation/app_router.dart';
 
 class RootScreen extends StatelessWidget {

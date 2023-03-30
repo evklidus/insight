@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:insight/components/standart_loading.dart';
 import 'package:insight/components/information_widget.dart';
+import 'package:insight/components/loadings/standart_loading.dart';
 import 'package:insight/core/stores/entity_store.dart';
 import 'package:insight/utilities/load_states.dart';
 import 'package:provider/provider.dart';

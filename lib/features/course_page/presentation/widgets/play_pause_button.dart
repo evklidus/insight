@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insight/core/constants/color_constants.dart';
 
 class PlayPauseButton extends StatefulWidget {
   const PlayPauseButton(
@@ -20,38 +20,23 @@ class PlayPauseButton extends StatefulWidget {
 
 class _PlayPauseButtonState extends State<PlayPauseButton>
     with TickerProviderStateMixin {
-  late final AnimationController _animationController;
-
-  var isAnimating = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 450),
-    );
-  }
+  var isPlaying = true;
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = widget.connectionState == ConnectionState.done
-        ? ColorConstants.whiteScarlet
-        : ColorConstants.white;
     final iconColor = widget.connectionState == ConnectionState.done
-        ? ColorConstants.scarlet
-        : ColorConstants.gray;
-    final height = 17.w;
-    const double radius = 20;
+        ? Theme.of(context).colorScheme.primary
+        : Colors.grey;
+    final height = 75.w;
+    final radius = 20.r;
 
     return GestureDetector(
       onTap: () {
         if (widget.connectionState == ConnectionState.done) {
-          widget.onTap();
-          isAnimating = !isAnimating;
-          isAnimating
-              ? _animationController.forward()
-              : _animationController.reverse();
+          setState(() {
+            widget.onTap();
+            isPlaying = !isPlaying;
+          });
         }
       },
       child: SizedBox(
@@ -62,12 +47,21 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 500),
             alignment: Alignment.center,
-            padding: const EdgeInsets.all(radius),
-            color: backgroundColor,
-            child: AnimatedIcon(
-              icon: AnimatedIcons.pause_play,
-              progress: _animationController,
-              color: iconColor,
+            padding: EdgeInsets.all(radius),
+            color: Theme.of(context).colorScheme.surface,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 450),
+              child: isPlaying
+                  ? Icon(
+                      CupertinoIcons.pause_fill,
+                      size: 30.sp,
+                      color: iconColor,
+                    )
+                  : Icon(
+                      CupertinoIcons.play_fill,
+                      size: 30.sp,
+                      color: iconColor,
+                    ),
             ),
           ),
         ),

@@ -19,7 +19,6 @@ class CategoryWidget extends StatelessWidget {
       child: Container(
         alignment: Alignment.bottomLeft,
         decoration: BoxDecoration(
-          color: Colors.redAccent,
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
             image: NetworkImage(category.imageUrl),

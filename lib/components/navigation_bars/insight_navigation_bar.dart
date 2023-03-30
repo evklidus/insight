@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glass/glass.dart';
-import 'package:insight/components/insight_navigation_bar_item.dart';
+import 'package:insight/components/navigation_bars/insight_navigation_bar_item.dart';
 import 'package:insight/gen/assets.gen.dart';
 
 class InsightNavigationBar extends StatefulWidget {

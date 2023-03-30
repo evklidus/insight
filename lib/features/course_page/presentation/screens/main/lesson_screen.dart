@@ -1,13 +1,21 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insight/components/boxes/w_box.dart';
 import 'package:insight/features/course_page/presentation/widgets/close_icon.dart';
 import 'package:insight/features/course_page/presentation/widgets/lesson_video.dart';
 import 'package:insight/features/course_page/presentation/widgets/play_pause_button.dart';
 import 'package:video_player/video_player.dart';
 
 class LessonScreen extends StatefulWidget {
-  const LessonScreen({Key? key, required this.videoUrl}) : super(key: key);
+  const LessonScreen({
+    Key? key,
+    required this.videoUrl,
+    required this.title,
+  }) : super(key: key);
 
   final String videoUrl;
+  final String title;
 
   @override
   State<LessonScreen> createState() => _LessonScreenState();
@@ -21,7 +29,18 @@ class _LessonScreenState extends State<LessonScreen> {
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(widget.videoUrl);
-    _initializeVideoPlayerFuture = _controller.initialize();
+    _initializeVideoPlayerFuture = _controller.initialize().then(
+          (value) => _controller.addListener(
+            () {
+              final bool isEndOfVideo =
+                  _controller.value.position >= _controller.value.duration;
+
+              if (isEndOfVideo) {
+                context.router.pop();
+              }
+            },
+          ),
+        );
     _controller.play();
   }
 
@@ -42,7 +61,23 @@ class _LessonScreenState extends State<LessonScreen> {
               width: double.infinity,
               child: Column(
                 children: [
-                  const CloseIcon(),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 16.w,
+                      right: 16.w,
+                      top: 15.h,
+                    ),
+                    child: Row(
+                      children: [
+                        const CloseIcon(),
+                        WBox(10.w),
+                        Text(
+                          widget.title,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ],
+                    ),
+                  ),
                   const Spacer(
                     flex: 1,
                   ),
@@ -57,11 +92,9 @@ class _LessonScreenState extends State<LessonScreen> {
                     snapshot.connectionState,
                     _controller.value.isPlaying,
                     onTap: () {
-                      setState(() {
-                        _controller.value.isPlaying
-                            ? _controller.pause()
-                            : _controller.play();
-                      });
+                      _controller.value.isPlaying
+                          ? _controller.pause()
+                          : _controller.play();
                     },
                   ),
                   const Spacer(

@@ -11,10 +11,9 @@ class CategoriesScreenLoaded extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = context.read<CategoriesStore>();
     return Padding(
-      padding: EdgeInsets.only(
-        top: 16.h,
-        left: 16,
-        right: 16,
+      padding: EdgeInsets.symmetric(
+        vertical: 16.h,
+        horizontal: 16.w,
       ),
       child: GridView(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

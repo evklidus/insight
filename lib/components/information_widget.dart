@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insight/components/boxes/h_box.dart';
 import 'package:insight/components/boxes/w_padding_box.dart';
-import 'package:insight/core/constants/color_constants.dart';
 import 'package:insight/core/stores/entity_store.dart';
 import 'package:insight/utilities/load_states.dart';
 import 'package:provider/provider.dart';
@@ -16,50 +15,52 @@ class InformationWidget<T extends EntityStore> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = context.read<T>();
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: ColorConstants.grayWithOpacity,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: Assets.images.emptyImage.image(),
+    return SafeArea(
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.grey,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Assets.images.emptyImage.image(),
+              ),
             ),
-          ),
-          Text(
-            getTitle(loadState),
-            style: TextStyle(
-              fontSize: 21.sp,
-              color: Colors.white,
-            ),
-          ),
-          HBox(3.h),
-          WPaddingBox(
-            child: Text(
-              getText(loadState),
+            Text(
+              getTitle(loadState),
               style: TextStyle(
-                fontSize: 15.sp,
+                fontSize: 21.sp,
                 color: Colors.white,
               ),
-              textAlign: TextAlign.center,
             ),
-          ),
-          HBox(2.h),
-          if (store.reloadFunc != null)
-            TextButton(
-              child: const Text('Попробовать снова'),
-              onPressed: () {
-                store.reloadFunc!();
-              },
+            HBox(3.h),
+            WPaddingBox(
+              child: Text(
+                getText(loadState),
+                style: TextStyle(
+                  fontSize: 15.sp,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
-        ],
+            HBox(2.h),
+            if (store.reloadFunc != null)
+              TextButton(
+                child: const Text('Попробовать снова'),
+                onPressed: () {
+                  store.reloadFunc!();
+                },
+              ),
+          ],
+        ),
       ),
     );
   }

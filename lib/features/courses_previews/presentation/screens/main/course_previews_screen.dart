@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insight/components/app_bars/insight_app_bar_with_back_button.dart';
 import 'package:insight/core/builders/entity_builder.dart';
 import 'package:insight/features/courses_previews/presentation/screens/states/course_previews_screen_loaded.dart';
 import 'package:insight/features/courses_previews/presentation/store/courses_preview_store.dart';
@@ -26,9 +27,7 @@ class _CoursePreviewsScreenState extends State<CoursePreviewsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Курсы'),
-      ),
+      appBar: const InsightAppBarWithBackButton('Курсы'),
       body: Provider<CoursesPreviewStore>(
         create: (context) => coursePreviewsStore,
         builder: (context, _) {
