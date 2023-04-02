@@ -31,9 +31,11 @@ class LessonWidget extends StatelessWidget {
             icon: const Icon(CupertinoIcons.play_fill),
             iconSize: 30.sp,
             onPressed: () => context.pushRoute(
-              LessonRoute(
+              InsightPlayerRoute(
                 videoUrl: lesson.videoUrl,
                 title: lesson.name,
+                onVideoEnd: () => context.router.pop(),
+                onCloseButtonPressed: () => context.router.pop(),
               ),
             ),
           ),

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insight/components/boxes/w_padding_box.dart';
 import 'package:video_player/video_player.dart';
 
-class LessonVideo extends StatelessWidget {
-  const LessonVideo({
+class VideoWidget extends StatelessWidget {
+  const VideoWidget({
     Key? key,
     required this.connectionState,
     required this.controller,
@@ -15,7 +14,8 @@ class LessonVideo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WPaddingBox(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: AnimatedSwitcher(
         switchInCurve: Curves.easeInOut,
         duration: const Duration(milliseconds: 800),
