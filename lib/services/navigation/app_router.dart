@@ -5,9 +5,9 @@ import 'package:insight/components/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/features/categories/presentation/screens/main/categories_screen.dart';
 import 'package:insight/features/course_page/presentation/screens/main/course_page_screen.dart';
-import 'package:insight/features/course_page/presentation/screens/main/lesson_screen.dart';
 import 'package:insight/features/courses_previews/presentation/screens/main/course_previews_screen.dart';
 import 'package:insight/services/navigation/guards/internet_guard.dart';
+import 'package:insight_player/insight_player.dart';
 
 part 'app_router.gr.dart';
 
@@ -31,7 +31,8 @@ part 'app_router.gr.dart';
       guards: [InternetGuard],
     ),
     AutoRoute(
-      page: LessonScreen,
+      name: 'InsightPlayerRoute',
+      page: InsightPlayer,
       guards: [InternetGuard],
     ),
     CustomRoute(

@@ -26,11 +26,11 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
 
   @override
   void initState() {
+    super.initState();
     coursePageStore.loadCoursePage(widget.coursePageId);
     coursePageStore.loadState = LoadStates.loading;
     coursePageStore.reloadFunc =
         () => coursePageStore.loadCoursePage(widget.coursePageId);
-    super.initState();
   }
 
   @override

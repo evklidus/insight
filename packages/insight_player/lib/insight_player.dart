@@ -1,27 +1,29 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insight/components/boxes/w_box.dart';
-import 'package:insight/features/course_page/presentation/widgets/close_icon.dart';
-import 'package:insight/features/course_page/presentation/widgets/lesson_video.dart';
-import 'package:insight/features/course_page/presentation/widgets/play_pause_button.dart';
 import 'package:video_player/video_player.dart';
+import 'src/close_icon.dart';
+import 'src/play_pause_button.dart';
+import 'src/video_widget.dart';
 
-class LessonScreen extends StatefulWidget {
-  const LessonScreen({
+class InsightPlayer extends StatefulWidget {
+  const InsightPlayer({
     Key? key,
     required this.videoUrl,
     required this.title,
+    required this.onVideoEnd,
+    required this.onCloseButtonPressed,
   }) : super(key: key);
 
   final String videoUrl;
   final String title;
+  final VoidCallback onVideoEnd;
+  final VoidCallback onCloseButtonPressed;
 
   @override
-  State<LessonScreen> createState() => _LessonScreenState();
+  State<InsightPlayer> createState() => _InsightPlayerState();
 }
 
-class _LessonScreenState extends State<LessonScreen> {
+class _InsightPlayerState extends State<InsightPlayer> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
 
@@ -36,7 +38,7 @@ class _LessonScreenState extends State<LessonScreen> {
                   _controller.value.position >= _controller.value.duration;
 
               if (isEndOfVideo) {
-                context.router.pop();
+                widget.onVideoEnd();
               }
             },
           ),
@@ -46,8 +48,8 @@ class _LessonScreenState extends State<LessonScreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -69,8 +71,8 @@ class _LessonScreenState extends State<LessonScreen> {
                     ),
                     child: Row(
                       children: [
-                        const CloseIcon(),
-                        WBox(10.w),
+                        CloseIcon(widget.onCloseButtonPressed),
+                        SizedBox(width: 10.w),
                         Text(
                           widget.title,
                           style: Theme.of(context).textTheme.titleSmall,
@@ -81,7 +83,7 @@ class _LessonScreenState extends State<LessonScreen> {
                   const Spacer(
                     flex: 1,
                   ),
-                  LessonVideo(
+                  VideoWidget(
                     connectionState: snapshot.connectionState,
                     controller: _controller,
                   ),
