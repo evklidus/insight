@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insight_player/src/insight_slider.dart';
 import 'package:video_player/video_player.dart';
 import 'src/close_icon.dart';
 import 'src/play_pause_button.dart';
@@ -87,6 +88,10 @@ class _InsightPlayerState extends State<InsightPlayer> {
                     connectionState: snapshot.connectionState,
                     controller: _controller,
                   ),
+                  const Spacer(
+                    flex: 3,
+                  ),
+                  InsightSlider(_controller),
                   const Spacer(
                     flex: 3,
                   ),

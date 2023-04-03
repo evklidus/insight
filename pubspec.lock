@@ -358,6 +358,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bounce_widget:
+    dependency: "direct main"
+    description:
+      name: flutter_bounce_widget
+      sha256: "706f3bbc7a3feebf71cb40079a4880132dcda944d229611643189375853c9108"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   flutter_driver:
     dependency: transitive
     description: flutter
@@ -598,14 +606,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.6.1"
-  lint:
-    dependency: transitive
-    description:
-      name: lint
-      sha256: "5715d702a2c3b493e09ed9e223625f0fc1f75e04167e338133a4cef28b868c1f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.8.2"
   lints:
     dependency: transitive
     description:
@@ -931,14 +931,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  styled_widget:
-    dependency: "direct main"
-    description:
-      name: styled_widget
-      sha256: "7e6021ba204e6618724cf6294d2a5c6830841d34803fba8e7ffdb08510116fa1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.0+3"
   sync_http:
     dependency: transitive
     description:
