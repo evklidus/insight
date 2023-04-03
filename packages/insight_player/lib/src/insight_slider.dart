@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insight_player/src/custom_track_shape.dart';
 import 'package:video_player/video_player.dart';
 
 class InsightSlider extends StatefulWidget {
@@ -21,7 +22,7 @@ class _InsightSliderState extends State<InsightSlider> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(horizontal: 36.w),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -29,22 +30,24 @@ class _InsightSliderState extends State<InsightSlider> {
             valueListenable: widget.videoPlayerController,
             builder: (context, value, _) {
               return SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                  overlayShape: SliderComponentShape.noOverlay,
+                data: SliderThemeData(
+                  trackShape: CustomTrackShape(),
                 ),
                 child: Slider(
-                  value: value.position.inSeconds.toDouble(),
-                  min: 0.0,
-                  max: value.duration.inSeconds.toDouble(),
+                  onChangeStart: (_) => widget.videoPlayerController.pause(),
+                  onChangeEnd: (_) => widget.videoPlayerController.play(),
                   onChanged: (double value) {
                     widget.videoPlayerController
                         .seekTo(Duration(seconds: value.toInt()));
                   },
+                  value: value.position.inSeconds.toDouble(),
+                  min: 0,
+                  max: value.duration.inSeconds.toDouble(),
                 ),
               );
             },
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 5.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

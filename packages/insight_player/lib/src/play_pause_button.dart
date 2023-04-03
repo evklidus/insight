@@ -44,9 +44,7 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
         width: height,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(radius),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            alignment: Alignment.center,
+          child: Container(
             padding: EdgeInsets.all(radius),
             color: Theme.of(context).colorScheme.surface,
             child: AnimatedSwitcher(
