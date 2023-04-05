@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insight_player/src/insight_slider.dart';
 import 'package:video_player/video_player.dart';
 import 'src/close_icon.dart';
 import 'src/play_pause_button.dart';
@@ -59,51 +60,47 @@ class _InsightPlayerState extends State<InsightPlayer> {
         future: _initializeVideoPlayerFuture,
         builder: (context, snapshot) {
           return SafeArea(
-            child: SizedBox(
-              width: double.infinity,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 16.w,
-                      right: 16.w,
-                      top: 15.h,
-                    ),
-                    child: Row(
-                      children: [
-                        CloseIcon(widget.onCloseButtonPressed),
-                        SizedBox(width: 10.w),
-                        Text(
-                          widget.title,
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                      ],
-                    ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 16.w,
+                    right: 16.w,
+                    top: 15.h,
                   ),
-                  const Spacer(
-                    flex: 1,
+                  child: Row(
+                    children: [
+                      CloseIcon(widget.onCloseButtonPressed),
+                      SizedBox(width: 10.w),
+                      Text(
+                        widget.title,
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    ],
                   ),
-                  VideoWidget(
-                    connectionState: snapshot.connectionState,
-                    controller: _controller,
-                  ),
-                  const Spacer(
-                    flex: 3,
-                  ),
-                  PlayPauseButton(
-                    snapshot.connectionState,
-                    _controller.value.isPlaying,
-                    onTap: () {
-                      _controller.value.isPlaying
-                          ? _controller.pause()
-                          : _controller.play();
-                    },
-                  ),
-                  const Spacer(
-                    flex: 2,
-                  ),
-                ],
-              ),
+                ),
+                const Spacer(
+                  flex: 1,
+                ),
+                VideoWidget(
+                  connectionState: snapshot.connectionState,
+                  controller: _controller,
+                ),
+                const Spacer(
+                  flex: 3,
+                ),
+                InsightSlider(_controller),
+                const Spacer(
+                  flex: 3,
+                ),
+                PlayPauseButton(
+                  snapshot.connectionState,
+                  _controller,
+                ),
+                const Spacer(
+                  flex: 2,
+                ),
+              ],
             ),
           );
         },
