@@ -95,12 +95,7 @@ class _InsightPlayerState extends State<InsightPlayer> {
                 ),
                 PlayPauseButton(
                   snapshot.connectionState,
-                  _controller.value.isPlaying,
-                  onTap: () {
-                    _controller.value.isPlaying
-                        ? _controller.pause()
-                        : _controller.play();
-                  },
+                  _controller,
                 ),
                 const Spacer(
                   flex: 2,
