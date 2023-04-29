@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:insight/components/app_bars/insight_app_bar_with_back_button.dart';
-import 'package:insight/core/builders/entity_builder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insight/common/di/locator_service.dart';
+import 'package:insight/common/widgets/app_bars/insight_app_bar_with_back_button.dart';
+import 'package:insight/common/widgets/information_widget.dart';
+import 'package:insight/common/widgets/loadings/standart_loading.dart';
+import 'package:insight/features/course_page/presentation/bloc/course_page_bloc.dart';
 import 'package:insight/features/course_page/presentation/screens/states/course_page_screen_loaded.dart';
-import 'package:insight/features/course_page/presentation/store/course_page_store.dart';
-import 'package:insight/services/di/locator_service.dart';
-import 'package:insight/utilities/load_states.dart';
-import 'package:provider/provider.dart';
 
 class CoursePageScreen extends StatefulWidget {
   const CoursePageScreen({
@@ -22,28 +22,28 @@ class CoursePageScreen extends StatefulWidget {
 }
 
 class _CoursePageScreenState extends State<CoursePageScreen> {
-  final coursePageStore = getIt.get<CoursePageStore>();
+  final coursePageBloc = getIt.get<CoursePageBloc>();
 
   @override
   void initState() {
     super.initState();
-    coursePageStore.loadCoursePage(widget.coursePageId);
-    coursePageStore.loadState = LoadStates.loading;
-    coursePageStore.reloadFunc =
-        () => coursePageStore.loadCoursePage(widget.coursePageId);
+    coursePageBloc.add(CoursePageEvent.get(widget.coursePageId));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: InsightAppBarWithBackButton(widget.coursePageTitle),
-      body: Provider<CoursePageStore>(
-        create: (context) => coursePageStore,
-        builder: (context, _) {
-          return const EntityBuilder<CoursePageStore>(
-            loadedWidget: CoursePageScreenLoaded(),
-          );
-        },
+      body: BlocBuilder<CoursePageBloc, CoursePageState>(
+        bloc: coursePageBloc,
+        builder: (context, state) => state.when(
+          idle: () => InformationWidget.idle(),
+          loading: () => const StandartLoading(),
+          loaded: (coursePageEntity) => CoursePageScreenLoaded(
+            coursePageEntity: coursePageEntity,
+          ),
+          error: () => InformationWidget.error(),
+        ),
       ),
     );
   }

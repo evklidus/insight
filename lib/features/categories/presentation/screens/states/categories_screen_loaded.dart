@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insight/features/categories/presentation/stores/categories_store.dart';
+import 'package:insight/features/categories/domain/entities/category_entity.dart';
 import 'package:insight/features/categories/presentation/widgets/category_widget.dart';
-import 'package:provider/provider.dart';
 
 class CategoriesScreenLoaded extends StatelessWidget {
-  const CategoriesScreenLoaded({Key? key}) : super(key: key);
+  const CategoriesScreenLoaded({
+    Key? key,
+    required this.categories,
+  }) : super(key: key);
+
+  final List<CategoryEntity> categories;
 
   @override
   Widget build(BuildContext context) {
-    final store = context.read<CategoriesStore>();
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 16.h,
@@ -22,7 +25,7 @@ class CategoriesScreenLoaded extends StatelessWidget {
           crossAxisSpacing: 25.w,
           childAspectRatio: 168.w / 206.h,
         ),
-        children: store.entity!
+        children: categories
             .map(
               (category) => CategoryWidget(category),
             )

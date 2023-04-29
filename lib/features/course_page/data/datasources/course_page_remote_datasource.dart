@@ -1,5 +1,5 @@
 import 'package:insight/features/course_page/data/models/course_page_model.dart';
-import 'package:insight/services/http/rest_client.dart';
+import 'package:insight/common/http/rest_client.dart';
 
 abstract class CoursePageRemoteDataSource {
   Future<CoursePageModel?> getCoursePage(int id);
