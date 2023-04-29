@@ -19,7 +19,7 @@ class CoursePageRepositoryImpl implements CoursePageRepository {
   getCoursePage(int id) async {
     if (await networkInfo.isConnected) {
       try {
-        final CoursePageEntity? remoteData =
+        final CoursePageEntity remoteData =
             await remoteDataSource.getCoursePage(id);
         return Right(remoteData);
       } on ServerException {

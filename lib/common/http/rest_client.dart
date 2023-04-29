@@ -20,7 +20,7 @@ abstract class RestClient {
   );
 
   @GET(HttpConstants.getCoursePageById)
-  Future<CoursePageModel?> getCoursePage(
+  Future<CoursePageModel> getCoursePage(
     @Path('id') int id,
   );
 }

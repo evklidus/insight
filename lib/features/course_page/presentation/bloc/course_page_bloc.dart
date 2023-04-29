@@ -23,9 +23,7 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
     final coursePage = await getCoursePage(CoursePageParams(id: event.id));
     coursePage.fold(
       (failure) => emit(const CoursePageState.error()),
-      (coursePage) => coursePage != null
-          ? emit(CoursePageState.loaded(coursePage))
-          : emit(const CoursePageState.idle()),
+      (coursePage) => emit(CoursePageState.loaded(coursePage)),
     );
   }
 }
