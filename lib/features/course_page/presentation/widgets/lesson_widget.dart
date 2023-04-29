@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insight/features/course_page/domain/entities/lesson_entity.dart';
-import 'package:insight/services/navigation/app_router.dart';
+import 'package:insight/common/navigation/app_router.dart';
 
 class LessonWidget extends StatelessWidget {
   const LessonWidget(this.lesson, {Key? key}) : super(key: key);

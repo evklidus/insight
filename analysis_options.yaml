@@ -45,7 +45,7 @@ dart_code_metrics:
     - avoid-wrapping-in-padding
   rules-exclude:
     - test/**
-    - lib/firebase_options.dart
+    - lib/common/models/exceptions.dart
     - lib/generated_plugin_registrant.dart
 
 linter:

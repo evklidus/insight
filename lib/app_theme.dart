@@ -12,7 +12,7 @@ class AppTheme {
 
   // TODO: Fix ignore
   // ignore: long-method
-  ThemeData getDartTheme() {
+  ThemeData getDarkTheme() {
     const colorScheme = ColorScheme(
       brightness: Brightness.dark,
       primary: Color(0xff3965E3),

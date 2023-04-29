@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:insight/core/errors/failure.dart';
+import 'package:insight/common/models/failure.dart';
 
 abstract class UseCase<Type> {
   Future<Either<Failure, Type>> call();

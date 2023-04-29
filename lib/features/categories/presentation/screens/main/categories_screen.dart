@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:insight/core/builders/entity_builder.dart';
-import 'package:insight/core/constants/string_constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insight/common/di/locator_service.dart';
+import 'package:insight/common/widgets/information_widget.dart';
+import 'package:insight/common/widgets/loadings/standart_loading.dart';
+import 'package:insight/common/constants/string_constants.dart';
+import 'package:insight/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:insight/features/categories/presentation/screens/states/categories_screen_loaded.dart';
-import 'package:insight/features/categories/presentation/stores/categories_store.dart';
-import 'package:insight/services/di/locator_service.dart';
-import 'package:provider/provider.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({Key? key}) : super(key: key);
@@ -14,12 +15,12 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  final categoriesStore = getIt.get<CategoriesStore>();
+  final categoriesBloc = getIt.get<CategoriesBloc>();
 
   @override
   void initState() {
-    categoriesStore.loadEntity();
     super.initState();
+    categoriesBloc.add(const CategoriesEvent.get());
   }
 
   @override
@@ -31,13 +32,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
-      body: Provider<CategoriesStore>(
-        create: (context) => categoriesStore,
-        builder: (context, _) {
-          return const EntityBuilder<CategoriesStore>(
-            loadedWidget: CategoriesScreenLoaded(),
-          );
-        },
+      body: BlocBuilder<CategoriesBloc, CategoriesState>(
+        bloc: categoriesBloc,
+        builder: (context, state) => state.when(
+          idle: () => InformationWidget.idle(),
+          loading: () => const StandartLoading(),
+          loaded: (categories) => CategoriesScreenLoaded(
+            categories: categories,
+          ),
+          error: () => InformationWidget.error(),
+        ),
       ),
     );
   }
