@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insight/common/constants/app_strings.dart';
 import 'package:insight/common/di/locator_service.dart';
 import 'package:insight/common/widgets/app_bars/insight_app_bar_with_back_button.dart';
 import 'package:insight/common/widgets/information_widget.dart';
@@ -28,7 +29,7 @@ class _CoursePreviewsScreenState extends State<CoursePreviewsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const InsightAppBarWithBackButton('Курсы'),
+      appBar: const InsightAppBarWithBackButton(AppStrings.lessons),
       body: BlocBuilder<CoursePreviewsBloc, CoursePreviewsState>(
         bloc: coursePreviewsBloc,
         builder: (context, state) => state.when(
