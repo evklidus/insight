@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/common/di/locator_service.dart';
 import 'package:insight/common/widgets/information_widget.dart';
 import 'package:insight/common/widgets/loadings/standart_loading.dart';
-import 'package:insight/common/constants/string_constants.dart';
+import 'package:insight/common/constants/app_strings.dart';
 import 'package:insight/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:insight/features/categories/presentation/screens/states/categories_screen_loaded.dart';
 
@@ -28,7 +28,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          StringConstants.appName,
+          AppStrings.appName,
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),

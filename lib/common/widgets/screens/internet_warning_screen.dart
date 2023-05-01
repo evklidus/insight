@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/common/constants/app_strings.dart';
 import 'package:insight/common/di/locator_service.dart';
 import 'package:insight/common/http/network_info.dart';
 
@@ -24,7 +25,7 @@ class _InternetWarningScreenState extends State<InternetWarningScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Нет интернет соединения'),
+            const Text(AppStrings.noInternetConnection),
             IconButton(
               onPressed: () async {
                 final hasConnection = await networkInfo.isConnected;
@@ -37,7 +38,7 @@ class _InternetWarningScreenState extends State<InternetWarningScreen> {
             TextButton(
               onPressed: () => context.popRoute(),
               child: const Text(
-                'Отменить',
+                AppStrings.cancel,
                 style: TextStyle(color: Colors.black45),
               ),
             ),

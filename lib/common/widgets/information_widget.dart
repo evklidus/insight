@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insight/common/constants/app_strings.dart';
 import 'package:insight/common/widgets/boxes/h_box.dart';
 import 'package:insight/common/widgets/boxes/w_padding_box.dart';
 import 'package:insight/gen/assets.gen.dart';
@@ -16,8 +17,8 @@ class InformationWidget extends StatelessWidget {
   InformationWidget.idle({
     Key? key,
     String? imagePath,
-    this.title = 'Упс...',
-    this.description = 'Видимо объект забыли добавить, попробуйте позже',
+    this.title = AppStrings.oops,
+    this.description = AppStrings.itemForgot,
     this.reloadFunc,
   })  : imagePath = imagePath ?? Assets.images.emptyImage.path,
         super(key: key);
@@ -25,8 +26,8 @@ class InformationWidget extends StatelessWidget {
   InformationWidget.error({
     Key? key,
     String? imagePath,
-    this.title = 'Ошибка',
-    this.description = 'Что-то пошло не так, попробуйте позже',
+    this.title = AppStrings.error,
+    this.description = AppStrings.somethingWrong,
     this.reloadFunc,
   })  : imagePath = imagePath ?? Assets.images.errorImage.path,
         super(key: key);
@@ -77,10 +78,8 @@ class InformationWidget extends StatelessWidget {
             HBox(2.h),
             if (reloadFunc != null)
               TextButton(
-                child: const Text('Попробовать снова'),
-                onPressed: () {
-                  reloadFunc!();
-                },
+                onPressed: reloadFunc,
+                child: const Text(AppStrings.tryAgain),
               ),
           ],
         ),
