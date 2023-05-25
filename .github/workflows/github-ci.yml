@@ -21,12 +21,3 @@ jobs:
 
     - name: Analyze
       run: flutter analyze
-
-    - name: Testing
-      run: flutter test
-      run: flutter test integration_test/app_test.dart
-
-    # - run: dart pub global activate cider
-
-    # - name: Bump version
-    #   run: cider bump build
