@@ -16,22 +16,22 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
   final _appRouter = di.getIt<AppRouter>();
-  final appTheme = AppTheme();
-  final designSize = const Size(393, 852);
+  final _appTheme = AppTheme();
+  final _designSize = const Size(393, 852);
 
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
 
     return ScreenUtilInit(
-      designSize: designSize,
+      designSize: _designSize,
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, _) {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
-          theme: appTheme.getLightTheme(),
-          darkTheme: appTheme.getDarkTheme(),
+          theme: _appTheme.getLightTheme(),
+          darkTheme: _appTheme.getDarkTheme(),
           themeMode: ThemeMode.dark,
           routerDelegate: _appRouter.delegate(),
           routeInformationParser: _appRouter.defaultRouteParser(),

@@ -35,12 +35,20 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       body: BlocBuilder<CategoriesBloc, CategoriesState>(
         bloc: categoriesBloc,
         builder: (context, state) => state.when(
-          idle: () => InformationWidget.idle(),
+          idle: () => InformationWidget.idle(
+            reloadFunc: () => categoriesBloc.add(
+              const CategoriesEvent.get(),
+            ),
+          ),
           loading: () => const StandartLoading(),
           loaded: (categories) => CategoriesScreenLoaded(
             categories: categories,
           ),
-          error: () => InformationWidget.error(),
+          error: () => InformationWidget.error(
+            reloadFunc: () => categoriesBloc.add(
+              const CategoriesEvent.get(),
+            ),
+          ),
         ),
       ),
     );
