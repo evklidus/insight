@@ -37,12 +37,20 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
       body: BlocBuilder<CoursePageBloc, CoursePageState>(
         bloc: coursePageBloc,
         builder: (context, state) => state.when(
-          idle: () => InformationWidget.idle(),
+          idle: () => InformationWidget.idle(
+            reloadFunc: () => coursePageBloc.add(
+              CoursePageEvent.get(widget.coursePageId),
+            ),
+          ),
           loading: () => const StandartLoading(),
           loaded: (coursePageEntity) => CoursePageScreenLoaded(
             coursePageEntity: coursePageEntity,
           ),
-          error: () => InformationWidget.error(),
+          error: () => InformationWidget.error(
+            reloadFunc: () => coursePageBloc.add(
+              CoursePageEvent.get(widget.coursePageId),
+            ),
+          ),
         ),
       ),
     );

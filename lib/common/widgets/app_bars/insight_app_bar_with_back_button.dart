@@ -5,8 +5,11 @@ import 'package:insight/common/widgets/boxes/w_box.dart';
 
 class InsightAppBarWithBackButton extends StatelessWidget
     implements PreferredSizeWidget {
-  const InsightAppBarWithBackButton(this.title, {Key? key, this.onTap})
-      : super(key: key);
+  const InsightAppBarWithBackButton(
+    this.title, {
+    Key? key,
+    this.onTap,
+  }) : super(key: key);
 
   final String title;
   final Function? onTap;
@@ -14,25 +17,20 @@ class InsightAppBarWithBackButton extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 16.h, top: kToolbarHeight, bottom: 5.h),
+      padding: EdgeInsets.only(
+        left: 16.h,
+        top: kToolbarHeight,
+        bottom: 5.h,
+      ),
       child: Row(
         children: [
           RoundedBackIcon(
             onTap: onTap,
           ),
           WBox(15.w),
-          Hero(
-            tag: title,
-            child: Material(
-              color: Colors.transparent,
-              child: SizedBox(
-                width: 180.w,
-                child: Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              ),
-            ),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ],
       ),

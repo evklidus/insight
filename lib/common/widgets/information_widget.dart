@@ -11,7 +11,7 @@ class InformationWidget extends StatelessWidget {
     required this.imagePath,
     required this.title,
     required this.description,
-    this.reloadFunc,
+    required this.reloadFunc,
   }) : super(key: key);
 
   InformationWidget.idle({
@@ -19,7 +19,7 @@ class InformationWidget extends StatelessWidget {
     String? imagePath,
     this.title = AppStrings.oops,
     this.description = AppStrings.itemForgot,
-    this.reloadFunc,
+    required this.reloadFunc,
   })  : imagePath = imagePath ?? Assets.images.emptyImage.path,
         super(key: key);
 
@@ -28,14 +28,14 @@ class InformationWidget extends StatelessWidget {
     String? imagePath,
     this.title = AppStrings.error,
     this.description = AppStrings.somethingWrong,
-    this.reloadFunc,
+    required this.reloadFunc,
   })  : imagePath = imagePath ?? Assets.images.errorImage.path,
         super(key: key);
 
   final String imagePath;
   final String title;
   final String description;
-  final Function()? reloadFunc;
+  final Function() reloadFunc;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class InformationWidget extends StatelessWidget {
           color: Colors.grey,
           borderRadius: BorderRadius.circular(25),
         ),
-        margin: const EdgeInsets.symmetric(horizontal: 16),
+        margin: const EdgeInsets.all(16),
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
@@ -76,11 +76,10 @@ class InformationWidget extends StatelessWidget {
               ),
             ),
             HBox(2.h),
-            if (reloadFunc != null)
-              TextButton(
-                onPressed: reloadFunc,
-                child: const Text(AppStrings.tryAgain),
-              ),
+            TextButton(
+              onPressed: reloadFunc,
+              child: const Text(AppStrings.tryAgain),
+            ),
           ],
         ),
       ),

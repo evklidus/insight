@@ -29,16 +29,24 @@ class _CoursePreviewsScreenState extends State<CoursePreviewsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const InsightAppBarWithBackButton(AppStrings.lessons),
+      appBar: const InsightAppBarWithBackButton(AppStrings.courses),
       body: BlocBuilder<CoursePreviewsBloc, CoursePreviewsState>(
         bloc: coursePreviewsBloc,
         builder: (context, state) => state.when(
-          idle: () => InformationWidget.idle(),
+          idle: () => InformationWidget.idle(
+            reloadFunc: () => coursePreviewsBloc.add(
+              CoursePreviewsEvent.get(widget.categoryTag),
+            ),
+          ),
           loading: () => const StandartLoading(),
           loaded: (coursePreviews) => CoursePreviewsScreenLoaded(
             coursePreviews: coursePreviews,
           ),
-          error: () => InformationWidget.error(),
+          error: () => InformationWidget.error(
+            reloadFunc: () => coursePreviewsBloc.add(
+              CoursePreviewsEvent.get(widget.categoryTag),
+            ),
+          ),
         ),
       ),
     );
