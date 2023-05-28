@@ -2,12 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insight/common/widgets/boxes/w_box.dart';
+import 'package:insight/common/widgets/insight_image_widget.dart';
 import 'package:insight/features/course_previews/domain/entities/course_preview_entity.dart';
 import 'package:insight/common/navigation/app_router.dart';
 
 class CoursePreviewWidget extends StatelessWidget {
-  const CoursePreviewWidget({Key? key, required this.coursePreview})
-      : super(key: key);
+  const CoursePreviewWidget({
+    Key? key,
+    required this.coursePreview,
+  }) : super(key: key);
 
   final CoursePreviewEntity coursePreview;
 
@@ -34,14 +37,11 @@ class CoursePreviewWidget extends StatelessWidget {
         padding: EdgeInsets.all(13.r),
         child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15.r),
-              child: Image.network(
-                coursePreview.imageUrl,
-                width: imageWidth,
-                height: imageWidth,
-                fit: BoxFit.cover,
-              ),
+            InsightImageWidget(
+              coursePreview.imageUrl,
+              width: imageWidth,
+              height: imageWidth,
+              borderRadius: 15.r,
             ),
             WBox(13.w),
             Flexible(

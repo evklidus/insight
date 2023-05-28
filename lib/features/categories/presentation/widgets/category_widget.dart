@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
+import 'package:insight/common/widgets/insight_image_widget.dart';
 import 'package:insight/features/categories/domain/entities/category_entity.dart';
 import 'package:insight/common/navigation/app_router.dart';
 
@@ -16,24 +17,24 @@ class CategoryWidget extends StatelessWidget {
       onTap: () {
         context.pushRoute(CoursePreviewsRoute(categoryTag: category.tag));
       },
-      child: Container(
-        alignment: Alignment.bottomLeft,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          image: DecorationImage(
-            image: NetworkImage(category.imageUrl),
-            fit: BoxFit.cover,
+      child: Stack(
+        alignment: AlignmentDirectional.bottomStart,
+        children: [
+          InsightImageWidget(
+            category.imageUrl,
+            height: double.infinity,
+            borderRadius: 20.r,
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(8.r),
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-            child: Text(category.name),
-          ).asGlass(
-            clipBorderRadius: BorderRadius.circular(12.r),
+          Padding(
+            padding: EdgeInsets.all(8.r),
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+              child: Text(category.name),
+            ).asGlass(
+              clipBorderRadius: BorderRadius.circular(12.r),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
