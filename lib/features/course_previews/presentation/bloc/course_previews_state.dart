@@ -7,5 +7,6 @@ class CoursePreviewsState with _$CoursePreviewsState {
   const factory CoursePreviewsState.loaded(
     List<CoursePreviewEntity> coursePreviews,
   ) = CoursePreviewsLoadedState;
-  const factory CoursePreviewsState.error() = CoursePreviewsErrorState;
+  const factory CoursePreviewsState.error(String errorMsg) =
+      CoursePreviewsErrorState;
 }

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:insight/common/utilities/exception_to_message.dart';
 import 'package:insight/features/course_previews/domain/entities/course_preview_entity.dart';
 import 'package:insight/features/course_previews/domain/usecases/get_course_previews.dart';
 
@@ -21,17 +22,18 @@ class CoursePreviewsBloc
   }
 
   _get(Emitter<CoursePreviewsState> emit, GetCoursePreviewsEvent event) async {
-    emit(const CoursePreviewsState.loading());
-    final coursePreviews = await getCoursePreviews(
-      CoursePreviewsParams(
-        categoryTag: event.categoryTag,
-      ),
-    );
-    coursePreviews.fold(
-      (failure) => emit(const CoursePreviewsState.error()),
-      (coursePreviews) => coursePreviews.isNotEmpty
+    try {
+      emit(const CoursePreviewsState.loading());
+      final List<CoursePreviewEntity> coursePreviews = await getCoursePreviews(
+        CoursePreviewsParams(
+          categoryTag: event.categoryTag,
+        ),
+      );
+      coursePreviews.isNotEmpty
           ? emit(CoursePreviewsState.loaded(coursePreviews))
-          : emit(const CoursePreviewsState.idle()),
-    );
+          : emit(const CoursePreviewsState.idle());
+    } catch (e) {
+      emit(CoursePreviewsState.error(exceptionToMessage(e)));
+    }
   }
 }

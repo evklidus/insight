@@ -6,5 +6,5 @@ class CoursePageState with _$CoursePageState {
   const factory CoursePageState.loading() = CoursePageLoadingState;
   const factory CoursePageState.loaded(CoursePageEntity coursePage) =
       CoursePageLoadedState;
-  const factory CoursePageState.error() = CoursePageErrorState;
+  const factory CoursePageState.error(String errorMsg) = CoursePageErrorState;
 }

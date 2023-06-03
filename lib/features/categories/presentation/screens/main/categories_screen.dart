@@ -44,7 +44,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           loaded: (categories) => CategoriesScreenLoaded(
             categories: categories,
           ),
-          error: () => InformationWidget.error(
+          error: (errorMsg) => InformationWidget.error(
+            description: errorMsg,
             reloadFunc: () => categoriesBloc.add(
               const CategoriesEvent.get(),
             ),
