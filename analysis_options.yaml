@@ -24,7 +24,6 @@ dart_code_metrics:
     - avoid-unused-parameters
     - double-literal-format
     - no-boolean-literal-compare
-    - no-empty-block
     - no-equal-then-else
     - prefer-commenting-analyzer-ignores
     - prefer-conditional-expressions

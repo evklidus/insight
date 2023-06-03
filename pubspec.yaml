@@ -6,12 +6,11 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.16.2 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   auto_route: ^5.0.4
   cupertino_icons: ^1.0.2
-  dartz: ^0.10.1
   dio: ^5.1.1
   equatable: ^2.0.3
   flutter:
@@ -27,7 +26,6 @@ dependencies:
   glass: ^1.0.1+1
   insight_player:
     path: packages/insight_player
-  internet_connection_checker: ^1.0.0+1
   provider: ^6.0.3
   retrofit: ^4.0.1
   shimmer: ^2.0.0

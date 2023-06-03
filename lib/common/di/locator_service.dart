@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
-import 'package:insight/common/http/network_info.dart';
 import 'package:insight/features/categories/data/datasources/categories_remote_datasource.dart';
 import 'package:insight/features/categories/data/repositories/categories_repository_impl.dart';
 import 'package:insight/features/categories/domain/repositories/categories_repository.dart';
@@ -16,17 +15,15 @@ import 'package:insight/features/course_previews/data/repositories/courses_previ
 import 'package:insight/features/course_previews/domain/repositories/courses_preview_repository.dart';
 import 'package:insight/features/course_previews/domain/usecases/get_course_previews.dart';
 import 'package:insight/features/course_previews/presentation/bloc/course_previews_bloc.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:insight/common/http/rest_client.dart';
 import 'package:insight/common/navigation/app_router.dart';
-import 'package:insight/common/navigation/guards/internet_guard.dart';
 
 final getIt = GetIt.instance;
 
 void setup() {
   // Services
   getIt.registerSingleton<AppRouter>(
-    AppRouter(internetGuard: InternetGuard()),
+    AppRouter(),
   );
 
   // Bloc
@@ -49,19 +46,16 @@ void setup() {
   getIt.registerFactory<CategoriesRepository>(
     () => CategoriesRepositoryImpl(
       remoteDataSource: getIt(),
-      networkInfo: getIt(),
     ),
   );
   getIt.registerFactory<CoursesPreviewRepository>(
     () => CoursesPreviewRepositoryImpl(
       remoteDataSource: getIt(),
-      networkInfo: getIt(),
     ),
   );
   getIt.registerFactory<CoursePageRepository>(
     () => CoursePageRepositoryImpl(
       remoteDataSource: getIt(),
-      networkInfo: getIt(),
     ),
   );
 
@@ -76,12 +70,7 @@ void setup() {
     () => CoursePageRemoteDataSourceImpl(getIt()),
   );
 
-  getIt.registerLazySingleton<NetworkInfo>(
-    () => NetworkInfoImp(getIt()),
-  );
-
   final dio = Dio();
   final client = RestClient(dio);
   getIt.registerLazySingleton(() => client);
-  getIt.registerLazySingleton(() => InternetConnectionChecker());
 }

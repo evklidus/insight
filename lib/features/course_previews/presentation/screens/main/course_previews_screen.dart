@@ -42,7 +42,8 @@ class _CoursePreviewsScreenState extends State<CoursePreviewsScreen> {
           loaded: (coursePreviews) => CoursePreviewsScreenLoaded(
             coursePreviews: coursePreviews,
           ),
-          error: () => InformationWidget.error(
+          error: (errorMsg) => InformationWidget.error(
+            description: errorMsg,
             reloadFunc: () => coursePreviewsBloc.add(
               CoursePreviewsEvent.get(widget.categoryTag),
             ),

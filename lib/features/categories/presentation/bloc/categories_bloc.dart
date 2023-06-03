@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:insight/common/utilities/exception_to_message.dart';
 import 'package:insight/features/categories/domain/entities/category_entity.dart';
 import 'package:insight/features/categories/domain/usecases/get_categories.dart';
 
@@ -19,13 +20,14 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   }
 
   _get(Emitter<CategoriesState> emit) async {
-    emit(const CategoriesState.loading());
-    final categories = await getCategories();
-    categories.fold(
-      (failure) => emit(const CategoriesState.error()),
-      (categories) => categories.isNotEmpty
+    try {
+      emit(const CategoriesState.loading());
+      final List<CategoryEntity> categories = await getCategories();
+      categories.isNotEmpty
           ? emit(CategoriesState.loaded(categories))
-          : emit(const CategoriesState.idle()),
-    );
+          : emit(const CategoriesState.idle());
+    } catch (e) {
+      emit(CategoriesState.error(exceptionToMessage(e)));
+    }
   }
 }

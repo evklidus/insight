@@ -46,7 +46,8 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
           loaded: (coursePageEntity) => CoursePageScreenLoaded(
             coursePageEntity: coursePageEntity,
           ),
-          error: () => InformationWidget.error(
+          error: (errorMsg) => InformationWidget.error(
+            description: errorMsg,
             reloadFunc: () => coursePageBloc.add(
               CoursePageEvent.get(widget.coursePageId),
             ),
