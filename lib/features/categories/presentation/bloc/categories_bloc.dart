@@ -2,16 +2,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:insight/common/utilities/exception_to_message.dart';
 import 'package:insight/features/categories/domain/entities/category_entity.dart';
-import 'package:insight/features/categories/domain/usecases/get_categories.dart';
+import 'package:insight/features/categories/domain/repositories/categories_repository.dart';
 
 part 'categories_bloc.freezed.dart';
 part 'categories_event.dart';
 part 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
-  final GetCategories getCategories;
+  final CategoriesRepository categoriesRepository;
 
-  CategoriesBloc(this.getCategories) : super(const CategoriesState.idle()) {
+  CategoriesBloc(this.categoriesRepository)
+      : super(const CategoriesState.idle()) {
     on<CategoriesEvent>(
       (event, emit) => event.map(
         get: (event) => _get(emit),
@@ -22,7 +23,8 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   _get(Emitter<CategoriesState> emit) async {
     try {
       emit(const CategoriesState.loading());
-      final List<CategoryEntity> categories = await getCategories();
+      final List<CategoryEntity> categories =
+          await categoriesRepository.getCategories();
       categories.isNotEmpty
           ? emit(CategoriesState.loaded(categories))
           : emit(const CategoriesState.idle());

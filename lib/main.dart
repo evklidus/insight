@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insight/app_theme.dart';
-import 'package:insight/common/di/locator_service.dart' as di;
-import 'package:insight/common/navigation/app_router.dart';
+import 'package:insight/core/di/locator_service.dart' as di;
+import 'package:insight/core/navigation/app_router.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
