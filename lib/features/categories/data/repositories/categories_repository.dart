@@ -1,6 +1,9 @@
 import 'package:insight/features/categories/data/datasources/categories_remote_datasource.dart';
 import 'package:insight/features/categories/domain/entities/category_entity.dart';
-import 'package:insight/features/categories/domain/repositories/categories_repository.dart';
+
+abstract class CategoriesRepository {
+  Future<List<CategoryEntity>> getCategories();
+}
 
 class CategoriesRepositoryImpl implements CategoriesRepository {
   final CategoriesRemoteDataSource remoteDataSource;

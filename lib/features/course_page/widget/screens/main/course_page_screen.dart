@@ -4,8 +4,8 @@ import 'package:insight/core/di/locator_service.dart';
 import 'package:insight/common/widgets/app_bars/insight_app_bar_with_back_button.dart';
 import 'package:insight/common/widgets/information_widget.dart';
 import 'package:insight/common/widgets/loadings/standart_loading.dart';
-import 'package:insight/features/course_page/presentation/bloc/course_page_bloc.dart';
-import 'package:insight/features/course_page/presentation/screens/states/course_page_screen_loaded.dart';
+import 'package:insight/features/course_page/domain/bloc/course_page_bloc.dart';
+import 'package:insight/features/course_page/widget/screens/states/course_page_screen_loaded.dart';
 
 class CoursePageScreen extends StatefulWidget {
   const CoursePageScreen({

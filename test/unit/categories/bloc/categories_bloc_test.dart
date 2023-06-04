@@ -1,8 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:insight/features/categories/data/repositories/categories_repository.dart';
+import 'package:insight/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:insight/features/categories/domain/entities/category_entity.dart';
-import 'package:insight/features/categories/domain/repositories/categories_repository.dart';
-import 'package:insight/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -10,7 +10,7 @@ import 'categories_bloc_test.mocks.dart';
 
 class CategoryEntityFake extends Mock implements CategoryEntity {}
 
-@GenerateMocks([CategoriesRepository])
+@GenerateMocks([CategoriesRepositoryImpl])
 void main() {
   late CategoriesRepository categoriesRepository;
   final categories = [
@@ -20,7 +20,7 @@ void main() {
   ];
 
   setUp(() {
-    categoriesRepository = MockCategoriesRepository();
+    categoriesRepository = MockCategoriesRepositoryImpl();
   });
 
   blocTest(

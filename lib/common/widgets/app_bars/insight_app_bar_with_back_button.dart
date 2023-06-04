@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insight/common/widgets/rounded_back_icon.dart';
+import 'package:insight/common/widgets/rounded_back_button.dart';
 import 'package:insight/common/widgets/boxes/w_box.dart';
 
 class InsightAppBarWithBackButton extends StatelessWidget
@@ -24,7 +24,7 @@ class InsightAppBarWithBackButton extends StatelessWidget
       ),
       child: Row(
         children: [
-          RoundedBackIcon(
+          RoundedBackButton(
             onTap: onTap,
           ),
           WBox(15.w),

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/features/course_page/data/data_sources/course_page_remote_data_source.dart';
 import 'package:insight/features/course_page/data/models/course_page_model.dart';
-import 'package:insight/features/course_page/data/repositories/course_page_repository_impl.dart';
+import 'package:insight/features/course_page/data/repositories/course_page_repository.dart';
 import 'package:insight/features/course_page/domain/entities/course_page_entity.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

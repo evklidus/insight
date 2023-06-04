@@ -4,7 +4,7 @@ import 'package:insight/common/constants/app_strings.dart';
 import 'package:insight/common/widgets/boxes/h_box.dart';
 import 'package:insight/common/widgets/insight_image_widget.dart';
 import 'package:insight/features/course_page/domain/entities/course_page_entity.dart';
-import 'package:insight/features/course_page/presentation/widgets/lesson_widget.dart';
+import 'package:insight/features/course_page/widget/components/lesson_widget.dart';
 
 class CoursePageScreenLoaded extends StatefulWidget {
   const CoursePageScreenLoaded({
