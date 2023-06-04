@@ -1,4 +1,4 @@
-import 'package:insight/features/course_page/data/datasources/course_page_remote_datasource.dart';
+import 'package:insight/features/course_page/data/data_sources/course_page_remote_data_source.dart';
 import 'package:insight/features/course_page/domain/repositories/course_page_repository.dart';
 
 class CoursePageRepositoryImpl implements CoursePageRepository {
