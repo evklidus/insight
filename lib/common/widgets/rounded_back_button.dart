@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class RoundedBackIcon extends StatelessWidget {
-  const RoundedBackIcon({Key? key, this.onTap}) : super(key: key);
+class RoundedBackButton extends StatelessWidget {
+  const RoundedBackButton({Key? key, this.onTap}) : super(key: key);
 
   final Function? onTap;
 

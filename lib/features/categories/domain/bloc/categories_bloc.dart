@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:insight/common/utilities/exception_to_message.dart';
+import 'package:insight/features/categories/data/repositories/categories_repository.dart';
 import 'package:insight/features/categories/domain/entities/category_entity.dart';
-import 'package:insight/features/categories/domain/repositories/categories_repository.dart';
 
 part 'categories_bloc.freezed.dart';
 part 'categories_event.dart';

@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:insight/common/utilities/exception_to_message.dart';
 import 'package:insight/features/course_previews/domain/entities/course_preview_entity.dart';
-import 'package:insight/features/course_previews/domain/repositories/courses_preview_repository.dart';
+import 'package:insight/features/course_previews/data/repositories/courses_preview_repository.dart';
 
 part 'course_previews_bloc.freezed.dart';
 part 'course_previews_event.dart';

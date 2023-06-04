@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/features/course_previews/data/data_sources/course_previews_remote_data_source.dart';
 import 'package:insight/features/course_previews/data/models/course_preview_model.dart';
-import 'package:insight/features/course_previews/data/repositories/courses_preview_repository_impl.dart';
+import 'package:insight/features/course_previews/data/repositories/courses_preview_repository.dart';
 import 'package:insight/features/course_previews/domain/entities/course_preview_entity.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

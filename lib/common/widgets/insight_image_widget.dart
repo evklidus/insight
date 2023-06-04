@@ -26,6 +26,8 @@ class InsightImageWidget extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
+        fadeInDuration: const Duration(milliseconds: 250),
+        fadeOutDuration: const Duration(milliseconds: 500),
       ),
     );
   }

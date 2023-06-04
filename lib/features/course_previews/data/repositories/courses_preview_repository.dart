@@ -1,6 +1,9 @@
 import 'package:insight/features/course_previews/data/data_sources/course_previews_remote_data_source.dart';
 import 'package:insight/features/course_previews/domain/entities/course_preview_entity.dart';
-import 'package:insight/features/course_previews/domain/repositories/courses_preview_repository.dart';
+
+abstract class CoursesPreviewRepository {
+  Future<List<CoursePreviewEntity>> getCoursesPreview(String categoryTag);
+}
 
 class CoursesPreviewRepositoryImpl implements CoursesPreviewRepository {
   final CoursePreviewsRemoteDataSource remoteDataSource;

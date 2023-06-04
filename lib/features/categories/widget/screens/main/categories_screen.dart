@@ -4,8 +4,8 @@ import 'package:insight/core/di/locator_service.dart';
 import 'package:insight/common/widgets/information_widget.dart';
 import 'package:insight/common/widgets/loadings/standart_loading.dart';
 import 'package:insight/common/constants/app_strings.dart';
-import 'package:insight/features/categories/presentation/bloc/categories_bloc.dart';
-import 'package:insight/features/categories/presentation/screens/states/categories_screen_loaded.dart';
+import 'package:insight/features/categories/domain/bloc/categories_bloc.dart';
+import 'package:insight/features/categories/widget/screens/states/categories_screen_loaded.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({Key? key}) : super(key: key);

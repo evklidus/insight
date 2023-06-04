@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insight/common/widgets/boxes/h_box.dart';
 import 'package:insight/features/course_previews/domain/entities/course_preview_entity.dart';
-import 'package:insight/features/course_previews/presentation/widgets/course_preview_widget.dart';
+import 'package:insight/features/course_previews/widget/components/course_preview_widget.dart';
 
 class CoursePreviewsScreenLoaded extends StatelessWidget {
   const CoursePreviewsScreenLoaded({

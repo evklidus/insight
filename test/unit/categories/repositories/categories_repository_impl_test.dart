@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/features/categories/data/datasources/categories_remote_datasource.dart';
 import 'package:insight/features/categories/data/models/category_model.dart';
-import 'package:insight/features/categories/data/repositories/categories_repository_impl.dart';
+import 'package:insight/features/categories/data/repositories/categories_repository.dart';
 import 'package:insight/features/categories/domain/entities/category_entity.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
