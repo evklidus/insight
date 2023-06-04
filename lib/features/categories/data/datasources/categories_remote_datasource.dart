@@ -12,7 +12,6 @@ class CategoriesRemoteDataSourceImpl implements CategoriesRemoteDataSource {
 
   @override
   Future<List<CategoryModel>> getCategories() async {
-    final categories = await client.getCategories();
-    return categories;
+    return await client.getCategories();
   }
 }
