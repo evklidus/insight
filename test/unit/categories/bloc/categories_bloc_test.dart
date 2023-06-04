@@ -32,7 +32,7 @@ void main() {
     act: (bloc) => bloc.add(const CategoriesEvent.get()),
     expect: () => [
       isA<CategoriesLoadingState>(),
-      CategoriesLoadedState(categories),
+      CategoriesState.loaded(categories),
     ],
   );
 

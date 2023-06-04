@@ -10,8 +10,6 @@ import 'categories_repository_impl_test.mocks.dart';
 
 class CategoryModelFake extends Fake implements CategoryModel {}
 
-class CategoryEntityFake extends Fake implements CategoryEntity {}
-
 @GenerateMocks([CategoriesRemoteDataSource])
 void main() {
   late final CategoriesRepositoryImpl categoriesRepositoryImpl;
