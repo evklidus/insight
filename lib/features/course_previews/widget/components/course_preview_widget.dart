@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insight/common/widgets/boxes/w_box.dart';
 import 'package:insight/common/widgets/insight_image_widget.dart';
-import 'package:insight/features/course_previews/domain/entities/course_preview_entity.dart';
+import 'package:insight/features/course_previews/data/entities/course_preview_entity.dart';
 import 'package:insight/core/navigation/app_router.dart';
 
 class CoursePreviewWidget extends StatelessWidget {

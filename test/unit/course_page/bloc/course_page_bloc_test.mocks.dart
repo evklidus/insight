@@ -7,10 +7,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
+import 'package:insight/features/course_page/data/entities/course_page_entity.dart'
+    as _i2;
 import 'package:insight/features/course_page/data/repositories/course_page_repository.dart'
     as _i3;
-import 'package:insight/features/course_page/domain/entities/course_page_entity.dart'
-    as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint

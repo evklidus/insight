@@ -4,11 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insight/app_theme.dart';
 import 'package:insight/core/di/locator_service.dart' as di;
 import 'package:insight/core/navigation/app_router.dart';
+import 'package:insight/features/auth/widget/screens/main/auth_screen.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  di.setup();
+  await di.setup();
   runApp(MyApp());
 }
 
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.dark,
           routerDelegate: _appRouter.delegate(),
           routeInformationParser: _appRouter.defaultRouteParser(),
+          builder: (context, child) => AuthScreen(child!),
         );
       },
     );

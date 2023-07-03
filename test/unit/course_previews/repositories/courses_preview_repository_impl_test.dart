@@ -1,14 +1,26 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/features/course_previews/data/data_sources/course_previews_remote_data_source.dart';
-import 'package:insight/features/course_previews/data/models/course_preview_model.dart';
 import 'package:insight/features/course_previews/data/repositories/courses_preview_repository.dart';
-import 'package:insight/features/course_previews/domain/entities/course_preview_entity.dart';
+import 'package:insight/features/course_previews/data/entities/course_preview_entity.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:rest_client/rest_client.dart';
 
 import 'courses_preview_repository_impl_test.mocks.dart';
 
-class CoursePreviewModelFake extends Fake implements CoursePreviewModel {}
+class CoursePreviewDTOFake extends Fake implements CoursePreviewDTO {
+  @override
+  int get id => 1;
+
+  @override
+  String get name => 'name';
+
+  @override
+  String get imageUrl => 'imageUrl';
+
+  @override
+  String get tag => 'tag';
+}
 
 @GenerateMocks([CoursePreviewsRemoteDataSource])
 void main() {
@@ -16,9 +28,9 @@ void main() {
   late final mockCategoriesRemoteDataSource =
       MockCoursePreviewsRemoteDataSource();
   final coursePreviews = [
-    CoursePreviewModelFake(),
-    CoursePreviewModelFake(),
-    CoursePreviewModelFake(),
+    CoursePreviewDTOFake(),
+    CoursePreviewDTOFake(),
+    CoursePreviewDTOFake(),
   ];
   const categoryTag = 'sport';
 

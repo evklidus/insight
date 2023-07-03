@@ -1,8 +1,7 @@
-import 'package:insight/features/categories/data/models/category_model.dart';
-import 'package:insight/core/http/rest_client.dart';
+import 'package:rest_client/rest_client.dart';
 
 abstract class CategoriesRemoteDataSource {
-  Future<List<CategoryModel>> getCategories();
+  Future<List<CategoryDTO>> getCategories();
 }
 
 class CategoriesRemoteDataSourceImpl implements CategoriesRemoteDataSource {
@@ -11,7 +10,7 @@ class CategoriesRemoteDataSourceImpl implements CategoriesRemoteDataSource {
   CategoriesRemoteDataSourceImpl(this.client);
 
   @override
-  Future<List<CategoryModel>> getCategories() async {
+  Future<List<CategoryDTO>> getCategories() async {
     return await client.getCategories();
   }
 }

@@ -10,8 +10,6 @@ class AppTheme {
     );
   }
 
-  // TODO: Fix ignore
-  // ignore: long-method
   ThemeData getDarkTheme() {
     const colorScheme = ColorScheme(
       brightness: Brightness.dark,

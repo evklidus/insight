@@ -1,4 +1,5 @@
 class AppStrings {
+  // Common
   static const appName = 'Insight';
   static const oops = 'Упс...';
   static const itemForgot = 'Видимо объект забыли добавить, попробуйте позже';
@@ -9,4 +10,19 @@ class AppStrings {
   static const courses = 'Курсы';
   static const noInternetConnection = 'Нет интернет соединения';
   static const cancel = 'Отменить';
+
+  // Settings
+  static const exit = 'Выйти';
+  static const settings = 'Настройки';
+
+  // Auth
+  static const registration = 'Регистрация';
+  static const login = 'Логин';
+  static const password = 'Пароль';
+  static const register = 'Зарегистрироваться';
+  static const haveAnAccount = 'Есть аккаунт ?';
+  static const comeIn = 'Войти';
+  static const authorization = 'Авторизация';
+  static const pleaseEnterSomething = 'Пожалуйста, введите что-то';
+  static const dontHaveAnAccount = 'Нет аккаунта ?';
 }

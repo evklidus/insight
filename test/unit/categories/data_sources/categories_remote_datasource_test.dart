@@ -1,22 +1,21 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:insight/core/http/rest_client.dart';
 import 'package:insight/features/categories/data/datasources/categories_remote_datasource.dart';
-import 'package:insight/features/categories/data/models/category_model.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:rest_client/rest_client.dart';
 
 import 'categories_remote_datasource_test.mocks.dart';
 
-class CategoryModelFake extends Fake implements CategoryModel {}
+class CategoryDTOFake extends Fake implements CategoryDTO {}
 
 @GenerateMocks([RestClient])
 void main() {
   late final CategoriesRemoteDataSourceImpl categoriesRemoteDataSource;
   final MockRestClient mockRestClient = MockRestClient();
   final categories = [
-    CategoryModelFake(),
-    CategoryModelFake(),
-    CategoryModelFake(),
+    CategoryDTOFake(),
+    CategoryDTOFake(),
+    CategoryDTOFake(),
   ];
 
   setUpAll(() {
