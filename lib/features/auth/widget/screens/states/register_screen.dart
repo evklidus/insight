@@ -43,13 +43,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           const HBox(50),
           InsightTextField(
+            width: 300,
             hintText: AppStrings.login,
             onChanged: (value) => username = value,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return AppStrings.pleaseEnterSomething;
+              }
+              password = value;
+              return null;
+            },
           ),
           const HBox(20),
           InsightTextField(
+            width: 300,
             hintText: AppStrings.password,
             onChanged: (value) => password = value,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return AppStrings.pleaseEnterSomething;
+              }
+              password = value;
+              return null;
+            },
           ),
           const HBox(20),
           Column(

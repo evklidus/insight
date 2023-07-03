@@ -5,13 +5,13 @@ class InsightTextField extends StatelessWidget {
     super.key,
     this.hintText,
     this.onChanged,
-    this.width = 300,
     this.validator,
+    this.width,
   });
 
   final String? hintText;
   final void Function(String)? onChanged;
-  final double width;
+  final double? width;
   final String? Function(String?)? validator;
 
   @override
@@ -23,7 +23,7 @@ class InsightTextField extends StatelessWidget {
         child: TextFormField(
           onChanged: onChanged,
           validator: validator,
-          style: const TextStyle(color: Colors.black87),
+          style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
             border: InputBorder.none,
             fillColor: Colors.black54,

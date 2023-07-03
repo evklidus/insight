@@ -8,7 +8,7 @@ class AuthButton extends StatelessWidget {
   });
 
   final String title;
-  final void Function() onTap;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class AuthButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: 300,
-        height: 44,
+        height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Colors.black54,

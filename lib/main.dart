@@ -36,7 +36,17 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.dark,
           routerDelegate: _appRouter.delegate(),
           routeInformationParser: _appRouter.defaultRouteParser(),
-          builder: (context, child) => AuthScreen(child!),
+          /*
+          TODO: Выпилить этот MaterialApp.
+          Сейчас используется из-за ошибки "No Overlay widget found" при нажатии на TextField
+          */
+          builder: (context, child) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: _appTheme.getLightTheme(),
+            darkTheme: _appTheme.getDarkTheme(),
+            themeMode: ThemeMode.dark,
+            home: AuthScreen(child!),
+          ),
         );
       },
     );

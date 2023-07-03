@@ -43,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const HBox(50),
           InsightTextField(
+            width: 300,
             hintText: AppStrings.login,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -54,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const HBox(20),
           InsightTextField(
+            width: 300,
             hintText: AppStrings.password,
             validator: (value) {
               if (value == null || value.isEmpty) {
