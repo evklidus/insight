@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:insight/common/constants/app_strings.dart';
 import 'package:insight/common/widgets/boxes/h_box.dart';
 import 'package:insight/common/widgets/boxes/w_padding_box.dart';
@@ -59,23 +59,23 @@ class InformationWidget extends StatelessWidget {
             ),
             Text(
               title,
-              style: TextStyle(
-                fontSize: 21.sp,
+              style: const TextStyle(
+                fontSize: 21,
                 color: Colors.white,
               ),
             ),
-            HBox(3.h),
+            const HBox(3),
             WPaddingBox(
               child: Text(
                 description,
-                style: TextStyle(
-                  fontSize: 15.sp,
+                style: const TextStyle(
+                  fontSize: 15,
                   color: Colors.white,
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
-            HBox(2.h),
+            const HBox(2),
             TextButton(
               onPressed: reloadFunc,
               child: const Text(AppStrings.tryAgain),

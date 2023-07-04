@@ -465,14 +465,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.16"
-  flutter_screenutil:
-    dependency: "direct main"
-    description:
-      name: flutter_screenutil
-      sha256: "1b61f8c4cbf965104b6ca7160880ff1af6755aad7fec70b58444245132453745"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.8.4"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -1338,4 +1330,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.0.3 <4.0.0"
-  flutter: ">=3.10.0"
+  flutter: ">=3.7.0-0"

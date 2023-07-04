@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:insight_player/src/insight_slider.dart';
 import 'package:video_player/video_player.dart';
 import 'close_icon.dart';
@@ -63,15 +63,15 @@ class _InsightPlayerState extends State<InsightPlayer> {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(
-                    left: 16.w,
-                    right: 16.w,
-                    top: 15.h,
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    top: 15,
                   ),
                   child: Row(
                     children: [
                       CloseIcon(widget.onCloseButtonPressed),
-                      SizedBox(width: 10.w),
+                      const SizedBox(width: 10),
                       Text(
                         widget.title,
                         style: Theme.of(context).textTheme.titleSmall,

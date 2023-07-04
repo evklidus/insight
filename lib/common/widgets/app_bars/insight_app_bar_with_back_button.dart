@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:insight/common/widgets/rounded_back_button.dart';
 import 'package:insight/common/widgets/boxes/w_box.dart';
 
@@ -17,17 +17,17 @@ class InsightAppBarWithBackButton extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        left: 16.h,
+      padding: const EdgeInsets.only(
+        left: 16,
         top: kToolbarHeight,
-        bottom: 5.h,
+        bottom: 5,
       ),
       child: Row(
         children: [
           RoundedBackButton(
             onTap: onTap,
           ),
-          WBox(15.w),
+          const WBox(15),
           Text(
             title,
             style: Theme.of(context).textTheme.titleMedium,

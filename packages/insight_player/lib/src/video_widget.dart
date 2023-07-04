@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatelessWidget {
@@ -15,13 +15,13 @@ class VideoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: AnimatedSwitcher(
         switchInCurve: Curves.easeInOut,
         duration: const Duration(milliseconds: 800),
         child: connectionState == ConnectionState.done
             ? ClipRRect(
-                borderRadius: BorderRadius.circular(25.r),
+                borderRadius: BorderRadius.circular(25),
                 child: AspectRatio(
                   aspectRatio: controller.value.aspectRatio,
                   child: VideoPlayer(controller),

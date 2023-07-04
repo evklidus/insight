@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:video_player/video_player.dart';
 
 class PlayPauseButton extends StatefulWidget {
@@ -26,8 +26,6 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
     final iconColor = widget.connectionState == ConnectionState.done
         ? Theme.of(context).colorScheme.primary
         : Colors.grey;
-    final height = 75.w;
-    final radius = 20.r;
 
     return GestureDetector(
       onTap: () {
@@ -38,14 +36,14 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
         }
       },
       child: SizedBox(
-        height: height,
-        width: height,
+        height: 75,
+        width: 75,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(radius),
+          borderRadius: BorderRadius.circular(20),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 500),
             alignment: Alignment.center,
-            padding: EdgeInsets.all(radius),
+            padding: const EdgeInsets.all(20),
             color: Theme.of(context).colorScheme.surface,
             child: ValueListenableBuilder<VideoPlayerValue>(
               valueListenable: widget.videoPlayerController,
@@ -57,13 +55,13 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
                   child: value.isPlaying
                       ? Icon(
                           CupertinoIcons.pause_fill,
-                          size: 30.sp,
+                          size: 30,
                           color: iconColor,
                           key: const ValueKey('PauseIcon'),
                         )
                       : Icon(
                           CupertinoIcons.play_fill,
-                          size: 30.sp,
+                          size: 30,
                           color: iconColor,
                           key: const ValueKey('PlayIcon'),
                         ),
