@@ -9,9 +9,8 @@ import 'dart:async' as _i3;
 
 import 'package:insight/features/course_previews/data/data_sources/course_previews_remote_data_source.dart'
     as _i2;
-import 'package:insight/features/course_previews/data/models/course_preview_model.dart'
-    as _i4;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:rest_client/rest_client.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -34,14 +33,14 @@ class MockCoursePreviewsRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i3.Future<List<_i4.CoursePreviewModel>> getCoursePreviews(
+  _i3.Future<List<_i4.CoursePreviewDTO>> getCoursePreviews(
           String? categoryTag) =>
       (super.noSuchMethod(
         Invocation.method(
           #getCoursePreviews,
           [categoryTag],
         ),
-        returnValue: _i3.Future<List<_i4.CoursePreviewModel>>.value(
-            <_i4.CoursePreviewModel>[]),
-      ) as _i3.Future<List<_i4.CoursePreviewModel>>);
+        returnValue: _i3.Future<List<_i4.CoursePreviewDTO>>.value(
+            <_i4.CoursePreviewDTO>[]),
+      ) as _i3.Future<List<_i4.CoursePreviewDTO>>);
 }

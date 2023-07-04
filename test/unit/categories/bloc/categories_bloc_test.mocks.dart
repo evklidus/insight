@@ -9,10 +9,10 @@ import 'dart:async' as _i4;
 
 import 'package:insight/features/categories/data/datasources/categories_remote_datasource.dart'
     as _i2;
+import 'package:insight/features/categories/data/entities/category_entity.dart'
+    as _i5;
 import 'package:insight/features/categories/data/repositories/categories_repository.dart'
     as _i3;
-import 'package:insight/features/categories/domain/entities/category_entity.dart'
-    as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint

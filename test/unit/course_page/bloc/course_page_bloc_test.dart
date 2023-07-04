@@ -1,14 +1,14 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/features/course_page/data/repositories/course_page_repository.dart';
-import 'package:insight/features/course_page/domain/bloc/course_page_bloc.dart';
-import 'package:insight/features/course_page/domain/entities/course_page_entity.dart';
+import 'package:insight/features/course_page/bloc/course_page_bloc.dart';
+import 'package:insight/features/course_page/data/entities/course_page_entity.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'course_page_bloc_test.mocks.dart';
 
-class CoursePageEntityFake extends Mock implements CoursePageEntity {}
+class CoursePageEntityFake extends Fake implements CoursePageEntity {}
 
 @GenerateMocks([CoursePageRepository])
 void main() {

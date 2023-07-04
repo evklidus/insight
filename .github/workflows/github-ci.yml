@@ -13,11 +13,8 @@ jobs:
       with:
         channel: "stable"
 
-    - name: Get dependencies
-      run: flutter pub get
-
-    - name: Generating
-      run: flutter packages pub run build_runner build --delete-conflicting-outputs
+    - name: Get dependencies & generating
+      run: make get_all_dependencies
 
     - name: Analyze
       run: flutter analyze

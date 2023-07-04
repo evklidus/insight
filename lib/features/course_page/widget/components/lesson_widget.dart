@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insight/features/course_page/domain/entities/lesson_entity.dart';
+import 'package:insight/features/course_page/data/entities/lesson_entity.dart';
 import 'package:insight/core/navigation/app_router.dart';
 
 class LessonWidget extends StatelessWidget {

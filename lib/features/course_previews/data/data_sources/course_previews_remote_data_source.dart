@@ -1,8 +1,7 @@
-import 'package:insight/core/http/rest_client.dart';
-import 'package:insight/features/course_previews/data/models/course_preview_model.dart';
+import 'package:rest_client/rest_client.dart';
 
 abstract class CoursePreviewsRemoteDataSource {
-  Future<List<CoursePreviewModel>> getCoursePreviews(String categoryTag);
+  Future<List<CoursePreviewDTO>> getCoursePreviews(String categoryTag);
 }
 
 class CoursePreviewsRemoteDataSourceImpl
@@ -12,7 +11,7 @@ class CoursePreviewsRemoteDataSourceImpl
   CoursePreviewsRemoteDataSourceImpl(this.client);
 
   @override
-  Future<List<CoursePreviewModel>> getCoursePreviews(
+  Future<List<CoursePreviewDTO>> getCoursePreviews(
     String categoryTag,
   ) async {
     final coursePriviews =

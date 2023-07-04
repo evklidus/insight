@@ -1,22 +1,21 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:insight/core/http/rest_client.dart';
 import 'package:insight/features/course_previews/data/data_sources/course_previews_remote_data_source.dart';
-import 'package:insight/features/course_previews/data/models/course_preview_model.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:rest_client/rest_client.dart';
 
 import 'course_previews_remote_data_source_test.mocks.dart';
 
-class CoursePreviewModelFake extends Fake implements CoursePreviewModel {}
+class CoursePreviewDTOFake extends Fake implements CoursePreviewDTO {}
 
 @GenerateMocks([RestClient])
 void main() {
   late final CoursePreviewsRemoteDataSourceImpl coursePreviewsRemoteDataSource;
   final MockRestClient mockRestClient = MockRestClient();
   final coursePreviews = [
-    CoursePreviewModelFake(),
-    CoursePreviewModelFake(),
-    CoursePreviewModelFake(),
+    CoursePreviewDTOFake(),
+    CoursePreviewDTOFake(),
+    CoursePreviewDTOFake(),
   ];
   const categoryTag = 'sport';
 

@@ -19,7 +19,7 @@ class InformationWidget extends StatelessWidget {
     String? imagePath,
     this.title = AppStrings.oops,
     this.description = AppStrings.itemForgot,
-    required this.reloadFunc,
+    this.reloadFunc,
   })  : imagePath = imagePath ?? Assets.images.emptyImage.path,
         super(key: key);
 
@@ -35,7 +35,7 @@ class InformationWidget extends StatelessWidget {
   final String imagePath;
   final String title;
   final String description;
-  final Function() reloadFunc;
+  final Function()? reloadFunc;
 
   @override
   Widget build(BuildContext context) {

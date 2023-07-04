@@ -1,23 +1,32 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/features/categories/data/datasources/categories_remote_datasource.dart';
-import 'package:insight/features/categories/data/models/category_model.dart';
 import 'package:insight/features/categories/data/repositories/categories_repository.dart';
-import 'package:insight/features/categories/domain/entities/category_entity.dart';
+import 'package:insight/features/categories/data/entities/category_entity.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:rest_client/rest_client.dart';
 
 import 'categories_repository_impl_test.mocks.dart';
 
-class CategoryModelFake extends Fake implements CategoryModel {}
+class CategoryDTOFake extends Fake implements CategoryDTO {
+  @override
+  String get name => 'name';
+
+  @override
+  String get imageUrl => 'imageUrl';
+
+  @override
+  String get tag => 'tag';
+}
 
 @GenerateMocks([CategoriesRemoteDataSource])
 void main() {
   late final CategoriesRepositoryImpl categoriesRepositoryImpl;
   late final mockCategoriesRemoteDataSource = MockCategoriesRemoteDataSource();
   final models = [
-    CategoryModelFake(),
-    CategoryModelFake(),
-    CategoryModelFake(),
+    CategoryDTOFake(),
+    CategoryDTOFake(),
+    CategoryDTOFake(),
   ];
   setUpAll(() {
     categoriesRepositoryImpl = CategoriesRepositoryImpl(

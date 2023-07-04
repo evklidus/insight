@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insight/features/categories/domain/entities/category_entity.dart';
+import 'package:insight/features/categories/data/entities/category_entity.dart';
 import 'package:insight/features/categories/widget/components/category_widget.dart';
 
 class CategoriesScreenLoaded extends StatelessWidget {

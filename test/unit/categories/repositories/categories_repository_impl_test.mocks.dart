@@ -9,9 +9,8 @@ import 'dart:async' as _i3;
 
 import 'package:insight/features/categories/data/datasources/categories_remote_datasource.dart'
     as _i2;
-import 'package:insight/features/categories/data/models/category_model.dart'
-    as _i4;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:rest_client/rest_client.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -34,12 +33,12 @@ class MockCategoriesRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i3.Future<List<_i4.CategoryModel>> getCategories() => (super.noSuchMethod(
+  _i3.Future<List<_i4.CategoryDTO>> getCategories() => (super.noSuchMethod(
         Invocation.method(
           #getCategories,
           [],
         ),
         returnValue:
-            _i3.Future<List<_i4.CategoryModel>>.value(<_i4.CategoryModel>[]),
-      ) as _i3.Future<List<_i4.CategoryModel>>);
+            _i3.Future<List<_i4.CategoryDTO>>.value(<_i4.CategoryDTO>[]),
+      ) as _i3.Future<List<_i4.CategoryDTO>>);
 }

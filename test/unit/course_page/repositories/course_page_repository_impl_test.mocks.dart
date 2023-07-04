@@ -9,9 +9,8 @@ import 'dart:async' as _i4;
 
 import 'package:insight/features/course_page/data/data_sources/course_page_remote_data_source.dart'
     as _i3;
-import 'package:insight/features/course_page/data/models/course_page_model.dart'
-    as _i2;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:rest_client/rest_client.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -24,9 +23,8 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeCoursePageModel_0 extends _i1.SmartFake
-    implements _i2.CoursePageModel {
-  _FakeCoursePageModel_0(
+class _FakeCoursePageDTO_0 extends _i1.SmartFake implements _i2.CoursePageDTO {
+  _FakeCoursePageDTO_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -45,18 +43,17 @@ class MockCoursePageRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i4.Future<_i2.CoursePageModel> getCoursePage(int? id) => (super.noSuchMethod(
+  _i4.Future<_i2.CoursePageDTO> getCoursePage(int? id) => (super.noSuchMethod(
         Invocation.method(
           #getCoursePage,
           [id],
         ),
-        returnValue:
-            _i4.Future<_i2.CoursePageModel>.value(_FakeCoursePageModel_0(
+        returnValue: _i4.Future<_i2.CoursePageDTO>.value(_FakeCoursePageDTO_0(
           this,
           Invocation.method(
             #getCoursePage,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.CoursePageModel>);
+      ) as _i4.Future<_i2.CoursePageDTO>);
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
 import 'package:insight/common/widgets/insight_image_widget.dart';
-import 'package:insight/features/categories/domain/entities/category_entity.dart';
+import 'package:insight/features/categories/data/entities/category_entity.dart';
 import 'package:insight/core/navigation/app_router.dart';
 
 class CategoryWidget extends StatelessWidget {
