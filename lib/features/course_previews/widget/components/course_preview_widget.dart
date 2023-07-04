@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:insight/common/widgets/boxes/w_box.dart';
 import 'package:insight/common/widgets/insight_image_widget.dart';
 import 'package:insight/features/course_previews/data/entities/course_preview_entity.dart';
@@ -16,7 +16,6 @@ class CoursePreviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageWidth = 74.w;
     return GestureDetector(
       onTap: () {
         context.pushRoute(
@@ -27,23 +26,23 @@ class CoursePreviewWidget extends StatelessWidget {
         );
       },
       child: Container(
-        height: 100.h,
+        height: 100,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20.r),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20),
           ),
           color: Theme.of(context).colorScheme.surface,
         ),
-        padding: EdgeInsets.all(13.r),
+        padding: const EdgeInsets.all(13),
         child: Row(
           children: [
             InsightImageWidget(
               coursePreview.imageUrl,
-              width: imageWidth,
-              height: imageWidth,
-              borderRadius: 15.r,
+              width: 74,
+              height: 74,
+              borderRadius: 15,
             ),
-            WBox(13.w),
+            const WBox(13),
             Flexible(
               child: Text(
                 coursePreview.name,

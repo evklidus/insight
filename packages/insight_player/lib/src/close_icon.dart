@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CloseIcon extends StatelessWidget {
   const CloseIcon(this.onPressed, {Key? key}) : super(key: key);
@@ -9,16 +8,15 @@ class CloseIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = 36.w;
     return GestureDetector(
       onTap: onPressed,
       child: Container(
         alignment: Alignment.center,
-        width: width,
-        height: width,
+        width: 36,
+        height: 36,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(
-            10.r,
+            10,
           ),
           color: Theme.of(context).colorScheme.surface,
         ),
@@ -26,7 +24,7 @@ class CloseIcon extends StatelessWidget {
           String.fromCharCode(CupertinoIcons.xmark.codePoint),
           style: TextStyle(
             color: Theme.of(context).iconTheme.color,
-            fontSize: 20.sp,
+            fontSize: 20,
             fontWeight: FontWeight.w600,
             fontFamily: CupertinoIcons.xmark.fontFamily,
             package: CupertinoIcons.xmark.fontPackage,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:insight_player/src/custom_track_shape.dart';
 import 'package:video_player/video_player.dart';
 
@@ -22,7 +22,7 @@ class _InsightSliderState extends State<InsightSlider> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 36.w),
+      padding: const EdgeInsets.symmetric(horizontal: 36),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -47,7 +47,7 @@ class _InsightSliderState extends State<InsightSlider> {
               );
             },
           ),
-          SizedBox(height: 5.h),
+          const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-final _fonSize20 = 20.sp;
 
 class AppTheme {
   ThemeData getLightTheme() {
@@ -38,27 +35,27 @@ class AppTheme {
       textTheme: TextTheme(
         titleLarge: TextStyle(
           color: Colors.white,
-          fontSize: 40.sp,
+          fontSize: 40,
           shadows: [
             Shadow(
               color: colorScheme.primary,
-              blurRadius: 20.r,
+              blurRadius: 20,
             ),
           ],
         ),
-        titleMedium: TextStyle(
+        titleMedium: const TextStyle(
           color: Colors.white,
-          fontSize: _fonSize20,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
         ),
-        titleSmall: TextStyle(
+        titleSmall: const TextStyle(
           color: Colors.white,
-          fontSize: 17.sp,
+          fontSize: 17,
           fontWeight: FontWeight.w600,
         ),
-        bodyMedium: TextStyle(
+        bodyMedium: const TextStyle(
           color: Colors.white,
-          fontSize: _fonSize20,
+          fontSize: 20,
           fontWeight: FontWeight.normal,
         ),
       ),

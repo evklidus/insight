@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:insight/features/course_page/data/entities/lesson_entity.dart';
 import 'package:insight/core/navigation/app_router.dart';
 
@@ -14,11 +14,11 @@ class LessonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      height: 70.h,
-      padding: EdgeInsets.only(left: 15.w, right: 25.w),
+      height: 70,
+      padding: const EdgeInsets.only(left: 15, right: 25),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(20.r),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,7 +29,7 @@ class LessonWidget extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(CupertinoIcons.play_fill),
-            iconSize: 30.sp,
+            iconSize: 30,
             onPressed: () => context.pushRoute(
               InsightPlayerRoute(
                 videoUrl: lesson.videoUrl,

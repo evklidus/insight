@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:insight/app_theme.dart';
 import 'package:insight/core/di/locator_service.dart' as di;
 import 'package:insight/core/navigation/app_router.dart';
@@ -18,37 +18,29 @@ class MyApp extends StatelessWidget {
 
   final _appRouter = di.getIt<AppRouter>();
   final _appTheme = AppTheme();
-  final _designSize = const Size(393, 852);
 
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
 
-    return ScreenUtilInit(
-      designSize: _designSize,
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, _) {
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          theme: _appTheme.getLightTheme(),
-          darkTheme: _appTheme.getDarkTheme(),
-          themeMode: ThemeMode.dark,
-          routerDelegate: _appRouter.delegate(),
-          routeInformationParser: _appRouter.defaultRouteParser(),
-          /*
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      theme: _appTheme.getLightTheme(),
+      darkTheme: _appTheme.getDarkTheme(),
+      themeMode: ThemeMode.dark,
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
+      /*
           TODO: Выпилить этот MaterialApp.
           Сейчас используется из-за ошибки "No Overlay widget found" при нажатии на TextField
           */
-          builder: (context, child) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: _appTheme.getLightTheme(),
-            darkTheme: _appTheme.getDarkTheme(),
-            themeMode: ThemeMode.dark,
-            home: AuthScreen(child!),
-          ),
-        );
-      },
+      builder: (context, child) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: _appTheme.getLightTheme(),
+        darkTheme: _appTheme.getDarkTheme(),
+        themeMode: ThemeMode.dark,
+        home: AuthScreen(child!),
+      ),
     );
   }
 }

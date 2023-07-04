@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:glass/glass.dart';
 import 'package:insight/common/widgets/insight_image_widget.dart';
 import 'package:insight/features/categories/data/entities/category_entity.dart';
@@ -23,15 +23,15 @@ class CategoryWidget extends StatelessWidget {
           InsightImageWidget(
             category.imageUrl,
             height: double.infinity,
-            borderRadius: 20.r,
+            borderRadius: 20,
           ),
           Padding(
-            padding: EdgeInsets.all(8.r),
+            padding: const EdgeInsets.all(8),
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Text(category.name),
             ).asGlass(
-              clipBorderRadius: BorderRadius.circular(12.r),
+              clipBorderRadius: BorderRadius.circular(12),
             ),
           ),
         ],
