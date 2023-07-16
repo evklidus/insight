@@ -14,16 +14,16 @@ class CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.pushRoute(CoursePreviewsRoute(categoryTag: category.tag));
-      },
+      onTap: () => context.pushRoute(
+        CoursePreviewsRoute(categoryTag: category.tag),
+      ),
       child: Stack(
         alignment: AlignmentDirectional.bottomStart,
         children: [
           InsightImageWidget(
             category.imageUrl,
             height: double.infinity,
-            borderRadius: 20,
+            borderRadius: BorderRadius.circular(20),
           ),
           Padding(
             padding: const EdgeInsets.all(8),

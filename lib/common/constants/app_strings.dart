@@ -25,4 +25,7 @@ class AppStrings {
   static const authorization = 'Авторизация';
   static const pleaseEnterSomething = 'Пожалуйста, введите что-то';
   static const dontHaveAnAccount = 'Нет аккаунта ?';
+
+  // Profile
+  static const profile = 'Профиль';
 }

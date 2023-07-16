@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/common/widgets/information_widget.dart';
 import 'package:insight/common/widgets/loadings/standart_loading.dart';
-import 'package:insight/core/di/locator_service.dart';
+import 'package:insight/core/sl/locator_service.dart';
 import 'package:insight/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/features/auth/widget/screens/states/login_screen.dart';
 import 'package:insight/features/auth/widget/screens/states/register_screen.dart';

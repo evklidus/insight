@@ -19,4 +19,4 @@ coverage:
 	open coverage/html/index.html
 
 watch:
-	flutter pub run build_runner watch
+	dart run build_runner watch

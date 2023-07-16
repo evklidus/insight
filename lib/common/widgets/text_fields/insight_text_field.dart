@@ -23,7 +23,7 @@ class InsightTextField extends StatelessWidget {
         child: TextFormField(
           onChanged: onChanged,
           validator: validator,
-          style: const TextStyle(color: Colors.white),
+          style: Theme.of(context).textTheme.bodyMedium,
           decoration: InputDecoration(
             border: InputBorder.none,
             fillColor: Colors.black54,

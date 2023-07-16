@@ -28,10 +28,7 @@ class InsightAppBarWithBackButton extends StatelessWidget
             onTap: onTap,
           ),
           const WBox(15),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
+          Text(title),
         ],
       ),
     );

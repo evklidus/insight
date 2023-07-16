@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:rest_client/src/dto/category/category_dto.dart';
 import 'package:rest_client/src/dto/course_page/course_page_dto.dart';
 import 'package:rest_client/src/dto/course_previews/course_preview_dto.dart';
@@ -13,6 +14,7 @@ const _getCoursePreviewsByCategory = '/course_previews/{category}';
 const _getCoursePageById = '/course_pages/{id}';
 
 @RestApi(baseUrl: _baseUrl)
+@immutable
 abstract class RestClient {
   factory RestClient(
     Dio dio, {

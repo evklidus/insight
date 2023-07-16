@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/common/constants/app_strings.dart';
 import 'package:insight/common/widgets/boxes/h_box.dart';
-import 'package:insight/common/widgets/insight_text_field.dart';
+import 'package:insight/common/widgets/text_fields/insight_text_field.dart';
 import 'package:insight/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/features/auth/widget/components/auth_button.dart';
 import 'package:insight/features/auth/widget/components/change_auth_type_button.dart';

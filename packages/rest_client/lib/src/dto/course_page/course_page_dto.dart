@@ -1,9 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 import 'package:rest_client/src/dto/lesson/lesson_dto.dart';
 
 part 'course_page_dto.g.dart';
 
 @JsonSerializable()
+@immutable
 class CoursePageDTO {
   const CoursePageDTO({
     required this.id,

@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-import 'package:insight/app_theme.dart';
-import 'package:insight/core/di/locator_service.dart' as di;
+import 'package:insight/core/theme/insight_theme.dart';
+import 'package:insight/core/sl/locator_service.dart' as sl;
 import 'package:insight/core/navigation/app_router.dart';
 import 'package:insight/features/auth/widget/screens/main/auth_screen.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await di.setup();
+  await sl.setup();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
-  final _appRouter = di.getIt<AppRouter>();
-  final _appTheme = AppTheme();
+  final _appRouter = sl.getIt<AppRouter>();
+  final _appTheme = InsightTheme();
 
   @override
   Widget build(BuildContext context) {

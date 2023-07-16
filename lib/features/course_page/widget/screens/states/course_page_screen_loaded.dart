@@ -34,7 +34,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageScreenLoaded> {
               widget.coursePageEntity.imageUrl,
               height: 190,
               width: double.infinity,
-              borderRadius: 30,
+              borderRadius: BorderRadius.circular(30),
             ),
             const HBox(20),
             Text(

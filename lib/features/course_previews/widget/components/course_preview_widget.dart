@@ -40,7 +40,7 @@ class CoursePreviewWidget extends StatelessWidget {
               coursePreview.imageUrl,
               width: 74,
               height: 74,
-              borderRadius: 15,
+              borderRadius: BorderRadius.circular(15),
             ),
             const WBox(13),
             Flexible(
