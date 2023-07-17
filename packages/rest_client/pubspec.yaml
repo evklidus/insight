@@ -3,7 +3,7 @@ description: Rest client
 version: 0.0.1
 
 environment:
-  sdk: '>=3.0.3 <4.0.0'
+  sdk: ">=3.0.3 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -12,6 +12,7 @@ dependencies:
   dio: ^5.1.1
   retrofit: ^4.0.1
   json_annotation: ^4.8.1
+  meta: ^1.9.1
 
 dev_dependencies:
   flutter_test:

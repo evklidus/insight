@@ -35,7 +35,7 @@ dependencies:
   database:
     path: packages/database
   dio: ^5.1.1
-  
+  meta: ^1.9.1
 
 dev_dependencies:
   auto_route_generator: ^5.0.2

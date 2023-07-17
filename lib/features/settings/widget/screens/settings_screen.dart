@@ -1,6 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/common/constants/app_strings.dart';
+import 'package:insight/common/widgets/boxes/h_box.dart';
+import 'package:insight/core/navigation/app_router.dart';
 import 'package:insight/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/features/settings/widget/components/setting_row.dart';
 
@@ -37,6 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         child: Column(
           children: [
+            // Sign Out
             SettingRow(
               title: AppStrings.exit,
               icon: const Icon(
@@ -44,6 +48,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.redAccent,
               ),
               onTap: () => authBloc.add(const AuthEvent.logout()),
+            ),
+            const HBox(20),
+            // Profile
+            SettingRow(
+              title: AppStrings.profile,
+              icon: const Icon(
+                Icons.person_2_rounded,
+                color: Colors.blueGrey,
+              ),
+              onTap: () => context.pushRoute(const ProfileRoute()),
             ),
           ],
         ),

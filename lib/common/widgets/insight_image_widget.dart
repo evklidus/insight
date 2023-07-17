@@ -8,26 +8,34 @@ class InsightImageWidget extends StatelessWidget {
     this.width,
     this.height,
     this.borderRadius,
+    this.shape = BoxShape.rectangle,
     this.fit = BoxFit.cover,
   }) : super(key: key);
 
   final String imageUrl;
   final double? width;
   final double? height;
-  final double? borderRadius;
+  final BorderRadius? borderRadius;
+  final BoxShape shape;
   final BoxFit fit;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(borderRadius ?? 0),
-      child: CachedNetworkImage(
-        imageUrl: imageUrl,
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      fadeInDuration: const Duration(milliseconds: 250),
+      fadeOutDuration: const Duration(milliseconds: 500),
+      imageBuilder: (context, imageProvider) => Container(
         width: width,
         height: height,
-        fit: fit,
-        fadeInDuration: const Duration(milliseconds: 250),
-        fadeOutDuration: const Duration(milliseconds: 500),
+        decoration: BoxDecoration(
+          borderRadius: borderRadius,
+          shape: shape,
+          image: DecorationImage(
+            image: imageProvider,
+            fit: fit,
+          ),
+        ),
       ),
     );
   }

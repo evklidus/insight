@@ -1,13 +1,32 @@
-class UserDTO {
-  final String username;
+import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
-  UserDTO({
+part 'user_dto.g.dart';
+
+@JsonSerializable()
+@immutable
+class UserDTO {
+  const UserDTO({
+    this.id,
     required this.username,
+    this.email,
+    this.avatarUrl,
+    this.firstName,
+    this.lastName,
   });
 
-  factory UserDTO.fromJson(Map<String, dynamic> json) {
-    return UserDTO(
-      username: json['user']['username'],
-    );
-  }
+  final int? id;
+  final String username;
+  final String? email;
+  @JsonKey(name: 'avatar_url')
+  final String? avatarUrl;
+  @JsonKey(name: 'first_name')
+  final String? firstName;
+  @JsonKey(name: 'last_name')
+  final String? lastName;
+
+  factory UserDTO.fromJson(Map<String, Object?> json) =>
+      _$UserDTOFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserDTOToJson(this);
 }

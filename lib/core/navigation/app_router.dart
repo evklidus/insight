@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:insight/features/categories/widget/screens/main/categories_screen.dart';
 import 'package:insight/features/course_page/widget/screens/main/course_page_screen.dart';
 import 'package:insight/features/course_previews/widget/screens/main/course_previews_screen.dart';
+import 'package:insight/features/profile/widget/screens/main/profile_screen.dart';
 import 'package:insight/features/settings/widget/screens/settings_screen.dart';
 import 'package:insight_player/insight_player.dart';
 
@@ -31,6 +32,9 @@ part 'app_router.gr.dart';
     AutoRoute(
       name: 'InsightPlayerRoute',
       page: InsightPlayer,
+    ),
+    AutoRoute(
+      page: ProfileScreen,
     ),
   ],
 )

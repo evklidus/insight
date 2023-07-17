@@ -4,7 +4,9 @@ import 'package:retrofit/retrofit.dart';
 
 part 'auth_client.g.dart';
 
-const _baseUrl = 'http://0.0.0.0:8080';
+const _apiVersion = '/v1';
+const _prefix = '/auth';
+const _baseUrl = 'http://0.0.0.0:8080$_apiVersion$_prefix';
 
 @RestApi(baseUrl: _baseUrl)
 abstract class AuthClient {

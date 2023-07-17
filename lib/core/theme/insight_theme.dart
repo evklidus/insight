@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppTheme {
+final class InsightTheme {
   ThemeData getLightTheme() {
     return ThemeData.light(
       useMaterial3: true,
@@ -34,7 +34,7 @@ class AppTheme {
       ),
       textTheme: TextTheme(
         titleLarge: TextStyle(
-          color: Colors.white,
+          color: colorScheme.onBackground,
           fontSize: 40,
           shadows: [
             Shadow(
@@ -43,20 +43,20 @@ class AppTheme {
             ),
           ],
         ),
-        titleMedium: const TextStyle(
-          color: Colors.white,
+        bodyLarge: TextStyle(
+          color: colorScheme.onBackground,
+          fontSize: 32,
+          fontWeight: FontWeight.w500,
+        ),
+        bodyMedium: TextStyle(
+          color: colorScheme.onBackground,
           fontSize: 20,
           fontWeight: FontWeight.w600,
         ),
-        titleSmall: const TextStyle(
-          color: Colors.white,
+        bodySmall: TextStyle(
+          color: colorScheme.onBackground,
           fontSize: 17,
-          fontWeight: FontWeight.w600,
-        ),
-        bodyMedium: const TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.normal,
+          fontWeight: FontWeight.w400,
         ),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(

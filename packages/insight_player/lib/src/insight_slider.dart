@@ -47,7 +47,6 @@ class _InsightSliderState extends State<InsightSlider> {
               );
             },
           ),
-          const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -58,7 +57,6 @@ class _InsightSliderState extends State<InsightSlider> {
                     formatSeconds(
                       value.position.inSeconds,
                     ),
-                    style: Theme.of(context).textTheme.titleSmall,
                   );
                 },
               ),
@@ -66,7 +64,6 @@ class _InsightSliderState extends State<InsightSlider> {
                 formatSeconds(
                   widget.videoPlayerController.value.duration.inSeconds,
                 ),
-                style: Theme.of(context).textTheme.titleSmall,
               ),
             ],
           ),

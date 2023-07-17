@@ -1,8 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'lesson_dto.g.dart';
 
 @JsonSerializable()
+@immutable
 class LessonDTO {
   const LessonDTO({
     required this.name,
