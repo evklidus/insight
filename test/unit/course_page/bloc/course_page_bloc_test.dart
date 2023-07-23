@@ -1,36 +1,38 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:insight/features/course_page/data/repositories/course_page_repository.dart';
-import 'package:insight/features/course_page/bloc/course_page_bloc.dart';
-import 'package:insight/features/course_page/data/entities/course_page_entity.dart';
+import 'package:insight/src/features/course_page/data/course_page_repository.dart';
+import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
+import 'package:insight/src/features/course_page/model/course_page.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'course_page_bloc_test.mocks.dart';
 
-class CoursePageEntityFake extends Fake implements CoursePageEntity {}
-
 @GenerateMocks([CoursePageRepository])
 void main() {
   late CoursePageRepository coursePageRepository;
-  final coursePageEntity = CoursePageEntityFake();
   const coursePageId = 1;
+  const coursePage = CoursePage(
+    id: coursePageId,
+    imageUrl: 'imageUrl',
+    lessons: [],
+  );
 
   setUp(() {
     coursePageRepository = MockCoursePageRepository();
   });
 
   blocTest(
-    'emits [CategoriesLoadedState] with [List<CategoryEntity>] when CategoriesEvent.get() is added',
+    'emits [CategoriesLoadedState] with [List<Category>] when CategoriesEvent.get() is added',
     build: () => CoursePageBloc(coursePageRepository),
     setUp: () =>
         when(coursePageRepository.getCoursePage(coursePageId)).thenAnswer(
-      (_) async => coursePageEntity,
+      (_) async => coursePage,
     ),
     act: (bloc) => bloc.add(const CoursePageEvent.get(coursePageId)),
     expect: () => [
       isA<CoursePageState>(),
-      CoursePageState.loaded(coursePageEntity),
+      CoursePageState.loaded(coursePage),
     ],
   );
 

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:insight/features/course_page/data/data_sources/course_page_remote_data_source.dart';
+import 'package:insight/src/features/course_page/data/course_page_network_data_provider.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rest_client/rest_client.dart';
@@ -10,14 +10,15 @@ class CoursePageDTOFake extends Fake implements CoursePageDTO {}
 
 @GenerateMocks([RestClient])
 void main() {
-  late final CoursePageRemoteDataSourceImpl coursePageRemoteDataSourceImpl;
+  late final CoursePageNetworkDataProviderImpl
+      coursePageNetworkDataProviderImpl;
   final MockRestClient mockRestClient = MockRestClient();
   final coursePage = CoursePageDTOFake();
   const coursePageId = 1;
 
   setUpAll(() {
-    coursePageRemoteDataSourceImpl =
-        CoursePageRemoteDataSourceImpl(mockRestClient);
+    coursePageNetworkDataProviderImpl =
+        CoursePageNetworkDataProviderImpl(mockRestClient);
   });
 
   test(
@@ -27,7 +28,7 @@ void main() {
       (_) async => coursePage,
     );
     expect(
-      coursePageRemoteDataSourceImpl.getCoursePage(coursePageId),
+      coursePageNetworkDataProviderImpl.getCoursePage(coursePageId),
       completion(coursePage),
     );
   });
@@ -39,7 +40,7 @@ void main() {
       (_) => throw Exception(),
     );
     expect(
-      coursePageRemoteDataSourceImpl.getCoursePage(coursePageId),
+      coursePageNetworkDataProviderImpl.getCoursePage(coursePageId),
       throwsException,
     );
   });

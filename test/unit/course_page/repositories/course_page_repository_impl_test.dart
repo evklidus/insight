@@ -1,57 +1,44 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:insight/features/course_page/data/data_sources/course_page_remote_data_source.dart';
-import 'package:insight/features/course_page/data/repositories/course_page_repository.dart';
-import 'package:insight/features/course_page/data/entities/course_page_entity.dart';
+import 'package:insight/src/features/course_page/data/course_page_network_data_provider.dart';
+import 'package:insight/src/features/course_page/data/course_page_repository.dart';
+import 'package:insight/src/features/course_page/model/course_page.dart';
+import 'package:insight/src/features/course_page/model/lesson.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:rest_client/rest_client.dart';
 
 import 'course_page_repository_impl_test.mocks.dart';
 
-class CoursePageDTOFake extends Fake implements CoursePageDTO {
-  @override
-  int get id => 1;
-
-  @override
-  String get imageUrl => 'imageUrl';
-
-  @override
-  List<LessonDTO> get lessons => [
-        const LessonDTO(
-          name: 'name',
-          videoUrl: 'videoUrl',
-        ),
-      ];
-}
-
-@GenerateMocks([CoursePageRemoteDataSource])
+@GenerateMocks([CoursePageNetworkDataProvider])
 void main() {
   late final CoursePageRepositoryImpl coursePageRepositoryImpl;
-  late final remoteDataSource = MockCoursePageRemoteDataSource();
-  final coursePageDTO = CoursePageDTOFake();
+  late final networkDataProvider = MockCoursePageNetworkDataProvider();
   const coursePageId = 1;
+  const coursePage = CoursePage(
+      id: coursePageId,
+      imageUrl: 'imageUrl',
+      lessons: [Lesson(name: 'name', videoUrl: 'videoUrl')]);
 
   setUpAll(() {
     coursePageRepositoryImpl = CoursePageRepositoryImpl(
-      remoteDataSource: remoteDataSource,
+      networkDataProvider: networkDataProvider,
     );
   });
   test(
-      'get a Categories if remoteDataSource.getCategories completes successfully',
+      'get a Categories if networkDataProvider.getCategories completes successfully',
       () {
-    when(remoteDataSource.getCoursePage(coursePageId)).thenAnswer(
-      (_) async => coursePageDTO,
+    when(networkDataProvider.getCoursePage(coursePageId)).thenAnswer(
+      (_) async => coursePage,
     );
     expect(
       coursePageRepositoryImpl.getCoursePage(coursePageId),
-      isA<Future<CoursePageEntity>>(),
+      isA<Future<CoursePage>>(),
     );
   });
 
   test(
-      'throw an exception if remoteDataSource.getCategories completes with error',
+      'throw an exception if networkDataProvider.getCategories completes with error',
       () {
-    when(remoteDataSource.getCoursePage(coursePageId)).thenAnswer(
+    when(networkDataProvider.getCoursePage(coursePageId)).thenAnswer(
       (_) => throw Exception(),
     );
     expect(

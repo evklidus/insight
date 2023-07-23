@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-import 'package:insight/core/theme/insight_theme.dart';
-import 'package:insight/core/sl/locator_service.dart' as sl;
-import 'package:insight/core/navigation/app_router.dart';
-import 'package:insight/features/auth/widget/screens/main/auth_screen.dart';
+import 'package:insight/src/core/theme/insight_theme.dart';
+import 'package:insight/src/core/sl/locator_service.dart' as sl;
+import 'package:insight/src/core/navigation/app_router.dart';
+import 'package:insight/src/features/auth/widget/screens/main/auth_screen.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
