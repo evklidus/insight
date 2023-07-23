@@ -1,10 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/extensions/go_relative_named.dart';
 
 import 'package:insight/src/common/widgets/boxes/w_box.dart';
 import 'package:insight/src/common/widgets/insight_image_widget.dart';
 import 'package:insight/src/features/course_previews/model/course_preview.dart';
-import 'package:insight/src/core/navigation/app_router.dart';
 
 class CoursePreviewWidget extends StatelessWidget {
   const CoursePreviewWidget({
@@ -17,14 +16,13 @@ class CoursePreviewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.pushRoute(
-          CoursePageRoute(
-            coursePageId: coursePreview.id,
-            coursePageTitle: coursePreview.name,
-          ),
-        );
-      },
+      onTap: () => context.goRelativeNamed(
+        'page',
+        pathParameters: {
+          'coursePageId': coursePreview.id.toString(),
+        },
+        extra: coursePreview.name,
+      ),
       child: Container(
         height: 100,
         decoration: BoxDecoration(

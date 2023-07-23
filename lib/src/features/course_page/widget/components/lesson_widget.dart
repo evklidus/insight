@@ -1,9 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/extensions/go_relative_named.dart';
 
 import 'package:insight/src/features/course_page/model/lesson.dart';
-import 'package:insight/src/core/navigation/app_router.dart';
 
 class LessonWidget extends StatelessWidget {
   const LessonWidget(this.lesson, {Key? key}) : super(key: key);
@@ -30,13 +29,12 @@ class LessonWidget extends StatelessWidget {
           IconButton(
             icon: const Icon(CupertinoIcons.play_fill),
             iconSize: 30,
-            onPressed: () => context.pushRoute(
-              InsightPlayerRoute(
-                videoUrl: lesson.videoUrl,
-                title: lesson.name,
-                onVideoEnd: () => context.router.pop(),
-                onCloseButtonPressed: () => context.router.pop(),
-              ),
+            onPressed: () => context.goRelativeNamed(
+              'video',
+              pathParameters: {
+                'coursePageTitle': lesson.name,
+              },
+              extra: lesson.videoUrl,
             ),
           ),
         ],

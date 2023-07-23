@@ -1,5 +1,5 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RoundedBackButton extends StatelessWidget {
   const RoundedBackButton({Key? key, this.onTap}) : super(key: key);
@@ -9,7 +9,7 @@ class RoundedBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTap?.call() ?? context.popRoute(),
+      onTap: () => onTap?.call() ?? context.pop(),
       child: Container(
         height: 40,
         width: 40,

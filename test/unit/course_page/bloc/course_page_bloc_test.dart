@@ -32,7 +32,7 @@ void main() {
     act: (bloc) => bloc.add(const CoursePageEvent.get(coursePageId)),
     expect: () => [
       isA<CoursePageState>(),
-      CoursePageState.loaded(coursePage),
+      const CoursePageState.loaded(coursePage),
     ],
   );
 

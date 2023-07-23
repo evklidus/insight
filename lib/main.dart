@@ -16,7 +16,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
-  final _appRouter = sl.getIt<AppRouter>();
+  final _appRouter = AppRouter();
   final _appTheme = InsightTheme();
 
   @override
@@ -28,8 +28,7 @@ class MyApp extends StatelessWidget {
       theme: _appTheme.getLightTheme(),
       darkTheme: _appTheme.getDarkTheme(),
       themeMode: ThemeMode.dark,
-      routerDelegate: _appRouter.delegate(),
-      routeInformationParser: _appRouter.defaultRouteParser(),
+      routerConfig: _appRouter.router,
       /*
           TODO: Выпилить этот MaterialApp.
           Сейчас используется из-за ошибки "No Overlay widget found" при нажатии на TextField
