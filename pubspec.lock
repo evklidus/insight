@@ -64,22 +64,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  auto_route:
-    dependency: "direct main"
-    description:
-      name: auto_route
-      sha256: "12047baeca0e01df93165ef33275b32119d72699ab9a49dc64c20e78f586f96d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.4"
-  auto_route_generator:
-    dependency: "direct dev"
-    description:
-      name: auto_route_generator
-      sha256: de5bfbc02ae4eebb339dd90d325749ae7536e903f6513ef72b88954072d72b0e
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.3"
   bloc:
     dependency: transitive
     description:
@@ -140,10 +124,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "220ae4553e50d7c21a17c051afc7b183d28a24a420502e842f303f8e4e6edced"
+      sha256: "10c6bcdbf9d049a0b666702cf1cee4ddfdc38f02a19d35ae392863b47519848b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.4"
+    version: "2.4.6"
   build_runner_core:
     dependency: transitive
     description:
@@ -512,14 +496,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  get_it:
-    dependency: "direct main"
-    description:
-      name: get_it
-      sha256: "529de303c739fca98cd7ece5fca500d8ff89649f1bb4b4e94fb20954abcd7468"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.6.0"
   glass:
     dependency: "direct main"
     description:
@@ -536,6 +512,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  go_router:
+    dependency: "direct main"
+    description:
+      name: go_router
+      sha256: b3cadd2cd59a4103fd5f6bc572ca75111264698784e927aa471921c3477d5475
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.0.0"
   graphs:
     dependency: transitive
     description:
@@ -680,10 +664,10 @@ packages:
     dependency: "direct dev"
     description:
       name: mockito
-      sha256: "8b46d7eb40abdda92d62edd01546051f0c27365e65608c284de336dccfef88cc"
+      sha256: "7d5b53bcd556c1bc7ffbe4e4d5a19c3e112b7e925e9e172dd7c6ad0630812616"
       url: "https://pub.dev"
     source: hosted
-    version: "5.4.1"
+    version: "5.4.2"
   mocktail:
     dependency: transitive
     description:

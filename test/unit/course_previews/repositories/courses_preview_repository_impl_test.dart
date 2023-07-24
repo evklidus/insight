@@ -1,57 +1,45 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:insight/features/course_previews/data/data_sources/course_previews_remote_data_source.dart';
-import 'package:insight/features/course_previews/data/repositories/courses_preview_repository.dart';
-import 'package:insight/features/course_previews/data/entities/course_preview_entity.dart';
+import 'package:insight/src/features/course_previews/data/course_previews_network_data_provider.dart';
+import 'package:insight/src/features/course_previews/data/courses_preview_repository.dart';
+import 'package:insight/src/features/course_previews/model/course_preview.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:rest_client/rest_client.dart';
 
 import 'courses_preview_repository_impl_test.mocks.dart';
 
-class CoursePreviewDTOFake extends Fake implements CoursePreviewDTO {
-  @override
-  int get id => 1;
-
-  @override
-  String get name => 'name';
-
-  @override
-  String get imageUrl => 'imageUrl';
-
-  @override
-  String get tag => 'tag';
-}
-
-@GenerateMocks([CoursePreviewsRemoteDataSource])
+@GenerateMocks([CoursePreviewsNetworkDataProvider])
 void main() {
   late final CoursesPreviewRepositoryImpl coursesPreviewRepositoryImpl;
-  late final mockCategoriesRemoteDataSource =
-      MockCoursePreviewsRemoteDataSource();
-  final coursePreviews = [
-    CoursePreviewDTOFake(),
-    CoursePreviewDTOFake(),
-    CoursePreviewDTOFake(),
-  ];
+  late final mockCategoriesNetworkDataProvider =
+      MockCoursePreviewsNetworkDataProvider();
   const categoryTag = 'sport';
+  final coursePreviews = [
+    CoursePreview(
+      id: 1,
+      name: 'name',
+      imageUrl: 'imageUrl',
+      tag: categoryTag,
+    ),
+  ];
 
   setUpAll(() {
     coursesPreviewRepositoryImpl = CoursesPreviewRepositoryImpl(
-        remoteDataSource: mockCategoriesRemoteDataSource);
+        networkDataProvider: mockCategoriesNetworkDataProvider);
   });
 
   test(
-      'get a Categories if remoteDataSource.getCategories completes successfully',
+      'get a Categories if networkDataProvider.getCategories completes successfully',
       () {
-    when(mockCategoriesRemoteDataSource.getCoursePreviews(categoryTag))
+    when(mockCategoriesNetworkDataProvider.getCoursePreviews(categoryTag))
         .thenAnswer((_) async => coursePreviews);
     expect(coursesPreviewRepositoryImpl.getCoursesPreview(categoryTag),
-        isA<Future<List<CoursePreviewEntity>>>());
+        isA<Future<List<CoursePreview>>>());
   });
 
   test(
-      'throw an exception if remoteDataSource.getCategories completes with error',
+      'throw an exception if networkDataProvider.getCategories completes with error',
       () {
-    when(mockCategoriesRemoteDataSource.getCoursePreviews(categoryTag))
+    when(mockCategoriesNetworkDataProvider.getCoursePreviews(categoryTag))
         .thenAnswer((_) => throw Exception());
     expect(coursesPreviewRepositoryImpl.getCoursesPreview(categoryTag),
         throwsException);

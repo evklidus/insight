@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:insight/features/course_previews/data/data_sources/course_previews_remote_data_source.dart';
+import 'package:insight/src/features/course_previews/data/course_previews_network_data_provider.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rest_client/rest_client.dart';
@@ -10,7 +10,8 @@ class CoursePreviewDTOFake extends Fake implements CoursePreviewDTO {}
 
 @GenerateMocks([RestClient])
 void main() {
-  late final CoursePreviewsRemoteDataSourceImpl coursePreviewsRemoteDataSource;
+  late final CoursePreviewsNetworkDataProviderImpl
+      coursePreviewsNetworkDataProvider;
   final MockRestClient mockRestClient = MockRestClient();
   final coursePreviews = [
     CoursePreviewDTOFake(),
@@ -20,8 +21,8 @@ void main() {
   const categoryTag = 'sport';
 
   setUpAll(() {
-    coursePreviewsRemoteDataSource =
-        CoursePreviewsRemoteDataSourceImpl(mockRestClient);
+    coursePreviewsNetworkDataProvider =
+        CoursePreviewsNetworkDataProviderImpl(mockRestClient);
   });
 
   test(
@@ -31,7 +32,7 @@ void main() {
       (_) async => coursePreviews,
     );
     expect(
-      coursePreviewsRemoteDataSource.getCoursePreviews(categoryTag),
+      coursePreviewsNetworkDataProvider.getCoursePreviews(categoryTag),
       completion(coursePreviews),
     );
   });
@@ -43,7 +44,7 @@ void main() {
       (_) => throw Exception(),
     );
     expect(
-      coursePreviewsRemoteDataSource.getCoursePreviews(categoryTag),
+      coursePreviewsNetworkDataProvider.getCoursePreviews(categoryTag),
       throwsException,
     );
   });

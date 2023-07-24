@@ -1,30 +1,30 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:insight/features/categories/data/repositories/categories_repository.dart';
-import 'package:insight/features/categories/bloc/categories_bloc.dart';
-import 'package:insight/features/categories/data/entities/category_entity.dart';
+import 'package:insight/src/features/categories/data/categories_repository.dart';
+import 'package:insight/src/features/categories/bloc/categories_bloc.dart';
+import 'package:insight/src/features/categories/model/category.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'categories_bloc_test.mocks.dart';
 
-class CategoryEntityFake extends Fake implements CategoryEntity {}
-
-@GenerateMocks([CategoriesRepositoryImpl])
+@GenerateMocks([CategoriesRepository])
 void main() {
   late CategoriesRepository categoriesRepository;
-  final categories = [
-    CategoryEntityFake(),
-    CategoryEntityFake(),
-    CategoryEntityFake(),
+  const categories = [
+    Category(
+      name: 'name',
+      imageUrl: 'imageUrl',
+      tag: 'tag',
+    ),
   ];
 
   setUp(() {
-    categoriesRepository = MockCategoriesRepositoryImpl();
+    categoriesRepository = MockCategoriesRepository();
   });
 
   blocTest(
-    'emits [CategoriesLoadedState] with [List<CategoryEntity>] when CategoriesEvent.get() is added',
+    'emits [CategoriesLoadedState] with [List<Category>] when CategoriesEvent.get() is added',
     build: () => CategoriesBloc(categoriesRepository),
     setUp: () => when(categoriesRepository.getCategories()).thenAnswer(
       (_) async => categories,
@@ -32,7 +32,7 @@ void main() {
     act: (bloc) => bloc.add(const CategoriesEvent.get()),
     expect: () => [
       isA<CategoriesLoadingState>(),
-      CategoriesState.loaded(categories),
+      const CategoriesState.loaded(categories),
     ],
   );
 

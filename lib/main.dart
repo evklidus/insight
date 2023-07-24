@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:insight/src/core/di_container/di_container.dart';
 
-import 'package:insight/core/theme/insight_theme.dart';
-import 'package:insight/core/sl/locator_service.dart' as sl;
-import 'package:insight/core/navigation/app_router.dart';
-import 'package:insight/features/auth/widget/screens/main/auth_screen.dart';
+import 'package:insight/src/core/theme/insight_theme.dart';
+import 'package:insight/src/core/navigation/app_router.dart';
+import 'package:insight/src/features/auth/widget/screens/main/auth_screen.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await sl.setup();
+  await DIContainer().initDeps();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
-  final _appRouter = sl.getIt<AppRouter>();
+  final _appRouter = AppRouter();
   final _appTheme = InsightTheme();
 
   @override
@@ -28,8 +28,7 @@ class MyApp extends StatelessWidget {
       theme: _appTheme.getLightTheme(),
       darkTheme: _appTheme.getDarkTheme(),
       themeMode: ThemeMode.dark,
-      routerDelegate: _appRouter.delegate(),
-      routeInformationParser: _appRouter.defaultRouteParser(),
+      routerConfig: _appRouter.router,
       /*
           TODO: Выпилить этот MaterialApp.
           Сейчас используется из-за ошибки "No Overlay widget found" при нажатии на TextField
