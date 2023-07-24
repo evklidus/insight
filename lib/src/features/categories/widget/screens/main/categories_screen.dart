@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:insight/src/core/sl/locator_service.dart';
+import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/common/widgets/loadings/standart_loading.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
@@ -15,7 +15,7 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  final categoriesBloc = getIt.get<CategoriesBloc>();
+  final categoriesBloc = CategoriesBloc(DIContainer().categoriesRepository);
 
   @override
   void initState() {

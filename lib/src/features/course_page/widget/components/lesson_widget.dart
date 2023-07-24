@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insight/src/common/extensions/go_relative_named.dart';
+import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 
 import 'package:insight/src/features/course_page/model/lesson.dart';
 

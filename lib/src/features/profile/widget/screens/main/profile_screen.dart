@@ -4,7 +4,7 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/widgets/app_bars/insight_app_bar_with_back_button.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/common/widgets/loadings/standart_loading.dart';
-import 'package:insight/src/core/sl/locator_service.dart';
+import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/profile/widget/screens/states/profile_loaded_screen.dart';
 
@@ -20,7 +20,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    profileBloc = getIt.get<ProfileBloc>()..add(const ProfileEvent.get());
+    profileBloc = ProfileBloc(DIContainer().profileRepository)
+      ..add(const ProfileEvent.get());
   }
 
   @override

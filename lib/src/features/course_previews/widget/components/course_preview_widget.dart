@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:insight/src/common/extensions/go_relative_named.dart';
+import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 
 import 'package:insight/src/common/widgets/boxes/w_box.dart';
 import 'package:insight/src/common/widgets/insight_image_widget.dart';

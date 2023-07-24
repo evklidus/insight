@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:insight/src/core/sl/locator_service.dart';
+import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/app_bars/insight_app_bar_with_back_button.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/common/widgets/loadings/standart_loading.dart';
@@ -22,7 +22,7 @@ class CoursePageScreen extends StatefulWidget {
 }
 
 class _CoursePageScreenState extends State<CoursePageScreen> {
-  final coursePageBloc = getIt.get<CoursePageBloc>();
+  final coursePageBloc = CoursePageBloc(DIContainer().coursePageRepository);
 
   @override
   void initState() {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
-import 'package:insight/src/core/sl/locator_service.dart';
+import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/app_bars/insight_app_bar_with_back_button.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/common/widgets/loadings/standart_loading.dart';
@@ -18,7 +18,8 @@ class CoursePreviewsScreen extends StatefulWidget {
 }
 
 class _CoursePreviewsScreenState extends State<CoursePreviewsScreen> {
-  final coursePreviewsBloc = getIt.get<CoursePreviewsBloc>();
+  final coursePreviewsBloc =
+      CoursePreviewsBloc(DIContainer().coursesPreviewRepository);
 
   @override
   void initState() {

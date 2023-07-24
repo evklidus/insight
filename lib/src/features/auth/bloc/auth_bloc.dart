@@ -1,16 +1,22 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:insight/src/common/utilities/exception_to_message.dart';
+import 'package:insight/src/common/utils/exception_to_message.dart';
+import 'package:insight/src/common/utils/mixins/set_state_mixin.dart';
 import 'package:insight/src/features/auth/data/auth_repository.dart';
 
 part 'auth_bloc.freezed.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthRepository authRepository;
+class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
+  AuthBloc(AuthRepository authRepository)
+      : _authRepository = authRepository,
+        super(const AuthState.idle()) {
+    _authRepository.isAuthenticatedStream.map((isAuthenticatedStream) =>
+        isAuthenticatedStream
+            ? setState(const AuthState.authorized())
+            : setState(const AuthState.login()));
 
-  AuthBloc(this.authRepository) : super(const AuthState.idle()) {
     on<AuthEvent>(
       (event, emit) => event.map(
         checkStatus: (event) => _checkStatus(emit),
@@ -23,10 +29,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
+  final AuthRepository _authRepository;
+
   Future<void> _checkStatus(Emitter<AuthState> emit) async {
     emit(const AuthState.loading());
     try {
-      final isAuthenticated = await authRepository.checkAuthenticatedStatus();
+      final isAuthenticated = await _authRepository.checkAuthenticatedStatus();
       if (isAuthenticated) {
         emit(const AuthState.authorized());
       } else {
@@ -43,7 +51,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(const AuthState.loading());
     try {
-      await authRepository.register(
+      await _authRepository.register(
         event.username,
         event.password,
       );
@@ -59,7 +67,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(const AuthState.loading());
     try {
-      await authRepository.login(
+      await _authRepository.login(
         event.username,
         event.password,
       );
@@ -74,7 +82,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(const AuthState.loading());
     try {
-      await authRepository.logout();
+      await _authRepository.logout();
       emit(const AuthState.login());
     } catch (e) {
       emit(AuthState.error(exceptionToMessage(e)));

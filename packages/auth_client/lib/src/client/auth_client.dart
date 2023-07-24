@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auth_client/src/dto/token_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -29,4 +31,6 @@ abstract class AuthClient {
   Future<TokenDTO> refreshToken(
     @Query('refresh_token') String refreshToken,
   );
+
+  // final isAuthenticatedController = StreamController<bool>();
 }

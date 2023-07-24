@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:glass/glass.dart';
-import 'package:insight/src/common/extensions/go_relative_named.dart';
+import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/insight_image_widget.dart';
 import 'package:insight/src/features/categories/model/category.dart';
 

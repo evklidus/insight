@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/common/widgets/loadings/standart_loading.dart';
-import 'package:insight/src/core/sl/locator_service.dart';
+import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/src/features/auth/widget/screens/states/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/states/register_screen.dart';
@@ -22,7 +22,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   void initState() {
     super.initState();
-    authBloc = getIt.get<AuthBloc>();
+    authBloc = AuthBloc(DIContainer().authRepository);
     authBloc.add(const AuthEvent.checkStatus());
   }
 

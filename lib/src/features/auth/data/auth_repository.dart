@@ -15,17 +15,22 @@ abstract interface class AuthRepository {
   Future<bool> checkAuthenticatedStatus();
 
   Future<void> logout();
+
+  Stream<bool> get isAuthenticatedStream;
 }
 
 final class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl({
     required AuthNetworkDataProvider networkDataProvider,
     required AuthStorageDataProvider storageDataProvider,
+    required Stream<bool> isAuthenticatedStream,
   })  : _networkDataProvider = networkDataProvider,
-        _storageDataProvider = storageDataProvider;
+        _storageDataProvider = storageDataProvider,
+        _isAuthenticatedStream = isAuthenticatedStream;
 
   final AuthNetworkDataProvider _networkDataProvider;
   final AuthStorageDataProvider _storageDataProvider;
+  final Stream<bool> _isAuthenticatedStream;
 
   @override
   Future<bool> checkAuthenticatedStatus() =>
@@ -46,4 +51,7 @@ final class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout() async {
     await _storageDataProvider.setLogout();
   }
+
+  @override
+  Stream<bool> get isAuthenticatedStream => _isAuthenticatedStream;
 }

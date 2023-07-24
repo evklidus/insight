@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:insight/src/common/utilities/exception_to_message.dart';
+import 'package:insight/src/common/utils/exception_to_message.dart';
 import 'package:insight/src/features/course_page/data/course_page_repository.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
 
