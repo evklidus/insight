@@ -12,6 +12,7 @@ const _baseUrl = 'http://0.0.0.0:8080';
 const _getCategories = '/categories';
 const _getCoursePreviewsByCategory = '/course_previews/{category}';
 const _getCoursePageById = '/course_pages/{id}';
+const _getUser = '/get_user';
 
 @RestApi(baseUrl: _baseUrl)
 @immutable
@@ -34,6 +35,6 @@ abstract class RestClient {
     @Path('id') int id,
   );
 
-  @GET("/get_user")
+  @GET(_getUser)
   Future<UserDTO> getUser();
 }

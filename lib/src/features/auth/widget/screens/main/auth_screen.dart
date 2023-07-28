@@ -33,7 +33,7 @@ class _AuthScreenState extends State<AuthScreen> {
         create: (context) => authBloc,
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) => state.when(
-            idle: () => InformationWidget.idle(),
+            idle: () => InformationWidget.empty(),
             loading: () => const StandartLoading(),
             register: () => const RegisterScreen(),
             login: () => const LoginScreen(),

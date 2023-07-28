@@ -1,33 +1,59 @@
+import 'dart:async';
+
+import 'package:bloc_concurrency/bloc_concurrency.dart' as bloc_concurrency;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:insight/src/common/utils/exception_to_message.dart';
+import 'package:insight/src/features/profile/bloc/profile_state.dart';
 import 'package:insight/src/features/profile/data/profile_repository.dart';
-import 'package:insight/src/features/profile/model/user.dart';
 
 part 'profile_bloc.freezed.dart';
 part 'profile_event.dart';
-part 'profile_state.dart';
 
-class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  final ProfileRepository _profileRepository;
-
-  ProfileBloc(ProfileRepository profileRepository)
-      : _profileRepository = profileRepository,
-        super(const ProfileState.idle()) {
+class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
+    implements EventSink<ProfileEvent> {
+  ProfileBloc({
+    required final ProfileRepository repository,
+    final ProfileState? initialState,
+  })  : _repository = repository,
+        super(
+          initialState ??
+              const ProfileState.idle(
+                data: null,
+                message: 'Initial idle state',
+              ),
+        ) {
     on<ProfileEvent>(
-      (event, emit) => event.map(
-        get: (event) => _get(emit),
+      (event, emit) => event.map<Future<void>>(
+        fetch: (event) => _fetch(emit),
       ),
+      transformer: bloc_concurrency.sequential(),
     );
   }
 
-  Future<void> _get(Emitter<ProfileState> emit) async {
-    emit(const ProfileState.loading());
+  final ProfileRepository _repository;
+
+  Future<void> _fetch(Emitter<ProfileState> emit) async {
     try {
-      final user = await _profileRepository.getUser();
-      emit(ProfileState.loaded(user));
-    } catch (e) {
-      emit(ProfileState.error(exceptionToMessage(e)));
+      emit(ProfileState.processing(data: state.data));
+      // Для тестирования скелетона при разработке
+      // await Future.delayed(const Duration(seconds: 5));
+      final newData = await _repository.getUser();
+      emit(
+        ProfileState.successful(
+          data: newData,
+          message: 'Профиль получен',
+        ),
+      );
+    } on Object catch (_) {
+      emit(
+        ProfileState.error(
+          data: state.data,
+          message: 'Ошибка получения профиля',
+        ),
+      );
+      rethrow;
+    } finally {
+      emit(ProfileState.idle(data: state.data));
     }
   }
 }

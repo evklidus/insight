@@ -37,7 +37,7 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
       body: BlocBuilder<CoursePageBloc, CoursePageState>(
         bloc: coursePageBloc,
         builder: (context, state) => state.when(
-          idle: () => InformationWidget.idle(
+          idle: () => InformationWidget.empty(
             reloadFunc: () => coursePageBloc.add(
               CoursePageEvent.get(widget.coursePageId),
             ),

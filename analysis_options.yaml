@@ -33,10 +33,6 @@ dart_code_metrics:
     - prefer-correct-type-name
     - prefer-first
     - prefer-last
-    - prefer-match-file-name:
-        exclude:
-          - lib/main.dart
-          - lib/core/errors/exceptions.dart
     - prefer-trailing-comma:
         break-on: 6
         severity: style

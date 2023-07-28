@@ -34,7 +34,7 @@ class _CoursePreviewsScreenState extends State<CoursePreviewsScreen> {
       body: BlocBuilder<CoursePreviewsBloc, CoursePreviewsState>(
         bloc: coursePreviewsBloc,
         builder: (context, state) => state.when(
-          idle: () => InformationWidget.idle(
+          idle: () => InformationWidget.empty(
             reloadFunc: () => coursePreviewsBloc.add(
               CoursePreviewsEvent.get(widget.categoryTag),
             ),

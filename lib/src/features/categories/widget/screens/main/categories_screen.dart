@@ -35,7 +35,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       body: BlocBuilder<CategoriesBloc, CategoriesState>(
         bloc: categoriesBloc,
         builder: (context, state) => state.when(
-          idle: () => InformationWidget.idle(
+          idle: () => InformationWidget.empty(
             reloadFunc: () => categoriesBloc.add(
               const CategoriesEvent.get(),
             ),

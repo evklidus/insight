@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:insight/src/core/bloc/insight_bloc_observer.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 
 import 'package:insight/src/core/theme/insight_theme.dart';
@@ -10,6 +12,7 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await DIContainer().initDeps();
+  Bloc.observer = InsightBlocObserver();
   runApp(MyApp());
 }
 
