@@ -1,5 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/widgets/screens/insight_bottom_navigation_bar.dart';
+import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
+import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/main/categories_screen.dart';
 import 'package:insight/src/features/course_page/widget/screens/main/course_page_screen.dart';
 import 'package:insight/src/features/course_previews/widget/screens/main/course_previews_screen.dart';
@@ -11,6 +13,14 @@ class AppRouter {
   final router = GoRouter(
     initialLocation: '/categories',
     routes: [
+      GoRoute(
+        path: '/login',
+        builder: (context, _) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: '/register',
+        builder: (context, _) => const RegisterScreen(),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             InsightBottomNavigationBar(navigationShell),

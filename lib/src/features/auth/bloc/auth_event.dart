@@ -12,12 +12,4 @@ class AuthEvent with _$AuthEvent {
     required String password,
   }) = _AuthLoginEvent;
   const factory AuthEvent.logout() = _AuthLogoutEvent;
-  const factory AuthEvent.changeAuthTypeToLogin({
-    String? username,
-    String? password,
-  }) = _ChangeAuthTypeToLoginEvent;
-  const factory AuthEvent.changeAuthTypeToRegister({
-    String? username,
-    String? password,
-  }) = _ChangeAuthTypeToRegisterEvent;
 }
