@@ -25,9 +25,9 @@ class _CoursePreviewsScreenState extends State<CoursePreviewsScreen> {
   @override
   void initState() {
     super.initState();
-    coursePreviewsBloc =
-        CoursePreviewsBloc(repository: DIContainer().coursesPreviewRepository)
-          ..add(CoursePreviewsEvent.fetch(widget.categoryTag));
+    coursePreviewsBloc = CoursePreviewsBloc(
+      repository: DIContainer.instance.coursesPreviewRepository,
+    )..add(CoursePreviewsEvent.fetch(widget.categoryTag));
   }
 
   @override

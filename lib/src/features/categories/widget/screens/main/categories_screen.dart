@@ -15,7 +15,8 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  final categoriesBloc = CategoriesBloc(DIContainer().categoriesRepository);
+  final categoriesBloc =
+      CategoriesBloc(DIContainer.instance.categoriesRepository);
 
   @override
   void initState() {

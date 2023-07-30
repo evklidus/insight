@@ -22,7 +22,8 @@ class CoursePageScreen extends StatefulWidget {
 }
 
 class _CoursePageScreenState extends State<CoursePageScreen> {
-  final coursePageBloc = CoursePageBloc(DIContainer().coursePageRepository);
+  final coursePageBloc =
+      CoursePageBloc(DIContainer.instance.coursePageRepository);
 
   @override
   void initState() {

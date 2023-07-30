@@ -12,7 +12,7 @@ import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await DIContainer().initDeps();
+  await DIContainer.instance.initDeps();
   Bloc.observer = InsightBlocObserver();
   Bloc.transformer = sequential();
   runApp(const MyApp());
@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    authBloc = AuthBloc(repository: DIContainer().authRepository);
+    authBloc = AuthBloc(repository: DIContainer.instance.authRepository);
   }
 
   @override

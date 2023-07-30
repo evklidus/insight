@@ -22,8 +22,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    profileBloc = ProfileBloc(repository: DIContainer().profileRepository)
-      ..add(const ProfileEvent.fetch());
+    profileBloc =
+        ProfileBloc(repository: DIContainer.instance.profileRepository)
+          ..add(const ProfileEvent.fetch());
   }
 
   @override
