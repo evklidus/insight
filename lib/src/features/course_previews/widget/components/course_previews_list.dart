@@ -4,8 +4,8 @@ import 'package:insight/src/common/widgets/boxes/h_box.dart';
 import 'package:insight/src/features/course_previews/model/course_preview.dart';
 import 'package:insight/src/features/course_previews/widget/components/course_preview_widget.dart';
 
-class CoursePreviewsScreenLoaded extends StatelessWidget {
-  const CoursePreviewsScreenLoaded({
+class CoursePreviewsList extends StatelessWidget {
+  const CoursePreviewsList({
     Key? key,
     required this.coursePreviews,
   }) : super(key: key);

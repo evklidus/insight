@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -13,6 +14,7 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await DIContainer().initDeps();
   Bloc.observer = InsightBlocObserver();
+  Bloc.transformer = sequential();
   runApp(const MyApp());
 }
 
@@ -33,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    authBloc = AuthBloc(DIContainer().authRepository);
+    authBloc = AuthBloc(repository: DIContainer().authRepository);
   }
 
   @override

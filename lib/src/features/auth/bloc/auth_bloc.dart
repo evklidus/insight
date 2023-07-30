@@ -14,10 +14,12 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState>
     with SetStateMixin
     implements EventSink<AuthEvent> {
-  AuthBloc(AuthRepository authRepository)
-      : _authRepository = authRepository,
-        super(const AuthState.idle(isAuthenticated: false)) {
-    _authRepository.isAuthenticatedStream.map((isAuthenticated) {
+  AuthBloc({
+    required AuthRepository repository,
+    AuthState? initialState,
+  })  : _repository = repository,
+        super(initialState ?? const AuthState.idle(isAuthenticated: false)) {
+    _repository.isAuthenticatedStream.map((isAuthenticated) {
       if (isAuthenticated) {
         setState(
           const AuthState.successful(
@@ -27,7 +29,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
         );
       }
     });
-
     on<AuthEvent>(
       (event, emit) => event.map(
         // TODO: разобраться стоит ли удалять checkStatus
@@ -40,12 +41,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     );
   }
 
-  final AuthRepository _authRepository;
+  final AuthRepository _repository;
 
   Future<void> _checkStatus(Emitter<AuthState> emit) async {
     emit(AuthState.processing(isAuthenticated: state.isAuthenticated));
     try {
-      final isAuthenticated = await _authRepository.checkAuthenticatedStatus();
+      final isAuthenticated = await _repository.checkAuthenticatedStatus();
       if (isAuthenticated) {
         emit(const AuthState.idle(isAuthenticated: true));
       } else {
@@ -68,7 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   ) async {
     emit(AuthState.processing(isAuthenticated: state.isAuthenticated));
     try {
-      await _authRepository.register(
+      await _repository.register(
         event.username,
         event.password,
       );
@@ -93,7 +94,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   ) async {
     emit(AuthState.processing(isAuthenticated: state.isAuthenticated));
     try {
-      await _authRepository.login(
+      await _repository.login(
         event.username,
         event.password,
       );
@@ -117,7 +118,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   ) async {
     emit(AuthState.processing(isAuthenticated: state.isAuthenticated));
     try {
-      await _authRepository.logout();
+      await _repository.logout();
       emit(const AuthState.idle(
         isAuthenticated: false,
         message: 'Вы успешно вышли',

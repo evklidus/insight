@@ -30,38 +30,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const InsightAppBarWithBackButton(AppStrings.profile),
-      body: BlocConsumer<ProfileBloc, ProfileState>(
-        bloc: profileBloc,
-        listener: (context, state) => state.mapOrNull(
-          error: (errorState) =>
-              ErrorSnackBar.show(context, error: errorState.message),
+      body: BlocProvider(
+        create: (context) => profileBloc,
+        child: BlocConsumer<ProfileBloc, ProfileState>(
+          listener: (context, state) => state.mapOrNull(
+            error: (errorState) =>
+                ErrorSnackBar.show(context, error: errorState.message),
+          ),
+          builder: (context, state) {
+            if (!state.hasData && state.isProcessing) {
+              return const ProfileSkeleton();
+            } else if (!state.hasData && state.hasError) {
+              return InformationWidget.error(
+                reloadFunc: () => profileBloc.add(
+                  const ProfileEvent.fetch(),
+                ),
+              );
+            } else if (!state.hasData) {
+              return InformationWidget.empty(
+                reloadFunc: () => profileBloc.add(
+                  const ProfileEvent.fetch(),
+                ),
+              );
+            } else {
+              return ProfileInformation(user: state.data!);
+            }
+          },
         ),
-        builder: (context, state) {
-          if (!state.hasData && state.isProcessing) {
-            return const ProfileSkeleton();
-          } else if (!state.hasData && state.hasError) {
-            return InformationWidget.error(
-              reloadFunc: () => profileBloc.add(
-                const ProfileEvent.fetch(),
-              ),
-            );
-          } else if (!state.hasData) {
-            return InformationWidget.empty(
-              reloadFunc: () => profileBloc.add(
-                const ProfileEvent.fetch(),
-              ),
-            );
-          } else {
-            return ProfileInformation(user: state.data!);
-          }
-        },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    profileBloc.close();
-    super.dispose();
   }
 }

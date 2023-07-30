@@ -12,8 +12,8 @@ part 'profile_event.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
     implements EventSink<ProfileEvent> {
   ProfileBloc({
-    required final ProfileRepository repository,
-    final ProfileState? initialState,
+    required ProfileRepository repository,
+    ProfileState? initialState,
   })  : _repository = repository,
         super(
           initialState ??
@@ -26,7 +26,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
       (event, emit) => event.map<Future<void>>(
         fetch: (event) => _fetch(emit),
       ),
-      transformer: bloc_concurrency.sequential(),
     );
   }
 
