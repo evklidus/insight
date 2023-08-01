@@ -1,33 +1,40 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:insight/src/common/utils/exception_to_message.dart';
+import 'package:insight/src/features/course_page/bloc/course_page_state.dart';
 import 'package:insight/src/features/course_page/data/course_page_repository.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
 
 part 'course_page_bloc.freezed.dart';
 part 'course_page_event.dart';
-part 'course_page_state.dart';
 
 class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
-  final CoursePageRepository coursePageRepository;
-
-  CoursePageBloc(this.coursePageRepository)
-      : super(const CoursePageState.idle()) {
+  CoursePageBloc({
+    required CoursePageRepository repository,
+    CoursePageState? initialState,
+  })  : _repository = repository,
+        super(initialState ?? const CoursePageState.idle(data: null)) {
     on<CoursePageEvent>(
       (event, emit) => event.map(
-        get: (event) => _get(emit, event),
+        fetch: (event) => _fetch(emit, event),
       ),
     );
   }
 
-  _get(Emitter<CoursePageState> emit, GetCoursePageEvent event) async {
+  final CoursePageRepository _repository;
+
+  _fetch(Emitter<CoursePageState> emit, GetCoursePageEvent event) async {
     try {
-      emit(const CoursePageState.loading());
-      final CoursePage coursePage =
-          await coursePageRepository.getCoursePage(event.id);
-      emit(CoursePageState.loaded(coursePage));
-    } catch (e) {
-      emit(CoursePageState.error(exceptionToMessage(e)));
+      emit(CoursePageState.processing(data: state.data));
+      final CoursePage coursePage = await _repository.getCoursePage(event.id);
+      emit(CoursePageState.successful(data: coursePage));
+    } on Object catch (_) {
+      emit(CoursePageState.error(
+        data: state.data,
+        message: 'Ошибка получения курса',
+      ));
+      rethrow;
+    } finally {
+      emit(CoursePageState.idle(data: state.data));
     }
   }
 }

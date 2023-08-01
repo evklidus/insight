@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bloc_concurrency/bloc_concurrency.dart' as bloc_concurrency;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:insight/src/features/profile/bloc/profile_state.dart';
@@ -16,11 +15,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
     ProfileState? initialState,
   })  : _repository = repository,
         super(
-          initialState ??
-              const ProfileState.idle(
-                data: null,
-                message: 'Initial idle state',
-              ),
+          initialState ?? const ProfileState.idle(data: null),
         ) {
     on<ProfileEvent>(
       (event, emit) => event.map<Future<void>>(
