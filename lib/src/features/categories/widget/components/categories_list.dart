@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:insight/src/features/categories/model/category.dart';
 import 'package:insight/src/features/categories/widget/components/category_widget.dart';
 
-class CategoriesScreenLoaded extends StatelessWidget {
-  const CategoriesScreenLoaded({
+class CategoriesList extends StatelessWidget {
+  const CategoriesList({
     Key? key,
     required this.categories,
   }) : super(key: key);

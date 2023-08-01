@@ -6,8 +6,8 @@ import 'package:insight/src/common/widgets/app_bars/insight_app_bar_with_back_bu
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_state.dart';
-import 'package:insight/src/features/course_page/widget/course_page_skeleton.dart';
-import 'package:insight/src/features/course_page/widget/screens/states/course_page_info.dart';
+import 'package:insight/src/features/course_page/widget/components/course_page_skeleton.dart';
+import 'package:insight/src/features/course_page/widget/components/course_page_info.dart';
 
 class CoursePageScreen extends StatefulWidget {
   const CoursePageScreen({
@@ -38,31 +38,33 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: InsightAppBarWithBackButton(widget.coursePageTitle),
-      body: BlocConsumer<CoursePageBloc, CoursePageState>(
-        bloc: coursePageBloc,
-        listener: (context, state) => state.mapOrNull(
-          error: (errorState) =>
-              ErrorSnackBar.show(context, error: errorState.message),
+      body: BlocProvider(
+        create: (context) => coursePageBloc,
+        child: BlocConsumer<CoursePageBloc, CoursePageState>(
+          listener: (context, state) => state.mapOrNull(
+            error: (errorState) =>
+                ErrorSnackBar.show(context, error: errorState.message),
+          ),
+          builder: (context, state) {
+            if (!state.hasData && state.isProcessing) {
+              return const CoursePageSkeleton();
+            } else if (!state.hasData && state.hasError) {
+              return InformationWidget.error(
+                reloadFunc: () => coursePageBloc.add(
+                  CoursePageEvent.fetch(widget.coursePageId),
+                ),
+              );
+            } else if (!state.hasData) {
+              return InformationWidget.empty(
+                reloadFunc: () => coursePageBloc.add(
+                  CoursePageEvent.fetch(widget.coursePageId),
+                ),
+              );
+            } else {
+              return CoursePageInfo(coursePage: state.data!);
+            }
+          },
         ),
-        builder: (context, state) {
-          if (!state.hasData && state.isProcessing) {
-            return const CoursePageSkeleton();
-          } else if (!state.hasData && state.hasError) {
-            return InformationWidget.error(
-              reloadFunc: () => coursePageBloc.add(
-                CoursePageEvent.fetch(widget.coursePageId),
-              ),
-            );
-          } else if (!state.hasData) {
-            return InformationWidget.empty(
-              reloadFunc: () => coursePageBloc.add(
-                CoursePageEvent.fetch(widget.coursePageId),
-              ),
-            );
-          } else {
-            return CoursePageInfo(coursePage: state.data!);
-          }
-        },
       ),
     );
   }

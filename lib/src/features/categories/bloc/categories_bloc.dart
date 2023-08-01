@@ -1,35 +1,37 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:insight/src/common/utils/exception_to_message.dart';
+import 'package:insight/src/features/categories/bloc/categories_state.dart';
 import 'package:insight/src/features/categories/model/category.dart';
 import 'package:insight/src/features/categories/data/categories_repository.dart';
 
 part 'categories_bloc.freezed.dart';
 part 'categories_event.dart';
-part 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
-  final CategoriesRepository categoriesRepository;
-
-  CategoriesBloc(this.categoriesRepository)
-      : super(const CategoriesState.idle()) {
+  CategoriesBloc({
+    required CategoriesRepository repository,
+    CategoriesState? initialState,
+  })  : _repository = repository,
+        super(initialState ?? const CategoriesState.idle(data: null)) {
     on<CategoriesEvent>(
       (event, emit) => event.map(
-        get: (event) => _get(emit),
+        fetch: (event) => _fetch(emit),
       ),
     );
   }
 
-  _get(Emitter<CategoriesState> emit) async {
+  final CategoriesRepository _repository;
+
+  _fetch(Emitter<CategoriesState> emit) async {
     try {
-      emit(const CategoriesState.loading());
-      final List<Category> categories =
-          await categoriesRepository.getCategories();
-      categories.isNotEmpty
-          ? emit(CategoriesState.loaded(categories))
-          : emit(const CategoriesState.idle());
-    } catch (e) {
-      emit(CategoriesState.error(exceptionToMessage(e)));
+      emit(CategoriesState.processing(data: state.data));
+      final List<Category> categories = await _repository.getCategories();
+      emit(CategoriesState.successful(data: categories));
+    } on Object catch (_) {
+      emit(CategoriesState.error(data: state.data));
+      rethrow;
+    } finally {
+      emit(CategoriesState.idle(data: state.data));
     }
   }
 }
