@@ -19,36 +19,33 @@ void main() {
       tag: 'tag',
     ),
   ];
+  final exception = Exception();
 
   setUp(() {
     categoriesRepository = MockCategoriesRepository();
   });
 
   blocTest(
-    'emits [CategoriesLoadedState] with [List<Category>] when CategoriesEvent.get() is added',
+    'Successful on CategoriesEvent.fetch()',
     build: () => CategoriesBloc(repository: categoriesRepository),
     setUp: () => when(categoriesRepository.getCategories()).thenAnswer(
       (_) async => categories,
     ),
     act: (bloc) => bloc.add(const CategoriesEvent.fetch()),
     expect: () => [
-      isA<CategoriesState$Processing>(),
+      const CategoriesState.processing(data: null),
       const CategoriesState.successful(data: categories),
+      const CategoriesState.idle(data: categories),
     ],
   );
 
   blocTest(
-    'emits [CategoriesErrorState] when CategoriesEvent.get() is added',
+    'Error on CategoriesEvent.fetch()',
     build: () => CategoriesBloc(repository: categoriesRepository),
     setUp: () {
-      when(categoriesRepository.getCategories()).thenAnswer(
-        (_) => throw Exception(),
-      );
+      when(categoriesRepository.getCategories()).thenThrow(exception);
     },
     act: (bloc) => bloc.add(const CategoriesEvent.fetch()),
-    expect: () => [
-      isA<CategoriesState$Processing>(),
-      isA<CategoriesState$Error>(),
-    ],
+    errors: () => [exception],
   );
 }

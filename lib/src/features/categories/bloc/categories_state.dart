@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:insight/src/features/categories/model/category.dart';
 import 'package:meta/meta.dart';
 
@@ -86,7 +87,7 @@ typedef CategoriesStateMatch<R, S extends CategoriesState> = R Function(
 
 /// {@nodoc}
 @immutable
-abstract base class _$CategoriesStateBase {
+abstract base class _$CategoriesStateBase with EquatableMixin {
   /// {@nodoc}
   const _$CategoriesStateBase({required this.data, required this.message});
 
@@ -156,8 +157,5 @@ abstract base class _$CategoriesStateBase {
       );
 
   @override
-  int get hashCode => data.hashCode;
-
-  @override
-  bool operator ==(Object other) => identical(this, other);
+  List<Object?> get props => [data];
 }

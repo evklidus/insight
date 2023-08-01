@@ -18,4 +18,10 @@ final class Category {
   final String name;
   final String imageUrl;
   final String tag;
+
+  @override
+  int get hashCode => name.hashCode;
+
+  @override
+  bool operator ==(Object other) => identical(this, other);
 }
