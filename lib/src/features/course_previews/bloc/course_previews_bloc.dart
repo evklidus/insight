@@ -32,7 +32,7 @@ class CoursePreviewsBloc
       final List<CoursePreview> coursePreviews =
           await _repository.getCoursesPreview(event.categoryTag);
       emit(CoursePreviewsState.successful(data: coursePreviews));
-    } on Object catch (_) {
+    } on Object {
       emit(CoursePreviewsState.error(data: state.data));
       rethrow;
     } finally {

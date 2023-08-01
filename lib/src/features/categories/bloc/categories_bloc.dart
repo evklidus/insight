@@ -27,7 +27,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       emit(CategoriesState.processing(data: state.data));
       final List<Category> categories = await _repository.getCategories();
       emit(CategoriesState.successful(data: categories));
-    } on Object catch (_) {
+    } on Object {
       emit(CategoriesState.error(data: state.data));
       rethrow;
     } finally {

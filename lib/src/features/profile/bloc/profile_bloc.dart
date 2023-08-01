@@ -38,7 +38,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
           message: 'Профиль получен',
         ),
       );
-    } on Object catch (_) {
+    } on Object {
       emit(
         ProfileState.error(
           data: state.data,

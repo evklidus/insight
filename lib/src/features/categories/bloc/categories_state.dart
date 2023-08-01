@@ -56,8 +56,10 @@ final class CategoriesState$Idle extends CategoriesState
 final class CategoriesState$Processing extends CategoriesState
     with _$CategoriesState {
   /// {@nodoc}
-  const CategoriesState$Processing(
-      {required super.data, super.message = 'Processing'});
+  const CategoriesState$Processing({
+    required super.data,
+    super.message = 'Processing',
+  });
 }
 
 /// Successful
@@ -65,8 +67,10 @@ final class CategoriesState$Processing extends CategoriesState
 final class CategoriesState$Successful extends CategoriesState
     with _$CategoriesState {
   /// {@nodoc}
-  const CategoriesState$Successful(
-      {required super.data, super.message = 'Successful'});
+  const CategoriesState$Successful({
+    required super.data,
+    super.message = 'Successful',
+  });
 }
 
 /// Error
@@ -74,8 +78,10 @@ final class CategoriesState$Successful extends CategoriesState
 final class CategoriesState$Error extends CategoriesState
     with _$CategoriesState {
   /// {@nodoc}
-  const CategoriesState$Error(
-      {required super.data, super.message = 'An error has occurred.'});
+  const CategoriesState$Error({
+    required super.data,
+    super.message = 'An error has occurred.',
+  });
 }
 
 /// {@nodoc}
@@ -83,7 +89,8 @@ base mixin _$CategoriesState on CategoriesState {}
 
 /// Pattern matching for [CategoriesState].
 typedef CategoriesStateMatch<R, S extends CategoriesState> = R Function(
-    S state);
+  S state,
+);
 
 /// {@nodoc}
 @immutable

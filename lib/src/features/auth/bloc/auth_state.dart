@@ -45,33 +45,40 @@ sealed class AuthState extends _$AuthStateBase {
 /// {@nodoc}
 final class AuthState$Idle extends AuthState with _$AuthState {
   /// {@nodoc}
-  const AuthState$Idle(
-      {required super.isAuthenticated, super.message = 'Idling'});
+  const AuthState$Idle({
+    required super.isAuthenticated,
+    super.message = 'Idling',
+  });
 }
 
 /// Processing
 /// {@nodoc}
 final class AuthState$Processing extends AuthState with _$AuthState {
   /// {@nodoc}
-  const AuthState$Processing(
-      {required super.isAuthenticated, super.message = 'Processing'});
+  const AuthState$Processing({
+    required super.isAuthenticated,
+    super.message = 'Processing',
+  });
 }
 
 /// Successful
 /// {@nodoc}
 final class AuthState$Successful extends AuthState with _$AuthState {
   /// {@nodoc}
-  const AuthState$Successful(
-      {required super.isAuthenticated, super.message = 'Successful'});
+  const AuthState$Successful({
+    required super.isAuthenticated,
+    super.message = 'Successful',
+  });
 }
 
 /// Error
 /// {@nodoc}
 final class AuthState$Error extends AuthState with _$AuthState {
   /// {@nodoc}
-  const AuthState$Error(
-      {required super.isAuthenticated,
-      super.message = 'An error has occurred.'});
+  const AuthState$Error({
+    required super.isAuthenticated,
+    super.message = 'An error has occurred.',
+  });
 }
 
 /// {@nodoc}

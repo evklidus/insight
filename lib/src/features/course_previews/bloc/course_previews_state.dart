@@ -47,8 +47,10 @@ sealed class CoursePreviewsState extends _$CoursePreviewsStateBase {
 final class CoursePreviewsState$Idle extends CoursePreviewsState
     with _$CoursePreviewsState {
   /// {@nodoc}
-  const CoursePreviewsState$Idle(
-      {required super.data, super.message = 'Idling'});
+  const CoursePreviewsState$Idle({
+    required super.data,
+    super.message = 'Idling',
+  });
 }
 
 /// Processing
@@ -56,8 +58,10 @@ final class CoursePreviewsState$Idle extends CoursePreviewsState
 final class CoursePreviewsState$Processing extends CoursePreviewsState
     with _$CoursePreviewsState {
   /// {@nodoc}
-  const CoursePreviewsState$Processing(
-      {required super.data, super.message = 'Processing'});
+  const CoursePreviewsState$Processing({
+    required super.data,
+    super.message = 'Processing',
+  });
 }
 
 /// Successful
@@ -65,8 +69,10 @@ final class CoursePreviewsState$Processing extends CoursePreviewsState
 final class CoursePreviewsState$Successful extends CoursePreviewsState
     with _$CoursePreviewsState {
   /// {@nodoc}
-  const CoursePreviewsState$Successful(
-      {required super.data, super.message = 'Successful'});
+  const CoursePreviewsState$Successful({
+    required super.data,
+    super.message = 'Successful',
+  });
 }
 
 /// Error
@@ -74,8 +80,10 @@ final class CoursePreviewsState$Successful extends CoursePreviewsState
 final class CoursePreviewsState$Error extends CoursePreviewsState
     with _$CoursePreviewsState {
   /// {@nodoc}
-  const CoursePreviewsState$Error(
-      {required super.data, super.message = 'An error has occurred.'});
+  const CoursePreviewsState$Error({
+    required super.data,
+    super.message = 'An error has occurred.',
+  });
 }
 
 /// {@nodoc}

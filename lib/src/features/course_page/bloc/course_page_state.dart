@@ -55,8 +55,10 @@ final class CoursePageState$Idle extends CoursePageState
 final class CoursePageState$Processing extends CoursePageState
     with _$CoursePageState {
   /// {@nodoc}
-  const CoursePageState$Processing(
-      {required super.data, super.message = 'Processing'});
+  const CoursePageState$Processing({
+    required super.data,
+    super.message = 'Processing',
+  });
 }
 
 /// Successful
@@ -64,8 +66,10 @@ final class CoursePageState$Processing extends CoursePageState
 final class CoursePageState$Successful extends CoursePageState
     with _$CoursePageState {
   /// {@nodoc}
-  const CoursePageState$Successful(
-      {required super.data, super.message = 'Successful'});
+  const CoursePageState$Successful({
+    required super.data,
+    super.message = 'Successful',
+  });
 }
 
 /// Error
@@ -73,8 +77,10 @@ final class CoursePageState$Successful extends CoursePageState
 final class CoursePageState$Error extends CoursePageState
     with _$CoursePageState {
   /// {@nodoc}
-  const CoursePageState$Error(
-      {required super.data, super.message = 'An error has occurred.'});
+  const CoursePageState$Error({
+    required super.data,
+    super.message = 'An error has occurred.',
+  });
 }
 
 /// {@nodoc}
@@ -82,7 +88,8 @@ base mixin _$CoursePageState on CoursePageState {}
 
 /// Pattern matching for [CoursePageState].
 typedef CoursePageStateMatch<R, S extends CoursePageState> = R Function(
-    S state);
+  S state,
+);
 
 /// {@nodoc}
 @immutable

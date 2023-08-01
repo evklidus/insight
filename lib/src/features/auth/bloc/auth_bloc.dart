@@ -77,7 +77,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
         isAuthenticated: state.isAuthenticated,
         message: 'Вы успешно зарегистрировались',
       ));
-    } on Object catch (_) {
+    } on Object {
       emit(AuthState.error(
         isAuthenticated: state.isAuthenticated,
         message: 'Регистрация временно недоступна',

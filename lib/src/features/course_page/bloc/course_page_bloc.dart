@@ -27,7 +27,7 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
       emit(CoursePageState.processing(data: state.data));
       final CoursePage coursePage = await _repository.getCoursePage(event.id);
       emit(CoursePageState.successful(data: coursePage));
-    } on Object catch (_) {
+    } on Object {
       emit(CoursePageState.error(
         data: state.data,
         message: 'Ошибка получения курса',

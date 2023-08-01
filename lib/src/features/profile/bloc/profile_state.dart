@@ -53,24 +53,30 @@ final class ProfileState$Idle extends ProfileState with _$ProfileState {
 /// {@nodoc}
 final class ProfileState$Processing extends ProfileState with _$ProfileState {
   /// {@nodoc}
-  const ProfileState$Processing(
-      {required super.data, super.message = 'Processing'});
+  const ProfileState$Processing({
+    required super.data,
+    super.message = 'Processing',
+  });
 }
 
 /// Successful
 /// {@nodoc}
 final class ProfileState$Successful extends ProfileState with _$ProfileState {
   /// {@nodoc}
-  const ProfileState$Successful(
-      {required super.data, super.message = 'Successful'});
+  const ProfileState$Successful({
+    required super.data,
+    super.message = 'Successful',
+  });
 }
 
 /// Error
 /// {@nodoc}
 final class ProfileState$Error extends ProfileState with _$ProfileState {
   /// {@nodoc}
-  const ProfileState$Error(
-      {required super.data, super.message = 'An error has occurred.'});
+  const ProfileState$Error({
+    required super.data,
+    super.message = 'An error has occurred.',
+  });
 }
 
 /// {@nodoc}

@@ -1,7 +1,9 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:insight/src/common/utils/format_error.dart';
 import 'package:insight/src/core/bloc/insight_bloc_observer.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 
@@ -13,6 +15,23 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await DIContainer.instance.initDeps();
+  final sourceFlutterError = FlutterError.onError;
+  FlutterError.onError = (details) {
+    debugPrint(formatError(
+      '🦄 FlutterError',
+      details.exceptionAsString(),
+      details.stack,
+    ));
+    sourceFlutterError?.call(details);
+  };
+  PlatformDispatcher.instance.onError = (exception, stackTrace) {
+    debugPrint(formatError(
+      '🖥️ PlatformDispatcher',
+      exception.toString(),
+      stackTrace,
+    ));
+    return true;
+  };
   Bloc.observer = InsightBlocObserver();
   Bloc.transformer = sequential();
   runApp(const MyApp());
