@@ -14,7 +14,7 @@ class InformationWidget extends StatelessWidget {
     required this.reloadFunc,
   }) : super(key: key);
 
-  InformationWidget.idle({
+  InformationWidget.empty({
     Key? key,
     String? imagePath,
     this.title = AppStrings.oops,
@@ -35,7 +35,7 @@ class InformationWidget extends StatelessWidget {
   final String imagePath;
   final String title;
   final String description;
-  final Function()? reloadFunc;
+  final VoidCallback? reloadFunc;
 
   @override
   Widget build(BuildContext context) {

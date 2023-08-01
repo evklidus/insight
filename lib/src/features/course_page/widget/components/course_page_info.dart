@@ -6,8 +6,8 @@ import 'package:insight/src/common/widgets/insight_image_widget.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
 import 'package:insight/src/features/course_page/widget/components/lesson_widget.dart';
 
-class CoursePageScreenLoaded extends StatefulWidget {
-  const CoursePageScreenLoaded({
+class CoursePageInfo extends StatefulWidget {
+  const CoursePageInfo({
     Key? key,
     required this.coursePage,
   }) : super(key: key);
@@ -15,10 +15,10 @@ class CoursePageScreenLoaded extends StatefulWidget {
   final CoursePage coursePage;
 
   @override
-  State<CoursePageScreenLoaded> createState() => _CoursePageScreenLoadedState();
+  State<CoursePageInfo> createState() => _CoursePageScreenLoadedState();
 }
 
-class _CoursePageScreenLoadedState extends State<CoursePageScreenLoaded> {
+class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

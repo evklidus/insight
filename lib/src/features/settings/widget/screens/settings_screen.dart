@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/boxes/h_box.dart';
@@ -46,7 +47,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Icons.logout_rounded,
                 color: Colors.redAccent,
               ),
-              onTap: () => authBloc.add(const AuthEvent.logout()),
+              onTap: () {
+                authBloc.add(const AuthEvent.logout());
+                context.go('/login');
+              },
             ),
             const HBox(20),
             // Profile

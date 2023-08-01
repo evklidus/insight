@@ -21,7 +21,7 @@ final class User {
         lastName: dto.lastName,
       );
 
-  final int? id;
+  final String? id;
   final String username;
   final String? email;
   final String? avatarUrl;

@@ -15,7 +15,7 @@ class UserDTO {
     this.lastName,
   });
 
-  final int? id;
+  final String? id;
   final String username;
   final String? email;
   @JsonKey(name: 'avatar_url')

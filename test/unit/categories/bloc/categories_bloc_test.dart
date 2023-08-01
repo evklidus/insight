@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:insight/src/features/categories/bloc/categories_state.dart';
 import 'package:insight/src/features/categories/data/categories_repository.dart';
 import 'package:insight/src/features/categories/bloc/categories_bloc.dart';
 import 'package:insight/src/features/categories/model/category.dart';
@@ -18,36 +19,33 @@ void main() {
       tag: 'tag',
     ),
   ];
+  final exception = Exception();
 
   setUp(() {
     categoriesRepository = MockCategoriesRepository();
   });
 
   blocTest(
-    'emits [CategoriesLoadedState] with [List<Category>] when CategoriesEvent.get() is added',
-    build: () => CategoriesBloc(categoriesRepository),
+    'Successful on CategoriesEvent.fetch()',
+    build: () => CategoriesBloc(repository: categoriesRepository),
     setUp: () => when(categoriesRepository.getCategories()).thenAnswer(
       (_) async => categories,
     ),
-    act: (bloc) => bloc.add(const CategoriesEvent.get()),
+    act: (bloc) => bloc.add(const CategoriesEvent.fetch()),
     expect: () => [
-      isA<CategoriesLoadingState>(),
-      const CategoriesState.loaded(categories),
+      const CategoriesState.processing(data: null),
+      const CategoriesState.successful(data: categories),
+      const CategoriesState.idle(data: categories),
     ],
   );
 
   blocTest(
-    'emits [CategoriesErrorState] when CategoriesEvent.get() is added',
-    build: () => CategoriesBloc(categoriesRepository),
+    'Error on CategoriesEvent.fetch()',
+    build: () => CategoriesBloc(repository: categoriesRepository),
     setUp: () {
-      when(categoriesRepository.getCategories()).thenAnswer(
-        (_) => throw Exception(),
-      );
+      when(categoriesRepository.getCategories()).thenThrow(exception);
     },
-    act: (bloc) => bloc.add(const CategoriesEvent.get()),
-    expect: () => [
-      isA<CategoriesLoadingState>(),
-      isA<CategoriesErrorState>(),
-    ],
+    act: (bloc) => bloc.add(const CategoriesEvent.fetch()),
+    errors: () => [exception],
   );
 }

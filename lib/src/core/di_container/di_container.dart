@@ -19,7 +19,7 @@ import 'package:rest_client/rest_client.dart';
 final class DIContainer {
   DIContainer._();
 
-  factory DIContainer() => _instance ??= DIContainer._();
+  static DIContainer get instance => _instance ??= DIContainer._();
 
   static DIContainer? _instance;
 

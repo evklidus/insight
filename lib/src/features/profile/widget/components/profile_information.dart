@@ -3,8 +3,8 @@ import 'package:insight/src/common/widgets/boxes/h_box.dart';
 import 'package:insight/src/features/profile/model/user.dart';
 import 'package:insight/src/features/profile/widget/components/avatar_widget.dart';
 
-class ProfileLoadedScreen extends StatefulWidget {
-  const ProfileLoadedScreen({
+class ProfileInformation extends StatefulWidget {
+  const ProfileInformation({
     super.key,
     required this.user,
   });
@@ -12,10 +12,10 @@ class ProfileLoadedScreen extends StatefulWidget {
   final User user;
 
   @override
-  State<ProfileLoadedScreen> createState() => _ProfileLoadedScreenState();
+  State<ProfileInformation> createState() => _ProfileLoadedScreenState();
 }
 
-class _ProfileLoadedScreenState extends State<ProfileLoadedScreen> {
+class _ProfileLoadedScreenState extends State<ProfileInformation> {
   bool get hasName => widget.user.firstName != null;
 
   @override
