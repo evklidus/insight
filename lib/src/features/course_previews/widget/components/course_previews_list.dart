@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:insight/src/common/widgets/boxes/h_box.dart';
 import 'package:insight/src/features/course_previews/model/course_preview.dart';
 import 'package:insight/src/features/course_previews/widget/components/course_preview_widget.dart';
 
@@ -20,7 +19,7 @@ class CoursePreviewsList extends StatelessWidget {
       itemBuilder: (context, index) => CoursePreviewWidget(
         coursePreview: coursePreviews[index],
       ),
-      separatorBuilder: (context, index) => const HBox(20),
+      separatorBuilder: (context, index) => const SizedBox(height: 20),
     );
   }
 }

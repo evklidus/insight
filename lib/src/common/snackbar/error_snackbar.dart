@@ -10,39 +10,40 @@ class ErrorSnackBar extends SnackBar {
       ScaffoldMessenger.maybeOf(context)?.showSnackBar(
         ErrorSnackBar(
           error: error,
+          context: context,
         ),
       );
 
+  // TODO: Добавить анимацию
   ErrorSnackBar({
-    final String? error,
+    String? error,
+    required BuildContext context,
     Key? key,
   }) : super(
           key: key,
-          backgroundColor: Colors.redAccent,
-          content: SizedBox(
-            height: 48,
-            child: Center(
-              child: Text(
-                error ?? 'Произошла ошибка',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
+          backgroundColor: Theme.of(context).colorScheme.error,
+          content: Center(
+            child: Text(
+              error ?? 'Произошла ошибка',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Colors.white,
               ),
             ),
           ),
-          duration: const Duration(milliseconds: 6000),
+          duration: const Duration(seconds: 2),
           margin: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 16,
           ),
           padding: const EdgeInsets.symmetric(
-            horizontal: 8,
+            horizontal: 12,
+            vertical: 5,
           ),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(15),
           ),
         );
 }

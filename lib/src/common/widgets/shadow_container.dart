@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+@Deprecated('На данный момент нигде не нужен, возможно надо будет удалить')
 class ShadowContainer extends StatelessWidget {
   const ShadowContainer({
     Key? key,

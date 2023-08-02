@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:insight/src/common/widgets/boxes/w_box.dart';
 
 class ChangeAuthTypeButton extends StatelessWidget {
   const ChangeAuthTypeButton({
@@ -24,7 +23,7 @@ class ChangeAuthTypeButton extends StatelessWidget {
             fontSize: 18,
           ),
         ),
-        const WBox(5),
+        const SizedBox(width: 5),
         TextButton(
           onPressed: onPressed,
           child: Text(

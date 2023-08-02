@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/snackbar/error_snackbar.dart';
 import 'package:insight/src/common/snackbar/successful_snackbar.dart';
-import 'package:insight/src/common/widgets/boxes/h_box.dart';
+
 import 'package:insight/src/common/widgets/text_fields/insight_text_field.dart';
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/src/features/auth/widget/components/auth_button.dart';
@@ -53,33 +53,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 AppStrings.registration,
                 style: TextStyle(fontSize: 20),
               ),
-              const HBox(50),
-              InsightTextField(
-                width: 300,
-                hintText: AppStrings.login,
-                onChanged: (value) => username = value,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppStrings.pleaseEnterSomething;
-                  }
-                  password = value;
-                  return null;
-                },
+              const SizedBox(height: 50),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: InsightTextField(
+                  hintText: AppStrings.login,
+                  onChanged: (value) => username = value,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return AppStrings.pleaseEnterSomething;
+                    }
+                    password = value;
+                    return null;
+                  },
+                ),
               ),
-              const HBox(20),
-              InsightTextField(
-                width: 300,
-                hintText: AppStrings.password,
-                onChanged: (value) => password = value,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppStrings.pleaseEnterSomething;
-                  }
-                  password = value;
-                  return null;
-                },
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: InsightTextField.password(
+                  onChanged: (value) => password = value,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return AppStrings.pleaseEnterSomething;
+                    }
+                    password = value;
+                    return null;
+                  },
+                ),
               ),
-              const HBox(20),
+              const SizedBox(height: 20),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -96,7 +99,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                     },
                   ),
-                  const HBox(20),
+                  const SizedBox(height: 20),
                   ChangeAuthTypeButton(
                     title: AppStrings.haveAnAccount,
                     subTitle: AppStrings.comeIn,

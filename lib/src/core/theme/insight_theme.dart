@@ -11,7 +11,7 @@ final class InsightTheme {
     const colorScheme = ColorScheme(
       brightness: Brightness.dark,
       primary: Color(0xff3965E3),
-      onPrimary: Colors.black,
+      onPrimary: Colors.white,
       secondary: Colors.white,
       onSecondary: Colors.black,
       error: Colors.redAccent,
@@ -19,7 +19,7 @@ final class InsightTheme {
       background: Color(0xff1C1C1E),
       onBackground: Colors.white,
       surface: Color(0xff333334),
-      onSurface: Color(0xff3965E3),
+      onSurface: Colors.white,
     );
 
     return ThemeData(

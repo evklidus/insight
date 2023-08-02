@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:insight/src/common/constants/app_strings.dart';
-import 'package:insight/src/common/widgets/boxes/h_box.dart';
-import 'package:insight/src/common/widgets/boxes/w_padding_box.dart';
+
 import 'package:insight/gen/assets.gen.dart';
 
 class InformationWidget extends StatelessWidget {
@@ -64,8 +63,9 @@ class InformationWidget extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            const HBox(3),
-            WPaddingBox(
+            const SizedBox(height: 3),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 description,
                 style: const TextStyle(
@@ -75,7 +75,7 @@ class InformationWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            const HBox(2),
+            const SizedBox(height: 2),
             TextButton(
               onPressed: reloadFunc,
               child: const Text(AppStrings.tryAgain),
