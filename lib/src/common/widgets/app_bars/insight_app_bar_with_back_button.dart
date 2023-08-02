@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:insight/src/common/widgets/rounded_back_button.dart';
-import 'package:insight/src/common/widgets/boxes/w_box.dart';
 
 class InsightAppBarWithBackButton extends StatelessWidget
     implements PreferredSizeWidget {
@@ -27,7 +26,7 @@ class InsightAppBarWithBackButton extends StatelessWidget
           RoundedBackButton(
             onTap: onTap,
           ),
-          const WBox(15),
+          const SizedBox(width: 15),
           Text(title),
         ],
       ),

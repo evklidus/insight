@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 
-import 'package:insight/src/common/widgets/boxes/w_box.dart';
 import 'package:insight/src/common/widgets/insight_image_widget.dart';
 import 'package:insight/src/features/course_previews/model/course_preview.dart';
 
@@ -40,7 +39,7 @@ class CoursePreviewWidget extends StatelessWidget {
               height: 74,
               borderRadius: BorderRadius.circular(15),
             ),
-            const WBox(13),
+            const SizedBox(width: 13),
             Flexible(
               child: Text(
                 coursePreview.name,

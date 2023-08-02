@@ -13,12 +13,13 @@ class SuccessfulSnackBar extends SnackBar {
         ),
       );
 
+  // TODO: Добавить анимацию
   SuccessfulSnackBar({
-    final String? message,
+    String? message,
     Key? key,
   }) : super(
           key: key,
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.greenAccent,
           content: SizedBox(
             height: 48,
             child: Center(
@@ -32,17 +33,19 @@ class SuccessfulSnackBar extends SnackBar {
               ),
             ),
           ),
-          duration: const Duration(milliseconds: 6000),
+          // TODO: Вынести в отдельный файл констант
+          duration: const Duration(seconds: 2),
           margin: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 16,
           ),
           padding: const EdgeInsets.symmetric(
-            horizontal: 8,
+            horizontal: 12,
+            vertical: 5,
           ),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(15),
           ),
         );
 }

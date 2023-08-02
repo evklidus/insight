@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:insight/src/common/widgets/boxes/h_box.dart';
+
 import 'package:insight/src/features/profile/model/user.dart';
 import 'package:insight/src/features/profile/widget/components/avatar_widget.dart';
 
@@ -24,15 +24,15 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const HBox(30),
+          const SizedBox(height: 30),
           AvatarWidget(
             widget.user.avatarUrl,
             width: 200,
             height: 200,
           ),
-          if (hasName) const HBox(20),
+          if (hasName) const SizedBox(height: 20),
           if (hasName) Text('${widget.user.firstName} ${widget.user.lastName}'),
-          const HBox(10),
+          const SizedBox(height: 10),
           Text(
             '@${widget.user.username}',
             style: Theme.of(context).textTheme.bodySmall,
