@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 
 import 'package:insight/src/common/widgets/insight_image_widget.dart';
-import 'package:insight/src/features/course_previews/model/course_preview.dart';
+import 'package:insight/src/features/course/model/course.dart';
 
-class CoursePreviewWidget extends StatelessWidget {
-  const CoursePreviewWidget({
+class CourseWidget extends StatelessWidget {
+  const CourseWidget({
     Key? key,
-    required this.coursePreview,
+    required this.course,
   }) : super(key: key);
 
-  final CoursePreview coursePreview;
+  final Course course;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,9 @@ class CoursePreviewWidget extends StatelessWidget {
       onTap: () => context.goRelativeNamed(
         'page',
         pathParameters: {
-          'coursePageId': coursePreview.id.toString(),
+          'coursePageId': course.id.toString(),
         },
-        extra: coursePreview.name,
+        extra: course.name,
       ),
       child: Container(
         height: 100,
@@ -34,7 +34,7 @@ class CoursePreviewWidget extends StatelessWidget {
         child: Row(
           children: [
             InsightImageWidget(
-              coursePreview.imageUrl,
+              course.imageUrl,
               width: 74,
               height: 74,
               borderRadius: BorderRadius.circular(15),
@@ -42,7 +42,7 @@ class CoursePreviewWidget extends StatelessWidget {
             const SizedBox(width: 13),
             Flexible(
               child: Text(
-                coursePreview.name,
+                course.name,
                 style: Theme.of(context).textTheme.bodyMedium,
                 maxLines: 2,
               ),

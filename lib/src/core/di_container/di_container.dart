@@ -10,8 +10,8 @@ import 'package:insight/src/features/categories/data/categories_network_data_pro
 import 'package:insight/src/features/categories/data/categories_repository.dart';
 import 'package:insight/src/features/course_page/data/course_page_network_data_provider.dart';
 import 'package:insight/src/features/course_page/data/course_page_repository.dart';
-import 'package:insight/src/features/course_previews/data/course_previews_network_data_provider.dart';
-import 'package:insight/src/features/course_previews/data/courses_preview_repository.dart';
+import 'package:insight/src/features/course/data/course_network_data_provider.dart';
+import 'package:insight/src/features/course/data/course_repository.dart';
 import 'package:insight/src/features/profile/data/profile_network_data_provider.dart';
 import 'package:insight/src/features/profile/data/profile_repository.dart';
 import 'package:rest_client/rest_client.dart';
@@ -34,15 +34,14 @@ final class DIContainer {
   late final AuthNetworkDataProvider authNetworkDataProvider;
   late final AuthStorageDataProvider authStorageDataProvider;
   late final CategoriesNetworkDataProvider categoriesNetworkDataProvider;
-  late final CoursePreviewsNetworkDataProvider
-      coursePreviewsNetworkDataProvider;
+  late final CourseNetworkDataProvider coursesNetworkDataProvider;
   late final CoursePageNetworkDataProvider coursePageNetworkDataProvider;
   late final ProfileNetworkDataProvider profileNetworkDataProvider;
 
   // Repositories
   late final AuthRepository authRepository;
   late final CategoriesRepository categoriesRepository;
-  late final CoursesPreviewRepository coursesPreviewRepository;
+  late final CourseRepository coursesRepository;
   late final CoursePageRepository coursePageRepository;
   late final ProfileRepository profileRepository;
 
@@ -76,10 +75,8 @@ final class DIContainer {
     // Data Providers
     authNetworkDataProvider = AuthNetworkDataProviderImpl(authClient);
     authStorageDataProvider = AuthStorageDataProviderImpl(insightDB);
-    categoriesNetworkDataProvider =
-        CategoriesNetworkDataProviderImpl(restClient);
-    coursePreviewsNetworkDataProvider =
-        CoursePreviewsNetworkDataProviderImpl(restClient);
+    categoriesNetworkDataProvider = CategoriesFirestoreDataProviderImpl();
+    coursesNetworkDataProvider = CourseNetworkDataProviderImpl(restClient);
     coursePageNetworkDataProvider =
         CoursePageNetworkDataProviderImpl(restClient);
     profileNetworkDataProvider = ProfileNetworkDataProviderImpl(restClient);
@@ -93,8 +90,8 @@ final class DIContainer {
     categoriesRepository = CategoriesRepositoryImpl(
       networkDataProvider: categoriesNetworkDataProvider,
     );
-    coursesPreviewRepository = CoursesPreviewRepositoryImpl(
-      networkDataProvider: coursePreviewsNetworkDataProvider,
+    coursesRepository = CourseRepositoryImpl(
+      networkDataProvider: coursesNetworkDataProvider,
     );
     coursePageRepository = CoursePageRepositoryImpl(
       networkDataProvider: coursePageNetworkDataProvider,

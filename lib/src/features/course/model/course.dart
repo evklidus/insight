@@ -1,14 +1,14 @@
 import 'package:rest_client/rest_client.dart';
 
-final class CoursePreview {
-  CoursePreview({
+final class Course {
+  Course({
     required this.id,
     required this.name,
     required this.imageUrl,
     required this.tag,
   });
 
-  factory CoursePreview.fromDTO(CoursePreviewDTO dto) => CoursePreview(
+  factory Course.fromDTO(CourseDTO dto) => Course(
         id: dto.id,
         name: dto.name,
         imageUrl: dto.imageUrl,

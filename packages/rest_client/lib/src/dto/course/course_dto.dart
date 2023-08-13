@@ -1,12 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
-part 'course_preview_dto.g.dart';
+part 'course_dto.g.dart';
 
 @JsonSerializable()
 @immutable
-class CoursePreviewDTO {
-  const CoursePreviewDTO({
+class CourseDTO {
+  const CourseDTO({
     required this.id,
     required this.name,
     required this.imageUrl,
@@ -19,6 +19,6 @@ class CoursePreviewDTO {
   final String imageUrl;
   final String tag;
 
-  factory CoursePreviewDTO.fromJson(Map<String, Object?> json) =>
-      _$CoursePreviewDTOFromJson(json);
+  factory CourseDTO.fromJson(Map<String, Object?> json) =>
+      _$CourseDTOFromJson(json);
 }

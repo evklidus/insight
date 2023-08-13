@@ -4,7 +4,7 @@ import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/categories_screen.dart';
 import 'package:insight/src/features/course_page/widget/screens/course_page_screen.dart';
-import 'package:insight/src/features/course_previews/widget/screens/course_previews_screen.dart';
+import 'package:insight/src/features/course/widget/screens/courses_screen.dart';
 import 'package:insight/src/features/profile/widget/screens/profile_screen.dart';
 import 'package:insight/src/features/settings/widget/screens/settings_screen.dart';
 import 'package:insight_player/insight_player.dart';
@@ -34,7 +34,7 @@ class AppRouter {
                   GoRoute(
                     name: 'previews',
                     path: 'course-previews/:tag',
-                    builder: (context, state) => CoursePreviewsScreen(
+                    builder: (context, state) => CoursesScreen(
                       state.pathParameters['tag'] as String,
                     ),
                     routes: [
