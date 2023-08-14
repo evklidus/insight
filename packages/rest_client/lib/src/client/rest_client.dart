@@ -26,7 +26,7 @@ abstract class RestClient {
   Future<List<CategoryDTO>> getCategories();
 
   @GET(_getCourseByCategory)
-  Future<List<CourseDTO>> getCourseByCategoryTag(
+  Future<List<CourseDTO>> getCoursesByCategoryTag(
     @Path('category') String categoryTag,
   );
 

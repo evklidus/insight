@@ -14,7 +14,7 @@ class CategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => context.goRelativeNamed(
-        'previews',
+        'courses',
         pathParameters: {
           'tag': category.tag,
         },

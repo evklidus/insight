@@ -26,7 +26,7 @@ void main() {
   test(
       'get a Categories if mockRestClient.getCategories completes successfully',
       () {
-    when(mockRestClient.getCourseByCategoryTag(categoryTag)).thenAnswer(
+    when(mockRestClient.getCoursesByCategoryTag(categoryTag)).thenAnswer(
       (_) async => courses,
     );
     expect(
@@ -38,7 +38,7 @@ void main() {
   test(
       'throw an exception if mockRestClient.getCategories completes with error',
       () {
-    when(mockRestClient.getCourseByCategoryTag(categoryTag)).thenAnswer(
+    when(mockRestClient.getCoursesByCategoryTag(categoryTag)).thenAnswer(
       (_) => throw Exception(),
     );
     expect(

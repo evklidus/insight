@@ -15,7 +15,7 @@ void main() {
   const categoryTag = 'sport';
   final courses = [
     Course(
-      id: 1,
+      id: '1',
       name: 'name',
       imageUrl: 'imageUrl',
       tag: categoryTag,

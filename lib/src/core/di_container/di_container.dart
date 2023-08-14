@@ -34,7 +34,7 @@ final class DIContainer {
   late final AuthNetworkDataProvider authNetworkDataProvider;
   late final AuthStorageDataProvider authStorageDataProvider;
   late final CategoriesNetworkDataProvider categoriesNetworkDataProvider;
-  late final CourseNetworkDataProvider coursesNetworkDataProvider;
+  late final CourseNetworkDataProvider courseNetworkDataProvider;
   late final CoursePageNetworkDataProvider coursePageNetworkDataProvider;
   late final ProfileNetworkDataProvider profileNetworkDataProvider;
 
@@ -76,7 +76,7 @@ final class DIContainer {
     authNetworkDataProvider = AuthNetworkDataProviderImpl(authClient);
     authStorageDataProvider = AuthStorageDataProviderImpl(insightDB);
     categoriesNetworkDataProvider = CategoriesFirestoreDataProviderImpl();
-    coursesNetworkDataProvider = CourseNetworkDataProviderImpl(restClient);
+    courseNetworkDataProvider = CourseFirestoreDataProviderImpl();
     coursePageNetworkDataProvider =
         CoursePageNetworkDataProviderImpl(restClient);
     profileNetworkDataProvider = ProfileNetworkDataProviderImpl(restClient);
@@ -91,7 +91,7 @@ final class DIContainer {
       networkDataProvider: categoriesNetworkDataProvider,
     );
     coursesRepository = CourseRepositoryImpl(
-      networkDataProvider: coursesNetworkDataProvider,
+      networkDataProvider: courseNetworkDataProvider,
     );
     coursePageRepository = CoursePageRepositoryImpl(
       networkDataProvider: coursePageNetworkDataProvider,

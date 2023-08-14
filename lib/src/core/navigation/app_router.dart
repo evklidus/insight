@@ -32,8 +32,8 @@ class AppRouter {
                 builder: (context, state) => const CategoriesScreen(),
                 routes: [
                   GoRoute(
-                    name: 'previews',
-                    path: 'course-previews/:tag',
+                    name: 'courses',
+                    path: 'courses/:tag',
                     builder: (context, state) => CoursesScreen(
                       state.pathParameters['tag'] as String,
                     ),
