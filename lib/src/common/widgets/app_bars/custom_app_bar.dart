@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'package:insight/src/common/widgets/rounded_back_button.dart';
 
-class InsightAppBarWithBackButton extends StatelessWidget
-    implements PreferredSizeWidget {
-  const InsightAppBarWithBackButton(
-    this.title, {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const CustomAppBar(
+    this.leadingText, {
     Key? key,
     this.onTap,
   }) : super(key: key);
 
-  final String title;
+  final String? leadingText;
   final Function? onTap;
+
+  bool get _hasLeadingText => leadingText != null;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +27,8 @@ class InsightAppBarWithBackButton extends StatelessWidget
           RoundedBackButton(
             onTap: onTap,
           ),
-          const SizedBox(width: 15),
-          Text(title),
+          if (_hasLeadingText) const SizedBox(width: 15),
+          if (_hasLeadingText) Text(leadingText!),
         ],
       ),
     );

@@ -32,7 +32,7 @@ abstract class RestClient {
 
   @GET(_getCoursePageById)
   Future<CoursePageDTO> getCoursePage(
-    @Path('id') int id,
+    @Path('id') String id,
   );
 
   @GET(_getUser)

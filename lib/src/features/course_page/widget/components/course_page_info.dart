@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:insight/src/common/constants/app_strings.dart';
 
-import 'package:insight/src/common/widgets/insight_image_widget.dart';
+import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
 import 'package:insight/src/features/course_page/widget/components/lesson_widget.dart';
 
@@ -30,7 +30,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-            InsightImageWidget(
+            CustomImageWidget(
               widget.coursePage.imageUrl,
               height: 190,
               width: double.infinity,

@@ -42,18 +42,14 @@ class AppRouter {
                         name: 'page',
                         path: 'course-page/:coursePageId',
                         builder: (context, state) => CoursePageScreen(
-                          coursePageId: int.parse(
-                            state.pathParameters['coursePageId'] as String,
-                          ),
-                          // TODO: Убрать extra
-                          coursePageTitle: state.extra as String,
+                          coursePageId:
+                              state.pathParameters['coursePageId'].toString(),
                         ),
                         routes: [
                           GoRoute(
                             name: 'video',
                             path: 'video/:coursePageTitle',
                             builder: (context, state) => InsightPlayer(
-                              // TODO: Убрать extra
                               videoUrl: state.extra as String,
                               title: state.pathParameters['coursePageTitle']
                                   as String,

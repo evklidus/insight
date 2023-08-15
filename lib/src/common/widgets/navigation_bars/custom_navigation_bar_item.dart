@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class InsightNavigationBarItem extends StatefulWidget {
-  const InsightNavigationBarItem({
+class CustomNavigationBarItem extends StatefulWidget {
+  const CustomNavigationBarItem({
     required this.activeIcon,
     required this.inactiveIcon,
     required this.onTap,
@@ -17,11 +17,11 @@ class InsightNavigationBarItem extends StatefulWidget {
   final void Function(int) onTap;
 
   @override
-  State<InsightNavigationBarItem> createState() =>
-      _InsightNavigationBarItemState();
+  State<CustomNavigationBarItem> createState() =>
+      _CustomNavigationBarItemState();
 }
 
-class _InsightNavigationBarItemState extends State<InsightNavigationBarItem> {
+class _CustomNavigationBarItemState extends State<CustomNavigationBarItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

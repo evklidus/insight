@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class InsightImageWidget extends StatelessWidget {
-  const InsightImageWidget(
+class CustomImageWidget extends StatelessWidget {
+  const CustomImageWidget(
     this.imageUrl, {
     Key? key,
     this.width,

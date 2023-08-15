@@ -14,7 +14,7 @@ void main() {
       coursePageNetworkDataProviderImpl;
   final MockRestClient mockRestClient = MockRestClient();
   final coursePage = CoursePageDTOFake();
-  const coursePageId = 1;
+  const coursePageId = '1';
 
   setUpAll(() {
     coursePageNetworkDataProviderImpl =

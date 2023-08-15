@@ -72,7 +72,8 @@ class MockRestClient extends _i1.Mock implements _i4.RestClient {
         returnValue: _i5.Future<List<_i7.CourseDTO>>.value(<_i7.CourseDTO>[]),
       ) as _i5.Future<List<_i7.CourseDTO>>);
   @override
-  _i5.Future<_i2.CoursePageDTO> getCoursePage(int? id) => (super.noSuchMethod(
+  _i5.Future<_i2.CoursePageDTO> getCoursePage(String? id) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getCoursePage,
           [id],

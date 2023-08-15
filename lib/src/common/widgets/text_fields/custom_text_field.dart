@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 
-class InsightTextField extends StatelessWidget {
-  const InsightTextField({
+class CustomTextField extends StatelessWidget {
+  const CustomTextField({
     super.key,
     String? hintText,
     void Function(String)? onChanged,
@@ -12,7 +12,7 @@ class InsightTextField extends StatelessWidget {
         _validator = validator,
         _isForPassword = false;
 
-  const InsightTextField.password({
+  const CustomTextField.password({
     super.key,
     String? hintText,
     void Function(String)? onChanged,

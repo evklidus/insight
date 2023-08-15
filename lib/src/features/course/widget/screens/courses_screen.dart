@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/snackbar/error_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
-import 'package:insight/src/common/widgets/app_bars/insight_app_bar_with_back_button.dart';
+import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/features/course/bloc/course_bloc.dart';
 import 'package:insight/src/features/course/bloc/course_state.dart';
@@ -33,7 +33,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const InsightAppBarWithBackButton(AppStrings.courses),
+      appBar: const CustomAppBar(AppStrings.categories),
       body: BlocProvider(
         create: (context) => coursesBloc,
         child: BlocConsumer<CourseBloc, CourseState>(

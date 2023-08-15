@@ -77,8 +77,7 @@ final class DIContainer {
     authStorageDataProvider = AuthStorageDataProviderImpl(insightDB);
     categoriesNetworkDataProvider = CategoriesFirestoreDataProviderImpl();
     courseNetworkDataProvider = CourseFirestoreDataProviderImpl();
-    coursePageNetworkDataProvider =
-        CoursePageNetworkDataProviderImpl(restClient);
+    coursePageNetworkDataProvider = CoursePageFirestoreDataProviderImpl();
     profileNetworkDataProvider = ProfileNetworkDataProviderImpl(restClient);
 
     // Repositories

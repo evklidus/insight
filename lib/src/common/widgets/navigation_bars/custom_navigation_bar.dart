@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:glass/glass.dart';
-import 'package:insight/src/common/widgets/navigation_bars/insight_navigation_bar_item.dart';
+import 'package:insight/src/common/widgets/navigation_bars/custom_navigation_bar_item.dart';
 import 'package:insight/gen/assets.gen.dart';
 
-class InsightNavigationBar extends StatefulWidget {
-  const InsightNavigationBar({
+class CustomNavigationBar extends StatefulWidget {
+  const CustomNavigationBar({
     required this.onTap,
     required this.currentIndex,
     Key? key,
@@ -14,25 +14,25 @@ class InsightNavigationBar extends StatefulWidget {
   final int currentIndex;
 
   @override
-  State<InsightNavigationBar> createState() => _InsightNavigationBarState();
+  State<CustomNavigationBar> createState() => _CustomNavigationBarState();
 }
 
-class _InsightNavigationBarState extends State<InsightNavigationBar> {
+class _CustomNavigationBarState extends State<CustomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       bottom: true,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <InsightNavigationBarItem>[
-          InsightNavigationBarItem(
+        children: <CustomNavigationBarItem>[
+          CustomNavigationBarItem(
             activeIcon: Assets.icons.insightFilledBottomBarIcon.svg(),
             inactiveIcon: Assets.icons.insightSolidBottomBarIcon.svg(),
             onTap: widget.onTap,
             currentIndex: widget.currentIndex,
             itemIndex: 0,
           ),
-          InsightNavigationBarItem(
+          CustomNavigationBarItem(
             activeIcon: Assets.icons.gearshapeFilledBottomBarIcon.svg(),
             inactiveIcon: Assets.icons.gearshapeSolidBottomBarIcon.svg(),
             onTap: widget.onTap,

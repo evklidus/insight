@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 
-import 'package:insight/src/common/widgets/insight_image_widget.dart';
+import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/features/course/model/course.dart';
 
 class CourseWidget extends StatelessWidget {
@@ -20,7 +20,6 @@ class CourseWidget extends StatelessWidget {
         pathParameters: {
           'coursePageId': course.id.toString(),
         },
-        extra: course.name,
       ),
       child: Container(
         height: 100,
@@ -33,7 +32,7 @@ class CourseWidget extends StatelessWidget {
         padding: const EdgeInsets.all(13),
         child: Row(
           children: [
-            InsightImageWidget(
+            CustomImageWidget(
               course.imageUrl,
               width: 74,
               height: 74,

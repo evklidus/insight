@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:insight/src/common/widgets/insight_image_widget.dart';
+import 'package:insight/src/common/widgets/custom_image_widget.dart';
 
 class AvatarWidget extends StatelessWidget {
   const AvatarWidget(
@@ -16,7 +16,7 @@ class AvatarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return avatarUrl != null
-        ? InsightImageWidget(
+        ? CustomImageWidget(
             avatarUrl!,
             width: width,
             height: height,

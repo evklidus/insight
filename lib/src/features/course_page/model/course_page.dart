@@ -11,12 +11,12 @@ final class CoursePage {
   });
 
   factory CoursePage.fromDTO(CoursePageDTO dto) => CoursePage(
-        id: dto.id,
+        id: dto.id.toString(),
         imageUrl: dto.imageUrl,
         lessons: dto.lessons.map(Lesson.fromDTO).toList(),
       );
 
-  final int id;
+  final String id;
   final String imageUrl;
   final List<Lesson> lessons;
 }
