@@ -73,7 +73,7 @@ final class DIContainer {
     restClient = RestClient(dioForRestClient);
 
     // Data Providers
-    authNetworkDataProvider = AuthNetworkDataProviderImpl(authClient);
+    authNetworkDataProvider = AuthFirebaseDataProviderImpl();
     authStorageDataProvider = AuthStorageDataProviderImpl(insightDB);
     categoriesNetworkDataProvider = CategoriesFirestoreDataProviderImpl();
     courseNetworkDataProvider = CourseFirestoreDataProviderImpl();

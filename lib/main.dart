@@ -17,6 +17,9 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await DIContainer.instance.initDeps();
   final sourceFlutterError = FlutterError.onError;
   FlutterError.onError = (details) {

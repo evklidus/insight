@@ -25,18 +25,30 @@ class InsightDBBase implements InsightDB {
   }
 
   @override
-  FutureOr<void> saveToken(String token) {
-    _prefs.setString('token', token);
+  FutureOr<void> saveCredentials({
+    required String accessToken,
+    String? refreshToken,
+  }) {
+    _prefs.setString('accessToken', accessToken);
+    if (refreshToken != null) {
+      _prefs.setString('refreshToken', refreshToken);
+    }
   }
 
   @override
   FutureOr<String?> getToken() {
-    return _prefs.getString('token');
+    return _prefs.getString('accessToken');
   }
 
   @override
-  FutureOr<void> clearToken() {
-    _prefs.remove('token');
+  FutureOr<String?> getRefreshToken() {
+    return _prefs.getString('refreshToken');
+  }
+
+  @override
+  FutureOr<void> clearCredentials() {
+    _prefs.remove('accessToken');
+    _prefs.remove('refreshToken');
   }
 
   @override

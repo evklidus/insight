@@ -5,14 +5,13 @@ import 'package:meta/meta.dart';
 final class Token {
   const Token({
     required this.accessToken,
-    required this.tokenType,
+    this.refreshToken,
   });
 
   factory Token.fromDTO(TokenDTO dto) => Token(
         accessToken: dto.accessToken,
-        tokenType: dto.tokenType,
       );
 
   final String accessToken;
-  final String tokenType;
+  final String? refreshToken;
 }

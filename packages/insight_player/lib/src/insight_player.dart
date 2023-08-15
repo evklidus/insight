@@ -48,12 +48,6 @@ class _InsightPlayerState extends State<InsightPlayer> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
@@ -105,5 +99,11 @@ class _InsightPlayerState extends State<InsightPlayer> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
