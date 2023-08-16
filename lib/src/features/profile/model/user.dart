@@ -5,7 +5,7 @@ import 'package:rest_client/rest_client.dart';
 final class User {
   const User({
     this.id,
-    required this.username,
+    this.username,
     this.email,
     this.avatarUrl,
     this.firstName,
@@ -22,7 +22,7 @@ final class User {
       );
 
   final String? id;
-  final String username;
+  final String? username;
   final String? email;
   final String? avatarUrl;
   final String? firstName;

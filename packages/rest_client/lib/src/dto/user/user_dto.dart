@@ -16,7 +16,7 @@ class UserDTO {
   });
 
   final String? id;
-  final String username;
+  final String? username;
   final String? email;
   @JsonKey(name: 'avatar_url')
   final String? avatarUrl;

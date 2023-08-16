@@ -24,15 +24,20 @@ final class CategoriesFirestoreDataProviderImpl
   Future<List<Category>> getCategories() async {
     final firestore = FirebaseFirestore.instance;
     final categories = await firestore.collection('category').get();
-    return categories.docs.map((doc) => _fromFirestoreToCategory(doc)).toList();
+    return categories.docs
+        .map((doc) => _fromFirestoreToCategory(doc.id, doc.data()))
+        .toList();
   }
 }
 
-Category _fromFirestoreToCategory(DocumentSnapshot<Map<String, dynamic>> doc) {
-  final data = doc.data();
-  return Category(
-    name: data!['name'],
-    imageUrl: data['image_url'],
-    tag: data['tag'],
-  );
-}
+Category _fromFirestoreToCategory(
+  // TODO: Добавить id для категорий
+  // ignore: avoid-unused-parameters
+  String id,
+  Map<String, dynamic>? categoryData,
+) =>
+    Category(
+      name: categoryData!['name'],
+      imageUrl: categoryData['image_url'],
+      tag: categoryData['tag'],
+    );
