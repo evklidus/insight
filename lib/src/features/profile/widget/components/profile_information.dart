@@ -44,7 +44,7 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
           if (_hasEmail) const SizedBox(height: 10),
           if (_hasEmail)
             Text(
-              '@${widget.user.email}',
+              widget.user.email!,
               style: Theme.of(context).textTheme.bodySmall,
             ),
         ],
