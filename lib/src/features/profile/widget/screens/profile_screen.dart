@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/snackbar/error_snackbar.dart';
-import 'package:insight/src/common/widgets/app_bars/insight_app_bar_with_back_button.dart';
+import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const InsightAppBarWithBackButton(AppStrings.profile),
+      appBar: const CustomAppBar(AppStrings.profile),
       body: BlocProvider(
         create: (context) => profileBloc,
         child: BlocConsumer<ProfileBloc, ProfileState>(

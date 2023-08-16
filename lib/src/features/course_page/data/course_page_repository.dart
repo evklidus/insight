@@ -2,7 +2,7 @@ import 'package:insight/src/features/course_page/data/course_page_network_data_p
 import 'package:insight/src/features/course_page/model/course_page.dart';
 
 abstract interface class CoursePageRepository {
-  Future<CoursePage> getCoursePage(int id);
+  Future<CoursePage> getCoursePage(String id);
 }
 
 final class CoursePageRepositoryImpl implements CoursePageRepository {
@@ -13,5 +13,5 @@ final class CoursePageRepositoryImpl implements CoursePageRepository {
   final CoursePageNetworkDataProvider _networkDataProvider;
 
   @override
-  getCoursePage(int id) => _networkDataProvider.getCoursePage(id);
+  getCoursePage(String id) => _networkDataProvider.getCoursePage(id);
 }

@@ -8,9 +8,8 @@ import 'dart:async' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:rest_client/src/client/rest_client.dart' as _i4;
 import 'package:rest_client/src/dto/category/category_dto.dart' as _i6;
+import 'package:rest_client/src/dto/course/course_dto.dart' as _i7;
 import 'package:rest_client/src/dto/course_page/course_page_dto.dart' as _i2;
-import 'package:rest_client/src/dto/course_previews/course_preview_dto.dart'
-    as _i7;
 import 'package:rest_client/src/dto/user/user_dto.dart' as _i3;
 
 // ignore_for_file: type=lint
@@ -63,18 +62,18 @@ class MockRestClient extends _i1.Mock implements _i4.RestClient {
             _i5.Future<List<_i6.CategoryDTO>>.value(<_i6.CategoryDTO>[]),
       ) as _i5.Future<List<_i6.CategoryDTO>>);
   @override
-  _i5.Future<List<_i7.CoursePreviewDTO>> getCoursePreviewsByCategoryTag(
+  _i5.Future<List<_i7.CourseDTO>> getCoursesByCategoryTag(
           String? categoryTag) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getCoursePreviewsByCategoryTag,
+          #getCoursesByCategoryTag,
           [categoryTag],
         ),
-        returnValue: _i5.Future<List<_i7.CoursePreviewDTO>>.value(
-            <_i7.CoursePreviewDTO>[]),
-      ) as _i5.Future<List<_i7.CoursePreviewDTO>>);
+        returnValue: _i5.Future<List<_i7.CourseDTO>>.value(<_i7.CourseDTO>[]),
+      ) as _i5.Future<List<_i7.CourseDTO>>);
   @override
-  _i5.Future<_i2.CoursePageDTO> getCoursePage(int? id) => (super.noSuchMethod(
+  _i5.Future<_i2.CoursePageDTO> getCoursePage(String? id) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getCoursePage,
           [id],

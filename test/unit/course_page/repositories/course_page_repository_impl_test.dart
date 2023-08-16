@@ -12,7 +12,7 @@ import 'course_page_repository_impl_test.mocks.dart';
 void main() {
   late final CoursePageRepositoryImpl coursePageRepositoryImpl;
   late final networkDataProvider = MockCoursePageNetworkDataProvider();
-  const coursePageId = 1;
+  const coursePageId = '1';
   const coursePage = CoursePage(
       id: coursePageId,
       imageUrl: 'imageUrl',

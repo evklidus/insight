@@ -4,7 +4,7 @@ import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/categories_screen.dart';
 import 'package:insight/src/features/course_page/widget/screens/course_page_screen.dart';
-import 'package:insight/src/features/course_previews/widget/screens/course_previews_screen.dart';
+import 'package:insight/src/features/course/widget/screens/courses_screen.dart';
 import 'package:insight/src/features/profile/widget/screens/profile_screen.dart';
 import 'package:insight/src/features/settings/widget/screens/settings_screen.dart';
 import 'package:insight_player/insight_player.dart';
@@ -32,9 +32,9 @@ class AppRouter {
                 builder: (context, state) => const CategoriesScreen(),
                 routes: [
                   GoRoute(
-                    name: 'previews',
-                    path: 'course-previews/:tag',
-                    builder: (context, state) => CoursePreviewsScreen(
+                    name: 'courses',
+                    path: 'courses/:tag',
+                    builder: (context, state) => CoursesScreen(
                       state.pathParameters['tag'] as String,
                     ),
                     routes: [
@@ -42,18 +42,14 @@ class AppRouter {
                         name: 'page',
                         path: 'course-page/:coursePageId',
                         builder: (context, state) => CoursePageScreen(
-                          coursePageId: int.parse(
-                            state.pathParameters['coursePageId'] as String,
-                          ),
-                          // TODO: Убрать extra
-                          coursePageTitle: state.extra as String,
+                          coursePageId:
+                              state.pathParameters['coursePageId'].toString(),
                         ),
                         routes: [
                           GoRoute(
                             name: 'video',
                             path: 'video/:coursePageTitle',
                             builder: (context, state) => InsightPlayer(
-                              // TODO: Убрать extra
                               videoUrl: state.extra as String,
                               title: state.pathParameters['coursePageTitle']
                                   as String,

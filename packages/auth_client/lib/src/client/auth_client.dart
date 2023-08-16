@@ -16,14 +16,14 @@ abstract class AuthClient {
 
   @POST("/register")
   Future<void> register(
-    @Query('username') String username,
+    @Query('email') String email,
     @Query('password') String password,
   );
 
   @POST("/login")
   @FormUrlEncoded()
   Future<TokenDTO> login(
-    @Field('username') String username,
+    @Field('email') String email,
     @Field('password') String password,
   );
 

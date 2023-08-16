@@ -1,8 +1,8 @@
 // import 'package:flutter_test/flutter_test.dart';
 // import 'package:integration_test/integration_test.dart';
 // import 'package:insight/src/components/rounded_back_icon.dart';
-// import 'package:insight/src/features/courses_preview/presentation/screens/main/programs_screen.dart';
-// import 'package:insight/src/features/courses_preview/presentation/widgets/course_preview_widget.dart';
+// import 'package:insight/src/features/courses/presentation/screens/main/programs_screen.dart';
+// import 'package:insight/src/features/courses/presentation/widgets/course_widget.dart';
 // import 'package:insight/src/main.dart' as app;
 
 // void main() {

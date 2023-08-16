@@ -5,7 +5,7 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/snackbar/error_snackbar.dart';
 import 'package:insight/src/common/snackbar/successful_snackbar.dart';
 
-import 'package:insight/src/common/widgets/text_fields/insight_text_field.dart';
+import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/src/features/auth/widget/components/auth_button.dart';
 import 'package:insight/src/features/auth/widget/components/change_auth_type_button.dart';
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 50),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: InsightTextField(
+                child: CustomTextField(
                   hintText: AppStrings.login,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: InsightTextField.password(
+                child: CustomTextField.password(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return AppStrings.pleaseEnterSomething;

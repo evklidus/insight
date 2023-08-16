@@ -12,7 +12,7 @@ import 'course_page_bloc_test.mocks.dart';
 @GenerateMocks([CoursePageRepository])
 void main() {
   late CoursePageRepository coursePageRepository;
-  const coursePageId = 1;
+  const coursePageId = '1';
   const coursePage = CoursePage(
     id: coursePageId,
     imageUrl: 'imageUrl',

@@ -11,9 +11,15 @@ import 'package:insight/src/core/theme/insight_theme.dart';
 import 'package:insight/src/core/navigation/app_router.dart';
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await DIContainer.instance.initDeps();
   final sourceFlutterError = FlutterError.onError;
   FlutterError.onError = (details) {
@@ -34,6 +40,9 @@ void main() async {
   };
   Bloc.observer = InsightBlocObserver();
   Bloc.transformer = sequential();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

@@ -5,7 +5,7 @@ import 'package:rest_client/rest_client.dart';
 final class User {
   const User({
     this.id,
-    required this.username,
+    this.username,
     this.email,
     this.avatarUrl,
     this.firstName,
@@ -21,8 +21,20 @@ final class User {
         lastName: dto.lastName,
       );
 
+  factory User.fromFirestore(
+    String id,
+    Map<String, dynamic>? userData,
+  ) =>
+      User(
+        id: id,
+        email: userData!['email'],
+        avatarUrl: userData['avatar_url'],
+        firstName: userData['first_name'],
+        lastName: userData['last_name'],
+      );
+
   final String? id;
-  final String username;
+  final String? username;
   final String? email;
   final String? avatarUrl;
   final String? firstName;

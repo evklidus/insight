@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:database/insight_db.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:insight/src/features/auth/data/auth_network_data_provider.dart';
 import 'package:auth_client/auth_client.dart';
 import 'package:dio/dio.dart';
@@ -10,8 +12,8 @@ import 'package:insight/src/features/categories/data/categories_network_data_pro
 import 'package:insight/src/features/categories/data/categories_repository.dart';
 import 'package:insight/src/features/course_page/data/course_page_network_data_provider.dart';
 import 'package:insight/src/features/course_page/data/course_page_repository.dart';
-import 'package:insight/src/features/course_previews/data/course_previews_network_data_provider.dart';
-import 'package:insight/src/features/course_previews/data/courses_preview_repository.dart';
+import 'package:insight/src/features/course/data/course_network_data_provider.dart';
+import 'package:insight/src/features/course/data/course_repository.dart';
 import 'package:insight/src/features/profile/data/profile_network_data_provider.dart';
 import 'package:insight/src/features/profile/data/profile_repository.dart';
 import 'package:rest_client/rest_client.dart';
@@ -30,19 +32,22 @@ final class DIContainer {
   late final AuthClient authClient;
   late final RestClient restClient;
 
+  // Firebase
+  late final FirebaseAuth firebaseAuth;
+  late final FirebaseFirestore firebaseFirestore;
+
   // Data Providers
   late final AuthNetworkDataProvider authNetworkDataProvider;
   late final AuthStorageDataProvider authStorageDataProvider;
   late final CategoriesNetworkDataProvider categoriesNetworkDataProvider;
-  late final CoursePreviewsNetworkDataProvider
-      coursePreviewsNetworkDataProvider;
+  late final CourseNetworkDataProvider courseNetworkDataProvider;
   late final CoursePageNetworkDataProvider coursePageNetworkDataProvider;
   late final ProfileNetworkDataProvider profileNetworkDataProvider;
 
   // Repositories
   late final AuthRepository authRepository;
   late final CategoriesRepository categoriesRepository;
-  late final CoursesPreviewRepository coursesPreviewRepository;
+  late final CourseRepository coursesRepository;
   late final CoursePageRepository coursePageRepository;
   late final ProfileRepository profileRepository;
 
@@ -73,16 +78,23 @@ final class DIContainer {
 
     restClient = RestClient(dioForRestClient);
 
+    // Firebase
+    firebaseAuth = FirebaseAuth.instance;
+    firebaseFirestore = FirebaseFirestore.instance;
+
     // Data Providers
-    authNetworkDataProvider = AuthNetworkDataProviderImpl(authClient);
+    authNetworkDataProvider = AuthFirebaseDataProviderImpl();
     authStorageDataProvider = AuthStorageDataProviderImpl(insightDB);
     categoriesNetworkDataProvider =
-        CategoriesNetworkDataProviderImpl(restClient);
-    coursePreviewsNetworkDataProvider =
-        CoursePreviewsNetworkDataProviderImpl(restClient);
+        CategoriesFirestoreDataProviderImpl(firebaseFirestore);
+    courseNetworkDataProvider =
+        CourseFirestoreDataProviderImpl(firebaseFirestore);
     coursePageNetworkDataProvider =
-        CoursePageNetworkDataProviderImpl(restClient);
-    profileNetworkDataProvider = ProfileNetworkDataProviderImpl(restClient);
+        CoursePageFirestoreDataProviderImpl(firebaseFirestore);
+    profileNetworkDataProvider = ProfileFirestoreDataProviderImpl(
+      firestore: firebaseFirestore,
+      firebaseAuth: firebaseAuth,
+    );
 
     // Repositories
     authRepository = AuthRepositoryImpl(
@@ -93,8 +105,8 @@ final class DIContainer {
     categoriesRepository = CategoriesRepositoryImpl(
       networkDataProvider: categoriesNetworkDataProvider,
     );
-    coursesPreviewRepository = CoursesPreviewRepositoryImpl(
-      networkDataProvider: coursePreviewsNetworkDataProvider,
+    coursesRepository = CourseRepositoryImpl(
+      networkDataProvider: courseNetworkDataProvider,
     );
     coursePageRepository = CoursePageRepositoryImpl(
       networkDataProvider: coursePageNetworkDataProvider,

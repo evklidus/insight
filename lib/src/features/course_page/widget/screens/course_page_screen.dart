@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/snackbar/error_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
-import 'package:insight/src/common/widgets/app_bars/insight_app_bar_with_back_button.dart';
+import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_state.dart';
@@ -13,11 +14,9 @@ class CoursePageScreen extends StatefulWidget {
   const CoursePageScreen({
     Key? key,
     required this.coursePageId,
-    required this.coursePageTitle,
   }) : super(key: key);
 
-  final int coursePageId;
-  final String coursePageTitle;
+  final String coursePageId;
 
   @override
   State<CoursePageScreen> createState() => _CoursePageScreenState();
@@ -37,7 +36,7 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: InsightAppBarWithBackButton(widget.coursePageTitle),
+      appBar: const CustomAppBar(AppStrings.courses),
       body: BlocProvider(
         create: (context) => coursePageBloc,
         child: BlocConsumer<CoursePageBloc, CoursePageState>(

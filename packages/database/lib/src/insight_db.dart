@@ -7,11 +7,16 @@ abstract class InsightDB {
 
   static FutureOr<InsightDB> getInstance() => InsightDBBase.getInstance();
 
-  FutureOr<void> saveToken(String token);
+  FutureOr<void> saveCredentials({
+    required String accessToken,
+    String? refreshToken,
+  });
 
   FutureOr<String?> getToken();
 
-  FutureOr<void> clearToken();
+  FutureOr<String?> getRefreshToken();
+
+  FutureOr<void> clearCredentials();
 
   FutureOr<void> setAuthorizedStatus(bool isAuthorized);
 

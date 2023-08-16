@@ -1,4 +1,8 @@
-get_all_dependencies:
+get:
+	flutter pub get
+	dart run build_runner build --delete-conflicting-outputs
+
+get_all:
 	flutter pub get
 	dart run build_runner build --delete-conflicting-outputs
 

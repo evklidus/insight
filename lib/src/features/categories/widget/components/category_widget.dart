@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:glass/glass.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
-import 'package:insight/src/common/widgets/insight_image_widget.dart';
+import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/features/categories/model/category.dart';
 
 class CategoryWidget extends StatelessWidget {
@@ -14,7 +14,7 @@ class CategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => context.goRelativeNamed(
-        'previews',
+        'courses',
         pathParameters: {
           'tag': category.tag,
         },
@@ -22,7 +22,7 @@ class CategoryWidget extends StatelessWidget {
       child: Stack(
         alignment: AlignmentDirectional.bottomStart,
         children: [
-          InsightImageWidget(
+          CustomImageWidget(
             category.imageUrl,
             height: double.infinity,
             borderRadius: BorderRadius.circular(20),

@@ -32,7 +32,7 @@ class MockCoursePageNetworkDataProvider extends _i1.Mock
   }
 
   @override
-  _i3.Future<_i4.CoursePage> getCoursePage(int? id) => (super.noSuchMethod(
+  _i3.Future<_i4.CoursePage> getCoursePage(String? id) => (super.noSuchMethod(
         Invocation.method(
           #getCoursePage,
           [id],

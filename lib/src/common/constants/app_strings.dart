@@ -8,6 +8,7 @@ class AppStrings {
   static const tryAgain = 'Попробовать снова';
   static const lessons = 'Уроки';
   static const courses = 'Курсы';
+  static const categories = 'Категории';
   static const noInternetConnection = 'Нет интернет соединения';
   static const cancel = 'Отменить';
 
