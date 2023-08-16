@@ -22,7 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     _repository.isAuthenticatedStream.map((isAuthenticated) {
       if (isAuthenticated) {
         setState(
-          const AuthState.successful(
+          const AuthState.error(
             isAuthenticated: false,
             message: 'Ваша сессия истекла',
           ),

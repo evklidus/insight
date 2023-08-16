@@ -51,6 +51,7 @@ final class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> logout() async {
+    await _networkDataProvider.logout();
     await _storageDataProvider.setLogout();
   }
 
