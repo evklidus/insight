@@ -15,6 +15,18 @@ final class Category {
         tag: dto.tag,
       );
 
+  factory Category.fromFirestore(
+    // TODO: Добавить id для категорий
+    // ignore: avoid-unused-parameters
+    String id,
+    Map<String, dynamic>? categoryData,
+  ) =>
+      Category(
+        name: categoryData!['name'],
+        imageUrl: categoryData['image_url'],
+        tag: categoryData['tag'],
+      );
+
   final String name;
   final String imageUrl;
   final String tag;

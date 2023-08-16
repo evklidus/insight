@@ -20,24 +20,17 @@ final class CategoriesNetworkDataProviderImpl
 
 final class CategoriesFirestoreDataProviderImpl
     implements CategoriesNetworkDataProvider {
+  const CategoriesFirestoreDataProviderImpl(FirebaseFirestore firestore)
+      : _firestore = firestore;
+
+  final FirebaseFirestore _firestore;
+
   @override
   Future<List<Category>> getCategories() async {
-    final firestore = FirebaseFirestore.instance;
-    final categories = await firestore.collection('category').get();
-    return categories.docs
-        .map((doc) => _fromFirestoreToCategory(doc.id, doc.data()))
+    final categoriesCollection = await _firestore.collection('category').get();
+    final categories = categoriesCollection.docs
+        .map((doc) => Category.fromFirestore(doc.id, doc.data()))
         .toList();
+    return categories;
   }
 }
-
-Category _fromFirestoreToCategory(
-  // TODO: Добавить id для категорий
-  // ignore: avoid-unused-parameters
-  String id,
-  Map<String, dynamic>? categoryData,
-) =>
-    Category(
-      name: categoryData!['name'],
-      imageUrl: categoryData['image_url'],
-      tag: categoryData['tag'],
-    );

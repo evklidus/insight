@@ -16,6 +16,24 @@ final class CoursePage {
         lessons: dto.lessons.map(Lesson.fromDTO).toList(),
       );
 
+  factory CoursePage.fromFirestore(
+    String id,
+    Map<String, dynamic>? courseData,
+    Map<String, dynamic>? detailData,
+  ) =>
+      CoursePage(
+        id: id,
+        imageUrl: courseData!['image_url'],
+        lessons: List.of(detailData!['lessons'])
+            .map(
+              (lessonData) => Lesson(
+                name: lessonData['name'],
+                videoUrl: lessonData['video_url'],
+              ),
+            )
+            .toList(),
+      );
+
   final String id;
   final String imageUrl;
   final List<Lesson> lessons;

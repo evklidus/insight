@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
-import 'package:insight/src/features/course_page/model/lesson.dart';
 import 'package:rest_client/rest_client.dart';
 
 abstract interface class CoursePageNetworkDataProvider {
@@ -20,35 +19,21 @@ final class CoursePageNetworkDataProviderImpl
 
 final class CoursePageFirestoreDataProviderImpl
     implements CoursePageNetworkDataProvider {
+  const CoursePageFirestoreDataProviderImpl(FirebaseFirestore firestore)
+      : _firestore = firestore;
+
+  final FirebaseFirestore _firestore;
+
   @override
   Future<CoursePage> getCoursePage(String id) async {
-    final firestore = FirebaseFirestore.instance;
-    final courseDoc = firestore.collection('course').doc(id);
+    final courseDoc = _firestore.collection('course').doc(id);
     final courseData = await courseDoc.get();
     final courseDetailCollection = await courseDoc.collection('detail').get();
     final courseDetailData = courseDetailCollection.docs.first;
-    return _fromFirestoreToCourse(
+    return CoursePage.fromFirestore(
       courseData.id,
       courseData.data(),
       courseDetailData.data(),
     );
   }
 }
-
-CoursePage _fromFirestoreToCourse(
-  String id,
-  Map<String, dynamic>? courseData,
-  Map<String, dynamic>? detailData,
-) =>
-    CoursePage(
-      id: id,
-      imageUrl: courseData!['image_url'],
-      lessons: List.of(detailData!['lessons'])
-          .map(
-            (lessonData) => Lesson(
-              name: lessonData['name'],
-              videoUrl: lessonData['video_url'],
-            ),
-          )
-          .toList(),
-    );

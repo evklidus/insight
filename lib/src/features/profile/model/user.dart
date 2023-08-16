@@ -21,6 +21,18 @@ final class User {
         lastName: dto.lastName,
       );
 
+  factory User.fromFirestore(
+    String id,
+    Map<String, dynamic>? userData,
+  ) =>
+      User(
+        id: id,
+        email: userData!['email'],
+        avatarUrl: userData['avatar_url'],
+        firstName: userData['first_name'],
+        lastName: userData['last_name'],
+      );
+
   final String? id;
   final String? username;
   final String? email;

@@ -15,6 +15,17 @@ final class Course {
         tag: dto.tag,
       );
 
+  factory Course.fromFirestore(
+    String id,
+    Map<String, dynamic>? data,
+  ) =>
+      Course(
+        id: id,
+        name: data!['name'],
+        imageUrl: data['image_url'],
+        tag: data['tag'],
+      );
+
   final String id;
   final String name;
   final String imageUrl;

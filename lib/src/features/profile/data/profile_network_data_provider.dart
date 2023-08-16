@@ -19,23 +19,19 @@ final class ProfileNetworkDataProviderImpl
 
 final class ProfileFirestoreDataProviderImpl
     implements ProfileNetworkDataProvider {
+  const ProfileFirestoreDataProviderImpl({
+    required FirebaseFirestore firestore,
+    required FirebaseAuth firebaseAuth,
+  })  : _firestore = firestore,
+        _firebaseAuth = firebaseAuth;
+
+  final FirebaseFirestore _firestore;
+  final FirebaseAuth _firebaseAuth;
+
   @override
   Future<User> getUser() async {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
-    final userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(userId).get();
-    return _fromFirestoreToUser(userId!, userDoc.data());
+    final userId = _firebaseAuth.currentUser?.uid;
+    final userDoc = await _firestore.collection('users').doc(userId).get();
+    return User.fromFirestore(userId!, userDoc.data());
   }
 }
-
-User _fromFirestoreToUser(
-  String id,
-  Map<String, dynamic>? userData,
-) =>
-    User(
-      id: id,
-      email: userData!['email'],
-      avatarUrl: userData['avatar_url'],
-      firstName: userData['first_name'],
-      lastName: userData['last_name'],
-    );

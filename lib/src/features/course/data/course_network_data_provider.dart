@@ -23,22 +23,20 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
 @immutable
 final class CourseFirestoreDataProviderImpl
     implements CourseNetworkDataProvider {
+  const CourseFirestoreDataProviderImpl(FirebaseFirestore firestore)
+      : _firestore = firestore;
+
+  final FirebaseFirestore _firestore;
+
   @override
   Future<List<Course>> getCourse(String categoryTag) async {
-    final firestore = FirebaseFirestore.instance;
-    final courses = await firestore
+    final coursesCollection = await _firestore
         .collection('course')
         .where('tag', isEqualTo: categoryTag)
         .get();
-    return courses.docs
-        .map((doc) => _fromFirestoreToCourse(doc.id, doc.data()))
+    final courses = coursesCollection.docs
+        .map((doc) => Course.fromFirestore(doc.id, doc.data()))
         .toList();
+    return courses;
   }
 }
-
-Course _fromFirestoreToCourse(String id, Map<String, dynamic>? data) => Course(
-      id: id,
-      name: data!['name'],
-      imageUrl: data['image_url'],
-      tag: data['tag'],
-    );
