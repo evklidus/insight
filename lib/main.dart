@@ -58,12 +58,12 @@ class _MyAppState extends State<MyApp> {
 
   final _appTheme = InsightTheme();
 
-  late final AuthBloc authBloc;
+  late final AuthBloc _authBloc;
 
   @override
   void initState() {
     super.initState();
-    authBloc = AuthBloc(repository: DIContainer.instance.authRepository);
+    _authBloc = AuthBloc(repository: DIContainer.instance.authRepository);
   }
 
   @override
@@ -71,7 +71,7 @@ class _MyAppState extends State<MyApp> {
     FlutterNativeSplash.remove();
 
     return BlocProvider(
-      create: (context) => authBloc,
+      create: (context) => _authBloc,
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: _appTheme.getLightTheme(),

@@ -40,6 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         child: Column(
           children: [
+            // TODO: В main добавить checkStatus и отталкиваясь от статуса показывать войти или выйти
             // Sign Out
             SettingRow(
               title: AppStrings.exit,

@@ -7,10 +7,13 @@ abstract interface class AuthNetworkDataProvider {
     String email,
     String password,
   );
+
   Future<Token> login(
     String email,
     String password,
   );
+
+  Future<void> logout();
 }
 
 final class AuthNetworkDataProviderImpl implements AuthNetworkDataProvider {
@@ -31,15 +34,23 @@ final class AuthNetworkDataProviderImpl implements AuthNetworkDataProvider {
     String password,
   ) =>
       _authClient.login(email, password).then(Token.fromDTO);
+
+  @override
+  Future<void> logout() async {}
 }
 
 final class AuthFirebaseDataProviderImpl implements AuthNetworkDataProvider {
+  const AuthFirebaseDataProviderImpl(FirebaseAuth firebaseAuth)
+      : _firebaseAuth = firebaseAuth;
+
+  final FirebaseAuth _firebaseAuth;
+
   @override
   Future<void> register(
     String email,
     String password,
   ) =>
-      FirebaseAuth.instance.createUserWithEmailAndPassword(
+      _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -50,8 +61,7 @@ final class AuthFirebaseDataProviderImpl implements AuthNetworkDataProvider {
     String password,
   ) async {
     // Авторизуемся в Firebase
-    final userCredential =
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+    final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -60,4 +70,7 @@ final class AuthFirebaseDataProviderImpl implements AuthNetworkDataProvider {
     final refreshToken = userCredential.user!.refreshToken;
     return Token(accessToken: idToken!, refreshToken: refreshToken);
   }
+
+  @override
+  Future<void> logout() => _firebaseAuth.signOut();
 }

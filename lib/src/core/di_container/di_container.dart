@@ -83,7 +83,7 @@ final class DIContainer {
     firebaseFirestore = FirebaseFirestore.instance;
 
     // Data Providers
-    authNetworkDataProvider = AuthFirebaseDataProviderImpl();
+    authNetworkDataProvider = AuthFirebaseDataProviderImpl(firebaseAuth);
     authStorageDataProvider = AuthStorageDataProviderImpl(insightDB);
     categoriesNetworkDataProvider =
         CategoriesFirestoreDataProviderImpl(firebaseFirestore);

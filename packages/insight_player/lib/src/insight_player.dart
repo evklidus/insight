@@ -31,7 +31,8 @@ class _InsightPlayerState extends State<InsightPlayer> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.videoUrl);
+    final videoUrl = Uri.parse(widget.videoUrl);
+    _controller = VideoPlayerController.networkUrl(videoUrl);
     _initializeVideoPlayerFuture = _controller.initialize().then(
           (value) => _controller.addListener(
             () {
