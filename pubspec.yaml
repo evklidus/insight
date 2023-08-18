@@ -77,14 +77,14 @@ flutter:
         - asset: assets/fonts/Rubik_Glitch/RubikGlitch-Regular.ttf
 
 flutter_native_splash:
-  color: "#ffffff"
-  image: assets/images/fitness_splash.png
+  color: "#1C1C1E"
+  image: assets/images/insight_logo.png
 
   android_12:
-    icon_background_color: "#ffffff"
-    image: assets/images/fitness_splash.png
+    icon_background_color: "#1C1C1E"
+    image: assets/images/insight_logo.png
 
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/insight_logo.png"
+  image_path: "assets/images/insight_app_logo.png"
