@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:glass/glass.dart';
 import 'package:insight/src/common/widgets/navigation_bars/custom_navigation_bar_item.dart';
 import 'package:insight/gen/assets.gen.dart';
 
@@ -41,11 +40,6 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
           ),
         ],
       ),
-    ).asGlass(
-      frosted: false,
-      tintColor: Colors.black,
-      blurX: 30,
-      blurY: 30,
     );
   }
 }
