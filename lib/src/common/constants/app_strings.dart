@@ -13,8 +13,9 @@ class AppStrings {
   static const cancel = 'Отменить';
 
   // Settings
-  static const exit = 'Выйти';
   static const settings = 'Настройки';
+  static const signIn = 'Войти';
+  static const signOut = 'Выйти';
 
   // Auth
   static const registration = 'Регистрация';

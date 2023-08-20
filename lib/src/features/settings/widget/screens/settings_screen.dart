@@ -15,12 +15,12 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  late final AuthBloc authBloc;
+  late final AuthBloc _authBloc;
 
   @override
   void initState() {
     super.initState();
-    authBloc = BlocProvider.of<AuthBloc>(context);
+    _authBloc = BlocProvider.of<AuthBloc>(context);
   }
 
   @override
@@ -40,17 +40,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         child: Column(
           children: [
-            // TODO: В main добавить checkStatus и отталкиваясь от статуса показывать войти или выйти
-            // Sign Out
-            SettingRow(
-              title: AppStrings.exit,
-              icon: const Icon(
-                Icons.logout_rounded,
-                color: Colors.redAccent,
-              ),
-              onTap: () {
-                authBloc.add(const AuthEvent.logout());
-                context.go('/login');
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return _authBloc.state.isAuthenticated!
+                    ? SettingRow(
+                        title: AppStrings.signOut,
+                        icon: const Icon(
+                          Icons.logout_rounded,
+                          color: Colors.redAccent,
+                        ),
+                        onTap: () {
+                          _authBloc.add(const AuthEvent.logout());
+                          context.go('/login');
+                        },
+                      )
+                    : SettingRow(
+                        title: AppStrings.signIn,
+                        icon: Icon(
+                          Icons.login_rounded,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        onTap: () => context.go('/login'),
+                      );
               },
             ),
             const SizedBox(height: 20),

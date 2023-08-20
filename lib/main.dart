@@ -7,7 +7,7 @@ import 'package:insight/src/common/utils/format_error.dart';
 import 'package:insight/src/core/bloc/insight_bloc_observer.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 
-import 'package:insight/src/core/theme/insight_theme.dart';
+import 'package:insight/src/core/theme/custom_theme.dart';
 import 'package:insight/src/core/navigation/app_router.dart';
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 
@@ -40,9 +40,6 @@ void main() async {
   };
   Bloc.observer = InsightBlocObserver();
   Bloc.transformer = sequential();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
   runApp(const MyApp());
 }
 
@@ -56,14 +53,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _appRouter = AppRouter();
 
-  final _appTheme = InsightTheme();
-
   late final AuthBloc _authBloc;
 
   @override
   void initState() {
     super.initState();
-    _authBloc = AuthBloc(repository: DIContainer.instance.authRepository);
+    _authBloc = AuthBloc(repository: DIContainer.instance.authRepository)
+      ..add(const AuthEvent.checkStatus());
   }
 
   @override
@@ -74,8 +70,8 @@ class _MyAppState extends State<MyApp> {
       create: (context) => _authBloc,
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        theme: _appTheme.getLightTheme(),
-        darkTheme: _appTheme.getDarkTheme(),
+        theme: lightThemeData,
+        darkTheme: darkThemeData,
         themeMode: ThemeMode.dark,
         routerConfig: _appRouter.router,
       ),
