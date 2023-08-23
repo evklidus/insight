@@ -68,10 +68,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // Profile
             SettingRow(
               title: AppStrings.profile,
-              icon: const Icon(
-                Icons.person_2_rounded,
-                color: Colors.blueGrey,
-              ),
+              icon: const Icon(Icons.person_2_rounded),
               onTap: () => context.goRelativeNamed('profile'),
             ),
           ],

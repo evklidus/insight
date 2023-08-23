@@ -4,6 +4,7 @@ final lightThemeData = ThemeData(
   colorScheme: lightColorScheme,
   textTheme: textTheme,
   iconTheme: iconTheme,
+  dividerTheme: dividerTheme,
   brightness: Brightness.light,
   useMaterial3: true,
 );
@@ -12,6 +13,7 @@ final darkThemeData = ThemeData(
   colorScheme: darkColorScheme,
   textTheme: textTheme,
   iconTheme: iconTheme,
+  dividerTheme: dividerTheme,
   brightness: Brightness.dark,
   useMaterial3: true,
 );
@@ -37,11 +39,6 @@ const darkColorScheme = ColorScheme(
 const textTheme = TextTheme(
   titleLarge: TextStyle(
     fontSize: 40,
-    shadows: [
-      Shadow(
-        blurRadius: 20,
-      ),
-    ],
   ),
   bodyLarge: TextStyle(
     fontSize: 32,
@@ -58,3 +55,8 @@ const textTheme = TextTheme(
 );
 
 const iconTheme = IconThemeData(color: Color(0xff3965E3));
+
+final dividerTheme = DividerThemeData(
+  color: Colors.grey.shade800,
+  space: 0,
+);

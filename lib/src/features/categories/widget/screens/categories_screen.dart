@@ -31,10 +31,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          AppStrings.appName,
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
+        title: const Text(AppStrings.appName),
       ),
       body: BlocProvider(
         create: (context) => categoriesBloc,

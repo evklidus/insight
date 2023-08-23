@@ -14,9 +14,10 @@ class CategoriesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 16,
-        horizontal: 16,
+      padding: const EdgeInsets.only(
+        top: 16,
+        left: 16,
+        right: 16,
       ),
       child: GridView(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
