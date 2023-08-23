@@ -1,6 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
-import 'package:glass/glass.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/features/categories/model/category.dart';
@@ -27,13 +28,16 @@ class CategoryWidget extends StatelessWidget {
             height: double.infinity,
             borderRadius: BorderRadius.circular(20),
           ),
-          Padding(
+          Container(
             padding: const EdgeInsets.all(8),
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            clipBehavior: Clip.hardEdge,
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Text(category.name),
-            ).asGlass(
-              clipBorderRadius: BorderRadius.circular(12),
             ),
           ),
         ],
