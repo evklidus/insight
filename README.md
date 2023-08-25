@@ -1,9 +1,10 @@
 # Insight
-Insight is a future learning platform12. With Insight, you can easily learn new skills and stay motivated.
+Insight is a future learning platform. With Insight, you can easily learn new skills and stay motivated.
 
 ## Features
 • Frendly UI
 • Great player
+
 There aren't many right now, but I'm working on it...
 
 ## Getting Started
