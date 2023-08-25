@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart' as bloc_concurrency;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:insight/src/common/utils/exception_to_message.dart';
 import 'package:insight/src/common/utils/mixins/set_state_mixin.dart';
 import 'package:insight/src/features/auth/data/auth_repository.dart';
+import 'package:meta/meta.dart';
 
-part 'auth_bloc.freezed.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
@@ -30,13 +29,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
       }
     });
     on<AuthEvent>(
-      (event, emit) => event.map(
-        // TODO: разобраться стоит ли удалять checkStatus
-        checkStatus: (event) => _checkStatus(emit),
-        register: (event) => _register(event, emit),
-        login: (event) => _login(event, emit),
-        logout: (event) => _logout(emit),
-      ),
+      (event, emit) => switch (event) {
+        _AuthEvent$CheckStatus() => _checkStatus(emit),
+        _AuthEvent$Register() => _register(event, emit),
+        _AuthEvent$Login() => _login(event, emit),
+        _AuthEvent$Logout() => _logout(emit),
+      },
       transformer: bloc_concurrency.droppable(),
     );
   }
@@ -64,7 +62,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   }
 
   Future<void> _register(
-    _AuthRegisterEvent event,
+    _AuthEvent$Register event,
     Emitter<AuthState> emit,
   ) async {
     emit(AuthState.processing(isAuthenticated: state.isAuthenticated));
@@ -89,7 +87,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   }
 
   Future<void> _login(
-    _AuthLoginEvent event,
+    _AuthEvent$Login event,
     Emitter<AuthState> emit,
   ) async {
     emit(AuthState.processing(isAuthenticated: state.isAuthenticated));

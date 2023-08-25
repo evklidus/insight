@@ -1,10 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_state.dart';
 import 'package:insight/src/features/course_page/data/course_page_repository.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
 
-part 'course_page_bloc.freezed.dart';
 part 'course_page_event.dart';
 
 class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
@@ -14,15 +12,15 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
   })  : _repository = repository,
         super(initialState ?? const CoursePageState.idle(data: null)) {
     on<CoursePageEvent>(
-      (event, emit) => event.map(
-        fetch: (event) => _fetch(emit, event),
-      ),
+      (event, emit) => switch (event) {
+        _CoursePageEvent$Fetch() => _fetch(emit, event),
+      },
     );
   }
 
   final CoursePageRepository _repository;
 
-  _fetch(Emitter<CoursePageState> emit, GetCoursePageEvent event) async {
+  _fetch(Emitter<CoursePageState> emit, _CoursePageEvent$Fetch event) async {
     try {
       emit(CoursePageState.processing(data: state.data));
       final CoursePage coursePage = await _repository.getCoursePage(event.id);

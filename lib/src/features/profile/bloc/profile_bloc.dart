@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:insight/src/features/profile/bloc/profile_state.dart';
 import 'package:insight/src/features/profile/data/profile_repository.dart';
 
-part 'profile_bloc.freezed.dart';
 part 'profile_event.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
@@ -18,9 +16,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
           initialState ?? const ProfileState.idle(data: null),
         ) {
     on<ProfileEvent>(
-      (event, emit) => event.map<Future<void>>(
-        fetch: (event) => _fetch(emit),
-      ),
+      (event, emit) => switch (event) {
+        _ProfileEvent$Fetch() => _fetch(emit),
+      },
     );
   }
 

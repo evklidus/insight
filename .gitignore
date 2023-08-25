@@ -32,7 +32,6 @@
 /build/
 **.g.dart
 **.gr.dart
-**.freezed.dart
 **.gen
 *.info
 /lib/gen
