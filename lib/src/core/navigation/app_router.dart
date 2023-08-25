@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/widgets/screens/insight_bottom_navigation_bar.dart';
 import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
@@ -9,17 +10,33 @@ import 'package:insight/src/features/profile/widget/screens/profile_screen.dart'
 import 'package:insight/src/features/settings/widget/screens/settings_screen.dart';
 import 'package:insight_player/insight_player.dart';
 
+const _defaultFadeTransitionDuration = Duration(milliseconds: 200);
+
 class AppRouter {
   final router = GoRouter(
     initialLocation: '/categories',
     routes: [
       GoRoute(
         path: '/login',
-        builder: (context, _) => const LoginScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: const LoginScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              FadeTransition(opacity: animation, child: child),
+          transitionDuration: _defaultFadeTransitionDuration,
+          reverseTransitionDuration: _defaultFadeTransitionDuration,
+        ),
       ),
       GoRoute(
         path: '/register',
-        builder: (context, _) => const RegisterScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: const RegisterScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              FadeTransition(opacity: animation, child: child),
+          transitionDuration: _defaultFadeTransitionDuration,
+          reverseTransitionDuration: _defaultFadeTransitionDuration,
+        ),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
