@@ -1,10 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:insight/src/features/categories/bloc/categories_state.dart';
 import 'package:insight/src/features/categories/model/category.dart';
 import 'package:insight/src/features/categories/data/categories_repository.dart';
 
-part 'categories_bloc.freezed.dart';
 part 'categories_event.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
@@ -14,9 +12,9 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   })  : _repository = repository,
         super(initialState ?? const CategoriesState.idle(data: null)) {
     on<CategoriesEvent>(
-      (event, emit) => event.map(
-        fetch: (event) => _fetch(emit),
-      ),
+      (event, emit) => switch (event) {
+        _CategoriesEvent$Fetch() => _fetch(emit),
+      },
     );
   }
 

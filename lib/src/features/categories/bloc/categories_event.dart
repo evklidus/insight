@@ -1,6 +1,11 @@
 part of 'categories_bloc.dart';
 
-@freezed
-class CategoriesEvent with _$CategoriesEvent {
-  const factory CategoriesEvent.fetch() = GetCategoriesEvent;
+sealed class CategoriesEvent {
+  const CategoriesEvent();
+
+  const factory CategoriesEvent.fetch() = _CategoriesEvent$Fetch;
+}
+
+final class _CategoriesEvent$Fetch extends CategoriesEvent {
+  const _CategoriesEvent$Fetch();
 }

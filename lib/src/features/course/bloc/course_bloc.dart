@@ -1,10 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:insight/src/features/course/bloc/course_state.dart';
 import 'package:insight/src/features/course/model/course.dart';
 import 'package:insight/src/features/course/data/course_repository.dart';
 
-part 'course_bloc.freezed.dart';
 part 'course_event.dart';
 
 class CourseBloc extends Bloc<CourseEvent, CourseState> {
@@ -14,9 +12,9 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
   })  : _repository = repository,
         super(initialState ?? const CourseState.idle(data: null)) {
     on<CourseEvent>(
-      (event, emit) => event.map<Future<void>>(
-        fetch: (event) => _fetch(emit, event),
-      ),
+      (event, emit) => switch (event) {
+        _CourseEvent$Fetch() => _fetch(emit, event),
+      },
     );
   }
 
@@ -24,7 +22,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
 
   _fetch(
     Emitter<CourseState> emit,
-    GetCourseEvent event,
+    _CourseEvent$Fetch event,
   ) async {
     try {
       emit(CourseState.processing(data: state.data));
