@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/widgets/navigation_bars/custom_navigation_bar.dart';
 
-class InsightBottomNavigationBar extends StatelessWidget {
-  const InsightBottomNavigationBar(this.navigationShell, {Key? key})
+class CustomBottomNavigationBar extends StatelessWidget {
+  const CustomBottomNavigationBar(this.navigationShell, {Key? key})
       : super(key: key);
 
   final StatefulNavigationShell navigationShell;
