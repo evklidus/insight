@@ -9,17 +9,21 @@ part 'course_page_dto.g.dart';
 class CoursePageDTO {
   const CoursePageDTO({
     required this.id,
+    required this.name,
+    required this.description,
     required this.imageUrl,
     required this.lessons,
   });
-
-  final int id;
-  @JsonKey(name: "image_url")
-  final String imageUrl;
-  final List<LessonDTO> lessons;
 
   factory CoursePageDTO.fromJson(Map<String, Object?> json) =>
       _$CoursePageDTOFromJson(json);
 
   Map<String, dynamic> toJson() => _$CoursePageDTOToJson(this);
+
+  final int id;
+  final String name;
+  final String description;
+  @JsonKey(name: "image_url")
+  final String imageUrl;
+  final List<LessonDTO> lessons;
 }

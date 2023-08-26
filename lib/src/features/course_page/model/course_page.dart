@@ -6,12 +6,16 @@ import 'package:rest_client/rest_client.dart';
 final class CoursePage {
   const CoursePage({
     required this.id,
+    required this.name,
+    required this.description,
     required this.imageUrl,
     required this.lessons,
   });
 
   factory CoursePage.fromDTO(CoursePageDTO dto) => CoursePage(
         id: dto.id.toString(),
+        name: dto.name,
+        description: dto.description,
         imageUrl: dto.imageUrl,
         lessons: dto.lessons.map(Lesson.fromDTO).toList(),
       );
@@ -23,8 +27,10 @@ final class CoursePage {
   ) =>
       CoursePage(
         id: id,
-        imageUrl: courseData!['image_url'],
-        lessons: List.of(detailData!['lessons'])
+        name: courseData!['name'],
+        description: detailData!['description'],
+        imageUrl: courseData['image_url'],
+        lessons: List.of(detailData['lessons'])
             .map(
               (lessonData) => Lesson(
                 name: lessonData['name'],
@@ -35,6 +41,8 @@ final class CoursePage {
       );
 
   final String id;
+  final String name;
+  final String description;
   final String imageUrl;
   final List<Lesson> lessons;
 }
