@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:insight/src/common/widgets/screens/insight_bottom_navigation_bar.dart';
+import 'package:insight/src/common/widgets/screens/custom_bottom_navigation_bar.dart';
 import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/categories_screen.dart';
@@ -12,8 +12,11 @@ import 'package:insight_player/insight_player.dart';
 
 const _defaultFadeTransitionDuration = Duration(milliseconds: 200);
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
 class AppRouter {
   final router = GoRouter(
+    navigatorKey: _rootNavigatorKey,
     initialLocation: '/categories',
     routes: [
       GoRoute(
@@ -40,7 +43,7 @@ class AppRouter {
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
-            InsightBottomNavigationBar(navigationShell),
+            CustomBottomNavigationBar(navigationShell),
         branches: [
           StatefulShellBranch(
             routes: [
@@ -51,6 +54,7 @@ class AppRouter {
                   GoRoute(
                     name: 'courses',
                     path: 'courses/:tag',
+                    parentNavigatorKey: _rootNavigatorKey,
                     builder: (context, state) => CoursesScreen(
                       state.pathParameters['tag'] as String,
                     ),
@@ -58,6 +62,7 @@ class AppRouter {
                       GoRoute(
                         name: 'page',
                         path: 'course-page/:coursePageId',
+                        parentNavigatorKey: _rootNavigatorKey,
                         builder: (context, state) => CoursePageScreen(
                           coursePageId:
                               state.pathParameters['coursePageId'].toString(),
@@ -66,6 +71,7 @@ class AppRouter {
                           GoRoute(
                             name: 'video',
                             path: 'video/:coursePageTitle',
+                            parentNavigatorKey: _rootNavigatorKey,
                             builder: (context, state) => InsightPlayer(
                               videoUrl: state.extra as String,
                               title: state.pathParameters['coursePageTitle']
@@ -91,6 +97,7 @@ class AppRouter {
                   GoRoute(
                     name: 'profile',
                     path: 'profile',
+                    parentNavigatorKey: _rootNavigatorKey,
                     builder: (context, state) => const ProfileScreen(),
                   ),
                 ],
