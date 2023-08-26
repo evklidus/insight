@@ -14,9 +14,12 @@ void main() {
   late final networkDataProvider = MockCoursePageNetworkDataProvider();
   const coursePageId = '1';
   const coursePage = CoursePage(
-      id: coursePageId,
-      imageUrl: 'imageUrl',
-      lessons: [Lesson(name: 'name', videoUrl: 'videoUrl')]);
+    id: coursePageId,
+    name: 'name',
+    description: 'description',
+    imageUrl: 'imageUrl',
+    lessons: [Lesson(name: 'name', videoUrl: 'videoUrl')],
+  );
 
   setUpAll(() {
     coursePageRepositoryImpl = CoursePageRepositoryImpl(

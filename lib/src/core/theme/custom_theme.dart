@@ -38,11 +38,7 @@ const darkColorScheme = ColorScheme(
 
 const textTheme = TextTheme(
   titleLarge: TextStyle(
-    fontSize: 40,
-  ),
-  bodyLarge: TextStyle(
     fontSize: 32,
-    fontWeight: FontWeight.w500,
   ),
   bodyMedium: TextStyle(
     fontSize: 20,

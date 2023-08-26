@@ -15,6 +15,8 @@ void main() {
   const coursePageId = '1';
   const coursePage = CoursePage(
     id: coursePageId,
+    name: 'name',
+    description: 'description',
     imageUrl: 'imageUrl',
     lessons: [],
   );
