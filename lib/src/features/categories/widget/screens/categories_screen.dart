@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:insight/src/common/snackbar/error_snackbar.dart';
+import 'package:insight/src/common/widgets/custom_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
@@ -38,7 +38,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         child: BlocConsumer<CategoriesBloc, CategoriesState>(
           listener: (context, state) => state.mapOrNull(
             error: (errorState) =>
-                ErrorSnackBar.show(context, error: errorState.message),
+                CustomSnackBar.showError(context, message: errorState.message),
           ),
           builder: (context, state) {
             if (!state.hasData && state.isProcessing) {

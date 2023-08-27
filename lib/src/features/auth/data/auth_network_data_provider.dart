@@ -54,7 +54,7 @@ final class AuthFirebaseDataProviderImpl implements AuthNetworkDataProvider {
         email: email,
         password: password,
       );
-  // TODO: Вынестив в отдельный провайдер ИЛИ репо
+  // TODO: Вынестив в отдельный провайдер ИЛИ репо + рефреш токена
   @override
   Future<Token> login(
     String email,
