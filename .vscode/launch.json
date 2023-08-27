@@ -5,9 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "insight",
+            "name": "insight (debug mode)",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "flutterMode": "debug",
+            // "cwd": "lib/main",
         },
         {
             "name": "insight (profile mode)",
@@ -17,86 +19,6 @@
         },
         {
             "name": "insight (release mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        },
-        {
-            "name": "auth_client",
-            "cwd": "packages/auth_client",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "auth_client (profile mode)",
-            "cwd": "packages/auth_client",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "auth_client (release mode)",
-            "cwd": "packages/auth_client",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        },
-        {
-            "name": "database",
-            "cwd": "packages/database",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "database (profile mode)",
-            "cwd": "packages/database",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "database (release mode)",
-            "cwd": "packages/database",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        },
-        {
-            "name": "insight_player",
-            "cwd": "packages/insight_player",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "insight_player (profile mode)",
-            "cwd": "packages/insight_player",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "insight_player (release mode)",
-            "cwd": "packages/insight_player",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        },
-        {
-            "name": "rest_client",
-            "cwd": "packages/rest_client",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "rest_client (profile mode)",
-            "cwd": "packages/rest_client",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "rest_client (release mode)",
-            "cwd": "packages/rest_client",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
-import 'package:insight/src/common/snackbar/error_snackbar.dart';
-import 'package:insight/src/common/snackbar/successful_snackbar.dart';
+import 'package:insight/src/common/widgets/custom_snackbar.dart';
 
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
@@ -38,9 +37,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       listener: (context, state) => state.mapOrNull(
         successful: (state) {
           context.go('/login');
-          SuccessfulSnackBar.show(context, message: state.message);
+          CustomSnackBar.showSuccessful(context, message: state.message);
         },
-        error: (state) => ErrorSnackBar.show(context, error: state.message),
+        error: (state) =>
+            CustomSnackBar.showError(context, message: state.message),
       ),
       child: Scaffold(
         body: Form(

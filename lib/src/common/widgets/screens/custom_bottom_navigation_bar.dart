@@ -14,9 +14,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       body: navigationShell,
       bottomNavigationBar: CustomNavigationBar(
         currentIndex: navigationShell.currentIndex,
-        onTap: (int tappedIndex) {
-          navigationShell.goBranch(tappedIndex);
-        },
+        onTap: (tappedIndex) => navigationShell.goBranch(tappedIndex),
       ),
     );
   }
