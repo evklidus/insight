@@ -65,7 +65,7 @@ class CustomSnackBar {
               iconColor: iconColor,
               title: title,
               message: message,
-              onClosePressed: () => entry.remove(),
+              removeOverlayEntry: () => entry.remove(),
             ),
           ),
         ),
@@ -84,14 +84,14 @@ class _CustomSnackBarWidget extends StatefulWidget {
     this.iconColor,
     required this.title,
     this.message,
-    required this.onClosePressed,
+    required this.removeOverlayEntry,
   });
 
   final IconData icon;
   final Color? iconColor;
   final String title;
   final String? message;
-  final VoidCallback onClosePressed;
+  final VoidCallback removeOverlayEntry;
 
   @override
   State<_CustomSnackBarWidget> createState() => __CustomSnackBarWidgetState();
@@ -114,7 +114,7 @@ class __CustomSnackBarWidgetState extends State<_CustomSnackBarWidget>
 
   void _statusListener(AnimationStatus status) {
     if (status == AnimationStatus.dismissed) {
-      widget.onClosePressed();
+      widget.removeOverlayEntry();
     } else if (status == AnimationStatus.completed) {
       _controller.reverse();
     }
@@ -130,7 +130,7 @@ class __CustomSnackBarWidgetState extends State<_CustomSnackBarWidget>
   Widget build(BuildContext context) => SlideTransition(
         position: _offsetAnimation,
         child: GestureDetector(
-          onPanDown: (details) {
+          onVerticalDragStart: (d) {
             _offsetAnimation.removeStatusListener(_statusListener);
             _controller.forward();
           },
@@ -165,8 +165,6 @@ class __CustomSnackBarWidgetState extends State<_CustomSnackBarWidget>
                         Text(
                           widget.message!,
                           style: Theme.of(context).textTheme.bodySmall,
-                          // maxLines: 3,
-                          // overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
                         ),
                     ],
@@ -178,7 +176,7 @@ class __CustomSnackBarWidgetState extends State<_CustomSnackBarWidget>
                   icon: const Icon(Icons.close),
                   onPressed: () async {
                     await _controller.reverse();
-                    widget.onClosePressed();
+                    widget.removeOverlayEntry();
                   },
                 ),
               ],
