@@ -5,23 +5,64 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "insight (debug mode)",
+            "name": "insight (debug, dev)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
-            // "cwd": "lib/main",
+            "args": [
+                "--flavor",
+                "dev"
+            ] // , "--target", "lib/main_dev.dart"
         },
         {
-            "name": "insight (profile mode)",
+            "name": "insight (profile, dev)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": [
+                "--flavor",
+                "dev"
+            ]
         },
         {
-            "name": "insight (release mode)",
+            "name": "insight (release, dev)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": [
+                "--flavor",
+                "dev"
+            ]
+        },
+        {
+            "name": "insight (debug, prod)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "args": [
+                "--flavor",
+                "prod"
+            ] // , "--target", "lib/main_prod.dart"
+        },
+        {
+            "name": "insight (profile, prod)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor",
+                "prod"
+            ]
+        },
+        {
+            "name": "insight (release, prod)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "args": [
+                "--flavor",
+                "prod"
+            ]
         }
     ]
 }
