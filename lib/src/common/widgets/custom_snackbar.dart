@@ -116,7 +116,10 @@ class __CustomSnackBarWidgetState extends State<_CustomSnackBarWidget>
     if (status == AnimationStatus.dismissed) {
       widget.removeOverlayEntry();
     } else if (status == AnimationStatus.completed) {
-      _controller.reverse();
+      Future.delayed(
+        const Duration(seconds: 2),
+        () => _controller.reverse(),
+      );
     }
   }
 

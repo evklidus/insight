@@ -38,50 +38,50 @@ class InformationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(25),
-        ),
-        margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: Image.asset(imagePath),
-              ),
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.onBackground,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: Image.asset(imagePath),
             ),
-            Text(
-              title,
+          ),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              description,
               style: const TextStyle(
-                fontSize: 21,
+                fontSize: 15,
                 color: Colors.white,
               ),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 3),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                description,
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(height: 2),
-            TextButton(
+          ),
+          if (reloadFunc != null) const SizedBox(height: 8),
+          if (reloadFunc != null)
+            FilledButton(
               onPressed: reloadFunc,
               child: const Text(AppStrings.tryAgain),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }
