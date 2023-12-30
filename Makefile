@@ -10,6 +10,9 @@ get_all:
 
 	cd packages/rest_client && flutter pub get && dart run build_runner build --delete-conflicting-outputs
 
+gen_icons:
+	dart run flutter_launcher_icons:main -f flutter_launcher_icons*
+
 clean_all_dependencies:
 	flutter clean
 
