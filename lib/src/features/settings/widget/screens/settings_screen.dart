@@ -64,13 +64,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
               },
             ),
-            const SizedBox(height: 20),
-            // Profile
-            SettingRow(
-              title: AppStrings.profile,
-              icon: const Icon(Icons.person_2_rounded),
-              onTap: () => context.goRelativeNamed('profile'),
-            ),
+            if (_authBloc.state.isAuthenticated!) ...[
+              const SizedBox(height: 20),
+              // Profile
+              SettingRow(
+                title: AppStrings.profile,
+                icon: const Icon(Icons.person_2_rounded),
+                onTap: () => context.goRelativeNamed('profile'),
+              ),
+            ],
           ],
         ),
       ),
