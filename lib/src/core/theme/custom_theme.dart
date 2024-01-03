@@ -22,18 +22,12 @@ final lightColorScheme = ColorScheme.fromSeed(
   seedColor: const Color(0xff3965E3),
 );
 
-const darkColorScheme = ColorScheme(
+final darkColorScheme = ColorScheme.fromSeed(
+  seedColor: const Color(0xff3965E3),
   brightness: Brightness.dark,
-  primary: Color(0xff3965E3),
-  onPrimary: Colors.white,
   secondary: Colors.white,
-  onSecondary: Colors.black,
   error: Colors.redAccent,
-  onError: Colors.white,
-  background: Color(0xff1C1C1E),
-  onBackground: Colors.white,
-  surface: Color(0xff333334),
-  onSurface: Colors.white,
+  surface: const Color.fromARGB(255, 48, 48, 52),
 );
 
 const textTheme = TextTheme(

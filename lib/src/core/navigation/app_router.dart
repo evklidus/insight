@@ -4,6 +4,7 @@ import 'package:insight/src/common/widgets/screens/custom_bottom_navigation_bar.
 import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/categories_screen.dart';
+import 'package:insight/src/features/course/widget/screens/create_course_screen.dart';
 import 'package:insight/src/features/course_page/widget/screens/course_page_screen.dart';
 import 'package:insight/src/features/course/widget/screens/courses_screen.dart';
 import 'package:insight/src/features/profile/widget/screens/profile_screen.dart';
@@ -47,10 +48,12 @@ class AppRouter {
         branches: [
           StatefulShellBranch(
             routes: [
+              // Первый Tab
               GoRoute(
                 path: '/categories',
                 builder: (context, state) => const CategoriesScreen(),
                 routes: [
+                  // Курсы определенной категории
                   GoRoute(
                     name: 'courses',
                     path: 'courses/:tag',
@@ -83,6 +86,13 @@ class AppRouter {
                         ],
                       ),
                     ],
+                  ),
+                  // Создание курса
+                  GoRoute(
+                    name: 'create',
+                    path: 'create',
+                    parentNavigatorKey: _rootNavigatorKey,
+                    builder: (context, state) => const CreateCourseScreen(),
                   ),
                 ],
               ),

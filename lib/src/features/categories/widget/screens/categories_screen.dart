@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/widgets/custom_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
@@ -32,6 +33,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.appName),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.add_circle,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            onPressed: () => context.pushNamed('create'),
+          ),
+        ],
       ),
       body: BlocProvider(
         create: (context) => categoriesBloc,
