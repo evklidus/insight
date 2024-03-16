@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 /// {@template create_course_screen}
 /// CreateCourseScreen widget.
@@ -20,6 +24,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     super.initState();
   }
 
+  XFile? _image;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,16 +33,39 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
-          Text('Название'),
-          CustomTextField(),
-          Text('Описание'),
-          CustomTextField(),
-          Text('Уроки'),
+          const Text('Фото'),
+          if (_image != null) Image.file(File(_image!.path)),
           FilledButton.icon(
-            icon: Icon(Icons.add),
-            label: Text('Добавить'),
-            onPressed: () {},
-          )
+            icon: const Icon(Icons.add),
+            label: Text(_image == null ? 'Добавить фото' : 'Изменить фото'),
+            onPressed: () async {
+              final status = await Permission.photos.status;
+              if (status.isDenied) {
+                await Permission.photos.request();
+              } else if (status.isPermanentlyDenied) {
+                openAppSettings();
+              } else if (status.isGranted) {
+                final image = await ImagePicker().pickImage(
+                  source: ImageSource.gallery,
+                );
+                _image = image;
+              }
+            },
+          ),
+          const Text('Название'),
+          const CustomTextField(),
+          const Text('Описание'),
+          const CustomTextField(),
+          const Text('Уроки'),
+          FilledButton.icon(
+            icon: const Icon(Icons.add),
+            label: const Text('Добавить'),
+            onPressed: () {
+              ImagePicker()
+                  .pickVideo(source: ImageSource.gallery)
+                  .then((value) => null);
+            },
+          ),
         ],
       ),
     );
