@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
@@ -73,6 +76,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: () => context.goRelativeNamed('profile'),
               ),
             ],
+            // TODO: Убрать SizedBox и брать возможную доступную высоту
+            // SizedBox(height: MediaQuery.sizeOf(context).height / 3),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(Flavor.current),
+              ),
+            ),
           ],
         ),
       ),
