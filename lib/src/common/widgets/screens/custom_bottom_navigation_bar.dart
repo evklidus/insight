@@ -3,8 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/widgets/navigation_bars/custom_navigation_bar.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  const CustomBottomNavigationBar(this.navigationShell, {Key? key})
-      : super(key: key);
+  const CustomBottomNavigationBar(this.navigationShell, {super.key});
 
   final StatefulNavigationShell navigationShell;
 

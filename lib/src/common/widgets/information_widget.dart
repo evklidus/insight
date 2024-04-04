@@ -6,30 +6,28 @@ import 'package:insight/gen/assets.gen.dart';
 
 class InformationWidget extends StatelessWidget {
   const InformationWidget({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.title,
     required this.description,
     required this.reloadFunc,
-  }) : super(key: key);
+  });
 
   InformationWidget.empty({
-    Key? key,
+    super.key,
     String? imagePath,
     this.title = AppStrings.oops,
     this.description = AppStrings.itemForgot,
     this.reloadFunc,
-  })  : imagePath = imagePath ?? Assets.images.emptyImage.path,
-        super(key: key);
+  }) : imagePath = imagePath ?? Assets.images.emptyImage.path;
 
   InformationWidget.error({
-    Key? key,
+    super.key,
     String? imagePath,
     this.title = AppStrings.error,
     this.description = AppStrings.somethingWrong,
     required this.reloadFunc,
-  })  : imagePath = imagePath ?? Assets.images.errorImage.path,
-        super(key: key);
+  }) : imagePath = imagePath ?? Assets.images.errorImage.path;
 
   final String imagePath;
   final String title;

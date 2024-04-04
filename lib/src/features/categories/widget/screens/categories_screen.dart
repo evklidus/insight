@@ -11,7 +11,7 @@ import 'package:insight/src/features/categories/widget/components/categories_lis
 import 'package:insight/src/features/categories/widget/components/gratitudes_skeleton.dart';
 
 class CategoriesScreen extends StatefulWidget {
-  const CategoriesScreen({Key? key}) : super(key: key);
+  const CategoriesScreen({super.key});
 
   @override
   State<CategoriesScreen> createState() => _CategoriesScreenState();

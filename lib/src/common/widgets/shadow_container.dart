@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 @Deprecated('На данный момент нигде не нужен, возможно надо будет удалить')
 class ShadowContainer extends StatelessWidget {
   const ShadowContainer({
-    Key? key,
+    super.key,
     required this.child,
     this.radius = 5,
     this.moreShadow = false,
@@ -15,7 +15,7 @@ class ShadowContainer extends StatelessWidget {
     this.alignment,
     this.height,
     this.width,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final double radius;

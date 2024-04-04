@@ -4,10 +4,10 @@ import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatelessWidget {
   const VideoWidget({
-    Key? key,
+    super.key,
     required this.connectionState,
     required this.controller,
-  }) : super(key: key);
+  });
 
   final ConnectionState connectionState;
   final VideoPlayerController controller;

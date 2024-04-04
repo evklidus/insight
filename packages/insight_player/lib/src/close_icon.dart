@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CloseIcon extends StatelessWidget {
-  const CloseIcon(this.onPressed, {Key? key}) : super(key: key);
+  const CloseIcon(this.onPressed, {super.key});
 
   final VoidCallback onPressed;
 

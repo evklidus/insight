@@ -6,8 +6,8 @@ class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar({
     required this.onTap,
     required this.currentIndex,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final void Function(int) onTap;
   final int currentIndex;

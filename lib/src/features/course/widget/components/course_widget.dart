@@ -6,9 +6,9 @@ import 'package:insight/src/features/course/model/course.dart';
 
 class CourseWidget extends StatelessWidget {
   const CourseWidget({
-    Key? key,
+    super.key,
     required this.course,
-  }) : super(key: key);
+  });
 
   final Course course;
 

@@ -7,8 +7,8 @@ class CustomNavigationBarItem extends StatefulWidget {
     required this.onTap,
     required this.currentIndex,
     required this.itemIndex,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget activeIcon;
   final Widget inactiveIcon;

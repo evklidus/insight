@@ -12,9 +12,9 @@ import 'package:insight/src/features/course_page/widget/components/course_page_i
 
 class CoursePageScreen extends StatefulWidget {
   const CoursePageScreen({
-    Key? key,
+    super.key,
     required this.coursePageId,
-  }) : super(key: key);
+  });
 
   final String coursePageId;
 

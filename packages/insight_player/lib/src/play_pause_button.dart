@@ -7,8 +7,8 @@ class PlayPauseButton extends StatefulWidget {
   const PlayPauseButton(
     this.connectionState,
     this.videoPlayerController, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ConnectionState connectionState;
   final VideoPlayerController videoPlayerController;

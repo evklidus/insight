@@ -5,9 +5,9 @@ import 'package:insight/src/common/widgets/rounded_back_button.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(
     this.leadingText, {
-    Key? key,
+    super.key,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final String? leadingText;
   final Function? onTap;

@@ -6,9 +6,9 @@ import 'package:insight/src/features/course_page/widget/components/lesson_widget
 
 class CoursePageInfo extends StatefulWidget {
   const CoursePageInfo({
-    Key? key,
+    super.key,
     required this.coursePage,
-  }) : super(key: key);
+  });
 
   final CoursePage coursePage;
 
