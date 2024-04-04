@@ -40,7 +40,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
       final image = await ImagePicker().pickImage(
         source: ImageSource.gallery,
       );
-      _image = image;
+      setState(() => _image = image);
     }
   }
 
@@ -51,7 +51,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
-          // TODO: Превратиь это в более внятный вид (мб локальный онбординг)
           Container(
             margin: const EdgeInsets.all(16),
             padding: const EdgeInsets.all(14),
@@ -69,7 +68,13 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
             ),
           ),
           const Text('Фото'),
-          if (_image != null) Image.file(File(_image!.path)),
+          const SizedBox(height: 8),
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 350),
+            child: _image != null
+                ? _CourseImage(_image!.path)
+                : const _CourseImagePlaceholder(),
+          ),
           Platform.isIOS
               ? CupertinoButton(
                   onPressed: _addPhotoHandler,
@@ -84,12 +89,15 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 ),
           const SizedBox(height: 16),
           const Text('Название'),
+          const SizedBox(height: 8),
           const CustomTextField(),
           const SizedBox(height: 16),
           const Text('Описание'),
+          const SizedBox(height: 8),
           const CustomTextField(),
           const SizedBox(height: 16),
           const Text('Категория'),
+          const SizedBox(height: 8),
           // Platform.isIOS
           //     ? CupertinoSegmentedControl<String>(
           //         children: {
@@ -102,6 +110,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
           //         },
           //       )
           //     :
+          // TODO: Сделать кастомный (мб на чипах)
+          // TODO: Получать категории с сервера
           SegmentedButton<String>(
             selected: _selectedCategory,
             segments: const [
@@ -118,8 +128,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 label: Text('Финансы'),
               ),
             ],
-            onSelectionChanged: (value) =>
-                setState(() => _selectedCategory = value),
+            onSelectionChanged: (value) => setState(
+              () => _selectedCategory = value,
+            ),
           ),
           // const Text('Уроки'),
           // TextButton.icon(
@@ -131,17 +142,58 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
           //         .then((value) => null);
           //   },
           // ),
+          const SizedBox(height: 32),
+          Platform.isIOS
+              ? CupertinoButton.filled(
+                  child: const Text('Создать'),
+                  onPressed: () {},
+                )
+              : FloatingActionButton.extended(
+                  onPressed: () {},
+                  label: const Text('Создать'),
+                ),
+          SizedBox(height: MediaQuery.viewPaddingOf(context).bottom),
         ],
       ),
-      floatingActionButton: Platform.isIOS
-          ? CupertinoButton.filled(
-              child: const Text('Создать'),
-              onPressed: () {},
-            )
-          : FloatingActionButton.extended(
-              onPressed: () {},
-              label: const Text('Создать'),
-            ),
     );
   }
+}
+
+class _CourseImage extends StatelessWidget {
+  const _CourseImage(this.imagePath);
+
+  final String imagePath;
+
+  @override
+  Widget build(BuildContext context) => ClipRRect(
+        key: UniqueKey(),
+        borderRadius: BorderRadius.circular(20),
+        child: AspectRatio(
+          aspectRatio: 4 / 3,
+          child: Image.file(
+            File(imagePath),
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+}
+
+class _CourseImagePlaceholder extends StatelessWidget {
+  const _CourseImagePlaceholder();
+
+  @override
+  Widget build(BuildContext context) => AspectRatio(
+        aspectRatio: 4 / 3,
+        child: DecoratedBox(
+          decoration: ShapeDecoration(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: context.colorScheme.surface),
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          child: const Center(
+            child: Text('Нет фото'),
+          ),
+        ),
+      );
 }
