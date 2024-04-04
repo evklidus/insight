@@ -44,18 +44,14 @@ sealed class CategoriesState extends _$CategoriesStateBase {
 }
 
 /// Idling state
-/// {@nodoc}
 final class CategoriesState$Idle extends CategoriesState
     with _$CategoriesState {
-  /// {@nodoc}
   const CategoriesState$Idle({required super.data, super.message = 'Idling'});
 }
 
 /// Processing
-/// {@nodoc}
 final class CategoriesState$Processing extends CategoriesState
     with _$CategoriesState {
-  /// {@nodoc}
   const CategoriesState$Processing({
     required super.data,
     super.message = 'Processing',
@@ -63,10 +59,8 @@ final class CategoriesState$Processing extends CategoriesState
 }
 
 /// Successful
-/// {@nodoc}
 final class CategoriesState$Successful extends CategoriesState
     with _$CategoriesState {
-  /// {@nodoc}
   const CategoriesState$Successful({
     required super.data,
     super.message = 'Successful',
@@ -74,17 +68,14 @@ final class CategoriesState$Successful extends CategoriesState
 }
 
 /// Error
-/// {@nodoc}
 final class CategoriesState$Error extends CategoriesState
     with _$CategoriesState {
-  /// {@nodoc}
   const CategoriesState$Error({
     required super.data,
     super.message = 'An error has occurred.',
   });
 }
 
-/// {@nodoc}
 base mixin _$CategoriesState on CategoriesState {}
 
 /// Pattern matching for [CategoriesState].
@@ -92,10 +83,8 @@ typedef CategoriesStateMatch<R, S extends CategoriesState> = R Function(
   S state,
 );
 
-/// {@nodoc}
 @immutable
 abstract base class _$CategoriesStateBase with EquatableMixin {
-  /// {@nodoc}
   const _$CategoriesStateBase({required this.data, required this.message});
 
   /// Data entity payload.
