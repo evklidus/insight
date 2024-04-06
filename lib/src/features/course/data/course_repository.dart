@@ -3,6 +3,12 @@ import 'package:insight/src/features/course/model/course.dart';
 
 abstract interface class CourseRepository {
   Future<List<Course>> getCourse(String categoryTag);
+  Future<void> createCourse({
+    required String name,
+    required String description,
+    required String imagePath,
+    required String categoryTag,
+  });
 }
 
 final class CourseRepositoryImpl implements CourseRepository {
@@ -15,4 +21,18 @@ final class CourseRepositoryImpl implements CourseRepository {
   @override
   Future<List<Course>> getCourse(String categoryTag) =>
       _networkDataProvider.getCourse(categoryTag);
+
+  @override
+  Future<void> createCourse({
+    required String name,
+    required String description,
+    required String imagePath,
+    required String categoryTag,
+  }) =>
+      _networkDataProvider.createCourse(
+        name: name,
+        description: description,
+        imagePath: imagePath,
+        categoryTag: categoryTag,
+      );
 }

@@ -2,10 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
+import 'package:insight/src/common/widgets/custom_snackbar.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
+import 'package:insight/src/common/widgets/whole_screen_loading_indicator.dart';
+import 'package:insight/src/core/di_container/di_container.dart';
+import 'package:insight/src/features/course/bloc/create_course/create_course_bloc.dart';
+import 'package:insight/src/features/course/bloc/create_course/create_course_event.dart';
+import 'package:insight/src/features/course/bloc/create_course/create_course_state.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 /// {@template create_course_screen}
@@ -21,19 +30,41 @@ class CreateCourseScreen extends StatefulWidget {
 
 /// State for widget CreateCourseScreen.
 class _CreateCourseScreenState extends State<CreateCourseScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   XFile? _image;
   // TDOD: При загружке доступных категорий снаяала выбранной будет первая
   Set<String> _selectedCategory = {'sport'};
+
+  final formKey = GlobalKey<FormState>();
+
+  late final CreateCourseBLoC _createCourseBloc;
+
+  late final TextEditingController _nameController;
+  late final TextEditingController _descrController;
+
+  @override
+  void initState() {
+    super.initState();
+    _createCourseBloc = CreateCourseBLoC(
+      repository: DIContainer.instance.coursesRepository,
+    );
+    _nameController = TextEditingController();
+    _descrController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _createCourseBloc.close();
+    _nameController.dispose();
+    _descrController.dispose();
+    super.dispose();
+  }
 
   Future<void> _addPhotoHandler() async {
     final status = await Permission.photos.status;
     if (status.isDenied) {
       await Permission.photos.request();
+      // TODO: Проверить не зацикливается ли
+      _addPhotoHandler();
     } else if (status.isPermanentlyDenied) {
       openAppSettings();
     } else if (status.isGranted) {
@@ -44,118 +75,170 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     }
   }
 
+  void _createCourseHandler() {
+    if (_image == null && !formKey.currentState!.validate()) {
+      CustomSnackBar.showError(context, message: 'Добавьте фото');
+    } else {
+      _createCourseBloc.add(
+        CreateCourseEvent.create(
+          name: _nameController.text,
+          description: _descrController.text,
+          imagePath: _image!.path,
+          categoryTag: _selectedCategory.first,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar('Создание курса'),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        children: [
-          Container(
-            margin: const EdgeInsets.all(16),
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: context.colorScheme.surface,
-              borderRadius: BorderRadius.circular(16),
+    return BlocConsumer<CreateCourseBLoC, CreateCourseState>(
+        listener: (context, state) => state.mapOrNull(
+              successful: (state) {
+                context.pop();
+                CustomSnackBar.showSuccessful(context, message: state.message);
+              },
+              error: (state) =>
+                  CustomSnackBar.showError(context, message: state.message),
             ),
-            child: Text(
-              'Сначала необходимо создать курс, затем можно добавить уроки.\nПосле добавления первого урока можно разблокировать курс.',
-              style: TextStyle(
-                fontSize: 16,
-                color: context.colorScheme.onBackground.withOpacity(0.6),
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const Text('Фото'),
-          const SizedBox(height: 8),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 350),
-            child: _image != null
-                ? _CourseImage(_image!.path)
-                : const _CourseImagePlaceholder(),
-          ),
-          Platform.isIOS
-              ? CupertinoButton(
-                  onPressed: _addPhotoHandler,
-                  child:
-                      Text(_image == null ? 'Добавить фото' : 'Изменить фото'),
-                )
-              : TextButton.icon(
-                  icon: const Icon(Icons.add),
-                  label:
-                      Text(_image == null ? 'Добавить фото' : 'Изменить фото'),
-                  onPressed: _addPhotoHandler,
+        bloc: _createCourseBloc,
+        builder: (context, state) {
+          return WholeScreenLoadingIndicator(
+            isLoading: state.isProcessing,
+            child: Scaffold(
+              appBar: const CustomAppBar('Создание курса'),
+              body: Form(
+                key: formKey,
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: context.colorScheme.surface,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Text(
+                        'Сначала необходимо создать курс, затем можно добавить уроки.\nПосле добавления первого урока можно разблокировать курс.',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color:
+                              context.colorScheme.onBackground.withOpacity(0.6),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const Text('Фото'),
+                    const SizedBox(height: 8),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 350),
+                      child: _image != null
+                          ? _CourseImage(_image!.path)
+                          : const _CourseImagePlaceholder(),
+                    ),
+                    Platform.isIOS
+                        ? CupertinoButton(
+                            onPressed: _addPhotoHandler,
+                            child: Text(_image == null
+                                ? 'Добавить фото'
+                                : 'Изменить фото'),
+                          )
+                        : TextButton.icon(
+                            icon: const Icon(Icons.add),
+                            label: Text(_image == null
+                                ? 'Добавить фото'
+                                : 'Изменить фото'),
+                            onPressed: _addPhotoHandler,
+                          ),
+                    const SizedBox(height: 16),
+                    const Text('Название'),
+                    const SizedBox(height: 8),
+                    CustomTextField(
+                      controller: _nameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppStrings.pleaseEnterSomething;
+                        }
+                        return value;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    const Text('Описание'),
+                    const SizedBox(height: 8),
+                    CustomTextField(
+                      controller: _descrController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppStrings.pleaseEnterSomething;
+                        }
+                        return value;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    const Text('Категория'),
+                    const SizedBox(height: 8),
+                    // Platform.isIOS
+                    //     ? CupertinoSegmentedControl<String>(
+                    //         children: {
+                    //           0: Text(AppLocalizations.of(context).tr('titles.secImg')),
+                    //           1: Text(AppLocalizations.of(context).tr('titles.secQuest')),
+                    //         },
+                    //         groupValue: _selectedIndexValue,
+                    //         onValueChanged: (value) {
+                    //           setState(() => _selectedIndexValue = value);
+                    //         },
+                    //       )
+                    //     :
+                    // TODO: Сделать кастомный (мб на чипах)
+                    // TODO: Получать категории с сервера
+                    SegmentedButton<String>(
+                      selected: _selectedCategory,
+                      segments: const [
+                        ButtonSegment(
+                          value: 'sport',
+                          label: Text('Спорт'),
+                        ),
+                        ButtonSegment(
+                          value: 'programming',
+                          label: Text('Программирование'),
+                        ),
+                        ButtonSegment(
+                          value: 'finance',
+                          label: Text('Финансы'),
+                        ),
+                      ],
+                      onSelectionChanged: (value) => setState(
+                        () => _selectedCategory = value,
+                      ),
+                    ),
+                    // const Text('Уроки'),
+                    // TextButton.icon(
+                    //   icon: const Icon(Icons.add),
+                    //   label: const Text('Добавить'),
+                    //   onPressed: () {
+                    //     ImagePicker()
+                    //         .pickVideo(source: ImageSource.gallery)
+                    //         .then((value) => null);
+                    //   },
+                    // ),
+                    const SizedBox(height: 32),
+                    Platform.isIOS
+                        ? CupertinoButton.filled(
+                            onPressed: _createCourseHandler,
+                            child: const Text('Создать'),
+                          )
+                        : FloatingActionButton.extended(
+                            onPressed: _createCourseHandler,
+                            label: const Text('Создать'),
+                          ),
+                    SizedBox(height: MediaQuery.viewPaddingOf(context).bottom),
+                  ],
                 ),
-          const SizedBox(height: 16),
-          const Text('Название'),
-          const SizedBox(height: 8),
-          const CustomTextField(),
-          const SizedBox(height: 16),
-          const Text('Описание'),
-          const SizedBox(height: 8),
-          const CustomTextField(),
-          const SizedBox(height: 16),
-          const Text('Категория'),
-          const SizedBox(height: 8),
-          // Platform.isIOS
-          //     ? CupertinoSegmentedControl<String>(
-          //         children: {
-          //           0: Text(AppLocalizations.of(context).tr('titles.secImg')),
-          //           1: Text(AppLocalizations.of(context).tr('titles.secQuest')),
-          //         },
-          //         groupValue: _selectedIndexValue,
-          //         onValueChanged: (value) {
-          //           setState(() => _selectedIndexValue = value);
-          //         },
-          //       )
-          //     :
-          // TODO: Сделать кастомный (мб на чипах)
-          // TODO: Получать категории с сервера
-          SegmentedButton<String>(
-            selected: _selectedCategory,
-            segments: const [
-              ButtonSegment(
-                value: 'sport',
-                label: Text('Спорт'),
               ),
-              ButtonSegment(
-                value: 'programming',
-                label: Text('Программирование'),
-              ),
-              ButtonSegment(
-                value: 'finance',
-                label: Text('Финансы'),
-              ),
-            ],
-            onSelectionChanged: (value) => setState(
-              () => _selectedCategory = value,
             ),
-          ),
-          // const Text('Уроки'),
-          // TextButton.icon(
-          //   icon: const Icon(Icons.add),
-          //   label: const Text('Добавить'),
-          //   onPressed: () {
-          //     ImagePicker()
-          //         .pickVideo(source: ImageSource.gallery)
-          //         .then((value) => null);
-          //   },
-          // ),
-          const SizedBox(height: 32),
-          Platform.isIOS
-              ? CupertinoButton.filled(
-                  child: const Text('Создать'),
-                  onPressed: () {},
-                )
-              : FloatingActionButton.extended(
-                  onPressed: () {},
-                  label: const Text('Создать'),
-                ),
-          SizedBox(height: MediaQuery.viewPaddingOf(context).bottom),
-        ],
-      ),
-    );
+          );
+        });
   }
 }
 

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:database/insight_db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:insight/src/features/auth/data/auth_network_data_provider.dart';
 import 'package:auth_client/auth_client.dart';
 import 'package:dio/dio.dart';
@@ -35,6 +36,7 @@ final class DIContainer {
   // Firebase
   late final FirebaseAuth firebaseAuth;
   late final FirebaseFirestore firebaseFirestore;
+  late final FirebaseStorage firebaseStorage;
 
   // Data Providers
   late final AuthNetworkDataProvider authNetworkDataProvider;
@@ -81,16 +83,21 @@ final class DIContainer {
     // Firebase
     firebaseAuth = FirebaseAuth.instance;
     firebaseFirestore = FirebaseFirestore.instance;
+    firebaseStorage = FirebaseStorage.instance;
 
     // Data Providers
     authNetworkDataProvider = AuthFirebaseDataProviderImpl(firebaseAuth);
     authStorageDataProvider = AuthStorageDataProviderImpl(insightDB);
-    categoriesNetworkDataProvider =
-        CategoriesFirestoreDataProviderImpl(firebaseFirestore);
-    courseNetworkDataProvider =
-        CourseFirestoreDataProviderImpl(firebaseFirestore);
-    coursePageNetworkDataProvider =
-        CoursePageFirestoreDataProviderImpl(firebaseFirestore);
+    categoriesNetworkDataProvider = CategoriesFirestoreDataProviderImpl(
+      firebaseFirestore,
+    );
+    courseNetworkDataProvider = CourseFirestoreDataProviderImpl(
+      firebaseFirestore,
+      firebaseStorage,
+    );
+    coursePageNetworkDataProvider = CoursePageFirestoreDataProviderImpl(
+      firebaseFirestore,
+    );
     profileNetworkDataProvider = ProfileFirestoreDataProviderImpl(
       firestore: firebaseFirestore,
       firebaseAuth: firebaseAuth,

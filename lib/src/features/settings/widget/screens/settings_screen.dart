@@ -74,8 +74,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: () => context.goRelativeNamed('profile'),
               ),
             ],
-            // TODO: Убрать SizedBox и брать возможную доступную высоту
-            // SizedBox(height: MediaQuery.sizeOf(context).height / 3),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,

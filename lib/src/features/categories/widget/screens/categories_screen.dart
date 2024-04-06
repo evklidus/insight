@@ -34,6 +34,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       appBar: AppBar(
         title: const Text(AppStrings.appName),
         actions: [
+          // TODO: Показывать Alert о том, что создавать курсы могут только авторизованные пользователи
           IconButton(
             icon: Icon(
               Icons.add_circle,
