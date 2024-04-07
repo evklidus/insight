@@ -74,12 +74,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: () => context.goRelativeNamed('profile'),
               ),
             ],
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(Flavor.current),
+            if (!Flavor.isProd)
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(Flavor.current),
+                ),
               ),
-            ),
           ],
         ),
       ),
