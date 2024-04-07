@@ -14,9 +14,11 @@ class CoursePageScreen extends StatefulWidget {
   const CoursePageScreen({
     super.key,
     required this.coursePageId,
+    this.refreshCoursesList,
   });
 
   final String coursePageId;
+  final VoidCallback? refreshCoursesList;
 
   @override
   State<CoursePageScreen> createState() => _CoursePageScreenState();
@@ -60,7 +62,10 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
                 ),
               );
             } else {
-              return CoursePageInfo(coursePage: state.data!);
+              return CoursePageInfo(
+                coursePage: state.data!,
+                refreshCoursesList: widget.refreshCoursesList,
+              );
             }
           },
         ),

@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 @immutable
 abstract interface class CourseNetworkDataProvider {
   Future<List<Course>> getCourse(String categoryTag);
+
   Future<void> createCourse({
     required String name,
     required String description,

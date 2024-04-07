@@ -3,6 +3,7 @@ import 'package:insight/src/features/course/model/course.dart';
 
 abstract interface class CourseRepository {
   Future<List<Course>> getCourse(String categoryTag);
+
   Future<void> createCourse({
     required String name,
     required String description,

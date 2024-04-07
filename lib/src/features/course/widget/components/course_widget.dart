@@ -3,25 +3,34 @@ import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
+import 'package:insight/src/features/course/bloc/course_bloc.dart';
 import 'package:insight/src/features/course/model/course.dart';
+import 'package:provider/provider.dart';
 
 class CourseWidget extends StatelessWidget {
   const CourseWidget({
     super.key,
     required this.course,
+    required this.categoryTag,
   });
 
   final Course course;
+  final String categoryTag;
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => context.goRelativeNamed(
+  void _onPressedHandler(BuildContext context) => context.goRelativeNamed(
         'page',
         pathParameters: {
           'coursePageId': course.id.toString(),
         },
-      ),
+        extra: () => Provider.of<CourseBloc>(context, listen: false).add(
+          CourseEvent.fetch(categoryTag),
+        ),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _onPressedHandler(context),
       child: Container(
         height: 100,
         decoration: BoxDecoration(

@@ -1,7 +1,7 @@
 import 'package:rest_client/rest_client.dart';
 
-final class Course {
-  Course({
+class Course {
+  const Course({
     required this.id,
     required this.name,
     required this.imageUrl,

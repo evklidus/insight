@@ -69,6 +69,7 @@ class AppRouter {
                         builder: (context, state) => CoursePageScreen(
                           coursePageId:
                               state.pathParameters['coursePageId'].toString(),
+                          refreshCoursesList: state.extra as VoidCallback?,
                         ),
                         routes: [
                           GoRoute(

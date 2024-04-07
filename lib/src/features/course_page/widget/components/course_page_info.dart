@@ -1,25 +1,46 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
+import 'package:insight/src/common/widgets/custom_snackbar.dart';
+import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
 import 'package:insight/src/features/course_page/widget/components/lesson_widget.dart';
+import 'package:provider/provider.dart';
 
 class CoursePageInfo extends StatefulWidget {
   const CoursePageInfo({
     super.key,
     required this.coursePage,
+    this.refreshCoursesList,
   });
 
   final CoursePage coursePage;
+  final VoidCallback? refreshCoursesList;
 
   @override
   State<CoursePageInfo> createState() => _CoursePageScreenLoadedState();
 }
 
 class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
+  void _onDeletHandler(BuildContext ctx) =>
+      Provider.of<CoursePageBloc>(ctx, listen: false).add(
+        CoursePageEvent.delete(
+          () {
+            widget.refreshCoursesList?.call();
+            CustomSnackBar.showSuccessful(context, message: 'Курс удален');
+            context.pop();
+          },
+        ),
+      );
   @override
   Widget build(BuildContext context) {
+    final deleteCourseButtonStyle = TextStyle(color: context.colorScheme.error);
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -62,11 +83,31 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 decoration: ShapeDecoration(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   color: context.colorScheme.errorContainer,
                 ),
                 child: const Text('Курс в разаработке'),
+              ),
+            const SizedBox(height: 20),
+            if (widget.coursePage.isItsOwn)
+              Align(
+                alignment: Alignment.center,
+                child: Platform.isIOS
+                    ? CupertinoButton(
+                        onPressed: () => _onDeletHandler(context),
+                        child: Text(
+                          'Удалить',
+                          style: deleteCourseButtonStyle,
+                        ),
+                      )
+                    : TextButton(
+                        onPressed: () => _onDeletHandler(context),
+                        child: Text(
+                          'Удалить',
+                          style: deleteCourseButtonStyle,
+                        ),
+                      ),
               ),
           ],
         ),

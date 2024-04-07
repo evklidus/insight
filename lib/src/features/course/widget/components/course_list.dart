@@ -7,9 +7,11 @@ class CourseList extends StatelessWidget {
   const CourseList({
     super.key,
     required this.courses,
+    required this.categoryTag,
   });
 
   final List<Course> courses;
+  final String categoryTag;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,7 @@ class CourseList extends StatelessWidget {
       itemCount: courses.length,
       itemBuilder: (context, index) => CourseWidget(
         course: courses[index],
+        categoryTag: categoryTag,
       ),
       separatorBuilder: (context, index) => const SizedBox(height: 20),
     );

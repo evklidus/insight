@@ -1,29 +1,35 @@
+import 'package:insight/src/features/course/model/course.dart';
 import 'package:insight/src/features/course_page/model/lesson.dart';
 import 'package:meta/meta.dart';
 import 'package:rest_client/rest_client.dart';
 
 @immutable
-final class CoursePage {
+final class CoursePage extends Course {
   const CoursePage({
-    required this.id,
-    required this.name,
+    required super.id,
+    required super.name,
     required this.description,
-    required this.imageUrl,
+    required super.imageUrl,
     this.lessons,
+    required super.tag,
+    required super.isItsOwn,
   });
 
-  factory CoursePage.fromDTO(CoursePageDTO dto) => CoursePage(
-        id: dto.id.toString(),
-        name: dto.name,
-        description: dto.description,
-        imageUrl: dto.imageUrl,
-        lessons: dto.lessons?.map(Lesson.fromDTO).toList(),
-      );
+  factory CoursePage.fromDTO(CoursePageDTO dto, String userId) =>
+      throw UnimplementedError();
+  // CoursePage(
+  //   id: dto.id.toString(),
+  //   name: dto.name,
+  //   description: dto.description,
+  //   imageUrl: dto.imageUrl,
+  //   lessons: dto.lessons?.map(Lesson.fromDTO).toList(),
+  // )
 
   factory CoursePage.fromFirestore(
     String id,
     Map<String, dynamic>? courseData,
     Map<String, dynamic>? detailData,
+    String userId,
   ) =>
       CoursePage(
         id: id,
@@ -40,11 +46,10 @@ final class CoursePage {
                 )
                 .toList()
             : null,
+        tag: courseData['tag'],
+        isItsOwn: courseData['owner_id'] == userId,
       );
 
-  final String id;
-  final String name;
   final String description;
-  final String imageUrl;
   final List<Lesson>? lessons;
 }

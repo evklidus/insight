@@ -61,6 +61,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
             } else {
               return CourseList(
                 courses: state.data!,
+                categoryTag: widget.categoryTag,
               );
             }
           },

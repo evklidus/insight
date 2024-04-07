@@ -14,7 +14,7 @@ void main() {
       MockCourseNetworkDataProvider();
   const categoryTag = 'sport';
   final courses = [
-    Course(
+    const Course(
       id: '1',
       name: 'name',
       imageUrl: 'imageUrl',
