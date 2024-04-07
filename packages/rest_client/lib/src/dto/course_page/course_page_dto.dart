@@ -12,7 +12,7 @@ class CoursePageDTO {
     required this.name,
     required this.description,
     required this.imageUrl,
-    required this.lessons,
+    this.lessons,
   });
 
   factory CoursePageDTO.fromJson(Map<String, Object?> json) =>
@@ -25,5 +25,5 @@ class CoursePageDTO {
   final String description;
   @JsonKey(name: "image_url")
   final String imageUrl;
-  final List<LessonDTO> lessons;
+  final List<LessonDTO>? lessons;
 }

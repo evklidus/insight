@@ -9,7 +9,7 @@ final class CoursePage {
     required this.name,
     required this.description,
     required this.imageUrl,
-    required this.lessons,
+    this.lessons,
   });
 
   factory CoursePage.fromDTO(CoursePageDTO dto) => CoursePage(
@@ -17,7 +17,7 @@ final class CoursePage {
         name: dto.name,
         description: dto.description,
         imageUrl: dto.imageUrl,
-        lessons: dto.lessons.map(Lesson.fromDTO).toList(),
+        lessons: dto.lessons?.map(Lesson.fromDTO).toList(),
       );
 
   factory CoursePage.fromFirestore(
@@ -30,19 +30,21 @@ final class CoursePage {
         name: courseData!['name'],
         description: detailData!['description'],
         imageUrl: courseData['image_url'],
-        lessons: List.of(detailData['lessons'])
-            .map(
-              (lessonData) => Lesson(
-                name: lessonData['name'],
-                videoUrl: lessonData['video_url'],
-              ),
-            )
-            .toList(),
+        lessons: detailData['lessons'] != null
+            ? List.of(detailData['lessons'])
+                .map(
+                  (lessonData) => Lesson(
+                    name: lessonData['name'],
+                    videoUrl: lessonData['video_url'],
+                  ),
+                )
+                .toList()
+            : null,
       );
 
   final String id;
   final String name;
   final String description;
   final String imageUrl;
-  final List<Lesson> lessons;
+  final List<Lesson>? lessons;
 }
