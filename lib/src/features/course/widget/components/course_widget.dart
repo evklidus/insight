@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
@@ -39,13 +40,33 @@ class CourseWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
             ),
             const SizedBox(width: 13),
-            Flexible(
+            Expanded(
               child: Text(
                 course.name,
                 style: Theme.of(context).textTheme.bodyMedium,
                 maxLines: 2,
               ),
             ),
+            if (course.isItsOwn) ...[
+              const SizedBox(width: 13),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(8),
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: context.colorScheme.surfaceVariant,
+                  ),
+                  child: Text(
+                    'Ваш',
+                    style: context.textTheme.bodySmall,
+                  ),
+                ),
+              ),
+            ]
           ],
         ),
       ),

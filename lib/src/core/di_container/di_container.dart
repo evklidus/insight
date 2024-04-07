@@ -92,6 +92,7 @@ final class DIContainer {
       firebaseFirestore,
     );
     courseNetworkDataProvider = CourseFirestoreDataProviderImpl(
+      firebaseAuth,
       firebaseFirestore,
       firebaseStorage,
     );

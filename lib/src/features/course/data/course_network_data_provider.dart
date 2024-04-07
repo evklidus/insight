@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:insight/src/features/course/model/course.dart';
 import 'package:meta/meta.dart';
@@ -20,13 +21,15 @@ abstract interface class CourseNetworkDataProvider {
 @immutable
 final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
   const CourseNetworkDataProviderImpl(RestClient client) : _client = client;
-
+// ignore: unused_field
   final RestClient _client;
 
   @override
-  Future<List<Course>> getCourse(String categoryTag) => _client
-      .getCoursesByCategoryTag(categoryTag)
-      .then((list) => list.map(Course.fromDTO).toList());
+  Future<List<Course>> getCourse(String categoryTag) =>
+      throw UnimplementedError();
+  // _client
+  //     .getCoursesByCategoryTag(categoryTag)
+  //     .then((list) => list.map(Course.fromDTO).toList());
 
   @override
   Future<void> createCourse({
@@ -42,11 +45,14 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
 final class CourseFirestoreDataProviderImpl
     implements CourseNetworkDataProvider {
   const CourseFirestoreDataProviderImpl(
+    FirebaseAuth firebaseAuth,
     FirebaseFirestore firestore,
     FirebaseStorage firebaseStorage,
-  )   : _firestore = firestore,
+  )   : _firebaseAuth = firebaseAuth,
+        _firestore = firestore,
         _firebaseStorage = firebaseStorage;
 
+  final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
   final FirebaseStorage _firebaseStorage;
 
@@ -56,8 +62,11 @@ final class CourseFirestoreDataProviderImpl
         .collection('course')
         .where('tag', isEqualTo: categoryTag)
         .get();
+
+    final userId = _firebaseAuth.currentUser!.uid;
+
     final courses = coursesCollection.docs
-        .map((doc) => Course.fromFirestore(doc.id, doc.data()))
+        .map((doc) => Course.fromFirestore(doc.id, doc.data(), userId))
         .toList();
     return courses;
   }
@@ -69,6 +78,7 @@ final class CourseFirestoreDataProviderImpl
     required String imagePath,
     required String categoryTag,
   }) async {
+    // Загружаем обложку в firebase storage
     final file = File(imagePath);
 
     final uploadTask = await _firebaseStorage
@@ -81,12 +91,15 @@ final class CourseFirestoreDataProviderImpl
 
     final imageUrl = await uploadTask.ref.getDownloadURL();
 
+    final userId = _firebaseAuth.currentUser!.uid;
+
     // Сохраняем курс в firestore
     final courseCollection = _firestore.collection('course');
     final doc = await courseCollection.add({
       'name': name,
       'image_url': imageUrl,
       'tag': categoryTag,
+      'owner_id': userId,
     });
     // TODO: detail и тд вынести в константы (в этом файле)
     doc.collection('detail').add(
