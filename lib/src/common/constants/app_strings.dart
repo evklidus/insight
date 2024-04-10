@@ -11,6 +11,10 @@ class AppStrings {
   static const noInternetConnection = 'Нет интернет соединения';
   static const cancel = 'Отменить';
 
+  //Errors
+  static const needAuthToCreateCourse =
+      'Создавать курсы могут только авторизованные пользователи';
+
   //TabBar
   static const main = 'Главная';
 

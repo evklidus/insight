@@ -5,10 +5,12 @@ import 'package:insight/src/common/widgets/custom_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/src/features/categories/bloc/categories_bloc.dart';
 import 'package:insight/src/features/categories/bloc/categories_state.dart';
 import 'package:insight/src/features/categories/widget/components/categories_list.dart';
 import 'package:insight/src/features/categories/widget/components/gratitudes_skeleton.dart';
+import 'package:provider/provider.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
@@ -30,17 +32,22 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = Provider.of<AuthBloc>(context).state;
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.appName),
         actions: [
-          // TODO: Показывать Alert о том, что создавать курсы могут только авторизованные пользователи
           IconButton(
             icon: Icon(
               Icons.add_circle,
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
-            onPressed: () => context.pushNamed('create'),
+            onPressed: () => authState.isAuthenticated ?? false
+                ? context.pushNamed('create')
+                : CustomSnackBar.showError(
+                    context,
+                    message: AppStrings.needAuthToCreateCourse,
+                  ),
           ),
         ],
       ),
