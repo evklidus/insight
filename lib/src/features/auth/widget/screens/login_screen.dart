@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               AuthButton(
-                title: AppStrings.comeIn,
+                title: AppStrings.signIn,
                 onTap: () {
                   if (formKey.currentState!.validate()) {
                     authBloc.add(

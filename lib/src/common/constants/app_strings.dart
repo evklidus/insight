@@ -8,15 +8,19 @@ class AppStrings {
   static const info = 'Информация';
   static const somethingWrong = 'Что-то пошло не так, попробуйте позже';
   static const tryAgain = 'Попробовать снова';
-  static const lessons = 'Уроки';
-  static const courses = 'Курсы';
-  static const categories = 'Категории';
   static const noInternetConnection = 'Нет интернет соединения';
   static const cancel = 'Отменить';
 
+  //TabBar
+  static const main = 'Главная';
+
+  //Courses
+  static const lessons = 'Уроки';
+  static const courses = 'Курсы';
+  static const categories = 'Категории';
+
   // Settings
   static const settings = 'Настройки';
-  static const signIn = 'Войти';
   static const signOut = 'Выйти';
 
   // Auth
@@ -25,7 +29,7 @@ class AppStrings {
   static const password = 'Пароль';
   static const register = 'Зарегистрироваться';
   static const haveAnAccount = 'Есть аккаунт ?';
-  static const comeIn = 'Войти';
+  static const signIn = 'Войти';
   static const authorization = 'Авторизация';
   static const pleaseEnterSomething = 'Пожалуйста, введите что-то';
   static const dontHaveAnAccount = 'Нет аккаунта ?';
