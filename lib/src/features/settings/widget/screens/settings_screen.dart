@@ -76,9 +76,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ],
             if (!Flavor.isProd)
               Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Text(Flavor.current),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).padding.bottom,
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(Flavor.current),
+                  ),
                 ),
               ),
           ],

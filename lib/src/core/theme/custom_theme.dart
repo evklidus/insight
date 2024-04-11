@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const _primaryColor = Color(0xff3965E3);
+
 final lightThemeData = ThemeData(
   colorScheme: lightColorScheme,
   textTheme: textTheme,
@@ -19,11 +21,13 @@ final darkThemeData = ThemeData(
 );
 
 final lightColorScheme = ColorScheme.fromSeed(
-  seedColor: const Color(0xff3965E3),
+  seedColor: _primaryColor,
+  primary: _primaryColor,
 );
 
 final darkColorScheme = ColorScheme.fromSeed(
-  seedColor: const Color(0xff3965E3),
+  seedColor: _primaryColor,
+  primary: _primaryColor,
   brightness: Brightness.dark,
   secondary: Colors.white,
   error: Colors.redAccent,
@@ -44,7 +48,7 @@ const textTheme = TextTheme(
   ),
 );
 
-const iconTheme = IconThemeData(color: Color(0xff3965E3));
+const iconTheme = IconThemeData(color: _primaryColor);
 
 final dividerTheme = DividerThemeData(
   color: Colors.grey.shade800,

@@ -120,7 +120,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
-                        'Сначала необходимо создать курс, затем можно добавить уроки.\nПосле добавления первого урока можно разблокировать курс.',
+                        'Добавлять уроки можно только после создания курса.',
                         style: TextStyle(
                           fontSize: 16,
                           color:

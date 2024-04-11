@@ -85,7 +85,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  color: context.colorScheme.errorContainer,
+                  color: context.colorScheme.surface,
                 ),
                 child: const Text('Курс в разаработке'),
               ),
