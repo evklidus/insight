@@ -17,6 +17,8 @@ abstract interface class CourseNetworkDataProvider {
     required String imagePath,
     required String categoryTag,
   });
+
+  Future<List<({String categoryName, String categoryTag})>> getCategoryTags();
 }
 
 @immutable
@@ -39,6 +41,10 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
     required String imagePath,
     required String categoryTag,
   }) =>
+      throw UnimplementedError();
+
+  @override
+  Future<List<({String categoryName, String categoryTag})>> getCategoryTags() =>
       throw UnimplementedError();
 }
 
@@ -102,11 +108,26 @@ final class CourseFirestoreDataProviderImpl
       'tag': categoryTag,
       'owner_id': userId,
     });
-    // TODO: detail и тд вынести в константы (в этом файле)
+
     doc.collection('detail').add(
       {
         'description': description,
       },
     );
+  }
+
+  @override
+  Future<List<({String categoryName, String categoryTag})>>
+      getCategoryTags() async {
+    final categoriesCollection = await _firestore.collection('category').get();
+    final categories = categoriesCollection.docs
+        .map(
+          (doc) => (
+            categoryName: doc.data()['name'] as String,
+            categoryTag: doc.data()['tag'] as String,
+          ),
+        )
+        .toList();
+    return categories;
   }
 }

@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 /// {@template create_course_state_placeholder}
 /// Entity placeholder for CreateCourseState
 /// {@endtemplate}
-typedef CreateCourseEntity = Object;
+typedef CategoryTags = List<({String categoryName, String categoryTag})>;
 
 /// {@template create_course_state}
 /// CreateCourseState.
@@ -12,60 +12,69 @@ sealed class CreateCourseState extends _$CreateCourseStateBase {
   /// Idling state
   /// {@macro create_course_state}
   const factory CreateCourseState.idle({
-    required CreateCourseEntity? data,
+    required CategoryTags? tags,
     String message,
   }) = CreateCourseState$Idle;
 
   /// Processing
   /// {@macro create_course_state}
   const factory CreateCourseState.processing({
-    required CreateCourseEntity? data,
+    required CategoryTags? tags,
     String message,
   }) = CreateCourseState$Processing;
 
   /// Successful
   /// {@macro create_course_state}
   const factory CreateCourseState.successful({
-    required CreateCourseEntity? data,
+    required CategoryTags? tags,
     String message,
   }) = CreateCourseState$Successful;
 
   /// An error has occurred
   /// {@macro create_course_state}
   const factory CreateCourseState.error({
-    required CreateCourseEntity? data,
+    required CategoryTags? tags,
     String message,
   }) = CreateCourseState$Error;
 
   /// {@macro create_course_state}
-  const CreateCourseState({required super.data, required super.message});
+  const CreateCourseState({required super.tags, required super.message});
 }
 
 /// Idling state
 final class CreateCourseState$Idle extends CreateCourseState
     with _$CreateCourseState {
-  const CreateCourseState$Idle({required super.data, super.message = 'Idling'});
+  const CreateCourseState$Idle({
+    required super.tags,
+    super.message = 'Idling',
+  });
 }
 
 /// Processing
 final class CreateCourseState$Processing extends CreateCourseState
     with _$CreateCourseState {
-  const CreateCourseState$Processing(
-      {required super.data, super.message = 'Processing'});
+  const CreateCourseState$Processing({
+    required super.tags,
+    super.message = 'Processing',
+  });
 }
 
 /// Successful
 final class CreateCourseState$Successful extends CreateCourseState
     with _$CreateCourseState {
-  const CreateCourseState$Successful(
-      {required super.data, super.message = 'Successful'});
+  const CreateCourseState$Successful({
+    required super.tags,
+    super.message = 'Successful',
+  });
 }
 
 /// Error
 final class CreateCourseState$Error extends CreateCourseState
     with _$CreateCourseState {
-  const CreateCourseState$Error(
-      {required super.data, super.message = 'An error has occurred.'});
+  const CreateCourseState$Error({
+    required super.tags,
+    super.message = 'An error has occurred.',
+  });
 }
 
 base mixin _$CreateCourseState on CreateCourseState {}
@@ -76,18 +85,18 @@ typedef CreateCourseStateMatch<R, S extends CreateCourseState> = R Function(
 
 @immutable
 abstract base class _$CreateCourseStateBase {
-  const _$CreateCourseStateBase({required this.data, required this.message});
+  const _$CreateCourseStateBase({required this.tags, required this.message});
 
-  /// Data entity payload.
+  /// tags entity payload.
   @nonVirtual
-  final CreateCourseEntity? data;
+  final CategoryTags? tags;
 
   /// Message or state description.
   @nonVirtual
   final String message;
 
-  /// Has data?
-  bool get hasData => data != null;
+  /// Has tags?
+  bool get hasTags => tags != null;
 
   /// If an error has occurred?
   bool get hasError => maybeMap<bool>(orElse: () => false, error: (_) => true);
@@ -144,7 +153,7 @@ abstract base class _$CreateCourseStateBase {
       );
 
   @override
-  int get hashCode => data.hashCode;
+  int get hashCode => tags.hashCode;
 
   @override
   bool operator ==(Object other) => identical(this, other);

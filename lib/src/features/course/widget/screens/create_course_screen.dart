@@ -31,10 +31,9 @@ class CreateCourseScreen extends StatefulWidget {
 /// State for widget CreateCourseScreen.
 class _CreateCourseScreenState extends State<CreateCourseScreen> {
   XFile? _image;
-  // TDOD: При загружке доступных категорий снаяала выбранной будет первая
-  Set<String> _selectedCategory = {'sport'};
+  Set<String> _selectedCategory = {};
 
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   late final CreateCourseBLoC _createCourseBloc;
 
@@ -46,7 +45,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     super.initState();
     _createCourseBloc = CreateCourseBLoC(
       repository: DIContainer.instance.coursesRepository,
-    );
+    )..add(const CreateCourseEvent.fetchTags());
     _nameController = TextEditingController();
     _descrController = TextEditingController();
   }
@@ -76,15 +75,26 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
   }
 
   void _createCourseHandler() {
-    if (_image == null && !formKey.currentState!.validate()) {
-      CustomSnackBar.showError(context, message: AppStrings.addPhoto);
-    } else {
+    final isValid = _formKey.currentState!.validate();
+    if (_image == null) {
+      return CustomSnackBar.showError(
+        context,
+        message: AppStrings.addPhotoMessage,
+      );
+    } else if (_image != null && isValid) {
       _createCourseBloc.add(
         CreateCourseEvent.create(
           name: _nameController.text,
           description: _descrController.text,
           imagePath: _image!.path,
           categoryTag: _selectedCategory.first,
+          onCreateCallback: () {
+            context.pop();
+            CustomSnackBar.showSuccessful(
+              context,
+              message: 'Курс успешно создан',
+            );
+          },
         ),
       );
     }
@@ -94,10 +104,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<CreateCourseBLoC, CreateCourseState>(
         listener: (context, state) => state.mapOrNull(
-              successful: (state) {
-                context.pop();
-                CustomSnackBar.showSuccessful(context, message: state.message);
-              },
+              successful: (state) => _selectedCategory.isEmpty && state.hasTags
+                  ? _selectedCategory.add(state.tags!.first.categoryTag)
+                  : null,
               error: (state) =>
                   CustomSnackBar.showError(context, message: state.message),
             ),
@@ -108,7 +117,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
             child: Scaffold(
               appBar: const CustomAppBar(AppStrings.courseCreation),
               body: Form(
-                key: formKey,
+                key: _formKey,
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   children: [
@@ -160,11 +169,12 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     const SizedBox(height: 8),
                     CustomTextField(
                       controller: _nameController,
+                      hintText: 'Самый лучший курс',
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return AppStrings.pleaseEnterSomething;
                         }
-                        return value;
+                        return null;
                       },
                     ),
                     const SizedBox(height: 16),
@@ -172,58 +182,53 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     const SizedBox(height: 8),
                     CustomTextField(
                       controller: _descrController,
+                      hintText: 'Прикольное описание',
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return AppStrings.pleaseEnterSomething;
                         }
-                        return value;
+                        return null;
                       },
                     ),
                     const SizedBox(height: 16),
                     const Text(AppStrings.category),
                     const SizedBox(height: 8),
-                    // TODO: Получать категории с сервера
-                    Platform.isIOS
-                        ? CupertinoSegmentedControl<String>(
-                            selectedColor: context.colorScheme.surface,
-                            unselectedColor: Colors.transparent,
-                            pressedColor: context.colorScheme.surface,
-                            borderColor:
-                                context.colorScheme.secondary.withOpacity(.25),
-                            padding: const EdgeInsets.all(0),
-                            groupValue: _selectedCategory.first,
-                            onValueChanged: (value) => setState(
-                              () => _selectedCategory
-                                ..remove(_selectedCategory.first)
-                                ..add(value),
+                    if (state.hasTags && _selectedCategory.first.isNotEmpty)
+                      Platform.isIOS
+                          ? CupertinoSegmentedControl<String>(
+                              selectedColor: context.colorScheme.surface,
+                              unselectedColor: Colors.transparent,
+                              pressedColor: context.colorScheme.surface,
+                              borderColor: context.colorScheme.secondary
+                                  .withOpacity(.25),
+                              padding: const EdgeInsets.all(0),
+                              groupValue: _selectedCategory.first,
+                              onValueChanged: (value) => setState(
+                                () => _selectedCategory
+                                  ..remove(_selectedCategory.first)
+                                  ..add(value),
+                              ),
+                              children: state.tags!.asMap().map(
+                                    (key, tag) => MapEntry(
+                                      tag.categoryTag,
+                                      _SegmentWidget(tag.categoryName),
+                                    ),
+                                  ),
+                            )
+                          : SegmentedButton<String>(
+                              selected: _selectedCategory,
+                              segments: state.tags!
+                                  .map(
+                                    (tag) => ButtonSegment(
+                                      value: tag.categoryTag,
+                                      label: _SegmentWidget(tag.categoryName),
+                                    ),
+                                  )
+                                  .toList(),
+                              onSelectionChanged: (value) => setState(
+                                () => _selectedCategory = value,
+                              ),
                             ),
-                            children: const {
-                              'sport': _SegmentWidget(AppStrings.sport),
-                              'programming':
-                                  _SegmentWidget(AppStrings.programming),
-                              'finance': _SegmentWidget(AppStrings.finance),
-                            },
-                          )
-                        : SegmentedButton<String>(
-                            selected: _selectedCategory,
-                            segments: const [
-                              ButtonSegment(
-                                value: 'sport',
-                                label: _SegmentWidget(AppStrings.sport),
-                              ),
-                              ButtonSegment(
-                                value: 'programming',
-                                label: _SegmentWidget(AppStrings.programming),
-                              ),
-                              ButtonSegment(
-                                value: 'finance',
-                                label: _SegmentWidget(AppStrings.finance),
-                              ),
-                            ],
-                            onSelectionChanged: (value) => setState(
-                              () => _selectedCategory = value,
-                            ),
-                          ),
                     const SizedBox(height: 32),
                     Platform.isIOS
                         ? CupertinoButton.filled(

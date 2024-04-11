@@ -10,6 +10,8 @@ abstract interface class CourseRepository {
     required String imagePath,
     required String categoryTag,
   });
+
+  Future<List<({String categoryName, String categoryTag})>> getCategoryTags();
 }
 
 final class CourseRepositoryImpl implements CourseRepository {
@@ -36,4 +38,8 @@ final class CourseRepositoryImpl implements CourseRepository {
         imagePath: imagePath,
         categoryTag: categoryTag,
       );
+
+  @override
+  Future<List<({String categoryName, String categoryTag})>> getCategoryTags() =>
+      _networkDataProvider.getCategoryTags();
 }
