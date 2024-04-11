@@ -92,7 +92,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
             context.pop();
             CustomSnackBar.showSuccessful(
               context,
-              message: 'Курс успешно создан',
+              message: AppStrings.courseSuccessfullyCreated,
             );
           },
         ),
@@ -169,7 +169,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     const SizedBox(height: 8),
                     CustomTextField(
                       controller: _nameController,
-                      hintText: 'Самый лучший курс',
+                      hintText: AppStrings.courseNameHint,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return AppStrings.pleaseEnterSomething;
@@ -182,7 +182,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     const SizedBox(height: 8),
                     CustomTextField(
                       controller: _descrController,
-                      hintText: 'Прикольное описание',
+                      hintText: AppStrings.courseDescrHint,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return AppStrings.pleaseEnterSomething;

@@ -40,6 +40,9 @@ class AppStrings {
   static const title = 'Название';
   static const addLessonsAfterCreatingCourse =
       'Добавлять уроки можно только после создания курса.';
+  static const courseSuccessfullyCreated = 'Курс успешно создан';
+  static const courseNameHint = 'Самый лучший курс';
+  static const courseDescrHint = 'Прикольное описание';
 
   // Categories
   static const sport = 'Спорт';
