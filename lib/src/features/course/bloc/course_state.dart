@@ -43,9 +43,7 @@ sealed class CourseState extends _$CourseStateBase {
 }
 
 /// Idling state
-/// {@nodoc}
 final class CourseState$Idle extends CourseState with _$CourseState {
-  /// {@nodoc}
   const CourseState$Idle({
     required super.data,
     super.message = 'Idling',
@@ -53,9 +51,7 @@ final class CourseState$Idle extends CourseState with _$CourseState {
 }
 
 /// Processing
-/// {@nodoc}
 final class CourseState$Processing extends CourseState with _$CourseState {
-  /// {@nodoc}
   const CourseState$Processing({
     required super.data,
     super.message = 'Processing',
@@ -63,9 +59,7 @@ final class CourseState$Processing extends CourseState with _$CourseState {
 }
 
 /// Successful
-/// {@nodoc}
 final class CourseState$Successful extends CourseState with _$CourseState {
-  /// {@nodoc}
   const CourseState$Successful({
     required super.data,
     super.message = 'Successful',
@@ -73,16 +67,13 @@ final class CourseState$Successful extends CourseState with _$CourseState {
 }
 
 /// Error
-/// {@nodoc}
 final class CourseState$Error extends CourseState with _$CourseState {
-  /// {@nodoc}
   const CourseState$Error({
     required super.data,
     super.message = 'An error has occurred.',
   });
 }
 
-/// {@nodoc}
 base mixin _$CourseState on CourseState {}
 
 /// Pattern matching for [CourseState].
@@ -90,10 +81,8 @@ typedef CourseStateMatch<R, S extends CourseState> = R Function(
   S state,
 );
 
-/// {@nodoc}
 @immutable
 abstract base class _$CourseStateBase {
-  /// {@nodoc}
   const _$CourseStateBase({required this.data, required this.message});
 
   /// Data entity payload.

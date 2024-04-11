@@ -12,11 +12,13 @@ import 'package:insight/src/features/course_page/widget/components/course_page_i
 
 class CoursePageScreen extends StatefulWidget {
   const CoursePageScreen({
-    Key? key,
+    super.key,
     required this.coursePageId,
-  }) : super(key: key);
+    this.refreshCoursesList,
+  });
 
   final String coursePageId;
+  final VoidCallback? refreshCoursesList;
 
   @override
   State<CoursePageScreen> createState() => _CoursePageScreenState();
@@ -60,7 +62,10 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
                 ),
               );
             } else {
-              return CoursePageInfo(coursePage: state.data!);
+              return CoursePageInfo(
+                coursePage: state.data!,
+                refreshCoursesList: widget.refreshCoursesList,
+              );
             }
           },
         ),

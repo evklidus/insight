@@ -102,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(height: 20),
                   ChangeAuthTypeButton(
                     title: AppStrings.haveAnAccount,
-                    subTitle: AppStrings.comeIn,
+                    subTitle: AppStrings.signIn,
                     onPressed: () => context.go('/login'),
                   ),
                 ],

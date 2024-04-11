@@ -7,7 +7,7 @@ import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/features/categories/model/category.dart';
 
 class CategoryWidget extends StatelessWidget {
-  const CategoryWidget(this.category, {Key? key}) : super(key: key);
+  const CategoryWidget(this.category, {super.key});
 
   final Category category;
 

@@ -3,6 +3,12 @@ import 'package:insight/src/features/course_page/model/course_page.dart';
 
 abstract interface class CoursePageRepository {
   Future<CoursePage> getCoursePage(String id);
+
+  Future<void> deleteCourse({
+    required String courseId,
+    // Нужно чтобы удалить обложку
+    required String imageUrl,
+  });
 }
 
 final class CoursePageRepositoryImpl implements CoursePageRepository {
@@ -14,4 +20,14 @@ final class CoursePageRepositoryImpl implements CoursePageRepository {
 
   @override
   getCoursePage(String id) => _networkDataProvider.getCoursePage(id);
+
+  @override
+  Future<void> deleteCourse({
+    required String courseId,
+    required String imageUrl,
+  }) =>
+      _networkDataProvider.deleteCourse(
+        courseId: courseId,
+        imageUrl: imageUrl,
+      );
 }

@@ -11,6 +11,7 @@ class CourseDTO {
     required this.name,
     required this.imageUrl,
     required this.tag,
+    this.ownerId,
   });
 
   final int id;
@@ -18,6 +19,7 @@ class CourseDTO {
   @JsonKey(name: "image_url")
   final String imageUrl;
   final String tag;
+  final String? ownerId;
 
   factory CourseDTO.fromJson(Map<String, Object?> json) =>
       _$CourseDTOFromJson(json);

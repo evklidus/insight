@@ -42,9 +42,7 @@ sealed class AuthState extends _$AuthStateBase {
 }
 
 /// Idling state
-/// {@nodoc}
 final class AuthState$Idle extends AuthState with _$AuthState {
-  /// {@nodoc}
   const AuthState$Idle({
     required super.isAuthenticated,
     super.message = 'Idling',
@@ -52,9 +50,7 @@ final class AuthState$Idle extends AuthState with _$AuthState {
 }
 
 /// Processing
-/// {@nodoc}
 final class AuthState$Processing extends AuthState with _$AuthState {
-  /// {@nodoc}
   const AuthState$Processing({
     required super.isAuthenticated,
     super.message = 'Processing',
@@ -62,9 +58,7 @@ final class AuthState$Processing extends AuthState with _$AuthState {
 }
 
 /// Successful
-/// {@nodoc}
 final class AuthState$Successful extends AuthState with _$AuthState {
-  /// {@nodoc}
   const AuthState$Successful({
     required super.isAuthenticated,
     super.message = 'Successful',
@@ -72,25 +66,20 @@ final class AuthState$Successful extends AuthState with _$AuthState {
 }
 
 /// Error
-/// {@nodoc}
 final class AuthState$Error extends AuthState with _$AuthState {
-  /// {@nodoc}
   const AuthState$Error({
     required super.isAuthenticated,
     super.message = 'An error has occurred.',
   });
 }
 
-/// {@nodoc}
 base mixin _$AuthState on AuthState {}
 
 /// Pattern matching for [AuthState].
 typedef AuthStateMatch<R, S extends AuthState> = R Function(S state);
 
-/// {@nodoc}
 @immutable
 abstract base class _$AuthStateBase {
-  /// {@nodoc}
   const _$AuthStateBase({required this.isAuthenticated, required this.message});
 
   /// isAuthenticated entity payload.

@@ -43,16 +43,12 @@ sealed class ProfileState extends _$ProfileStateBase {
 }
 
 /// Idling state
-/// {@nodoc}
 final class ProfileState$Idle extends ProfileState with _$ProfileState {
-  /// {@nodoc}
   const ProfileState$Idle({required super.data, super.message = 'Idling'});
 }
 
 /// Processing
-/// {@nodoc}
 final class ProfileState$Processing extends ProfileState with _$ProfileState {
-  /// {@nodoc}
   const ProfileState$Processing({
     required super.data,
     super.message = 'Processing',
@@ -60,9 +56,7 @@ final class ProfileState$Processing extends ProfileState with _$ProfileState {
 }
 
 /// Successful
-/// {@nodoc}
 final class ProfileState$Successful extends ProfileState with _$ProfileState {
-  /// {@nodoc}
   const ProfileState$Successful({
     required super.data,
     super.message = 'Successful',
@@ -70,25 +64,20 @@ final class ProfileState$Successful extends ProfileState with _$ProfileState {
 }
 
 /// Error
-/// {@nodoc}
 final class ProfileState$Error extends ProfileState with _$ProfileState {
-  /// {@nodoc}
   const ProfileState$Error({
     required super.data,
     super.message = 'An error has occurred.',
   });
 }
 
-/// {@nodoc}
 base mixin _$ProfileState on ProfileState {}
 
 /// Pattern matching for [ProfileState].
 typedef ProfileStateMatch<R, S extends ProfileState> = R Function(S state);
 
-/// {@nodoc}
 @immutable
 abstract base class _$ProfileStateBase {
-  /// {@nodoc}
   const _$ProfileStateBase({required this.data, required this.message});
 
   /// Data entity payload.

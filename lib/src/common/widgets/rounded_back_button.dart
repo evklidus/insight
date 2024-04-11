@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class RoundedBackButton extends StatelessWidget {
-  const RoundedBackButton({Key? key, this.onTap}) : super(key: key);
+  const RoundedBackButton({super.key, this.onTap});
 
   final Function? onTap;
 

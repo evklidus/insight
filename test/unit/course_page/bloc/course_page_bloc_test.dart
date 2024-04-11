@@ -19,6 +19,8 @@ void main() {
     description: 'description',
     imageUrl: 'imageUrl',
     lessons: [],
+    tag: '',
+    isItsOwn: false,
   );
 
   setUp(() {

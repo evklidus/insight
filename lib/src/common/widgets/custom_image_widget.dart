@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 class CustomImageWidget extends StatelessWidget {
   const CustomImageWidget(
     this.imageUrl, {
-    Key? key,
+    super.key,
     this.width,
     this.height,
     this.borderRadius,
     this.shape = BoxShape.rectangle,
     this.fit = BoxFit.cover,
-  }) : super(key: key);
+  });
 
   final String imageUrl;
   final double? width;

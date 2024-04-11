@@ -11,7 +11,7 @@ import 'package:insight/src/features/course/widget/components/course_list.dart';
 import 'package:insight/src/features/course/widget/components/course_skeleton.dart';
 
 class CoursesScreen extends StatefulWidget {
-  const CoursesScreen(this.categoryTag, {Key? key}) : super(key: key);
+  const CoursesScreen(this.categoryTag, {super.key});
 
   final String categoryTag;
 
@@ -61,6 +61,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
             } else {
               return CourseList(
                 courses: state.data!,
+                categoryTag: widget.categoryTag,
               );
             }
           },

@@ -19,6 +19,8 @@ void main() {
     description: 'description',
     imageUrl: 'imageUrl',
     lessons: [Lesson(name: 'name', videoUrl: 'videoUrl')],
+    tag: '',
+    isItsOwn: false,
   );
 
   setUpAll(() {

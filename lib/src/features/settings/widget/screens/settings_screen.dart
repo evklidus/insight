@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
@@ -73,6 +74,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: () => context.goRelativeNamed('profile'),
               ),
             ],
+            if (!Flavor.isProd)
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).padding.bottom,
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(Flavor.current),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

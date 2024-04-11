@@ -8,12 +8,12 @@ import 'video_widget.dart';
 
 class InsightPlayer extends StatefulWidget {
   const InsightPlayer({
-    Key? key,
+    super.key,
     required this.videoUrl,
     required this.title,
     required this.onVideoEnd,
     required this.onCloseButtonPressed,
-  }) : super(key: key);
+  });
 
   final String videoUrl;
   final String title;

@@ -5,7 +5,7 @@ import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/features/course_page/model/lesson.dart';
 
 class LessonWidget extends StatelessWidget {
-  const LessonWidget(this.lesson, {Key? key}) : super(key: key);
+  const LessonWidget(this.lesson, {super.key});
 
   final Lesson lesson;
 

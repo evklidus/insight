@@ -5,11 +5,13 @@ import 'package:insight/src/features/course/widget/components/course_widget.dart
 
 class CourseList extends StatelessWidget {
   const CourseList({
-    Key? key,
+    super.key,
     required this.courses,
-  }) : super(key: key);
+    required this.categoryTag,
+  });
 
   final List<Course> courses;
+  final String categoryTag;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,7 @@ class CourseList extends StatelessWidget {
       itemCount: courses.length,
       itemBuilder: (context, index) => CourseWidget(
         course: courses[index],
+        categoryTag: categoryTag,
       ),
       separatorBuilder: (context, index) => const SizedBox(height: 20),
     );

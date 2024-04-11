@@ -5,9 +5,9 @@ import 'package:insight/src/features/categories/widget/components/category_widge
 
 class CategoriesList extends StatelessWidget {
   const CategoriesList({
-    Key? key,
+    super.key,
     required this.categories,
-  }) : super(key: key);
+  });
 
   final List<Category> categories;
 
