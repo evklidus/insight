@@ -41,6 +41,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
           },
         ),
       );
+
   @override
   Widget build(BuildContext context) {
     final deleteCourseButtonStyle = TextStyle(color: context.colorScheme.error);

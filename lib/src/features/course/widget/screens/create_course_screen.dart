@@ -106,7 +106,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
           return WholeScreenLoadingIndicator(
             isLoading: state.isProcessing,
             child: Scaffold(
-              appBar: const CustomAppBar('Создание курса'),
+              appBar: const CustomAppBar(AppStrings.courseCreation),
               body: Form(
                 key: formKey,
                 child: ListView(
@@ -129,7 +129,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const Text('Фото'),
+                    const Text(AppStrings.photo),
                     const SizedBox(height: 8),
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 350),
@@ -156,7 +156,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             onPressed: _addPhotoHandler,
                           ),
                     const SizedBox(height: 16),
-                    const Text('Название'),
+                    const Text(AppStrings.title),
                     const SizedBox(height: 8),
                     CustomTextField(
                       controller: _nameController,
@@ -168,7 +168,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    const Text('Описание'),
+                    const Text(AppStrings.description),
                     const SizedBox(height: 8),
                     CustomTextField(
                       controller: _descrController,
@@ -180,7 +180,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    const Text('Категория'),
+                    const Text(AppStrings.category),
                     const SizedBox(height: 8),
                     // TODO: Получать категории с сервера
                     Platform.isIOS
@@ -198,9 +198,10 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                 ..add(value),
                             ),
                             children: const {
-                              'sport': _SegmentWidget('Спорт'),
-                              'programming': _SegmentWidget('Программирование'),
-                              'finance': _SegmentWidget('Финансы'),
+                              'sport': _SegmentWidget(AppStrings.sport),
+                              'programming':
+                                  _SegmentWidget(AppStrings.programming),
+                              'finance': _SegmentWidget(AppStrings.finance),
                             },
                           )
                         : SegmentedButton<String>(
@@ -208,15 +209,15 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             segments: const [
                               ButtonSegment(
                                 value: 'sport',
-                                label: _SegmentWidget('Спорт'),
+                                label: _SegmentWidget(AppStrings.sport),
                               ),
                               ButtonSegment(
                                 value: 'programming',
-                                label: _SegmentWidget('Программирование'),
+                                label: _SegmentWidget(AppStrings.programming),
                               ),
                               ButtonSegment(
                                 value: 'finance',
-                                label: _SegmentWidget('Финансы'),
+                                label: _SegmentWidget(AppStrings.finance),
                               ),
                             ],
                             onSelectionChanged: (value) => setState(
@@ -227,11 +228,11 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     Platform.isIOS
                         ? CupertinoButton.filled(
                             onPressed: _createCourseHandler,
-                            child: const Text('Создать'),
+                            child: const Text(AppStrings.create),
                           )
                         : FloatingActionButton.extended(
                             onPressed: _createCourseHandler,
-                            label: const Text('Создать'),
+                            label: const Text(AppStrings.create),
                           ),
                     SizedBox(height: MediaQuery.viewPaddingOf(context).bottom),
                   ],
