@@ -178,50 +178,47 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     const SizedBox(height: 16),
                     const Text('Категория'),
                     const SizedBox(height: 8),
-                    // Platform.isIOS
-                    //     ? CupertinoSegmentedControl<String>(
-                    //         children: {
-                    //           0: Text(AppLocalizations.of(context).tr('titles.secImg')),
-                    //           1: Text(AppLocalizations.of(context).tr('titles.secQuest')),
-                    //         },
-                    //         groupValue: _selectedIndexValue,
-                    //         onValueChanged: (value) {
-                    //           setState(() => _selectedIndexValue = value);
-                    //         },
-                    //       )
-                    //     :
-                    // TODO: Сделать кастомный (мб на чипах)
                     // TODO: Получать категории с сервера
-                    SegmentedButton<String>(
-                      selected: _selectedCategory,
-                      segments: const [
-                        ButtonSegment(
-                          value: 'sport',
-                          label: Text('Спорт'),
-                        ),
-                        ButtonSegment(
-                          value: 'programming',
-                          label: Text('Программирование'),
-                        ),
-                        ButtonSegment(
-                          value: 'finance',
-                          label: Text('Финансы'),
-                        ),
-                      ],
-                      onSelectionChanged: (value) => setState(
-                        () => _selectedCategory = value,
-                      ),
-                    ),
-                    // const Text('Уроки'),
-                    // TextButton.icon(
-                    //   icon: const Icon(Icons.add),
-                    //   label: const Text('Добавить'),
-                    //   onPressed: () {
-                    //     ImagePicker()
-                    //         .pickVideo(source: ImageSource.gallery)
-                    //         .then((value) => null);
-                    //   },
-                    // ),
+                    Platform.isIOS
+                        ? CupertinoSegmentedControl<String>(
+                            selectedColor: context.colorScheme.surface,
+                            unselectedColor: Colors.transparent,
+                            pressedColor: context.colorScheme.surface,
+                            borderColor:
+                                context.colorScheme.secondary.withOpacity(.25),
+                            padding: const EdgeInsets.all(0),
+                            groupValue: _selectedCategory.first,
+                            onValueChanged: (value) => setState(
+                              () => _selectedCategory
+                                ..remove(_selectedCategory.first)
+                                ..add(value),
+                            ),
+                            children: const {
+                              'sport': _SegmentWidget('Спорт'),
+                              'programming': _SegmentWidget('Программирование'),
+                              'finance': _SegmentWidget('Финансы'),
+                            },
+                          )
+                        : SegmentedButton<String>(
+                            selected: _selectedCategory,
+                            segments: const [
+                              ButtonSegment(
+                                value: 'sport',
+                                label: _SegmentWidget('Спорт'),
+                              ),
+                              ButtonSegment(
+                                value: 'programming',
+                                label: _SegmentWidget('Программирование'),
+                              ),
+                              ButtonSegment(
+                                value: 'finance',
+                                label: _SegmentWidget('Финансы'),
+                              ),
+                            ],
+                            onSelectionChanged: (value) => setState(
+                              () => _selectedCategory = value,
+                            ),
+                          ),
                     const SizedBox(height: 32),
                     Platform.isIOS
                         ? CupertinoButton.filled(
@@ -277,6 +274,21 @@ class _CourseImagePlaceholder extends StatelessWidget {
           child: const Center(
             child: Text('Нет фото'),
           ),
+        ),
+      );
+}
+
+class _SegmentWidget extends StatelessWidget {
+  const _SegmentWidget(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(5),
+        child: Text(
+          text,
+          style: context.textTheme.labelLarge,
         ),
       );
 }
