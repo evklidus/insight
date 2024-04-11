@@ -9,19 +9,31 @@ class AppStrings {
   static const somethingWrong = 'Что-то пошло не так, попробуйте позже';
   static const tryAgain = 'Попробовать снова';
   static const noInternetConnection = 'Нет интернет соединения';
-  static const cancel = 'Отменить';
 
-  //Errors
+  // Common actions
+  static const cancel = 'Отменить';
+  static const delete = 'Удалить';
+  static const addPhoto = 'Добавить фото';
+  static const changePhoto = 'Добавить фото';
+
+  // Messages
   static const needAuthToCreateCourse =
       'Создавать курсы могут только авторизованные пользователи';
+  static const courseDelete = 'Курс удален';
+  static const addPhotoMessage = 'Добавьте фото';
 
-  //TabBar
+  // TabBar
   static const main = 'Главная';
 
-  //Courses
+  // Courses
   static const lessons = 'Уроки';
   static const courses = 'Курсы';
   static const categories = 'Категории';
+
+  // Create course
+  static const create = 'Создать курс';
+  static const addLessonsAfterCreatingCourse =
+      'Добавлять уроки можно только после создания курса.';
 
   // Settings
   static const settings = 'Настройки';

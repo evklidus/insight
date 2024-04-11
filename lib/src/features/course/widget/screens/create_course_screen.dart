@@ -77,7 +77,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
   void _createCourseHandler() {
     if (_image == null && !formKey.currentState!.validate()) {
-      CustomSnackBar.showError(context, message: 'Добавьте фото');
+      CustomSnackBar.showError(context, message: AppStrings.addPhoto);
     } else {
       _createCourseBloc.add(
         CreateCourseEvent.create(
@@ -120,7 +120,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
-                        'Добавлять уроки можно только после создания курса.',
+                        AppStrings.addLessonsAfterCreatingCourse,
                         style: TextStyle(
                           fontSize: 16,
                           color:
@@ -140,15 +140,19 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     Platform.isIOS
                         ? CupertinoButton(
                             onPressed: _addPhotoHandler,
-                            child: Text(_image == null
-                                ? 'Добавить фото'
-                                : 'Изменить фото'),
+                            child: Text(
+                              _image == null
+                                  ? AppStrings.addPhoto
+                                  : AppStrings.changePhoto,
+                            ),
                           )
                         : TextButton.icon(
                             icon: const Icon(Icons.add),
-                            label: Text(_image == null
-                                ? 'Добавить фото'
-                                : 'Изменить фото'),
+                            label: Text(
+                              _image == null
+                                  ? AppStrings.addPhoto
+                                  : AppStrings.changePhoto,
+                            ),
                             onPressed: _addPhotoHandler,
                           ),
                     const SizedBox(height: 16),

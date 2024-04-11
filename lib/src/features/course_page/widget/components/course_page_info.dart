@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
@@ -32,7 +33,10 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
         CoursePageEvent.delete(
           () {
             widget.refreshCoursesList?.call();
-            CustomSnackBar.showSuccessful(context, message: 'Курс удален');
+            CustomSnackBar.showSuccessful(
+              context,
+              message: AppStrings.courseDelete,
+            );
             context.pop();
           },
         ),
@@ -97,14 +101,14 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                     ? CupertinoButton(
                         onPressed: () => _onDeletHandler(context),
                         child: Text(
-                          'Удалить',
+                          AppStrings.delete,
                           style: deleteCourseButtonStyle,
                         ),
                       )
                     : TextButton(
                         onPressed: () => _onDeletHandler(context),
                         child: Text(
-                          'Удалить',
+                          AppStrings.delete,
                           style: deleteCourseButtonStyle,
                         ),
                       ),
