@@ -49,7 +49,7 @@ class AppRouter {
         branches: [
           StatefulShellBranch(
             routes: [
-              // Первый Tab
+              // Категории
               GoRoute(
                 path: '/categories',
                 builder: (context, state) => const CategoriesScreen(),

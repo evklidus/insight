@@ -16,7 +16,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
         ? CupertinoTabScaffold(
             key: ValueKey(navigationShell.currentIndex),
             tabBar: CupertinoTabBar(
-              key: ValueKey(navigationShell.currentIndex),
               currentIndex: navigationShell.currentIndex,
               onTap: (tappedIndex) => navigationShell.goBranch(tappedIndex),
               items: const [
