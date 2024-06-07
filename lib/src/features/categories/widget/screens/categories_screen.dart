@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:insight/src/common/widgets/custom_snackbar.dart';
+import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
@@ -44,9 +44,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             ),
             onPressed: () => authState.isAuthenticated ?? false
                 ? context.pushNamed('create')
-                : CustomSnackBar.showError(
+                : InsightSnackBar.showError(
                     context,
-                    message: AppStrings.needAuthToCreateCourse,
+                    text: AppStrings.needAuthToCreateCourse,
                   ),
           ),
         ],
@@ -56,7 +56,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         child: BlocConsumer<CategoriesBloc, CategoriesState>(
           listener: (context, state) => state.mapOrNull(
             error: (errorState) =>
-                CustomSnackBar.showError(context, message: errorState.message),
+                InsightSnackBar.showError(context, text: errorState.message),
           ),
           builder: (context, state) {
             if (!state.hasData && state.isProcessing) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
-import 'package:insight/src/common/widgets/custom_snackbar.dart';
+import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
@@ -35,9 +35,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         create: (context) => profileBloc,
         child: BlocConsumer<ProfileBloc, ProfileState>(
           listener: (context, state) => state.mapOrNull(
-            error: (errorState) => CustomSnackBar.showError(
+            error: (errorState) => InsightSnackBar.showError(
               context,
-              message: errorState.message,
+              text: errorState.message,
             ),
           ),
           builder: (context, state) {

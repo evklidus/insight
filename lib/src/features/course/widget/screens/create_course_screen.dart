@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
-import 'package:insight/src/common/widgets/custom_snackbar.dart';
+import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 import 'package:insight/src/common/widgets/whole_screen_loading_indicator.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
@@ -77,9 +77,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
   void _createCourseHandler() {
     final isValid = _formKey.currentState!.validate();
     if (_image == null) {
-      return CustomSnackBar.showError(
+      return InsightSnackBar.showError(
         context,
-        message: AppStrings.addPhotoMessage,
+        text: AppStrings.addPhotoMessage,
       );
     } else if (_image != null && isValid) {
       _createCourseBloc.add(
@@ -90,9 +90,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
           categoryTag: _selectedCategory.first,
           onCreateCallback: () {
             context.pop();
-            CustomSnackBar.showSuccessful(
+            InsightSnackBar.showSuccessful(
               context,
-              message: AppStrings.courseSuccessfullyCreated,
+              text: AppStrings.courseSuccessfullyCreated,
             );
           },
         ),
@@ -108,7 +108,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ? _selectedCategory.add(state.tags!.first.categoryTag)
                   : null,
               error: (state) =>
-                  CustomSnackBar.showError(context, message: state.message),
+                  InsightSnackBar.showError(context, text: state.message),
             ),
         bloc: _createCourseBloc,
         builder: (context, state) {

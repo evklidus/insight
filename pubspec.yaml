@@ -54,6 +54,7 @@ dependencies:
   flutter_native_splash: ^2.2.0+1
   insight_player:
     path: packages/insight_player
+  insight_snackbar: ^1.0.0
 
 dev_dependencies:
   build_runner: ^2.4.6
