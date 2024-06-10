@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -6,6 +8,12 @@ import 'package:rest_client/rest_client.dart';
 
 abstract interface class CoursePageNetworkDataProvider {
   Future<CoursePage> getCoursePage(String id);
+
+  Future<void> addLesson({
+    required String courseId,
+    required String lessonName,
+    required String videoPath,
+  });
 
   Future<void> deleteCourse({
     required String courseId,
@@ -28,6 +36,14 @@ final class CoursePageNetworkDataProviderImpl
   Future<void> deleteCourse({
     required String courseId,
     required String imageUrl,
+  }) =>
+      throw UnimplementedError();
+
+  @override
+  Future<void> addLesson({
+    required String courseId,
+    required String lessonName,
+    required String videoPath,
   }) =>
       throw UnimplementedError();
 }
@@ -62,6 +78,65 @@ final class CoursePageFirestoreDataProviderImpl
       userId,
     );
   }
+
+  @override
+  Future<void> addLesson({
+    required String courseId,
+    required String lessonName,
+    required String videoPath,
+  }) async {
+    // Загружаем видео в firebase storage
+    final file = File(videoPath);
+
+    final videoName = videoPath.replaceAll(' ', '_');
+
+    final uploadTask = await _firebaseStorage
+        .ref()
+        .child('videos')
+        .child('courses')
+        .child('lessons')
+        .child('/${videoName}_video')
+        .putFile(file);
+
+    // Получаем url видео
+    final videoUrl = await uploadTask.ref.getDownloadURL();
+
+    // Получаем ссылку на документ курса
+    final courseDoc = _firestore.collection('course').doc(courseId);
+
+    // Добавляем новый урок в коллекцию "detail"
+    // await courseDoc.collection('detail').add({
+    //   'name': lessonName,
+    //   'video_url': videoUrl,
+    // });
+    // Получаем текущий документ "detail"
+    final detailDoc = await courseDoc.collection('detail').get();
+
+    final detailDocData = detailDoc.docs.first.data();
+
+    // Получаем текущий список уроков
+    final List existingLessons = detailDocData['lessons'] ?? [];
+
+    // Добавляем новый урок в список
+    existingLessons.add({
+      'name': lessonName,
+      'video_url': videoUrl,
+    });
+
+    detailDocData['lessons'] = existingLessons;
+
+    // Обновляем список уроков в документе "detail"
+    detailDoc.docs.first.reference.update(detailDocData);
+    // await detailDoc.update({'lessons': existingLessons});
+  }
+// final detail = await courseDoc.collection('detail').get();
+//     final detailData = detail.docs.first.data();
+//     detailData['lessons'];
+//     detail.
+//     .add({
+//       'name': lessonName,
+//       'video_url': videoUrl,
+//     });
 
   @override
   Future<void> deleteCourse({

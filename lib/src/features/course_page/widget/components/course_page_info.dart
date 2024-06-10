@@ -7,6 +7,7 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
+import 'package:insight/src/features/course_page/widget/components/add_lesson_widget.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
@@ -28,6 +29,25 @@ class CoursePageInfo extends StatefulWidget {
 }
 
 class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
+  void _onAddLessonHandler(BuildContext ctx) => showBottomSheet(
+        context: context,
+        builder: (ctx) => AddLessonWidget(
+          onAdd: (name, videoPath) =>
+              Provider.of<CoursePageBloc>(context, listen: false).add(
+            CoursePageEvent.addLesson(
+              name: name,
+              videoPath: videoPath,
+              onAdd: () {
+                InsightSnackBar.showSuccessful(
+                  context,
+                  text: 'Урок добавлен',
+                );
+              },
+            ),
+          ),
+        ),
+      );
+
   void _onDeletHandler(BuildContext ctx) =>
       Provider.of<CoursePageBloc>(ctx, listen: false).add(
         CoursePageEvent.delete(
@@ -95,6 +115,19 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                 child: const Text('Курс в разаработке'),
               ),
             const SizedBox(height: 20),
+            if (widget.coursePage.isItsOwn)
+              Align(
+                alignment: Alignment.center,
+                child: Platform.isIOS
+                    ? CupertinoButton(
+                        onPressed: () => _onAddLessonHandler(context),
+                        child: const Text(AppStrings.addLesson),
+                      )
+                    : TextButton(
+                        onPressed: () => _onAddLessonHandler(context),
+                        child: const Text(AppStrings.addLesson),
+                      ),
+              ),
             if (widget.coursePage.isItsOwn)
               Align(
                 alignment: Alignment.center,

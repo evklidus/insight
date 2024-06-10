@@ -15,6 +15,7 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
     on<CoursePageEvent>(
       (event, emit) => switch (event) {
         _CoursePageEvent$Fetch() => _fetch(emit, event),
+        _CoursePageEvent$AddLesson() => _addLesson(emit, event),
         _CoursePageEvent$Delete() => _delete(emit, event),
       },
     );
@@ -34,6 +35,32 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
       emit(CoursePageState.error(
         data: state.data,
         message: 'Ошибка получения курса',
+      ));
+      rethrow;
+    } finally {
+      emit(CoursePageState.idle(data: state.data));
+    }
+  }
+
+  Future<void> _addLesson(
+    Emitter<CoursePageState> emit,
+    _CoursePageEvent$AddLesson event,
+  ) async {
+    try {
+      emit(CoursePageState.processing(data: state.data));
+      await _repository.addLesson(
+        courseId: state.data!.id,
+        lessonName: event.name,
+        videoPath: event.videoPath,
+      );
+      final CoursePage coursePage =
+          await _repository.getCoursePage(state.data!.id);
+      event.onAdd();
+      emit(CoursePageState.successful(data: coursePage));
+    } on Object {
+      emit(CoursePageState.error(
+        data: state.data,
+        message: 'Ошибка добавления урока',
       ));
       rethrow;
     } finally {

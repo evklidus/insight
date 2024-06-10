@@ -14,8 +14,11 @@ class AppStrings {
   // Common actions
   static const cancel = 'Отменить';
   static const delete = 'Удалить';
+  static const add = 'Добавить';
   static const addPhoto = 'Добавить фото';
   static const changePhoto = 'Изменить фото';
+  static const addVideo = 'Добавить видео';
+  static const changeVideo = 'Изменить видео';
 
   // Messages
   static const needAuthToCreateCourse =
@@ -32,6 +35,7 @@ class AppStrings {
   static const categories = 'Категории';
   static const description = 'Описание';
   static const category = 'Категория';
+  static const addLesson = 'Добавить урок';
 
   // Create course
   static const courseCreation = 'Создание курса';
