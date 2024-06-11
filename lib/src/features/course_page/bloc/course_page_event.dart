@@ -11,6 +11,11 @@ sealed class CoursePageEvent {
     required VoidCallback onAdd,
   }) = _CoursePageEvent$AddLesson;
 
+  const factory CoursePageEvent.removeLesson({
+    required Lesson lesson,
+    required VoidCallback onRemove,
+  }) = _CoursePageEvent$RemoveLesson;
+
   const factory CoursePageEvent.delete(VoidCallback onDelete) =
       _CoursePageEvent$Delete;
 }
@@ -31,6 +36,16 @@ final class _CoursePageEvent$AddLesson extends CoursePageEvent {
   final String name;
   final String videoPath;
   final VoidCallback onAdd;
+}
+
+final class _CoursePageEvent$RemoveLesson extends CoursePageEvent {
+  const _CoursePageEvent$RemoveLesson({
+    required this.lesson,
+    required this.onRemove,
+  });
+
+  final Lesson lesson;
+  final VoidCallback onRemove;
 }
 
 final class _CoursePageEvent$Delete extends CoursePageEvent {

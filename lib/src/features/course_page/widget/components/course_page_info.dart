@@ -8,6 +8,7 @@ import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/features/course_page/widget/components/add_lesson_widget.dart';
+import 'package:insight/src/common/widgets/insight_dismissible.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
@@ -97,8 +98,25 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: widget.coursePage.lessons!.length,
-                itemBuilder: (context, index) =>
-                    LessonWidget(widget.coursePage.lessons![index]),
+                itemBuilder: (context, index) {
+                  final lesson = widget.coursePage.lessons![index];
+                  return InsightDismissible(
+                    itemKey: lesson,
+                    deleteHandler: () =>
+                        Provider.of<CoursePageBloc>(context, listen: false).add(
+                      CoursePageEvent.removeLesson(
+                        lesson: lesson,
+                        onRemove: () {
+                          InsightSnackBar.showSuccessful(
+                            context,
+                            text: 'Урок удален',
+                          );
+                        },
+                      ),
+                    ),
+                    child: LessonWidget(lesson),
+                  );
+                },
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 20),
               )

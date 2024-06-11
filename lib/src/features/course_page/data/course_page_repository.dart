@@ -1,5 +1,6 @@
 import 'package:insight/src/features/course_page/data/course_page_network_data_provider.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
+import 'package:insight/src/features/course_page/model/lesson.dart';
 
 abstract interface class CoursePageRepository {
   Future<CoursePage> getCoursePage(String id);
@@ -8,6 +9,11 @@ abstract interface class CoursePageRepository {
     required String courseId,
     required String lessonName,
     required String videoPath,
+  });
+
+  Future<void> removeLesson({
+    required String courseId,
+    required Lesson lesson,
   });
 
   Future<void> deleteCourse({
@@ -47,5 +53,15 @@ final class CoursePageRepositoryImpl implements CoursePageRepository {
         courseId: courseId,
         lessonName: lessonName,
         videoPath: videoPath,
+      );
+
+  @override
+  Future<void> removeLesson({
+    required String courseId,
+    required Lesson lesson,
+  }) =>
+      _networkDataProvider.removeLesson(
+        courseId: courseId,
+        lesson: lesson,
       );
 }

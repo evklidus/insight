@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
+import 'package:insight/src/features/course_page/model/lesson.dart';
 import 'package:rest_client/rest_client.dart';
 
 abstract interface class CoursePageNetworkDataProvider {
@@ -13,6 +14,11 @@ abstract interface class CoursePageNetworkDataProvider {
     required String courseId,
     required String lessonName,
     required String videoPath,
+  });
+
+  Future<void> removeLesson({
+    required String courseId,
+    required Lesson lesson,
   });
 
   Future<void> deleteCourse({
@@ -46,6 +52,14 @@ final class CoursePageNetworkDataProviderImpl
     required String videoPath,
   }) =>
       throw UnimplementedError();
+
+  @override
+  Future<void> removeLesson({
+    required String courseId,
+    required Lesson lesson,
+  }) {
+    throw UnimplementedError();
+  }
 }
 
 final class CoursePageFirestoreDataProviderImpl
@@ -88,13 +102,16 @@ final class CoursePageFirestoreDataProviderImpl
     // Загружаем видео в firebase storage
     final file = File(videoPath);
 
-    final videoName = videoPath.replaceAll(' ', '_');
+    final videoName = lessonName.replaceAll(' ', '_');
 
     final uploadTask = await _firebaseStorage
         .ref()
-        .child('videos')
         .child('courses')
+        .child(courseId)
         .child('lessons')
+        // TODO: Заменить на lesson id
+        .child(videoName)
+        .child('videos')
         .child('/${videoName}_video')
         .putFile(file);
 
@@ -104,12 +121,6 @@ final class CoursePageFirestoreDataProviderImpl
     // Получаем ссылку на документ курса
     final courseDoc = _firestore.collection('course').doc(courseId);
 
-    // Добавляем новый урок в коллекцию "detail"
-    // await courseDoc.collection('detail').add({
-    //   'name': lessonName,
-    //   'video_url': videoUrl,
-    // });
-    // Получаем текущий документ "detail"
     final detailDoc = await courseDoc.collection('detail').get();
 
     final detailDocData = detailDoc.docs.first.data();
@@ -127,16 +138,7 @@ final class CoursePageFirestoreDataProviderImpl
 
     // Обновляем список уроков в документе "detail"
     detailDoc.docs.first.reference.update(detailDocData);
-    // await detailDoc.update({'lessons': existingLessons});
   }
-// final detail = await courseDoc.collection('detail').get();
-//     final detailData = detail.docs.first.data();
-//     detailData['lessons'];
-//     detail.
-//     .add({
-//       'name': lessonName,
-//       'video_url': videoUrl,
-//     });
 
   @override
   Future<void> deleteCourse({
@@ -149,5 +151,43 @@ final class CoursePageFirestoreDataProviderImpl
 
     // Удаляем обложку
     await _firebaseStorage.refFromURL(imageUrl).delete();
+  }
+
+  @override
+  Future<void> removeLesson({
+    required String courseId,
+    required Lesson lesson,
+  }) async {
+    final videoName = lesson.name.replaceAll(' ', '_');
+
+    // Удаляем видео урока
+    await _firebaseStorage
+        .ref()
+        .child('courses')
+        .child(courseId)
+        .child('lessons')
+        // TODO: Заменить на lesson id
+        .child(videoName)
+        .child('videos')
+        .child('/${videoName}_video')
+        .delete();
+
+    // Получаем ссылку на документ курса
+    final courseDoc = _firestore.collection('course').doc(courseId);
+
+    final detailDoc = await courseDoc.collection('detail').get();
+
+    final detailDocData = detailDoc.docs.first.data();
+
+    // Получаем текущий список уроков
+    final List existingLessons = detailDocData['lessons'] ?? [];
+
+    // Удаляем урок из списока
+    existingLessons.removeWhere((element) => element['name'] == lesson.name);
+
+    detailDocData['lessons'] = existingLessons;
+
+    // Обновляем список уроков в документе "detail"
+    detailDoc.docs.first.reference.update(detailDocData);
   }
 }

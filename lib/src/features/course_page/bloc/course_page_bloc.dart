@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_state.dart';
 import 'package:insight/src/features/course_page/data/course_page_repository.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
+import 'package:insight/src/features/course_page/model/lesson.dart';
 
 part 'course_page_event.dart';
 
@@ -16,6 +17,7 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
       (event, emit) => switch (event) {
         _CoursePageEvent$Fetch() => _fetch(emit, event),
         _CoursePageEvent$AddLesson() => _addLesson(emit, event),
+        _CoursePageEvent$RemoveLesson() => _removeLesson(emit, event),
         _CoursePageEvent$Delete() => _delete(emit, event),
       },
     );
@@ -61,6 +63,31 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
       emit(CoursePageState.error(
         data: state.data,
         message: 'Ошибка добавления урока',
+      ));
+      rethrow;
+    } finally {
+      emit(CoursePageState.idle(data: state.data));
+    }
+  }
+
+  Future<void> _removeLesson(
+    Emitter<CoursePageState> emit,
+    _CoursePageEvent$RemoveLesson event,
+  ) async {
+    try {
+      emit(CoursePageState.processing(data: state.data));
+      await _repository.removeLesson(
+        courseId: state.data!.id,
+        lesson: event.lesson,
+      );
+      final CoursePage coursePage =
+          await _repository.getCoursePage(state.data!.id);
+      event.onRemove();
+      emit(CoursePageState.successful(data: coursePage));
+    } on Object {
+      emit(CoursePageState.error(
+        data: state.data,
+        message: 'Ошибка удаления урока',
       ));
       rethrow;
     } finally {
