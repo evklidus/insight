@@ -78,7 +78,8 @@ class AppRouter {
                             path: 'video/:coursePageTitle',
                             parentNavigatorKey: _rootNavigatorKey,
                             builder: (context, state) => InsightPlayer(
-                              videoUrl: state.extra as String,
+                              videoUrl: state.uri.queryParameters['videoUrl']
+                                  as String,
                               title: state.pathParameters['coursePageTitle']
                                   as String,
                               onVideoEnd: context.pop,
