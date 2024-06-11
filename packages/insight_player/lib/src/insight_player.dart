@@ -56,13 +56,10 @@ class _InsightPlayerState extends State<InsightPlayer> {
         builder: (context, snapshot) {
           return SafeArea(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    top: 15,
-                  ),
+                  padding: const EdgeInsets.all(16),
                   child: Row(
                     children: [
                       CloseIcon(widget.onCloseButtonPressed),
@@ -73,27 +70,23 @@ class _InsightPlayerState extends State<InsightPlayer> {
                     ],
                   ),
                 ),
-                const Spacer(
-                  flex: 1,
-                ),
-                VideoWidget(
-                  connectionState: snapshot.connectionState,
-                  controller: _controller,
-                ),
-                const Spacer(
-                  flex: 3,
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                      maxHeight: MediaQuery.sizeOf(context).height / 2),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: VideoWidget(
+                      connectionState: snapshot.connectionState,
+                      controller: _controller,
+                    ),
+                  ),
                 ),
                 InsightSlider(_controller),
-                const Spacer(
-                  flex: 3,
-                ),
                 PlayPauseButton(
                   snapshot.connectionState,
                   _controller,
                 ),
-                const Spacer(
-                  flex: 2,
-                ),
+                const SizedBox(height: 20),
               ],
             ),
           );
