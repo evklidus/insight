@@ -4,7 +4,6 @@ import 'package:insight_player/src/insight_slider.dart';
 import 'package:video_player/video_player.dart';
 import 'close_icon.dart';
 import 'play_pause_button.dart';
-import 'video_widget.dart';
 
 class InsightPlayer extends StatefulWidget {
   const InsightPlayer({
@@ -70,14 +69,27 @@ class _InsightPlayerState extends State<InsightPlayer> {
                     ],
                   ),
                 ),
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                      maxHeight: MediaQuery.sizeOf(context).height / 2),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: VideoWidget(
-                      connectionState: snapshot.connectionState,
-                      controller: _controller,
+                AnimatedCrossFade(
+                  crossFadeState:
+                      snapshot.connectionState == ConnectionState.waiting
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
+                  duration: const Duration(milliseconds: 250),
+                  firstChild: CircularProgressIndicator.adaptive(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                  ),
+                  secondChild: ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxHeight: MediaQuery.sizeOf(context).height / 2),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: AspectRatio(
+                          aspectRatio: _controller.value.aspectRatio,
+                          child: VideoPlayer(_controller),
+                        ),
+                      ),
                     ),
                   ),
                 ),

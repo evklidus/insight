@@ -81,7 +81,7 @@ class _AddLessonWidgetState extends State<AddLessonWidget> {
                   ),
             const SizedBox(height: 24),
             CustomTextField(
-              hintText: AppStrings.courseNameHint,
+              hintText: AppStrings.lessoneNameHint,
               onChanged: (value) => _name = value,
               validator: (value) {
                 if (value == null || value.isEmpty) {

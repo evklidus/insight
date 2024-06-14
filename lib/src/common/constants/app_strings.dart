@@ -48,6 +48,8 @@ class AppStrings {
   static const courseNameHint = 'Самый лучший курс';
   static const courseDescrHint = 'Прикольное описание';
 
+  static const lessoneNameHint = 'Самый лучший урок';
+
   // Categories
   static const sport = 'Спорт';
   static const programming = 'Программирование';

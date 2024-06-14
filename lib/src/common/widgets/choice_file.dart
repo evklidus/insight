@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
+import 'package:insight/src/common/widgets/video_preview.dart';
 
 enum FileType {
   image,
@@ -23,11 +24,7 @@ class FileWidget extends StatelessWidget {
             File(filePath!),
             fit: BoxFit.cover,
           ),
-        FileType.video => const Placeholder(
-            child: Center(
-              child: Text('Видео добавлено'),
-            ),
-          ),
+        FileType.video => VideoPreview(video: File(filePath!)),
       };
 
   @override
@@ -35,7 +32,6 @@ class FileWidget extends StatelessWidget {
         duration: const Duration(milliseconds: 350),
         child: filePath != null
             ? ClipRRect(
-                key: UniqueKey(),
                 borderRadius: BorderRadius.circular(20),
                 child: AspectRatio(
                   aspectRatio: 4 / 3,
