@@ -41,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           builder: (context, state) {
-            if (state.hasData) {
+            if (!state.hasData && state.isProcessing) {
               return const ProfileSkeleton();
             } else if (!state.hasData && state.hasError) {
               return InformationWidget.error(
