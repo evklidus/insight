@@ -139,8 +139,9 @@ class _ShimmerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
-    if (shader == null)
+    if (shader == null) {
       return canvas.drawRect(rect, Paint()..color = backgroundColor);
+    }
     final paint = Paint()
       ..shader = (shader!
         ..setFloat(0, size.width)

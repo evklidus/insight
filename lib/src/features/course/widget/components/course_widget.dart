@@ -67,7 +67,7 @@ class CourseWidget extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    color: context.colorScheme.surfaceVariant,
+                    color: context.colorScheme.surfaceContainerHighest,
                   ),
                   child: Text(
                     'Ваш',

@@ -39,7 +39,7 @@ class InformationWidget extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onBackground,
+        color: Theme.of(context).colorScheme.onSurface,
         borderRadius: BorderRadius.circular(25),
       ),
       margin: const EdgeInsets.all(16),

@@ -130,7 +130,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                   ),
                   color: context.colorScheme.surface,
                 ),
-                child: const Text('Курс в разаработке'),
+                child: const Text('Курс в разработке'),
               ),
             const SizedBox(height: 20),
             if (widget.coursePage.isItsOwn)
