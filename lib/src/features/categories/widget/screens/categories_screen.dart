@@ -9,7 +9,6 @@ import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/src/features/categories/bloc/categories_bloc.dart';
 import 'package:insight/src/features/categories/bloc/categories_state.dart';
 import 'package:insight/src/features/categories/widget/components/categories_list.dart';
-import 'package:insight/src/features/categories/widget/components/gratitudes_skeleton.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -59,22 +58,20 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 InsightSnackBar.showError(context, text: errorState.message),
           ),
           builder: (context, state) {
-            if (!state.hasData && state.isProcessing) {
-              return const GratitudesSkeleton();
-            } else if (!state.hasData && state.hasError) {
+            if (!state.hasData && state.hasError) {
               return InformationWidget.error(
                 reloadFunc: () => categoriesBloc.add(
                   const CategoriesEvent.fetch(),
                 ),
               );
-            } else if (!state.hasData) {
+            } else if (!state.hasData && !state.isProcessing) {
               return InformationWidget.empty(
                 reloadFunc: () => categoriesBloc.add(
                   const CategoriesEvent.fetch(),
                 ),
               );
             } else {
-              return CategoriesList(categories: state.data!);
+              return CategoriesList(categories: state.data);
             }
           },
         ),
