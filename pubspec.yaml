@@ -47,7 +47,6 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  shimmer: ^3.0.0
   cached_network_image: ^3.3.0
   flutter_svg: ^2.0.5
   flutter_bounce_widget: ^1.0.2
@@ -55,6 +54,7 @@ dependencies:
   insight_player:
     path: packages/insight_player
   insight_snackbar: ^1.0.0
+  video_player: ^2.8.7
 
 dev_dependencies:
   build_runner: ^2.4.6
@@ -78,6 +78,10 @@ flutter_gen:
 
 flutter:
   uses-material-design: true
+
+  shaders:
+    - assets/shaders/shimmer.frag
+
   assets:
     - assets/images/
     - assets/fonts/

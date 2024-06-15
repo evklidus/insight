@@ -8,7 +8,6 @@ import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/features/course/bloc/course_bloc.dart';
 import 'package:insight/src/features/course/bloc/course_state.dart';
 import 'package:insight/src/features/course/widget/components/course_list.dart';
-import 'package:insight/src/features/course/widget/components/course_skeleton.dart';
 
 class CoursesScreen extends StatefulWidget {
   const CoursesScreen(this.categoryTag, {super.key});
@@ -44,15 +43,13 @@ class _CoursesScreenState extends State<CoursesScreen> {
             ),
           ),
           builder: (context, state) {
-            if (!state.hasData && state.isProcessing) {
-              return const CourseSkeleton();
-            } else if (!state.hasData && state.hasError) {
+            if (!state.hasData && state.hasError) {
               return InformationWidget.error(
                 reloadFunc: () => coursesBloc.add(
                   CourseEvent.fetch(widget.categoryTag),
                 ),
               );
-            } else if (!state.hasData) {
+            } else if (!state.hasData && !state.isProcessing) {
               return InformationWidget.empty(
                 reloadFunc: () => coursesBloc.add(
                   CourseEvent.fetch(widget.categoryTag),
@@ -60,7 +57,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
               );
             } else {
               return CourseList(
-                courses: state.data!,
+                courses: state.data,
                 categoryTag: widget.categoryTag,
               );
             }

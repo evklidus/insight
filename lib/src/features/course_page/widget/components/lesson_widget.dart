@@ -34,7 +34,9 @@ class LessonWidget extends StatelessWidget {
               pathParameters: {
                 'coursePageTitle': lesson.name,
               },
-              extra: lesson.videoUrl,
+              queryParams: {
+                'videoUrl': lesson.videoUrl,
+              },
             ),
           ),
         ],

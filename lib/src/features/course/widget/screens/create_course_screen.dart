@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
+import 'package:insight/src/common/widgets/choice_file.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 import 'package:insight/src/common/widgets/whole_screen_loading_indicator.dart';
@@ -140,11 +141,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     ),
                     const Text(AppStrings.photo),
                     const SizedBox(height: 8),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 350),
-                      child: _image != null
-                          ? _CourseImage(_image!.path)
-                          : const _CourseImagePlaceholder(),
+                    FileWidget(
+                      filePath: _image?.path,
+                      type: FileType.image,
                     ),
                     Platform.isIOS
                         ? CupertinoButton(
@@ -247,45 +246,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
           );
         });
   }
-}
-
-class _CourseImage extends StatelessWidget {
-  const _CourseImage(this.imagePath);
-
-  final String imagePath;
-
-  @override
-  Widget build(BuildContext context) => ClipRRect(
-        key: UniqueKey(),
-        borderRadius: BorderRadius.circular(20),
-        child: AspectRatio(
-          aspectRatio: 4 / 3,
-          child: Image.file(
-            File(imagePath),
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-}
-
-class _CourseImagePlaceholder extends StatelessWidget {
-  const _CourseImagePlaceholder();
-
-  @override
-  Widget build(BuildContext context) => AspectRatio(
-        aspectRatio: 4 / 3,
-        child: DecoratedBox(
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(color: context.colorScheme.surface),
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ),
-          child: const Center(
-            child: Text('Нет фото'),
-          ),
-        ),
-      );
 }
 
 class _SegmentWidget extends StatelessWidget {
