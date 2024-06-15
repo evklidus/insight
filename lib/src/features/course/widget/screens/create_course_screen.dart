@@ -133,8 +133,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         AppStrings.addLessonsAfterCreatingCourse,
                         style: TextStyle(
                           fontSize: 16,
-                          color:
-                              context.colorScheme.onBackground.withOpacity(0.6),
+                          color: context.colorScheme.onSurface.withOpacity(0.6),
                         ),
                         textAlign: TextAlign.center,
                       ),

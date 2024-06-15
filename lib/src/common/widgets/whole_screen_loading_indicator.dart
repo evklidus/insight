@@ -28,14 +28,14 @@ class WholeScreenLoadingIndicator extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   ColoredBox(
-                    color: context.colorScheme.onBackground.withOpacity(.7),
+                    color: context.colorScheme.onSurface.withOpacity(.7),
                   ),
                   Center(
                     child: Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: context.colorScheme.background,
+                        color: context.colorScheme.surface,
                       ),
                       child: CircularProgressIndicator.adaptive(
                         backgroundColor: context.colorScheme.secondary,
