@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
+import 'package:insight/src/common/widgets/adaptive_button.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/common/widgets/choice_file.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
@@ -144,24 +145,14 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       filePath: _image?.path,
                       type: FileType.image,
                     ),
-                    Platform.isIOS
-                        ? CupertinoButton(
-                            onPressed: _addPhotoHandler,
-                            child: Text(
-                              _image == null
-                                  ? AppStrings.addPhoto
-                                  : AppStrings.changePhoto,
-                            ),
-                          )
-                        : TextButton.icon(
-                            icon: const Icon(Icons.add),
-                            label: Text(
-                              _image == null
-                                  ? AppStrings.addPhoto
-                                  : AppStrings.changePhoto,
-                            ),
-                            onPressed: _addPhotoHandler,
-                          ),
+                    AdaptiveButton(
+                      onPressed: _addPhotoHandler,
+                      child: Text(
+                        _image == null
+                            ? AppStrings.addPhoto
+                            : AppStrings.changePhoto,
+                      ),
+                    ),
                     const SizedBox(height: 16),
                     const Text(AppStrings.title),
                     const SizedBox(height: 8),
