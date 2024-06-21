@@ -5,13 +5,13 @@ class AvatarWidget extends StatelessWidget {
   const AvatarWidget(
     this.avatarUrl, {
     super.key,
-    required this.width,
-    required this.height,
+    this.width,
+    this.height,
   });
 
   final String? avatarUrl;
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {

@@ -19,6 +19,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late final ProfileBloc profileBloc;
+
   @override
   void initState() {
     super.initState();

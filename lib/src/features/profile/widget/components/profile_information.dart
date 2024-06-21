@@ -18,7 +18,6 @@ class ProfileInformation extends StatefulWidget {
 class _ProfileLoadedScreenState extends State<ProfileInformation> {
   bool get _hasName => widget.user.firstName != null;
   bool get _hasUsername => widget.user.username != null;
-  bool get _hasEmail => widget.user.email != null;
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +40,11 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
               '@${widget.user.username}',
               style: Theme.of(context).textTheme.bodySmall,
             ),
-          if (_hasEmail) const SizedBox(height: 10),
-          if (_hasEmail)
-            Text(
-              widget.user.email!,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+          const SizedBox(height: 10),
+          Text(
+            widget.user.email,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
         ],
       ),
     );

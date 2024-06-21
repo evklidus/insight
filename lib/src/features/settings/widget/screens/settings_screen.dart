@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
+import 'package:insight/src/common/widgets/adaptive_button.dart';
 
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
+import 'package:insight/src/features/settings/widget/components/profile_widget.dart';
 import 'package:insight/src/features/settings/widget/components/setting_row.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -34,60 +36,68 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           left: 16,
           right: 16,
           top: 30,
+          bottom: MediaQuery.of(context).padding.bottom,
         ),
-        child: Column(
-          children: [
-            BlocBuilder<AuthBloc, AuthState>(
-              builder: (context, state) {
-                return _authBloc.state.isAuthenticated!
-                    ? SettingRow(
-                        title: AppStrings.signOut,
-                        icon: const Icon(
-                          Icons.logout_rounded,
-                          color: Colors.redAccent,
-                        ),
-                        onTap: () {
-                          _authBloc.add(const AuthEvent.logout());
-                          context.go('/login');
-                        },
-                      )
-                    : SettingRow(
-                        title: AppStrings.signIn,
-                        icon: Icon(
-                          Icons.login_rounded,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        onTap: () => context.go('/login'),
-                      );
-              },
-            ),
-            if (_authBloc.state.isAuthenticated!) ...[
-              const SizedBox(height: 20),
-              // Profile
-              SettingRow(
-                title: AppStrings.profile,
-                icon: const Icon(Icons.person_2_rounded),
-                onTap: () => context.goRelativeNamed('profile'),
-              ),
-            ],
-            if (!Flavor.isProd)
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).padding.bottom,
-                  ),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text(Flavor.current),
-                  ),
+        child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+          final isAuthenticated = _authBloc.state.isAuthenticated!;
+
+          return Column(
+            children: [
+              if (isAuthenticated)
+                // Profile
+                // Если профиль не заполнен - кнопка заполните профиль
+                ProfileWidget(
+                  avatarUrl:
+                      'https://fight.ru/wp-content/uploads/2020/08/boec-ufc-arman-carukyan-rasskazal-kak-mozhno-pobedit-habiba-nurmagomedova.jpg',
+                  onPressed: () => context.goRelativeNamed('profile'),
+                  name: 'Эрик Минасов',
+                  mail: 'minasoverik@gmail.com',
                 ),
+              if (!isAuthenticated)
+                SettingRow(
+                  title: AppStrings.signIn,
+                  icon: Icon(
+                    Icons.login_rounded,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  onTap: () => context.go('/login'),
+                ),
+              const SizedBox(height: 20),
+              // Theme
+              SettingRow(
+                title: 'Тема приложения',
+                icon: const Icon(Icons.person_2_rounded),
+                onTap: () => context.goRelativeNamed('theme'),
               ),
-          ],
-        ),
+              const SizedBox(height: 20),
+              // About app
+              SettingRow(
+                title: 'О приложении',
+                icon: const Icon(Icons.person_2_rounded),
+                onTap: () => context.goRelativeNamed('about'),
+              ),
+              const Spacer(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  if (isAuthenticated)
+                    AdaptiveButton(
+                      onPressed: () {
+                        _authBloc.add(const AuthEvent.logout());
+                        context.go('/login');
+                      },
+                      child: const Text(AppStrings.signOut),
+                    ),
+                  if (!Flavor.isProd) Text(Flavor.current),
+                ],
+              )
+            ],
+          );
+        }),
       ),
     );
   }
