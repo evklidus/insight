@@ -9,7 +9,7 @@ class AuthInterceptor extends Interceptor {
     required this.signOut,
   });
 
-  final FutureOr<String?> Function() getTokenFromDB;
+  final Future<String?> Function() getTokenFromDB;
   final VoidCallback signOut;
 
   @override
