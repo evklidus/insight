@@ -14,15 +14,9 @@ class ProfileWidget extends StatefulWidget {
   /// {@macro profile_widget}
   const ProfileWidget({
     super.key,
-    required this.avatarUrl,
-    required this.name,
-    required this.mail,
     required this.onPressed,
   });
 
-  final String avatarUrl;
-  final String name;
-  final String mail;
   final VoidCallback onPressed;
 
   @override

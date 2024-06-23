@@ -20,7 +20,7 @@ class Course {
   factory Course.fromFirestore(
     String id,
     Map<String, dynamic>? data,
-    String userId,
+    String? userId,
   ) =>
       Course(
         id: id,

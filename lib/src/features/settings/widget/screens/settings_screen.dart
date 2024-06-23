@@ -42,62 +42,60 @@ class _SettingsScreenState extends State<SettingsScreen> {
           top: 30,
           bottom: MediaQuery.of(context).padding.bottom,
         ),
-        child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-          final isAuthenticated = _authBloc.state.isAuthenticated!;
+        child: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            final isAuthenticated = _authBloc.state.isAuthenticated!;
 
-          return Column(
-            children: [
-              if (isAuthenticated)
-                // Profile
-                // Если профиль не заполнен - кнопка заполните профиль
-                ProfileWidget(
-                  avatarUrl:
-                      'https://fight.ru/wp-content/uploads/2020/08/boec-ufc-arman-carukyan-rasskazal-kak-mozhno-pobedit-habiba-nurmagomedova.jpg',
-                  onPressed: () => context.goRelativeNamed('profile'),
-                  name: 'Эрик Минасов',
-                  mail: 'minasoverik@gmail.com',
-                ),
-              if (!isAuthenticated)
-                SettingRow(
-                  title: AppStrings.signIn,
-                  icon: Icon(
-                    Icons.login_rounded,
-                    color: Theme.of(context).colorScheme.primary,
+            return Column(
+              children: [
+                if (isAuthenticated)
+                  // Profile
+                  // Если профиль не заполнен - кнопка заполните профиль
+                  ProfileWidget(
+                    onPressed: () => context.goRelativeNamed('profile'),
                   ),
-                  onTap: () => context.go('/login'),
-                ),
-              const SizedBox(height: 20),
-              // Theme
-              SettingRow(
-                title: 'Тема приложения',
-                icon: const Icon(Icons.person_2_rounded),
-                onTap: () => context.goRelativeNamed('theme'),
-              ),
-              const SizedBox(height: 20),
-              // About app
-              SettingRow(
-                title: 'О приложении',
-                icon: const Icon(Icons.person_2_rounded),
-                onTap: () => context.goRelativeNamed('about'),
-              ),
-              const Spacer(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  if (isAuthenticated)
-                    AdaptiveButton(
-                      onPressed: () {
-                        _authBloc.add(const AuthEvent.logout());
-                        context.go('/login');
-                      },
-                      child: const Text(AppStrings.signOut),
+                if (!isAuthenticated)
+                  SettingRow(
+                    title: AppStrings.signIn,
+                    icon: Icon(
+                      Icons.login_rounded,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
-                  if (!Flavor.isProd) Text(Flavor.current),
-                ],
-              )
-            ],
-          );
-        }),
+                    onTap: () => context.go('/login'),
+                  ),
+                const SizedBox(height: 20),
+                // Theme
+                SettingRow(
+                  title: 'Тема приложения',
+                  icon: const Icon(Icons.person_2_rounded),
+                  onTap: () => context.goRelativeNamed('theme'),
+                ),
+                const SizedBox(height: 20),
+                // About app
+                SettingRow(
+                  title: 'О приложении',
+                  icon: const Icon(Icons.person_2_rounded),
+                  onTap: () => context.goRelativeNamed('about'),
+                ),
+                const Spacer(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (isAuthenticated)
+                      AdaptiveButton(
+                        onPressed: () {
+                          _authBloc.add(const AuthEvent.logout());
+                          context.go('/login');
+                        },
+                        child: const Text(AppStrings.signOut),
+                      ),
+                    if (!Flavor.isProd) Text(Flavor.current),
+                  ],
+                )
+              ],
+            );
+          },
+        ),
       ),
     );
   }

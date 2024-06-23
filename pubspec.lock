@@ -321,7 +321,7 @@ packages:
     source: hosted
     version: "1.2.0"
   database:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/database"
       relative: true
@@ -1116,13 +1116,13 @@ packages:
     source: hosted
     version: "0.26.0"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
-      sha256: "0344316c947ffeb3a529eac929e1978fcd37c26be4e8468628bac399365a3ca1"
+      sha256: d3bbe5553a986e83980916ded2f0b435ef2e1893dfaa29d5a7a790d0eca12180
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.3"
   shared_preferences_android:
     dependency: transitive
     description:
@@ -1135,10 +1135,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_foundation
-      sha256: d29753996d8eb8f7619a1f13df6ce65e34bc107bef6330739ed76f18b22310ef
+      sha256: "0a8a893bf4fd1152f93fec03a415d11c27c74454d96e2318a7ac38dd18683ab7"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.3"
+    version: "2.4.0"
   shared_preferences_linux:
     dependency: transitive
     description:

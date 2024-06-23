@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:database/insight_db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/features/auth/data/auth_network_data_provider.dart';
 import 'package:auth_client/auth_client.dart';
 import 'package:dio/dio.dart';
@@ -17,7 +17,12 @@ import 'package:insight/src/features/course/data/course_network_data_provider.da
 import 'package:insight/src/features/course/data/course_repository.dart';
 import 'package:insight/src/features/profile/data/profile_network_data_provider.dart';
 import 'package:insight/src/features/profile/data/profile_repository.dart';
+import 'package:insight/src/features/settings/data/theme_datasource.dart';
+import 'package:insight/src/features/settings/data/theme_mode_codec.dart';
+import 'package:insight/src/features/settings/data/theme_repository.dart';
+import 'package:insight/src/features/app/model/app_theme.dart';
 import 'package:rest_client/rest_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final class DIContainer {
   DIContainer._();
@@ -27,7 +32,7 @@ final class DIContainer {
   static DIContainer? _instance;
 
   // DB
-  late final InsightDB insightDB;
+  late final SharedPreferences sharedPreferences;
 
   // Network
   late final AuthClient authClient;
@@ -45,6 +50,7 @@ final class DIContainer {
   late final CourseNetworkDataProvider courseNetworkDataProvider;
   late final CoursePageNetworkDataProvider coursePageNetworkDataProvider;
   late final ProfileNetworkDataProvider profileNetworkDataProvider;
+  late final ThemeDataSource themeDataSource;
 
   // Repositories
   late final AuthRepository authRepository;
@@ -52,10 +58,13 @@ final class DIContainer {
   late final CourseRepository coursesRepository;
   late final CoursePageRepository coursePageRepository;
   late final ProfileRepository profileRepository;
+  late final ThemeRepository themeRepository;
+
+  late final AppTheme? theme;
 
   Future<void> initDeps() async {
     // DB
-    insightDB = await InsightDB.getInstance();
+    sharedPreferences = await SharedPreferences.getInstance();
 
     // Network
     authClient = AuthClient(Dio());
@@ -65,15 +74,14 @@ final class DIContainer {
     Stream<bool> isAuthenticatedStream =
         isAuthenticatedController.stream.asBroadcastStream(
       onListen: (subscription) => isAuthenticatedController.add(
-        insightDB.isAuthorized() as bool,
+        sharedPreferences.getString('auth.accessToken').isNotNull,
       ),
     );
 
     final dioForRestClient = Dio()
       ..interceptors.add(
         AuthInterceptor(
-          isAuthorizedFromDB: insightDB.isAuthorized,
-          getTokenFromDB: insightDB.getToken,
+          getTokenFromDB: () => sharedPreferences.getString('auth.accessToken'),
           signOut: () => isAuthenticatedController.add(false),
         ),
       );
@@ -87,7 +95,8 @@ final class DIContainer {
 
     // Data Providers
     authNetworkDataProvider = AuthFirebaseDataProviderImpl(firebaseAuth);
-    authStorageDataProvider = AuthStorageDataProviderImpl(insightDB);
+    authStorageDataProvider =
+        AuthStorageDataProviderImpl(sharedPreferences: sharedPreferences);
     categoriesNetworkDataProvider = CategoriesFirestoreDataProviderImpl(
       firebaseFirestore,
     );
@@ -104,6 +113,10 @@ final class DIContainer {
     profileNetworkDataProvider = ProfileFirestoreDataProviderImpl(
       firestore: firebaseFirestore,
       firebaseAuth: firebaseAuth,
+    );
+    themeDataSource = ThemeDataSourceLocal(
+      codec: const ThemeModeCodec(),
+      sharedPreferences: sharedPreferences,
     );
 
     // Repositories
@@ -124,5 +137,10 @@ final class DIContainer {
     profileRepository = ProfileRepositoryImpl(
       profileNetworkDataProvider,
     );
+    themeRepository = ThemeRepositoryImpl(
+      themeDataSource: themeDataSource,
+    );
+
+    theme = await themeRepository.getTheme();
   }
 }

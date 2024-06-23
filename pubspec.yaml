@@ -32,8 +32,7 @@ dependencies:
   firebase_core_platform_interface: ^5.0.0
 
   # DB
-  database:
-    path: packages/database
+  shared_preferences: ^2.2.3
 
   # Utils
   equatable: ^2.0.3
