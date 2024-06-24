@@ -83,12 +83,12 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
             const SizedBox(height: 20),
             Text(
               widget.coursePage.name,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 15),
             Text(
               widget.coursePage.description,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 20),
             if (widget.coursePage.lessons?.isNotEmpty ?? false)
@@ -126,7 +126,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  color: context.colorScheme.surface,
+                  color: context.colorScheme.surfaceContainerLowest,
                 ),
                 child: const Text('Курс в разработке'),
               ),

@@ -37,7 +37,7 @@ class CourseWidget extends StatelessWidget {
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),
-          color: Theme.of(context).colorScheme.surface,
+          color: Theme.of(context).colorScheme.surfaceContainerLow,
         ),
         padding: const EdgeInsets.all(13),
         child: Row(
@@ -52,7 +52,7 @@ class CourseWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 course.name,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.titleMedium,
                 maxLines: 2,
               ),
             ),
@@ -71,7 +71,7 @@ class CourseWidget extends StatelessWidget {
                   ),
                   child: Text(
                     'Ваш',
-                    style: context.textTheme.bodySmall,
+                    style: context.textTheme.labelLarge,
                   ),
                 ),
               ),

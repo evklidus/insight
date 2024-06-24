@@ -81,7 +81,8 @@ final class DIContainer {
     final dioForRestClient = Dio()
       ..interceptors.add(
         AuthInterceptor(
-          getTokenFromDB: () => sharedPreferences.getString('auth.accessToken'),
+          getTokenFromDB: () async =>
+              sharedPreferences.getString('auth.accessToken'),
           signOut: () => isAuthenticatedController.add(false),
         ),
       );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const _primaryColor = Color(0xff3965E3);
 
+@Deprecated('Старая тема')
 final lightThemeData = ThemeData(
   colorScheme: lightColorScheme,
   textTheme: textTheme,
@@ -11,6 +12,7 @@ final lightThemeData = ThemeData(
   useMaterial3: true,
 );
 
+@Deprecated('Старая тема')
 final darkThemeData = ThemeData(
   colorScheme: darkColorScheme,
   textTheme: textTheme,

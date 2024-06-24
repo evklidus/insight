@@ -39,7 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: EdgeInsets.only(
           left: 16,
           right: 16,
-          top: 30,
+          top: 16,
           bottom: MediaQuery.of(context).padding.bottom,
         ),
         child: BlocBuilder<AuthBloc, AuthState>(
