@@ -9,6 +9,7 @@ import 'package:insight/src/common/widgets/adaptive_button.dart';
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/src/features/settings/widget/components/profile_widget.dart';
 import 'package:insight/src/features/settings/widget/components/setting_row.dart';
+import 'package:insight/src/features/settings/widget/components/theme_change_widget.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -65,16 +66,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 const SizedBox(height: 20),
                 // Theme
-                SettingRow(
-                  title: 'Тема приложения',
-                  icon: const Icon(Icons.person_2_rounded),
-                  onTap: () => context.goRelativeNamed('theme'),
-                ),
+                const ThemeChangeWidget(),
                 const SizedBox(height: 20),
                 // About app
                 SettingRow(
                   title: 'О приложении',
-                  icon: const Icon(Icons.person_2_rounded),
+                  icon: const Icon(Icons.info_rounded),
                   onTap: () => context.goRelativeNamed('about'),
                 ),
                 const Spacer(),

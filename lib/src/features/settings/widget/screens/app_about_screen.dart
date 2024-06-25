@@ -4,6 +4,7 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
+import 'package:insight/src/constants/pubspec.yaml.g.dart';
 
 /// {@template app_about_screen}
 /// AppAboutScreen widget.
@@ -32,9 +33,8 @@ class AppAboutScreen extends StatelessWidget {
               style: context.textTheme.headlineLarge,
             ),
             const SizedBox(height: 24),
-            // TODO: Показывать версию приложения
             Text(
-              'Версия: ',
+              'Версия: ${Pubspec.version.representation}',
               style: context.textTheme.titleLarge,
             ),
             const Spacer(),

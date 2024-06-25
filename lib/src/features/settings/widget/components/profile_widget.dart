@@ -37,7 +37,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   @override
   Widget build(BuildContext context) => Container(
         decoration: ShapeDecoration(
-          color: context.colorScheme.surfaceContainerHighest,
+          color: context.colorScheme.surfaceContainerHigh,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),

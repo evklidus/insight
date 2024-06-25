@@ -127,7 +127,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       margin: const EdgeInsets.all(16),
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        color: context.colorScheme.surface,
+                        color: context.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
@@ -185,11 +185,14 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     if (state.hasTags && _selectedCategory.first.isNotEmpty)
                       Platform.isIOS
                           ? CupertinoSegmentedControl<String>(
-                              selectedColor: context.colorScheme.surface,
-                              unselectedColor: Colors.transparent,
-                              pressedColor: context.colorScheme.surface,
-                              borderColor: context.colorScheme.secondary
-                                  .withOpacity(.25),
+                              selectedColor:
+                                  context.colorScheme.surfaceContainerHighest,
+                              unselectedColor:
+                                  context.colorScheme.surfaceContainerLow,
+                              pressedColor:
+                                  context.colorScheme.surfaceContainerHigh,
+                              borderColor:
+                                  context.colorScheme.outline.withOpacity(.25),
                               padding: const EdgeInsets.all(0),
                               groupValue: _selectedCategory.first,
                               onValueChanged: (value) => setState(
