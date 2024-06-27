@@ -14,10 +14,21 @@ class FileWidget extends StatelessWidget {
     required this.filePath,
     required this.type,
     super.key,
-  });
+  })  : _isRounded = false,
+        imageRadius = null;
+
+  const FileWidget.rounded({
+    required this.filePath,
+    required this.type,
+    this.imageRadius = 100,
+    super.key,
+  }) : _isRounded = true;
 
   final String? filePath;
   final FileType type;
+
+  final bool _isRounded;
+  final double? imageRadius;
 
   Widget _childFromFileType(FileType type) => switch (type) {
         FileType.image => Image.file(
@@ -31,40 +42,64 @@ class FileWidget extends StatelessWidget {
   Widget build(BuildContext context) => AnimatedSwitcher(
         duration: const Duration(milliseconds: 350),
         child: filePath != null
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: AspectRatio(
-                  aspectRatio: 4 / 3,
-                  child: _childFromFileType(type),
-                ),
-              )
-            : _FilePlaceholder(type),
+            ? _isRounded
+                ? ClipOval(
+                    child: SizedBox.fromSize(
+                      size: Size.fromRadius(imageRadius!),
+                      child: _childFromFileType(type),
+                    ),
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: AspectRatio(
+                      aspectRatio: 4 / 3,
+                      child: _childFromFileType(type),
+                    ),
+                  )
+            : _FilePlaceholder(
+                type: type,
+                isRounded: _isRounded,
+                imageRadius: imageRadius,
+              ),
       );
 }
 
 class _FilePlaceholder extends StatelessWidget {
-  const _FilePlaceholder(this.type);
+  const _FilePlaceholder({
+    required this.type,
+    required this.isRounded,
+    required this.imageRadius,
+  });
 
   final FileType type;
-
-  String _getTitleFromType(FileType type) => switch (type) {
-        FileType.image => 'Фото',
-        FileType.video => 'Видео',
-      };
+  final bool isRounded;
+  final double? imageRadius;
 
   @override
-  Widget build(BuildContext context) => AspectRatio(
-        aspectRatio: 4 / 3,
-        child: DecoratedBox(
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(color: context.colorScheme.outline),
-              borderRadius: BorderRadius.circular(20),
+  Widget build(BuildContext context) => isRounded
+      ? Container(
+          width: imageRadius! * 2,
+          height: imageRadius! * 2,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: context.colorScheme.surfaceContainerLow,
+          ),
+          child: const Center(
+            child: Icon(Icons.photo),
+          ),
+        )
+      : AspectRatio(
+          aspectRatio: 4 / 3,
+          child: DecoratedBox(
+            decoration: ShapeDecoration(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: context.colorScheme.outline),
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+            child: const Center(
+              child: Icon(Icons.photo),
             ),
           ),
-          child: Center(
-            child: Text(_getTitleFromType(type)),
-          ),
-        ),
-      );
+        );
 }

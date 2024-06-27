@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
@@ -19,6 +20,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late final ProfileBloc profileBloc;
+  bool isEditing = false;
 
   @override
   void initState() {
@@ -31,7 +33,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(AppStrings.profile),
+      appBar: CustomAppBar(
+        AppStrings.profile,
+        action: GestureDetector(
+          onTap: () {
+            // TODO: Реализовать сохранение
+            setState(() => isEditing = !isEditing);
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: ShapeDecoration(
+              color: isEditing
+                  ? context.colorScheme.surfaceContainerHighest
+                  : context.colorScheme.surfaceContainerLow,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+            ),
+            child: Text(
+              isEditing ? 'Сохранить' : 'Изменить',
+            ),
+          ),
+        ),
+      ),
       body: BlocProvider(
         create: (context) => profileBloc,
         child: BlocConsumer<ProfileBloc, ProfileState>(
@@ -57,7 +82,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               );
             } else {
-              return ProfileInformation(user: state.data!);
+              return ProfileInformation(
+                user: state.data!,
+                isEditing: isEditing,
+              );
             }
           },
         ),
