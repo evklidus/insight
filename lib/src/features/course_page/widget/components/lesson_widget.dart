@@ -16,7 +16,7 @@ class LessonWidget extends StatelessWidget {
       height: 70,
       padding: const EdgeInsets.only(left: 15, right: 25),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -24,7 +24,7 @@ class LessonWidget extends StatelessWidget {
         children: [
           Text(
             lesson.name,
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           IconButton(
             icon: const Icon(CupertinoIcons.play_fill),

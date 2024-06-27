@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
 import 'package:insight/src/common/widgets/rounded_back_button.dart';
 
@@ -28,7 +29,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             onTap: onTap,
           ),
           if (_hasLeadingText) const SizedBox(width: 15),
-          if (_hasLeadingText) Text(leadingText!),
+          if (_hasLeadingText)
+            Text(
+              leadingText!,
+              style: context.textTheme.titleLarge,
+            ),
         ],
       ),
     );

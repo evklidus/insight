@@ -15,11 +15,11 @@ class RoundedBackButton extends StatelessWidget {
         width: 40,
         margin: const EdgeInsets.only(right: 1),
         padding: const EdgeInsets.symmetric(
-          vertical: 8,
-          horizontal: 5,
+          vertical: 10,
+          horizontal: 6,
         ),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
+          color: Theme.of(context).colorScheme.surfaceContainerHigh,
           shape: BoxShape.circle,
         ),
         child: const FittedBox(

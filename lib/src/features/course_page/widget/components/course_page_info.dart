@@ -1,10 +1,8 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
+import 'package:insight/src/common/widgets/adaptive_button.dart';
 
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/features/course_page/widget/components/add_lesson_widget.dart';
@@ -85,12 +83,12 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
             const SizedBox(height: 20),
             Text(
               widget.coursePage.name,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 15),
             Text(
               widget.coursePage.description,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 20),
             if (widget.coursePage.lessons?.isNotEmpty ?? false)
@@ -128,7 +126,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  color: context.colorScheme.surface,
+                  color: context.colorScheme.surfaceContainerLowest,
                 ),
                 child: const Text('Курс в разработке'),
               ),
@@ -136,34 +134,21 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
             if (widget.coursePage.isItsOwn)
               Align(
                 alignment: Alignment.center,
-                child: Platform.isIOS
-                    ? CupertinoButton(
-                        onPressed: () => _onAddLessonHandler(context),
-                        child: const Text(AppStrings.addLesson),
-                      )
-                    : TextButton(
-                        onPressed: () => _onAddLessonHandler(context),
-                        child: const Text(AppStrings.addLesson),
-                      ),
+                child: AdaptiveButton(
+                  onPressed: () => _onAddLessonHandler(context),
+                  child: const Text(AppStrings.addLesson),
+                ),
               ),
             if (widget.coursePage.isItsOwn)
               Align(
                 alignment: Alignment.center,
-                child: Platform.isIOS
-                    ? CupertinoButton(
-                        onPressed: () => _onDeletHandler(context),
-                        child: Text(
-                          AppStrings.delete,
-                          style: deleteCourseButtonStyle,
-                        ),
-                      )
-                    : TextButton(
-                        onPressed: () => _onDeletHandler(context),
-                        child: Text(
-                          AppStrings.delete,
-                          style: deleteCourseButtonStyle,
-                        ),
-                      ),
+                child: AdaptiveButton(
+                  onPressed: () => _onDeletHandler(context),
+                  child: Text(
+                    AppStrings.delete,
+                    style: deleteCourseButtonStyle,
+                  ),
+                ),
               ),
           ],
         ),

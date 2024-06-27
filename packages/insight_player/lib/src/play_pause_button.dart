@@ -44,7 +44,7 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
             duration: const Duration(milliseconds: 500),
             alignment: Alignment.center,
             padding: const EdgeInsets.all(20),
-            color: Theme.of(context).colorScheme.surface,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             child: ValueListenableBuilder<VideoPlayerValue>(
               valueListenable: widget.videoPlayerController,
               builder: (context, value, _) {

@@ -19,7 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   })  : _repository = repository,
         super(initialState ?? const AuthState.idle(isAuthenticated: false)) {
     _repository.isAuthenticatedStream.map((isAuthenticated) {
-      if (isAuthenticated) {
+      if (!isAuthenticated) {
         setState(
           const AuthState.error(
             isAuthenticated: false,

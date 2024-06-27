@@ -70,7 +70,7 @@ final class CourseFirestoreDataProviderImpl
         .where('tag', isEqualTo: categoryTag)
         .get();
 
-    final userId = _firebaseAuth.currentUser!.uid;
+    final userId = _firebaseAuth.currentUser?.uid;
 
     final courses = coursesCollection.docs
         .map((doc) => Course.fromFirestore(doc.id, doc.data(), userId))

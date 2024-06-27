@@ -9,7 +9,7 @@ class UserDTO {
   const UserDTO({
     this.id,
     required this.username,
-    this.email,
+    required this.email,
     this.avatarUrl,
     this.firstName,
     this.lastName,
@@ -17,7 +17,7 @@ class UserDTO {
 
   final String? id;
   final String? username;
-  final String? email;
+  final String email;
   @JsonKey(name: 'avatar_url')
   final String? avatarUrl;
   @JsonKey(name: 'first_name')

@@ -31,6 +31,4 @@ abstract class AuthClient {
   Future<TokenDTO> refreshToken(
     @Query('refresh_token') String refreshToken,
   );
-
-  // final isAuthenticatedController = StreamController<bool>();
 }

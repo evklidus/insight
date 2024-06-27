@@ -58,7 +58,7 @@ class _FilePlaceholder extends StatelessWidget {
         child: DecoratedBox(
           decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
-              side: BorderSide(color: context.colorScheme.surface),
+              side: BorderSide(color: context.colorScheme.outline),
               borderRadius: BorderRadius.circular(20),
             ),
           ),

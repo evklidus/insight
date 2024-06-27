@@ -6,7 +6,7 @@ final class User {
   const User({
     this.id,
     this.username,
-    this.email,
+    required this.email,
     this.avatarUrl,
     this.firstName,
     this.lastName,
@@ -35,8 +35,10 @@ final class User {
 
   final String? id;
   final String? username;
-  final String? email;
+  final String email;
   final String? avatarUrl;
   final String? firstName;
   final String? lastName;
+
+  String get fullName => '$firstName $lastName';
 }

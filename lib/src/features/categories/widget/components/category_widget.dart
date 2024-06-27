@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
@@ -37,7 +38,12 @@ class CategoryWidget extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Text(category.name),
+              child: Text(
+                category.name,
+                style: context.textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           ),
         ],

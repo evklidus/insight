@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/common/widgets/adaptive_button.dart';
 import 'package:insight/src/common/widgets/choice_file.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -61,24 +60,12 @@ class _AddLessonWidgetState extends State<AddLessonWidget> {
               filePath: _video?.path,
               type: FileType.video,
             ),
-            Platform.isIOS
-                ? CupertinoButton(
-                    onPressed: _addVideoHandler,
-                    child: Text(
-                      _video == null
-                          ? AppStrings.addVideo
-                          : AppStrings.changeVideo,
-                    ),
-                  )
-                : TextButton.icon(
-                    icon: const Icon(Icons.add),
-                    label: Text(
-                      _video == null
-                          ? AppStrings.addVideo
-                          : AppStrings.changeVideo,
-                    ),
-                    onPressed: _addVideoHandler,
-                  ),
+            AdaptiveButton(
+              onPressed: _addVideoHandler,
+              child: Text(
+                _video == null ? AppStrings.addVideo : AppStrings.changeVideo,
+              ),
+            ),
             const SizedBox(height: 24),
             CustomTextField(
               hintText: AppStrings.lessoneNameHint,
@@ -91,15 +78,10 @@ class _AddLessonWidgetState extends State<AddLessonWidget> {
               },
             ),
             const SizedBox(height: 32),
-            Platform.isIOS
-                ? CupertinoButton.filled(
-                    onPressed: _addLessonHandler,
-                    child: const Text(AppStrings.add),
-                  )
-                : FloatingActionButton.extended(
-                    onPressed: _addLessonHandler,
-                    label: const Text(AppStrings.add),
-                  ),
+            AdaptiveButton.filled(
+              onPressed: _addLessonHandler,
+              child: const Text(AppStrings.add),
+            ),
           ],
         ),
       );

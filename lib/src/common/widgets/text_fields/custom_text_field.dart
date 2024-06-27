@@ -44,7 +44,7 @@ class CustomTextField extends StatelessWidget {
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(15),
         ),
-        fillColor: Theme.of(context).colorScheme.surface,
+        fillColor: Theme.of(context).colorScheme.surfaceContainer,
         filled: true,
         hintText: _hintText,
       ),

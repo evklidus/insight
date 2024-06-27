@@ -5,20 +5,17 @@ import 'dart:ui';
 
 class AuthInterceptor extends Interceptor {
   AuthInterceptor({
-    required this.isAuthorizedFromDB,
     required this.getTokenFromDB,
     required this.signOut,
   });
 
-  final FutureOr<bool?> Function() isAuthorizedFromDB;
-  final FutureOr<String?> Function() getTokenFromDB;
+  final Future<String?> Function() getTokenFromDB;
   final VoidCallback signOut;
 
   @override
   void onRequest(options, handler) async {
-    final isAuthorized = await isAuthorizedFromDB();
-    if (isAuthorized ?? false) {
-      final token = await getTokenFromDB();
+    final token = await getTokenFromDB();
+    if (token != null) {
       options.headers['Authorization'] = 'Bearer $token';
     }
 

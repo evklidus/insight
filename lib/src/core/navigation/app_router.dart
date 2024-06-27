@@ -8,6 +8,7 @@ import 'package:insight/src/features/course/widget/screens/create_course_screen.
 import 'package:insight/src/features/course_page/widget/screens/course_page_screen.dart';
 import 'package:insight/src/features/course/widget/screens/courses_screen.dart';
 import 'package:insight/src/features/profile/widget/screens/profile_screen.dart';
+import 'package:insight/src/features/settings/widget/screens/app_about_screen.dart';
 import 'package:insight/src/features/settings/widget/screens/settings_screen.dart';
 import 'package:insight_player/insight_player.dart';
 
@@ -112,6 +113,12 @@ class AppRouter {
                     path: 'profile',
                     parentNavigatorKey: _rootNavigatorKey,
                     builder: (context, state) => const ProfileScreen(),
+                  ),
+                  GoRoute(
+                    name: 'about',
+                    path: 'about',
+                    parentNavigatorKey: _rootNavigatorKey,
+                    builder: (context, state) => const AppAboutScreen(),
                   ),
                 ],
               ),

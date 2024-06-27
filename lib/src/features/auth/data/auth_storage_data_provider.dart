@@ -1,4 +1,5 @@
-import 'package:database/insight_db.dart';
+import 'package:insight/src/common/utils/extensions/object_x.dart';
+import 'package:insight/src/common/utils/preferences_dao.dart';
 
 abstract interface class AuthStorageDataProvider {
   Future<bool> checkAuthenticatedStatus();
@@ -11,14 +12,18 @@ abstract interface class AuthStorageDataProvider {
   Future<void> setLogout();
 }
 
-final class AuthStorageDataProviderImpl implements AuthStorageDataProvider {
-  AuthStorageDataProviderImpl(InsightDB insightDB) : _insightDB = insightDB;
+final class AuthStorageDataProviderImpl extends PreferencesDao
+    implements AuthStorageDataProvider {
+  AuthStorageDataProviderImpl({required super.sharedPreferences});
 
-  final InsightDB _insightDB;
+  PreferencesEntry<String> get _accessToken => stringEntry('auth.accessToken');
+
+  PreferencesEntry<String> get _refreshToken =>
+      stringEntry('auth.refreshToken');
 
   @override
   Future<bool> checkAuthenticatedStatus() async {
-    return await _insightDB.isAuthorized() ?? false;
+    return _accessToken.read().isNotNull;
   }
 
   @override
@@ -26,16 +31,15 @@ final class AuthStorageDataProviderImpl implements AuthStorageDataProvider {
     required String accessToken,
     String? refreshToken,
   }) async {
-    await _insightDB.saveCredentials(
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-    );
-    await _insightDB.setAuthorizedStatus(true);
+    _accessToken.set(accessToken);
+    if (refreshToken != null) {
+      _refreshToken.set(refreshToken);
+    }
   }
 
   @override
   Future<void> setLogout() async {
-    await _insightDB.clearCredentials();
-    await _insightDB.setAuthorizedStatus(false);
+    _accessToken.remove();
+    _refreshToken.remove();
   }
 }
