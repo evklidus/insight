@@ -65,6 +65,7 @@ class _InsightPlayerState extends State<InsightPlayer> {
                       const SizedBox(width: 10),
                       Text(
                         widget.title,
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ],
                   ),

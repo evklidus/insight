@@ -18,7 +18,7 @@ class CloseIcon extends StatelessWidget {
           borderRadius: BorderRadius.circular(
             10,
           ),
-          color: Theme.of(context).colorScheme.surface,
+          color: Theme.of(context).colorScheme.surfaceContainerLow,
         ),
         child: Text(
           String.fromCharCode(CupertinoIcons.xmark.codePoint),
