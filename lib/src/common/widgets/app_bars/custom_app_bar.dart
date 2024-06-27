@@ -50,7 +50,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _RoundedBackButton extends StatelessWidget {
-  const _RoundedBackButton({super.key, this.onTap});
+  const _RoundedBackButton({this.onTap});
 
   final Function? onTap;
 

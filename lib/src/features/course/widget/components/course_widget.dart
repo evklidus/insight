@@ -44,8 +44,7 @@ class CourseWidget extends StatelessWidget {
           children: [
             CustomImageWidget(
               course.imageUrl,
-              width: 74,
-              height: 74,
+              size: const Size.square(74),
               borderRadius: BorderRadius.circular(15),
             ),
             const SizedBox(width: 13),

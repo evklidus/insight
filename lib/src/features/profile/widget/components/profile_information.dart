@@ -92,8 +92,7 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
             ),
             secondChild: AvatarWidget(
               widget.user.avatarUrl,
-              width: 200,
-              height: 200,
+              size: const Size.square(200),
             ),
           ),
           if (_hasName) ...[

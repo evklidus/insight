@@ -5,21 +5,18 @@ class AvatarWidget extends StatelessWidget {
   const AvatarWidget(
     this.avatarUrl, {
     super.key,
-    this.width,
-    this.height,
+    this.size,
   });
 
   final String? avatarUrl;
-  final double? width;
-  final double? height;
+  final Size? size;
 
   @override
   Widget build(BuildContext context) {
     return avatarUrl != null
         ? CustomImageWidget(
             avatarUrl!,
-            width: width,
-            height: height,
+            size: size,
             shape: BoxShape.circle,
           )
         : Container(
@@ -27,8 +24,8 @@ class AvatarWidget extends StatelessWidget {
               shape: BoxShape.circle,
               color: Colors.black45,
             ),
-            width: width,
-            height: height,
+            width: size?.width,
+            height: size?.height,
           );
   }
 }

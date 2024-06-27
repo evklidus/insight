@@ -76,8 +76,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
             const SizedBox(height: 20),
             CustomImageWidget(
               widget.coursePage.imageUrl,
-              height: 190,
-              width: double.infinity,
+              size: const Size.fromHeight(190),
               borderRadius: BorderRadius.circular(30),
             ),
             const SizedBox(height: 20),

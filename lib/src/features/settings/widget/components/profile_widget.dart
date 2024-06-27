@@ -37,50 +37,57 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        decoration: ShapeDecoration(
-          color: context.colorScheme.surfaceContainerHigh,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
+  Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+
+    return Container(
+      decoration: ShapeDecoration(
+        color: context.colorScheme.surfaceContainerHigh,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: BlocBuilder<ProfileBloc, ProfileState>(
-          bloc: _profileBloc,
-          builder: (context, state) {
-            if (state.hasData) {
-              final user = state.data!;
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: widget.onPressed,
-                child: Row(
-                  children: [
-                    AvatarWidget(user.avatarUrl, width: 60, height: 60),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(user.fullName),
-                        Text(
-                          user.email,
-                          style: context.textTheme.titleSmall
-                              ?.copyWith(fontWeight: FontWeight.w300),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: widget.onEditPressed,
-                      icon: const Icon(Icons.edit),
-                    )
-                  ],
-                ),
-              );
-            }
-            return const _BodySkeleton();
-          },
-        ),
-      );
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: BlocBuilder<ProfileBloc, ProfileState>(
+        bloc: _profileBloc,
+        builder: (context, state) {
+          if (state.hasData) {
+            final user = state.data!;
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: widget.onPressed,
+              child: Row(
+                children: [
+                  AvatarWidget(
+                    user.avatarUrl,
+                    size: Size.square(size.shortestSide * .15),
+                  ),
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(user.fullName),
+                      Text(
+                        user.email,
+                        style: context.textTheme.titleSmall
+                            ?.copyWith(fontWeight: FontWeight.w300),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: widget.onEditPressed,
+                    icon: const Icon(Icons.edit),
+                  )
+                ],
+              ),
+            );
+          }
+          return const _BodySkeleton();
+        },
+      ),
+    );
+  }
 }
 
 class _BodySkeleton extends StatelessWidget {
