@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
+import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/video_preview.dart';
 
 enum FileType {
@@ -14,21 +15,21 @@ class FileWidget extends StatelessWidget {
     required this.filePath,
     required this.type,
     super.key,
-  })  : _isRounded = false,
-        imageRadius = null;
+  }) : imageRadius = null;
 
   const FileWidget.rounded({
     required this.filePath,
     required this.type,
     this.imageRadius = 100,
     super.key,
-  }) : _isRounded = true;
+  });
 
   final String? filePath;
   final FileType type;
 
-  final bool _isRounded;
   final double? imageRadius;
+
+  bool get _isRounded => imageRadius.isNotNull;
 
   Widget _childFromFileType(FileType type) => switch (type) {
         FileType.image => Image.file(
@@ -58,7 +59,6 @@ class FileWidget extends StatelessWidget {
                   )
             : _FilePlaceholder(
                 type: type,
-                isRounded: _isRounded,
                 imageRadius: imageRadius,
               ),
       );
@@ -67,25 +67,26 @@ class FileWidget extends StatelessWidget {
 class _FilePlaceholder extends StatelessWidget {
   const _FilePlaceholder({
     required this.type,
-    required this.isRounded,
     required this.imageRadius,
   });
 
   final FileType type;
-  final bool isRounded;
   final double? imageRadius;
 
+  bool get _isRounded => imageRadius.isNotNull;
+
   @override
-  Widget build(BuildContext context) => isRounded
-      ? Container(
-          width: imageRadius! * 2,
-          height: imageRadius! * 2,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: context.colorScheme.surfaceContainerLow,
-          ),
-          child: const Center(
-            child: Icon(Icons.photo),
+  Widget build(BuildContext context) => _isRounded
+      ? SizedBox.fromSize(
+          size: Size.fromRadius(imageRadius!),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: context.colorScheme.surfaceContainerLow,
+            ),
+            child: const Center(
+              child: Icon(Icons.photo),
+            ),
           ),
         )
       : AspectRatio(
