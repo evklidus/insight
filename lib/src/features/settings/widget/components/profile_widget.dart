@@ -15,9 +15,11 @@ class ProfileWidget extends StatefulWidget {
   const ProfileWidget({
     super.key,
     required this.onPressed,
+    required this.onEditPressed,
   });
 
   final VoidCallback onPressed;
+  final VoidCallback onEditPressed;
 
   @override
   State<ProfileWidget> createState() => _ProfileWidgetState();
@@ -48,27 +50,31 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           builder: (context, state) {
             if (state.hasData) {
               final user = state.data!;
-              return Row(
-                children: [
-                  AvatarWidget(user.avatarUrl, width: 60, height: 60),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(user.fullName),
-                      Text(
-                        user.email,
-                        style: context.textTheme.titleSmall
-                            ?.copyWith(fontWeight: FontWeight.w300),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: widget.onPressed,
-                    icon: const Icon(Icons.edit),
-                  )
-                ],
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: widget.onPressed,
+                child: Row(
+                  children: [
+                    AvatarWidget(user.avatarUrl, width: 60, height: 60),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(user.fullName),
+                        Text(
+                          user.email,
+                          style: context.textTheme.titleSmall
+                              ?.copyWith(fontWeight: FontWeight.w300),
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      onPressed: widget.onEditPressed,
+                      icon: const Icon(Icons.edit),
+                    )
+                  ],
+                ),
               );
             }
             return const _BodySkeleton();

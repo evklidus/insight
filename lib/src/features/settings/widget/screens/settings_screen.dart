@@ -52,8 +52,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 if (isAuthenticated)
                   // Profile
                   // Если профиль не заполнен - кнопка заполните профиль
+                  // TODO: Добавиьт заполнение профиля
                   ProfileWidget(
                     onPressed: () => context.goRelativeNamed('profile'),
+                    // TODO: Добавить редактирование профиля
+                    onEditPressed: () {},
                   ),
                 if (!isAuthenticated)
                   SettingRow(
