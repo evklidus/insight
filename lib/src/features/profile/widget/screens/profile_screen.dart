@@ -69,9 +69,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _save(String userId) {
     if (_isEditing) {
+      final name = _nameController.text.trim();
+      final lastName = _lastNameController.text.trim();
+
       final isEdited =
-          _nameController.text != _profileBloc.state.data!.firstName ||
-              _lastNameController.text != _profileBloc.state.data!.lastName ||
+          (name != _profileBloc.state.data!.firstName && name.isNotEmpty) ||
+              lastName != _profileBloc.state.data!.lastName ||
               _image != null;
 
       if (isEdited) {
@@ -79,8 +82,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ProfileEvent.edit(
             User$Edit(
               id: userId,
-              firstName: _nameController.text,
-              lastName: _lastNameController.text,
+              firstName:
+                  name.isNotEmpty ? name : _profileBloc.state.data!.firstName,
+              lastName: lastName,
               avatarPath: _image?.path,
             ),
           ),

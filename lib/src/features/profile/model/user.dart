@@ -1,3 +1,4 @@
+import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:meta/meta.dart';
 import 'package:rest_client/rest_client.dart';
 
@@ -5,11 +6,11 @@ import 'package:rest_client/rest_client.dart';
 final class User {
   const User({
     required this.id,
-    this.username,
     required this.email,
-    this.avatarUrl,
-    this.firstName,
+    required this.firstName,
     this.lastName,
+    this.avatarUrl,
+    this.username,
   });
 
   factory User.fromDTO(UserDTO dto) => User(
@@ -17,7 +18,7 @@ final class User {
         username: dto.username,
         email: dto.email,
         avatarUrl: dto.avatarUrl,
-        firstName: dto.firstName,
+        firstName: dto.firstName!,
         lastName: dto.lastName,
       );
 
@@ -34,13 +35,14 @@ final class User {
       );
 
   final String id;
-  final String? username;
   final String email;
-  final String? avatarUrl;
-  final String? firstName;
+  final String firstName;
   final String? lastName;
+  final String? avatarUrl;
+  final String? username;
 
-  String get fullName => '$firstName $lastName';
+  String get fullName =>
+      lastName.isNotNull ? '$firstName $lastName' : firstName;
 
   User copyWith({
     String? id,

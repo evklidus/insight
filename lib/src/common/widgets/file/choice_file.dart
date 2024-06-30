@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
+import 'package:insight/src/common/widgets/file/file_placeholder.dart';
 import 'package:insight/src/common/widgets/video_preview.dart';
 
 enum FileType {
@@ -12,9 +12,9 @@ enum FileType {
 
 class FileWidget extends StatelessWidget {
   const FileWidget({
+    super.key,
     required this.filePath,
     required this.type,
-    super.key,
   }) : imageRadius = null;
 
   const FileWidget.rounded({
@@ -57,50 +57,9 @@ class FileWidget extends StatelessWidget {
                       child: _childFromFileType(type),
                     ),
                   )
-            : _FilePlaceholder(
+            : FilePlaceholder(
                 type: type,
                 imageRadius: imageRadius,
               ),
       );
-}
-
-class _FilePlaceholder extends StatelessWidget {
-  const _FilePlaceholder({
-    required this.type,
-    required this.imageRadius,
-  });
-
-  final FileType type;
-  final double? imageRadius;
-
-  bool get _isRounded => imageRadius.isNotNull;
-
-  @override
-  Widget build(BuildContext context) => _isRounded
-      ? SizedBox.fromSize(
-          size: Size.fromRadius(imageRadius!),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: context.colorScheme.surfaceContainerLow,
-            ),
-            child: const Center(
-              child: Icon(Icons.photo),
-            ),
-          ),
-        )
-      : AspectRatio(
-          aspectRatio: 4 / 3,
-          child: DecoratedBox(
-            decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: context.colorScheme.outline),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            child: const Center(
-              child: Icon(Icons.photo),
-            ),
-          ),
-        );
 }

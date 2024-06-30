@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/adaptive_button.dart';
-import 'package:insight/src/common/widgets/choice_file.dart';
+import 'package:insight/src/common/widgets/file/choice_file.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 
 import 'package:insight/src/features/profile/model/user.dart';
@@ -32,49 +33,51 @@ class ProfileInformation extends StatefulWidget {
 }
 
 class _ProfileLoadedScreenState extends State<ProfileInformation> {
-  bool get _hasName => widget.user.firstName != null;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    widget.nameController.text = widget.user.firstName ?? '';
+    widget.nameController.text = widget.user.firstName;
     widget.lastNameController.text = widget.user.lastName ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+
     return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 30),
-          AnimatedCrossFade(
-            duration: standartDuration,
-            crossFadeState: widget.isEditing
-                ? CrossFadeState.showFirst
-                : CrossFadeState.showSecond,
-            firstChild: Column(
-              children: [
-                FileWidget.rounded(
-                  filePath: widget.image?.path,
-                  type: FileType.image,
-                ),
-                AdaptiveButton(
-                  onPressed: widget.addPhotoHandler,
-                  child: Text(
-                    widget.image == null
-                        ? AppStrings.addPhoto
-                        : AppStrings.changePhoto,
-                  ),
-                ),
-              ],
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 30),
+            AnimatedCrossFade(
+              duration: standartDuration,
+              crossFadeState:
+                  widget.user.avatarUrl.isNotNull && widget.image.isNull
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+              firstChild: AvatarWidget(
+                widget.user.avatarUrl,
+                size: Size.square(size.shortestSide * .64),
+              ),
+              secondChild: FileWidget.rounded(
+                filePath: widget.image?.path,
+                type: FileType.image,
+                imageRadius: size.shortestSide * .32,
+              ),
             ),
-            secondChild: AvatarWidget(
-              widget.user.avatarUrl,
-              size: const Size.square(200),
-            ),
-          ),
-          if (_hasName) ...[
+            if (widget.isEditing)
+              AdaptiveButton(
+                onPressed: widget.addPhotoHandler,
+                child: Text(
+                  widget.image.isNotNull || widget.user.avatarUrl.isNotNull
+                      ? AppStrings.changePhoto
+                      : AppStrings.addPhoto,
+                ),
+              ),
             const SizedBox(height: 20),
             AnimatedCrossFade(
               alignment: Alignment.center,
@@ -88,7 +91,7 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
                   children: [
                     CustomTextField(
                       controller: widget.nameController,
-                      hintText: 'Имя',
+                      hintText: 'Укажите имя',
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return AppStrings.pleaseEnterSomething;
@@ -99,7 +102,7 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
                     const SizedBox(height: 16),
                     CustomTextField(
                       controller: widget.lastNameController,
-                      hintText: 'Фамилия',
+                      hintText: 'Укажите фамилию',
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return AppStrings.pleaseEnterSomething;
@@ -110,21 +113,19 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
                   ],
                 ),
               ),
-              secondChild: Text(
-                '${widget.user.firstName} ${widget.user.lastName}',
+              secondChild: Text(widget.user.fullName),
+            ),
+            const SizedBox(height: 10),
+            AnimatedOpacity(
+              opacity: widget.isEditing ? .4 : 1,
+              duration: standartDuration,
+              child: Text(
+                widget.user.email,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
           ],
-          const SizedBox(height: 10),
-          AnimatedOpacity(
-            opacity: widget.isEditing ? .4 : 1,
-            duration: standartDuration,
-            child: Text(
-              widget.user.email,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

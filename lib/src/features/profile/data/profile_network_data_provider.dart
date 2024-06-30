@@ -8,7 +8,7 @@ import 'package:insight/src/features/profile/model/user.dart';
 import 'package:insight/src/features/profile/model/user_edit.dart';
 
 abstract interface class ProfileNetworkDataProvider {
-  Future<User> getUser();
+  Future<User?> getUser();
   Future<void> editUser(User$Edit user);
 }
 
@@ -37,10 +37,10 @@ final class ProfileFirestoreDataProviderImpl
   final FirebaseStorage _firebaseStorage;
 
   @override
-  Future<User> getUser() async {
+  Future<User?> getUser() async {
     final userId = _firebaseAuth.currentUser?.uid;
     final userDoc = await _firestore.collection('users').doc(userId).get();
-    return User.fromFirestore(userId!, userDoc.data());
+    return userDoc.exists ? User.fromFirestore(userId!, userDoc.data()) : null;
   }
 
   @override

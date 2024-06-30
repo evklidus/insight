@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 
 @immutable
 abstract interface class ProfileRepository {
-  Future<User> getUser();
+  Future<User?> getUser();
   Future<void> editUser(User$Edit user);
 }
 
@@ -18,7 +18,7 @@ final class ProfileRepositoryImpl implements ProfileRepository {
   final ProfileNetworkDataProvider _profileNetworkDataProvider;
 
   @override
-  Future<User> getUser() => _profileNetworkDataProvider.getUser();
+  Future<User?> getUser() => _profileNetworkDataProvider.getUser();
 
   @override
   Future<void> editUser(User$Edit user) =>

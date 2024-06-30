@@ -95,7 +95,10 @@ final class DIContainer {
     firebaseStorage = FirebaseStorage.instance;
 
     // Data Providers
-    authNetworkDataProvider = AuthFirebaseDataProviderImpl(firebaseAuth);
+    authNetworkDataProvider = AuthFirebaseDataProviderImpl(
+      firebaseAuth,
+      firebaseFirestore,
+    );
     authStorageDataProvider =
         AuthStorageDataProviderImpl(sharedPreferences: sharedPreferences);
     categoriesNetworkDataProvider = CategoriesFirestoreDataProviderImpl(
