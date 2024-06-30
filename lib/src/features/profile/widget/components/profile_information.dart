@@ -8,17 +8,24 @@ import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 
 import 'package:insight/src/features/profile/model/user.dart';
 import 'package:insight/src/features/profile/widget/components/avatar_widget.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class ProfileInformation extends StatefulWidget {
   const ProfileInformation({
     super.key,
     required this.user,
     required this.isEditing,
+    required this.image,
+    required this.addPhotoHandler,
+    required this.nameController,
+    required this.lastNameController,
   });
 
   final User user;
   final bool isEditing;
+  final XFile? image;
+  final VoidCallback addPhotoHandler;
+  final TextEditingController nameController;
+  final TextEditingController lastNameController;
 
   @override
   State<ProfileInformation> createState() => _ProfileLoadedScreenState();
@@ -27,39 +34,11 @@ class ProfileInformation extends StatefulWidget {
 class _ProfileLoadedScreenState extends State<ProfileInformation> {
   bool get _hasName => widget.user.firstName != null;
 
-  XFile? _image;
-
-  late final TextEditingController _nameController;
-  late final TextEditingController _lastNameController;
-
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.user.firstName);
-    _lastNameController = TextEditingController(text: widget.user.lastName);
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _lastNameController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _addPhotoHandler() async {
-    final status = await Permission.photos.status;
-    if (status.isDenied) {
-      await Permission.photos.request();
-      // TODO: Проверить не зацикливается ли
-      _addPhotoHandler();
-    } else if (status.isPermanentlyDenied) {
-      openAppSettings();
-    } else if (status.isGranted) {
-      final image = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-      );
-      setState(() => _image = image);
-    }
+    widget.nameController.text = widget.user.firstName ?? '';
+    widget.lastNameController.text = widget.user.lastName ?? '';
   }
 
   @override
@@ -77,13 +56,13 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
             firstChild: Column(
               children: [
                 FileWidget.rounded(
-                  filePath: _image?.path,
+                  filePath: widget.image?.path,
                   type: FileType.image,
                 ),
                 AdaptiveButton(
-                  onPressed: _addPhotoHandler,
+                  onPressed: widget.addPhotoHandler,
                   child: Text(
-                    _image == null
+                    widget.image == null
                         ? AppStrings.addPhoto
                         : AppStrings.changePhoto,
                   ),
@@ -108,7 +87,7 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
                 child: Column(
                   children: [
                     CustomTextField(
-                      controller: _nameController,
+                      controller: widget.nameController,
                       hintText: 'Имя',
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -119,7 +98,7 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
                     ),
                     const SizedBox(height: 16),
                     CustomTextField(
-                      controller: _lastNameController,
+                      controller: widget.lastNameController,
                       hintText: 'Фамилия',
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -137,9 +116,13 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
             ),
           ],
           const SizedBox(height: 10),
-          Text(
-            widget.user.email,
-            style: Theme.of(context).textTheme.bodySmall,
+          AnimatedOpacity(
+            opacity: widget.isEditing ? .4 : 1,
+            duration: standartDuration,
+            child: Text(
+              widget.user.email,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           ),
         ],
       ),

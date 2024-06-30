@@ -114,6 +114,7 @@ final class DIContainer {
     profileNetworkDataProvider = ProfileFirestoreDataProviderImpl(
       firestore: firebaseFirestore,
       firebaseAuth: firebaseAuth,
+      firebaseStorage: firebaseStorage,
     );
     themeDataSource = ThemeDataSourceLocal(
       codec: const ThemeModeCodec(),

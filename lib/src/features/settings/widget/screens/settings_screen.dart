@@ -55,8 +55,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   // TODO: Добавиьт заполнение профиля
                   ProfileWidget(
                     onPressed: () => context.goRelativeNamed('profile'),
-                    // TODO: Добавить редактирование профиля
-                    onEditPressed: () {},
+                    onEditPressed: () => context.goRelativeNamed(
+                      'profile',
+                      queryParams: {'isEditing': 'true'},
+                    ),
                   ),
                 if (!isAuthenticated)
                   SettingRow(

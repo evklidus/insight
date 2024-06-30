@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/shimmer.dart';
-import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/profile/bloc/profile_state.dart';
 import 'package:insight/src/features/profile/widget/components/avatar_widget.dart';
@@ -10,7 +9,7 @@ import 'package:insight/src/features/profile/widget/components/avatar_widget.dar
 /// {@template profile_widget}
 /// ProfileWidget widget.
 /// {@endtemplate}
-class ProfileWidget extends StatefulWidget {
+class ProfileWidget extends StatelessWidget {
   /// {@macro profile_widget}
   const ProfileWidget({
     super.key,
@@ -20,21 +19,6 @@ class ProfileWidget extends StatefulWidget {
 
   final VoidCallback onPressed;
   final VoidCallback onEditPressed;
-
-  @override
-  State<ProfileWidget> createState() => _ProfileWidgetState();
-}
-
-class _ProfileWidgetState extends State<ProfileWidget> {
-  late final ProfileBloc _profileBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _profileBloc =
-        ProfileBloc(repository: DIContainer.instance.profileRepository)
-          ..add(const ProfileEvent.fetch());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +33,12 @@ class _ProfileWidgetState extends State<ProfileWidget> {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: BlocBuilder<ProfileBloc, ProfileState>(
-        bloc: _profileBloc,
         builder: (context, state) {
           if (state.hasData) {
             final user = state.data!;
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: widget.onPressed,
+              onTap: onPressed,
               child: Row(
                 children: [
                   AvatarWidget(
@@ -76,7 +59,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                   ),
                   const Spacer(),
                   IconButton(
-                    onPressed: widget.onEditPressed,
+                    onPressed: onEditPressed,
                     icon: const Icon(Icons.edit),
                   )
                 ],

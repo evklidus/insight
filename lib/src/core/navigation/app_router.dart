@@ -112,7 +112,10 @@ class AppRouter {
                     name: 'profile',
                     path: 'profile',
                     parentNavigatorKey: _rootNavigatorKey,
-                    builder: (context, state) => const ProfileScreen(),
+                    builder: (context, state) => ProfileScreen(
+                      isEditing:
+                          state.uri.queryParameters['isEditing'] == 'true',
+                    ),
                   ),
                   GoRoute(
                     name: 'about',
