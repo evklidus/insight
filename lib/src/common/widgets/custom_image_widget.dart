@@ -20,6 +20,8 @@ class CustomImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
+      width: size?.width,
+      height: size?.height,
       imageUrl: imageUrl,
       fadeInDuration: const Duration(milliseconds: 250),
       fadeOutDuration: const Duration(milliseconds: 500),

@@ -4,11 +4,11 @@ import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/adaptive_button.dart';
+import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/common/widgets/file/choice_file.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 
 import 'package:insight/src/features/profile/model/user.dart';
-import 'package:insight/src/features/profile/widget/components/avatar_widget.dart';
 
 class ProfileInformation extends StatefulWidget {
   const ProfileInformation({
@@ -59,14 +59,15 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
                   widget.user.avatarUrl.isNotNull && widget.image.isNull
                       ? CrossFadeState.showFirst
                       : CrossFadeState.showSecond,
-              firstChild: AvatarWidget(
-                widget.user.avatarUrl,
+              firstChild: CustomImageWidget(
+                widget.user.avatarUrl!,
                 size: Size.square(size.shortestSide * .64),
+                shape: BoxShape.circle,
               ),
               secondChild: FileWidget.rounded(
                 filePath: widget.image?.path,
                 type: FileType.image,
-                imageRadius: size.shortestSide * .32,
+                sizeRadius: size.shortestSide * .32,
               ),
             ),
             if (widget.isEditing)

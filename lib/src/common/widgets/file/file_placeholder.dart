@@ -7,18 +7,24 @@ class FilePlaceholder extends StatelessWidget {
   const FilePlaceholder({
     super.key,
     required this.type,
-    required this.imageRadius,
-  });
+  })  : _isRounded = false,
+        _sizeRadius = null;
+
+  const FilePlaceholder.rounded({
+    super.key,
+    required this.type,
+    double? sizeRadius,
+  })  : _isRounded = true,
+        _sizeRadius = sizeRadius;
 
   final FileType type;
-  final double? imageRadius;
-
-  bool get _isRounded => imageRadius.isNotNull;
+  final bool _isRounded;
+  final double? _sizeRadius;
 
   @override
   Widget build(BuildContext context) => _isRounded
       ? SizedBox.fromSize(
-          size: Size.fromRadius(imageRadius!),
+          size: _sizeRadius.isNotNull ? Size.fromRadius(_sizeRadius!) : null,
           child: DecoratedBox(
             decoration: BoxDecoration(
               shape: BoxShape.circle,

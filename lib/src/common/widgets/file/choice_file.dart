@@ -15,21 +15,21 @@ class FileWidget extends StatelessWidget {
     super.key,
     required this.filePath,
     required this.type,
-  }) : imageRadius = null;
+  }) : sizeRadius = null;
 
   const FileWidget.rounded({
     required this.filePath,
     required this.type,
-    this.imageRadius = 100,
+    this.sizeRadius = 100,
     super.key,
   });
 
   final String? filePath;
   final FileType type;
 
-  final double? imageRadius;
+  final double? sizeRadius;
 
-  bool get _isRounded => imageRadius.isNotNull;
+  bool get _isRounded => sizeRadius.isNotNull;
 
   Widget _childFromFileType(FileType type) => switch (type) {
         FileType.image => Image.file(
@@ -46,7 +46,7 @@ class FileWidget extends StatelessWidget {
             ? _isRounded
                 ? ClipOval(
                     child: SizedBox.fromSize(
-                      size: Size.fromRadius(imageRadius!),
+                      size: Size.fromRadius(sizeRadius!),
                       child: _childFromFileType(type),
                     ),
                   )
@@ -57,9 +57,9 @@ class FileWidget extends StatelessWidget {
                       child: _childFromFileType(type),
                     ),
                   )
-            : FilePlaceholder(
+            : FilePlaceholder.rounded(
                 type: type,
-                imageRadius: imageRadius,
+                sizeRadius: sizeRadius,
               ),
       );
 }

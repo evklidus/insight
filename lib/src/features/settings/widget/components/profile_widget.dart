@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
+import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/common/widgets/file/choice_file.dart';
 import 'package:insight/src/common/widgets/file/file_placeholder.dart';
 import 'package:insight/src/common/widgets/shimmer.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/profile/bloc/profile_state.dart';
-import 'package:insight/src/features/profile/widget/components/avatar_widget.dart';
 
 /// {@template profile_widget}
 /// ProfileWidget widget.
@@ -49,18 +49,18 @@ class ProfileWidget extends StatelessWidget {
             child: Row(
               children: [
                 AnimatedCrossFade(
-                  alignment: Alignment.center,
                   duration: standartDuration,
                   crossFadeState: user.avatarUrl.isNotNull
                       ? CrossFadeState.showFirst
                       : CrossFadeState.showSecond,
-                  firstChild: AvatarWidget(
-                    user.avatarUrl,
+                  firstChild: CustomImageWidget(
+                    user.avatarUrl!,
                     size: Size.square(size.shortestSide * .15),
+                    shape: BoxShape.circle,
                   ),
-                  secondChild: FilePlaceholder(
+                  secondChild: FilePlaceholder.rounded(
                     type: FileType.image,
-                    imageRadius: size.shortestSide * .075,
+                    sizeRadius: size.shortestSide * .075,
                   ),
                 ),
                 const SizedBox(width: 12),
