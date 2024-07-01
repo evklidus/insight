@@ -7,6 +7,7 @@ import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/adaptive_button.dart';
 
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
+import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/settings/widget/components/profile_widget.dart';
 import 'package:insight/src/features/settings/widget/components/setting_row.dart';
 import 'package:insight/src/features/settings/widget/components/theme_change_widget.dart';
@@ -51,8 +52,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 if (isAuthenticated)
                   // Profile
-                  // Если профиль не заполнен - кнопка заполните профиль
-                  // TODO: Добавиьт заполнение профиля
                   ProfileWidget(
                     onPressed: () => context.goRelativeNamed('profile'),
                     onEditPressed: () => context.goRelativeNamed(
@@ -87,6 +86,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       AdaptiveButton(
                         onPressed: () {
                           _authBloc.add(const AuthEvent.logout());
+                          context.read<ProfileBloc>().add(
+                                const ProfileEvent.clear(),
+                              );
                           context.go('/login');
                         },
                         child: const Text(AppStrings.signOut),

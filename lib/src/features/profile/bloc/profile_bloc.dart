@@ -20,6 +20,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
       (event, emit) => switch (event) {
         _ProfileEvent$Fetch() => _fetch(emit),
         _ProfileEvent$Edit() => _edit(emit, event),
+        _ProfileEvent$Clear() => _clear(emit),
       },
     );
   }
@@ -75,4 +76,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
       emit(ProfileState.idle(data: state.data));
     }
   }
+
+  void _clear(Emitter<ProfileState> emit) =>
+      emit(const ProfileState.idle(data: null));
 }
