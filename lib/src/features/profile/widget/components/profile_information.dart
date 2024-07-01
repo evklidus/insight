@@ -53,68 +53,69 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 30),
-            AnimatedCrossFade(
+            AnimatedSwitcher(
               duration: standartDuration,
-              crossFadeState:
-                  widget.user.avatarUrl.isNotNull && widget.image.isNull
-                      ? CrossFadeState.showFirst
-                      : CrossFadeState.showSecond,
-              firstChild: CustomImageWidget(
-                widget.user.avatarUrl!,
-                size: Size.square(size.shortestSide * .64),
-                shape: BoxShape.circle,
-              ),
-              secondChild: FileWidget.rounded(
-                filePath: widget.image?.path,
-                type: FileType.image,
-                sizeRadius: size.shortestSide * .32,
-              ),
+              child: widget.user.avatarUrl.isNotNull && widget.image.isNull
+                  ? CustomImageWidget(
+                      widget.user.avatarUrl!,
+                      size: Size.square(size.shortestSide * .64),
+                      shape: BoxShape.circle,
+                    )
+                  : FileWidget.rounded(
+                      filePath: widget.image?.path,
+                      type: FileType.image,
+                      sizeRadius: size.shortestSide * .32,
+                    ),
             ),
-            if (widget.isEditing)
-              AdaptiveButton(
-                onPressed: widget.addPhotoHandler,
-                child: Text(
-                  widget.image.isNotNull || widget.user.avatarUrl.isNotNull
-                      ? AppStrings.changePhoto
-                      : AppStrings.addPhoto,
-                ),
-              ),
-            const SizedBox(height: 20),
-            AnimatedCrossFade(
-              alignment: Alignment.center,
+            AnimatedSwitcher(
               duration: standartDuration,
-              crossFadeState: widget.isEditing
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
-              firstChild: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    CustomTextField(
-                      controller: widget.nameController,
-                      hintText: 'Укажите имя',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppStrings.pleaseEnterSomething;
-                        }
-                        return null;
-                      },
+              child: widget.isEditing
+                  ? AdaptiveButton(
+                      onPressed: widget.addPhotoHandler,
+                      child: Text(
+                        widget.image.isNotNull ||
+                                widget.user.avatarUrl.isNotNull
+                            ? AppStrings.changePhoto
+                            : AppStrings.addPhoto,
+                      ),
+                    )
+                  : const SizedBox(height: 20),
+            ),
+            AnimatedSwitcher(
+              duration: standartDuration,
+              child: widget.isEditing
+                  ? Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          CustomTextField(
+                            controller: widget.nameController,
+                            hintText: 'Укажите имя',
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return AppStrings.pleaseEnterSomething;
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          CustomTextField(
+                            controller: widget.lastNameController,
+                            hintText: 'Укажите фамилию',
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return AppStrings.pleaseEnterSomething;
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
+                      ),
+                    )
+                  : Text(
+                      widget.user.fullName,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    const SizedBox(height: 16),
-                    CustomTextField(
-                      controller: widget.lastNameController,
-                      hintText: 'Укажите фамилию',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppStrings.pleaseEnterSomething;
-                        }
-                        return null;
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              secondChild: Text(widget.user.fullName),
             ),
             const SizedBox(height: 10),
             AnimatedOpacity(
