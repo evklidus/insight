@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/features/profile/model/user.dart';
 import 'package:insight/src/features/profile/model/user_edit.dart';
@@ -45,17 +46,30 @@ final class ProfileFirestoreDataProviderImpl
 
   @override
   Future<void> editUser(User$Edit user) async {
-    // Upload avatar
     String? avatarUrl;
 
     if (user.avatarPath.isNotNull) {
+      // Compress avatar
+      final splitterAvatarPath = user.avatarPath!.split('.');
+      splitterAvatarPath.insert(1, '_cpmpressed');
+      final compressedAvatarPath = splitterAvatarPath.join('.');
+
+      final compressedAvatar = await FlutterImageCompress.compressAndGetFile(
+        user.avatarPath!,
+        compressedAvatarPath,
+        quality: 80,
+      );
+
+      final avatar = File(compressedAvatar!.path);
+
+      // Upload avatar
       final uploadTask = await _firebaseStorage
           .ref()
           .child('images')
           .child('users')
           .child(user.id)
           .child('${user.id}_avatar')
-          .putFile(File(user.avatarPath!));
+          .putFile(avatar);
 
       avatarUrl = await uploadTask.ref.getDownloadURL();
     }

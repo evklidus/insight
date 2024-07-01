@@ -41,6 +41,7 @@ dependencies:
   stack_trace: ^1.11.0
   image_picker: ^1.0.7
   permission_handler: ^11.1.0
+  flutter_image_compress: ^2.3.0
 
   # UI
   flutter:
