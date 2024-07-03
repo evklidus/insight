@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
+import 'package:insight/src/common/utils/extensions/object_x.dart';
+import 'package:insight/src/common/widgets/custom_image_widget.dart';
+import 'package:insight/src/common/widgets/file/choice_file.dart';
+import 'package:insight/src/common/widgets/file/file_placeholder.dart';
 import 'package:insight/src/common/widgets/shimmer.dart';
-import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/profile/bloc/profile_state.dart';
-import 'package:insight/src/features/profile/widget/components/avatar_widget.dart';
 
 /// {@template profile_widget}
 /// ProfileWidget widget.
 /// {@endtemplate}
-class ProfileWidget extends StatefulWidget {
+class ProfileWidget extends StatelessWidget {
   /// {@macro profile_widget}
   const ProfileWidget({
     super.key,
@@ -22,65 +25,68 @@ class ProfileWidget extends StatefulWidget {
   final VoidCallback onEditPressed;
 
   @override
-  State<ProfileWidget> createState() => _ProfileWidgetState();
-}
+  Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
 
-class _ProfileWidgetState extends State<ProfileWidget> {
-  late final ProfileBloc _profileBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _profileBloc =
-        ProfileBloc(repository: DIContainer.instance.profileRepository)
-          ..add(const ProfileEvent.fetch());
-  }
-
-  @override
-  Widget build(BuildContext context) => Container(
-        decoration: ShapeDecoration(
-          color: context.colorScheme.surfaceContainerHigh,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
+    return Container(
+      decoration: ShapeDecoration(
+        color: context.colorScheme.surfaceContainerHigh,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: BlocBuilder<ProfileBloc, ProfileState>(
-          bloc: _profileBloc,
-          builder: (context, state) {
-            if (state.hasData) {
-              final user = state.data!;
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: widget.onPressed,
-                child: Row(
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) {
+          if (!state.hasData) {
+            return const _BodySkeleton();
+          }
+
+          final user = state.data!;
+          return GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onPressed,
+            child: Row(
+              children: [
+                AnimatedCrossFade(
+                  duration: standartDuration,
+                  crossFadeState: user.avatarUrl.isNotNull
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                  firstChild: CustomImageWidget(
+                    user.avatarUrl!,
+                    size: Size.square(size.shortestSide * .15),
+                    shape: BoxShape.circle,
+                  ),
+                  secondChild: FilePlaceholder.rounded(
+                    type: FileType.image,
+                    sizeRadius: size.shortestSide * .075,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AvatarWidget(user.avatarUrl, width: 60, height: 60),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(user.fullName),
-                        Text(
-                          user.email,
-                          style: context.textTheme.titleSmall
-                              ?.copyWith(fontWeight: FontWeight.w300),
-                        ),
-                      ],
+                    Text(user.fullName),
+                    Text(
+                      user.email,
+                      style: context.textTheme.titleSmall
+                          ?.copyWith(fontWeight: FontWeight.w300),
                     ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: widget.onEditPressed,
-                      icon: const Icon(Icons.edit),
-                    )
                   ],
                 ),
-              );
-            }
-            return const _BodySkeleton();
-          },
-        ),
-      );
+                const Spacer(),
+                IconButton(
+                  onPressed: onEditPressed,
+                  icon: const Icon(Icons.edit),
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
 
 class _BodySkeleton extends StatelessWidget {

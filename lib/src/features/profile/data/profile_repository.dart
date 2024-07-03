@@ -1,10 +1,12 @@
 import 'package:insight/src/features/profile/data/profile_network_data_provider.dart';
 import 'package:insight/src/features/profile/model/user.dart';
+import 'package:insight/src/features/profile/model/user_edit.dart';
 import 'package:meta/meta.dart';
 
 @immutable
 abstract interface class ProfileRepository {
-  Future<User> getUser();
+  Future<User?> getUser();
+  Future<void> editUser(User$Edit user);
 }
 
 @immutable
@@ -16,5 +18,9 @@ final class ProfileRepositoryImpl implements ProfileRepository {
   final ProfileNetworkDataProvider _profileNetworkDataProvider;
 
   @override
-  Future<User> getUser() => _profileNetworkDataProvider.getUser();
+  Future<User?> getUser() => _profileNetworkDataProvider.getUser();
+
+  @override
+  Future<void> editUser(User$Edit user) =>
+      _profileNetworkDataProvider.editUser(user);
 }

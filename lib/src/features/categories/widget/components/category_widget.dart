@@ -26,7 +26,7 @@ class CategoryWidget extends StatelessWidget {
         children: [
           CustomImageWidget(
             category.imageUrl,
-            height: double.infinity,
+            // size: double.infinity,
             borderRadius: BorderRadius.circular(20),
           ),
           Container(

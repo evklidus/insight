@@ -1,4 +1,5 @@
 import 'package:auth_client/auth_client.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:insight/src/features/auth/model/token.dart';
 
@@ -40,20 +41,31 @@ final class AuthNetworkDataProviderImpl implements AuthNetworkDataProvider {
 }
 
 final class AuthFirebaseDataProviderImpl implements AuthNetworkDataProvider {
-  const AuthFirebaseDataProviderImpl(FirebaseAuth firebaseAuth)
-      : _firebaseAuth = firebaseAuth;
+  const AuthFirebaseDataProviderImpl(
+      FirebaseAuth firebaseAuth, FirebaseFirestore firestore)
+      : _firebaseAuth = firebaseAuth,
+        _firestore = firestore;
 
   final FirebaseAuth _firebaseAuth;
+  final FirebaseFirestore _firestore;
 
   @override
   Future<void> register(
     String email,
     String password,
-  ) =>
-      _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+  ) async {
+    final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    // Set email into user data
+    await _firestore.collection('users').doc(userCredential.user!.uid).set({
+      'email': email,
+      'first_name': email.split('@')[0],
+    });
+  }
+
   // TODO: Вынестив в отдельный провайдер ИЛИ репо + рефреш токена
   @override
   Future<Token> login(

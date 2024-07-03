@@ -5,16 +5,14 @@ class CustomImageWidget extends StatelessWidget {
   const CustomImageWidget(
     this.imageUrl, {
     super.key,
-    this.width,
-    this.height,
+    this.size,
     this.borderRadius,
     this.shape = BoxShape.rectangle,
     this.fit = BoxFit.cover,
   });
 
   final String imageUrl;
-  final double? width;
-  final double? height;
+  final Size? size;
   final BorderRadius? borderRadius;
   final BoxShape shape;
   final BoxFit fit;
@@ -22,12 +20,12 @@ class CustomImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
+      width: size?.width,
+      height: size?.height,
       imageUrl: imageUrl,
-      fadeInDuration: const Duration(milliseconds: 250),
-      fadeOutDuration: const Duration(milliseconds: 500),
       imageBuilder: (context, imageProvider) => Container(
-        width: width,
-        height: height,
+        width: size?.width,
+        height: size?.height,
         decoration: BoxDecoration(
           borderRadius: borderRadius,
           shape: shape,

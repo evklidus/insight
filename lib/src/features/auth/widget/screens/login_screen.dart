@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
@@ -37,6 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, state) => state.mapOrNull(
         successful: (state) {
           context.go('/categories');
+          context.read<ProfileBloc>().add(
+                const ProfileEvent.fetch(),
+              );
           InsightSnackBar.showSuccessful(context, text: state.message);
         },
         error: (state) =>

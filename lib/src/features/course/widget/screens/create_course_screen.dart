@@ -9,7 +9,7 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/adaptive_button.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
-import 'package:insight/src/common/widgets/choice_file.dart';
+import 'package:insight/src/common/widgets/file/choice_file.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 import 'package:insight/src/common/widgets/whole_screen_loading_indicator.dart';

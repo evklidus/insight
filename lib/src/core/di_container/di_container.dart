@@ -95,7 +95,10 @@ final class DIContainer {
     firebaseStorage = FirebaseStorage.instance;
 
     // Data Providers
-    authNetworkDataProvider = AuthFirebaseDataProviderImpl(firebaseAuth);
+    authNetworkDataProvider = AuthFirebaseDataProviderImpl(
+      firebaseAuth,
+      firebaseFirestore,
+    );
     authStorageDataProvider =
         AuthStorageDataProviderImpl(sharedPreferences: sharedPreferences);
     categoriesNetworkDataProvider = CategoriesFirestoreDataProviderImpl(
@@ -114,6 +117,7 @@ final class DIContainer {
     profileNetworkDataProvider = ProfileFirestoreDataProviderImpl(
       firestore: firebaseFirestore,
       firebaseAuth: firebaseAuth,
+      firebaseStorage: firebaseStorage,
     );
     themeDataSource = ThemeDataSourceLocal(
       codec: const ThemeModeCodec(),

@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight_snackbar/common/platform_helpers.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar(this.navigationShell, {super.key});
@@ -12,10 +11,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return Platform.isIOS
-        ? CupertinoTabScaffold(
-            key: ValueKey(navigationShell.currentIndex),
-            tabBar: CupertinoTabBar(
+    return Scaffold(
+      body: navigationShell,
+      bottomNavigationBar: isNeedCupertino
+          ? CupertinoTabBar(
               currentIndex: navigationShell.currentIndex,
               onTap: (tappedIndex) => navigationShell.goBranch(tappedIndex),
               items: const [
@@ -30,14 +29,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   label: AppStrings.settings,
                 ),
               ],
-            ),
-            tabBuilder: (BuildContext context, int index) => CupertinoTabView(
-              builder: (BuildContext context) => navigationShell,
-            ),
-          )
-        : Scaffold(
-            body: navigationShell,
-            bottomNavigationBar: NavigationBar(
+            )
+          : NavigationBar(
               onDestinationSelected: (tappedIndex) =>
                   navigationShell.goBranch(tappedIndex),
               selectedIndex: navigationShell.currentIndex,
@@ -54,6 +47,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 )
               ],
             ),
-          );
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/features/settings/widget/settings_scope.dart';
 
@@ -56,7 +57,8 @@ class _ThemeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: onPressed,
-        child: Container(
+        child: AnimatedContainer(
+          duration: standartDuration,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
             border: Border.all(
