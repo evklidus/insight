@@ -23,8 +23,6 @@ class CustomImageWidget extends StatelessWidget {
       width: size?.width,
       height: size?.height,
       imageUrl: imageUrl,
-      fadeInDuration: const Duration(milliseconds: 250),
-      fadeOutDuration: const Duration(milliseconds: 500),
       imageBuilder: (context, imageProvider) => Container(
         width: size?.width,
         height: size?.height,
