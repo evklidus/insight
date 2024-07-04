@@ -1,21 +1,22 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/src/features/course/data/course_network_data_provider.dart';
+import 'package:insight/src/features/course/model/course.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:rest_client/rest_client.dart';
 
 import 'course_remote_data_source_test.mocks.dart';
 
-class CourseDTOFake extends Fake implements CourseDTO {}
+class CourseFake extends Fake implements Course {}
 
-@GenerateMocks([RestClient])
+@GenerateMocks([Dio])
 void main() {
   late final CourseNetworkDataProviderImpl coursesNetworkDataProvider;
   final MockRestClient mockRestClient = MockRestClient();
   final courses = [
-    CourseDTOFake(),
-    CourseDTOFake(),
-    CourseDTOFake(),
+    CourseFake(),
+    CourseFake(),
+    CourseFake(),
   ];
   const categoryTag = 'sport';
 

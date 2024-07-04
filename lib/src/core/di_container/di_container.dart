@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
+import 'package:insight/src/common/utils/interceptors/auth_interceptor.dart';
 import 'package:insight/src/features/auth/data/auth_network_data_provider.dart';
-import 'package:auth_client/auth_client.dart';
 import 'package:dio/dio.dart';
 import 'package:insight/src/features/auth/data/auth_repository.dart';
 import 'package:insight/src/features/auth/data/auth_storage_data_provider.dart';
@@ -21,7 +22,6 @@ import 'package:insight/src/features/settings/data/theme_datasource.dart';
 import 'package:insight/src/features/settings/data/theme_mode_codec.dart';
 import 'package:insight/src/features/settings/data/theme_repository.dart';
 import 'package:insight/src/features/app/model/app_theme.dart';
-import 'package:rest_client/rest_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final class DIContainer {
@@ -35,8 +35,8 @@ final class DIContainer {
   late final SharedPreferences sharedPreferences;
 
   // Network
-  late final AuthClient authClient;
-  late final RestClient restClient;
+  late final Dio authClient;
+  late final Dio restClient;
 
   // Firebase
   late final FirebaseAuth firebaseAuth;
@@ -67,7 +67,7 @@ final class DIContainer {
     sharedPreferences = await SharedPreferences.getInstance();
 
     // Network
-    authClient = AuthClient(Dio());
+    authClient = Dio(BaseOptions(baseUrl: kBaseUrl));
 
     // Возможно странноватое решение, но рабочее
     final isAuthenticatedController = StreamController<bool>();
@@ -78,16 +78,18 @@ final class DIContainer {
       ),
     );
 
-    final dioForRestClient = Dio()
+    restClient = Dio(BaseOptions(baseUrl: kBaseUrl))
       ..interceptors.add(
         AuthInterceptor(
           getTokenFromDB: () async =>
               sharedPreferences.getString('auth.accessToken'),
-          signOut: () => isAuthenticatedController.add(false),
+          refreshToken: () {
+            sharedPreferences.remove('auth.accessToken');
+            firebaseAuth.signOut();
+            isAuthenticatedController.add(false);
+          },
         ),
       );
-
-    restClient = RestClient(dioForRestClient);
 
     // Firebase
     firebaseAuth = FirebaseAuth.instance;

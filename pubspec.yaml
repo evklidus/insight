@@ -10,10 +10,6 @@ environment:
 
 dependencies:
   # Network
-  auth_client:
-    path: packages/auth_client
-  rest_client:
-    path: packages/rest_client
   dio: ^5.1.1
 
   # Navigation

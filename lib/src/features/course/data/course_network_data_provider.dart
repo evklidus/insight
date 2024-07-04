@@ -1,10 +1,10 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:insight/src/features/course/model/course.dart';
 import 'package:meta/meta.dart';
-import 'package:rest_client/rest_client.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 @immutable
@@ -23,16 +23,15 @@ abstract interface class CourseNetworkDataProvider {
 
 @immutable
 final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
-  const CourseNetworkDataProviderImpl(RestClient client) : _client = client;
-// ignore: unused_field
-  final RestClient _client;
+  const CourseNetworkDataProviderImpl(Dio client) : _client = client;
+
+  final Dio _client;
 
   @override
-  Future<List<Course>> getCourse(String categoryTag) =>
-      throw UnimplementedError();
-  // _client
-  //     .getCoursesByCategoryTag(categoryTag)
-  //     .then((list) => list.map(Course.fromDTO).toList());
+  Future<List<Course>> getCourse(String categoryTag) async {
+    final response = await _client.get('/course/$categoryTag');
+    return (response.data as List<Map>).map(Course.fromJson).toList();
+  }
 
   @override
   Future<void> createCourse({
@@ -41,11 +40,30 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
     required String imagePath,
     required String categoryTag,
   }) =>
-      throw UnimplementedError();
+      _client.post(
+        '/course',
+        data: {
+          'name': name,
+          'description': description,
+          'imagePath': imagePath,
+          'tag': categoryTag,
+        },
+      );
 
   @override
-  Future<List<({String categoryName, String categoryTag})>> getCategoryTags() =>
-      throw UnimplementedError();
+  Future<List<({String categoryName, String categoryTag})>>
+      getCategoryTags() async {
+    final response = await _client.get('/category_tags');
+    // TODO: Потом получать названия из локальной функции
+    return (response.data as List<Map>)
+        .map(
+          (json) => (
+            categoryName: json['name'] as String,
+            categoryTag: json['tag'] as String,
+          ),
+        )
+        .toList();
+  }
 }
 
 @immutable

@@ -1,19 +1,20 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/src/features/course_page/data/course_page_network_data_provider.dart';
+import 'package:insight/src/features/course_page/model/course_page.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:rest_client/rest_client.dart';
 
 import 'course_page_remote_data_source_test.mocks.dart';
 
-class CoursePageDTOFake extends Fake implements CoursePageDTO {}
+class CoursePageFake extends Fake implements CoursePage {}
 
-@GenerateMocks([RestClient])
+@GenerateMocks([Dio])
 void main() {
   late final CoursePageNetworkDataProviderImpl
       coursePageNetworkDataProviderImpl;
   final MockRestClient mockRestClient = MockRestClient();
-  final coursePage = CoursePageDTOFake();
+  final coursePage = CoursePageFake();
   const coursePageId = '1';
 
   setUpAll(() {

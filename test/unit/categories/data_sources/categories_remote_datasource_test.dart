@@ -1,21 +1,22 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insight/src/features/categories/data/categories_network_data_provider.dart';
+import 'package:insight/src/features/categories/model/category.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:rest_client/rest_client.dart';
 
 import 'categories_remote_datasource_test.mocks.dart';
 
-class CategoryDTOFake extends Fake implements CategoryDTO {}
+class CategoryFake extends Fake implements Category {}
 
-@GenerateMocks([RestClient])
+@GenerateMocks([Dio])
 void main() {
   late final CategoriesNetworkDataProviderImpl categoriesNetworkDataProvider;
-  final MockRestClient mockRestClient = MockRestClient();
+  final mockRestClient = MockDio();
   final categories = [
-    CategoryDTOFake(),
-    CategoryDTOFake(),
-    CategoryDTOFake(),
+    CategoryFake(),
+    CategoryFake(),
+    CategoryFake(),
   ];
 
   setUpAll(() {

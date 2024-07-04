@@ -1,10 +1,9 @@
 import 'package:insight/src/features/course/model/course.dart';
 import 'package:insight/src/features/course_page/model/lesson.dart';
 import 'package:meta/meta.dart';
-import 'package:rest_client/rest_client.dart';
 
 @immutable
-final class CoursePage extends Course {
+class CoursePage extends Course {
   const CoursePage({
     required super.id,
     required super.name,
@@ -15,15 +14,15 @@ final class CoursePage extends Course {
     required super.isItsOwn,
   });
 
-  factory CoursePage.fromDTO(CoursePageDTO dto, String userId) =>
-      throw UnimplementedError();
-  // CoursePage(
-  //   id: dto.id.toString(),
-  //   name: dto.name,
-  //   description: dto.description,
-  //   imageUrl: dto.imageUrl,
-  //   lessons: dto.lessons?.map(Lesson.fromDTO).toList(),
-  // )
+  factory CoursePage.fromJson(Map json) => CoursePage(
+        id: json['id'],
+        name: json['name'],
+        description: json['description'],
+        imageUrl: json['image_url'],
+        lessons: (json['lessons'] as List<Map>).map(Lesson.fromJson).toList(),
+        tag: json['tag'],
+        isItsOwn: json['is_its_own'],
+      );
 
   factory CoursePage.fromFirestore(
     String id,
