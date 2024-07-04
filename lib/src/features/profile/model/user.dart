@@ -1,6 +1,5 @@
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:meta/meta.dart';
-import 'package:rest_client/rest_client.dart';
 
 @immutable
 final class User {
@@ -13,13 +12,13 @@ final class User {
     this.username,
   });
 
-  factory User.fromDTO(UserDTO dto) => User(
-        id: dto.id!,
-        username: dto.username,
-        email: dto.email,
-        avatarUrl: dto.avatarUrl,
-        firstName: dto.firstName!,
-        lastName: dto.lastName,
+  factory User.fromJson(Map json) => User(
+        id: json['id'],
+        username: json['username'],
+        email: json['email'],
+        avatarUrl: json['avatar_url'],
+        firstName: json['first_name'],
+        lastName: json['last_name'],
       );
 
   factory User.fromFirestore(

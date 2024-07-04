@@ -3,17 +3,13 @@ description: Future learning platform
 
 publish_to: "none"
 
-version: 2.1.1+1
+version: 2.1.2+1
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   # Network
-  auth_client:
-    path: packages/auth_client
-  rest_client:
-    path: packages/rest_client
   dio: ^5.1.1
 
   # Navigation

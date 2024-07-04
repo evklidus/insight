@@ -4,7 +4,7 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
-import 'package:insight/src/constants/pubspec.yaml.g.dart';
+import 'package:insight/gen/pubspec.yaml.g.dart';
 
 /// {@template app_about_screen}
 /// AppAboutScreen widget.

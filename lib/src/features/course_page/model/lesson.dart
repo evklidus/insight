@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:rest_client/rest_client.dart';
 
 @immutable
 final class Lesson {
@@ -8,9 +7,9 @@ final class Lesson {
     required this.videoUrl,
   });
 
-  factory Lesson.fromDTO(LessonDTO dto) => Lesson(
-        name: dto.name,
-        videoUrl: dto.videoUrl,
+  factory Lesson.fromJson(Map json) => Lesson(
+        name: json['name'],
+        videoUrl: json['video_url'],
       );
 
   final String name;

@@ -1,5 +1,5 @@
-import 'package:auth_client/auth_client.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:insight/src/features/auth/model/token.dart';
 
@@ -18,26 +18,38 @@ abstract interface class AuthNetworkDataProvider {
 }
 
 final class AuthNetworkDataProviderImpl implements AuthNetworkDataProvider {
-  AuthNetworkDataProviderImpl(AuthClient authClient) : _authClient = authClient;
+  AuthNetworkDataProviderImpl(Dio authClient) : _authClient = authClient;
 
-  final AuthClient _authClient;
+  final Dio _authClient;
 
   @override
   Future<void> register(
     String email,
     String password,
   ) =>
-      _authClient.register(email, password);
+      _authClient.post(
+        '/register',
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
 
   @override
   Future<Token> login(
     String email,
     String password,
   ) =>
-      _authClient.login(email, password).then(Token.fromDTO);
+      _authClient.post(
+        '/login',
+        data: {
+          'email': email,
+          'password': password,
+        },
+      ).then((r) => Token.fromJson(r.data));
 
   @override
-  Future<void> logout() async {}
+  Future<void> logout() => _authClient.post('/logout');
 }
 
 final class AuthFirebaseDataProviderImpl implements AuthNetworkDataProvider {
@@ -80,7 +92,7 @@ final class AuthFirebaseDataProviderImpl implements AuthNetworkDataProvider {
     // Получаем токен
     final idToken = await userCredential.user!.getIdToken();
     final refreshToken = userCredential.user!.refreshToken;
-    return Token(accessToken: idToken!, refreshToken: refreshToken);
+    return Token(accessToken: idToken!, refreshToken: refreshToken!);
   }
 
   @override

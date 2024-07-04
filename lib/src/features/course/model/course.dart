@@ -1,5 +1,3 @@
-import 'package:rest_client/rest_client.dart';
-
 class Course {
   const Course({
     required this.id,
@@ -9,12 +7,12 @@ class Course {
     required this.isItsOwn,
   });
 
-  factory Course.fromDTO(CourseDTO dto, String userId) => Course(
-        id: dto.id.toString(),
-        name: dto.name,
-        imageUrl: dto.imageUrl,
-        tag: dto.tag,
-        isItsOwn: userId == dto.ownerId,
+  factory Course.fromJson(Map json) => Course(
+        id: json['id'],
+        name: json['name'],
+        imageUrl: json['image_url'],
+        tag: json['tag'],
+        isItsOwn: json['is_its_own'],
       );
 
   factory Course.fromFirestore(

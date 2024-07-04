@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
 import 'package:insight/src/features/course_page/model/lesson.dart';
-import 'package:rest_client/rest_client.dart';
 
 abstract interface class CoursePageNetworkDataProvider {
   Future<CoursePage> getCoursePage(String id);
@@ -30,20 +30,21 @@ abstract interface class CoursePageNetworkDataProvider {
 
 final class CoursePageNetworkDataProviderImpl
     implements CoursePageNetworkDataProvider {
-  const CoursePageNetworkDataProviderImpl(RestClient client) : _client = client;
-// ignore: unused_field
-  final RestClient _client;
+  const CoursePageNetworkDataProviderImpl(Dio client) : _client = client;
+  final Dio _client;
 
   @override
-  Future<CoursePage> getCoursePage(String id) => throw UnimplementedError();
-  // _client.getCoursePage(id).then(CoursePage.fromDTO);
+  Future<CoursePage> getCoursePage(String id) async {
+    final response = await _client.get('/course_pages/$id');
+    return CoursePage.fromJson(response.data);
+  }
 
   @override
   Future<void> deleteCourse({
     required String courseId,
     required String imageUrl,
   }) =>
-      throw UnimplementedError();
+      _client.delete('/course_pages/$courseId');
 
   @override
   Future<void> addLesson({
@@ -51,15 +52,21 @@ final class CoursePageNetworkDataProviderImpl
     required String lessonName,
     required String videoPath,
   }) =>
-      throw UnimplementedError();
+      _client.post(
+        '/lessons',
+        data: {
+          'courseId': courseId,
+          'name': lessonName,
+          'videoPath': videoPath,
+        },
+      );
 
   @override
   Future<void> removeLesson({
     required String courseId,
     required Lesson lesson,
-  }) {
-    throw UnimplementedError();
-  }
+  }) => // TODO: Заменить на lesson id
+      _client.delete('/lessons/$courseId');
 }
 
 final class CoursePageFirestoreDataProviderImpl

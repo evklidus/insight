@@ -1,5 +1,5 @@
+import 'package:dio/dio.dart';
 import 'package:insight/src/features/categories/model/category.dart';
-import 'package:rest_client/rest_client.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract interface class CategoriesNetworkDataProvider {
@@ -8,14 +8,15 @@ abstract interface class CategoriesNetworkDataProvider {
 
 final class CategoriesNetworkDataProviderImpl
     implements CategoriesNetworkDataProvider {
-  const CategoriesNetworkDataProviderImpl(RestClient client) : _client = client;
+  const CategoriesNetworkDataProviderImpl(Dio client) : _client = client;
 
-  final RestClient _client;
+  final Dio _client;
 
   @override
-  Future<List<Category>> getCategories() => _client
-      .getCategories()
-      .then((list) => list.map(Category.fromDTO).toList());
+  Future<List<Category>> getCategories() async {
+    final response = await _client.get('/categories');
+    return (response.data as List<Map>).map(Category.fromJson).toList();
+  }
 }
 
 final class CategoriesFirestoreDataProviderImpl

@@ -6,11 +6,11 @@ import 'dart:ui';
 class AuthInterceptor extends Interceptor {
   AuthInterceptor({
     required this.getTokenFromDB,
-    required this.signOut,
+    required this.refreshToken,
   });
 
   final Future<String?> Function() getTokenFromDB;
-  final VoidCallback signOut;
+  final VoidCallback refreshToken;
 
   @override
   void onRequest(options, handler) async {
@@ -25,9 +25,7 @@ class AuthInterceptor extends Interceptor {
   @override
   void onError(err, handler) {
     if (err.response?.statusCode == 401) {
-      // TODO: Добавить рефреш токена
-      // Если и рефреш протух - тогда signOut()
-      signOut();
+      refreshToken();
     } else {
       super.onError(err, handler);
     }
