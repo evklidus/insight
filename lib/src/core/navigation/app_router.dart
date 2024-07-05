@@ -19,30 +19,8 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 class AppRouter {
   final router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/categories',
+    initialLocation: '/',
     routes: [
-      GoRoute(
-        path: '/login',
-        pageBuilder: (context, state) => CustomTransitionPage<void>(
-          key: state.pageKey,
-          child: const LoginScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              FadeTransition(opacity: animation, child: child),
-          transitionDuration: _defaultFadeTransitionDuration,
-          reverseTransitionDuration: _defaultFadeTransitionDuration,
-        ),
-      ),
-      GoRoute(
-        path: '/register',
-        pageBuilder: (context, state) => CustomTransitionPage<void>(
-          key: state.pageKey,
-          child: const RegisterScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              FadeTransition(opacity: animation, child: child),
-          transitionDuration: _defaultFadeTransitionDuration,
-          reverseTransitionDuration: _defaultFadeTransitionDuration,
-        ),
-      ),
       StatefulShellRoute.indexedStack(
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state, navigationShell) =>
@@ -52,7 +30,7 @@ class AppRouter {
             routes: [
               // Категории
               GoRoute(
-                path: '/categories',
+                path: '/',
                 builder: (context, state) => const CategoriesScreen(),
                 routes: [
                   // Курсы определенной категории
@@ -108,6 +86,34 @@ class AppRouter {
                 path: '/settings',
                 builder: (context, state) => const SettingsScreen(),
                 routes: [
+                  GoRoute(
+                    name: 'login',
+                    path: 'login',
+                    parentNavigatorKey: _rootNavigatorKey,
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const LoginScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                              FadeTransition(opacity: animation, child: child),
+                      transitionDuration: _defaultFadeTransitionDuration,
+                      reverseTransitionDuration: _defaultFadeTransitionDuration,
+                    ),
+                  ),
+                  GoRoute(
+                    name: 'register',
+                    path: 'register',
+                    parentNavigatorKey: _rootNavigatorKey,
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const RegisterScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                              FadeTransition(opacity: animation, child: child),
+                      transitionDuration: _defaultFadeTransitionDuration,
+                      reverseTransitionDuration: _defaultFadeTransitionDuration,
+                    ),
+                  ),
                   GoRoute(
                     name: 'profile',
                     path: 'profile',

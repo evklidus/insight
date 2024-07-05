@@ -18,7 +18,7 @@ class AppAboutScreen extends StatelessWidget {
     final imageHeight = MediaQuery.sizeOf(context).height / 4;
 
     return Scaffold(
-      appBar: const CustomAppBar('О приложении'),
+      appBar: const CustomAppBar(leadingText: 'О приложении'),
       body: Center(
         child: Column(
           children: [
