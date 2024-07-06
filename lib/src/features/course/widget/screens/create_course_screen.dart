@@ -117,7 +117,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
           return WholeScreenLoadingIndicator(
             isLoading: state.isProcessing,
             child: Scaffold(
-              appBar: const CustomAppBar(AppStrings.courseCreation),
+              appBar:
+                  const CustomAppBar(leadingText: AppStrings.courseCreation),
               body: Form(
                 key: _formKey,
                 child: ListView(

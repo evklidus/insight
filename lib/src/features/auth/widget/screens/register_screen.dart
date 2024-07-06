@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
+import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
@@ -36,13 +37,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) => state.mapOrNull(
         successful: (state) {
-          context.go('/login');
+          context.goRelativeNamed('login');
           InsightSnackBar.showSuccessful(context, text: state.message);
         },
         error: (state) =>
             InsightSnackBar.showError(context, text: state.message),
       ),
       child: Scaffold(
+        appBar: const CustomAppBar(),
         body: Form(
           key: formKey,
           child: Column(
@@ -103,7 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ChangeAuthTypeButton(
                     title: AppStrings.haveAnAccount,
                     subTitle: AppStrings.signIn,
-                    onPressed: () => context.go('/login'),
+                    onPressed: () => context.goRelativeNamed('login'),
                   ),
                 ],
               ),

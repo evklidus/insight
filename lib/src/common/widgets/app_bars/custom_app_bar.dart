@@ -6,9 +6,9 @@ import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar(
-    this.leadingText, {
+  const CustomAppBar({
     super.key,
+    this.leadingText,
     this.onTap,
     this.action,
   });

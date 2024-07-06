@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
+import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 
@@ -37,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) => state.mapOrNull(
         successful: (state) {
-          context.go('/categories');
+          context.go('/');
           context.read<ProfileBloc>().add(
                 const ProfileEvent.fetch(),
               );
@@ -47,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
             InsightSnackBar.showError(context, text: state.message),
       ),
       child: Scaffold(
+        appBar: const CustomAppBar(),
         body: Form(
           key: formKey,
           child: Column(
@@ -102,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ChangeAuthTypeButton(
                 title: AppStrings.dontHaveAnAccount,
                 subTitle: AppStrings.register,
-                onPressed: () => context.go('/register'),
+                onPressed: () => context.goRelativeNamed('register'),
               ),
             ],
           ),

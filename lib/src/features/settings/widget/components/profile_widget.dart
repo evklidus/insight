@@ -48,20 +48,18 @@ class ProfileWidget extends StatelessWidget {
             onTap: onPressed,
             child: Row(
               children: [
-                AnimatedCrossFade(
+                AnimatedSwitcher(
                   duration: standartDuration,
-                  crossFadeState: user.avatarUrl.isNotNull
-                      ? CrossFadeState.showFirst
-                      : CrossFadeState.showSecond,
-                  firstChild: CustomImageWidget(
-                    user.avatarUrl!,
-                    size: Size.square(size.shortestSide * .15),
-                    shape: BoxShape.circle,
-                  ),
-                  secondChild: FilePlaceholder.rounded(
-                    type: FileType.image,
-                    sizeRadius: size.shortestSide * .075,
-                  ),
+                  child: user.avatarUrl.isNotNull
+                      ? CustomImageWidget(
+                          user.avatarUrl!,
+                          size: Size.square(size.shortestSide * .15),
+                          shape: BoxShape.circle,
+                        )
+                      : FilePlaceholder.rounded(
+                          type: FileType.image,
+                          sizeRadius: size.shortestSide * .075,
+                        ),
                 ),
                 const SizedBox(width: 12),
                 Column(

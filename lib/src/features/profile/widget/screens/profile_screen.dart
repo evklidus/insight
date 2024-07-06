@@ -109,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (context, state) {
         return Scaffold(
           appBar: CustomAppBar(
-            AppStrings.profile,
+            leadingText: AppStrings.profile,
             action: GestureDetector(
               onTap: _profileBloc.state.data.isNotNull
                   ? () => _save(_profileBloc.state.data!.id)

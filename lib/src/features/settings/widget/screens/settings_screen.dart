@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/current_flavor.dart';
@@ -67,7 +66,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Icons.login_rounded,
                             color: Theme.of(context).colorScheme.primary,
                           ),
-                          onTap: () => context.go('/login'),
+                          onTap: () => context.goRelativeNamed('login'),
                         ),
                 ),
                 const SizedBox(height: 20),
@@ -91,7 +90,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           context.read<ProfileBloc>().add(
                                 const ProfileEvent.clear(),
                               );
-                          context.go('/login');
                         },
                         child: const Text(AppStrings.signOut),
                       ),
