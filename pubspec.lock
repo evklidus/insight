@@ -773,10 +773,10 @@ packages:
     dependency: "direct main"
     description:
       name: insight_snackbar
-      sha256: "3a03fce3984faece0e66fae8c18329fed166e4a1e69638c78a6413e0b7a81980"
+      sha256: "30e7c40c6a62ac39a480ecc21d886f09c9fe8df5e999a69d8b38c22ba26948f5"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "2.0.0"
   integration_test:
     dependency: "direct dev"
     description: flutter

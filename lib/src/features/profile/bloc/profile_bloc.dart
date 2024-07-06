@@ -54,20 +54,28 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
     Emitter<ProfileState> emit,
     _ProfileEvent$Edit event,
   ) async {
+    final oldData = state.data;
     try {
-      emit(ProfileState.processing(data: state.data));
+      emit(
+        ProfileState.processing(
+          data: state.data?.copyWith(
+            firstName: event.user.firstName,
+            lastName: event.user.lastName,
+          ),
+        ),
+      );
       await _repository.editUser(event.user);
-      final newData = await _repository.getUser();
       emit(
         ProfileState.successful(
-          data: newData,
+          data: state.data,
           message: 'Профиль обновлен',
         ),
       );
     } on Object {
+      // Делаем оптимистичны рендеринг. Получили ошибку - подставляем старые данные
       emit(
         ProfileState.error(
-          data: state.data,
+          data: oldData,
           message: 'Ошибка обновления профиля',
         ),
       );
