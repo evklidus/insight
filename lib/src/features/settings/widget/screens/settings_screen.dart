@@ -6,6 +6,8 @@ import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/adaptive_button.dart';
 
+import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
+
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/settings/widget/components/profile_widget.dart';
@@ -31,18 +33,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppStrings.settings,
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
+      appBar: const CustomAppBar(
+        title: AppStrings.settings,
       ),
       body: Padding(
         padding: EdgeInsets.only(
           left: 16,
           right: 16,
           top: 16,
-          bottom: MediaQuery.of(context).padding.bottom,
+          bottom: MediaQuery.paddingOf(context).bottom,
         ),
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {

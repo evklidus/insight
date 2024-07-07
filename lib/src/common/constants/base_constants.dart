@@ -2,7 +2,7 @@ import 'dart:io';
 
 const standartDuration = Duration(milliseconds: 150);
 
-final isNeddCupertino = Platform.isIOS || Platform.isMacOS;
+final isNeedCupertino = Platform.isIOS || Platform.isMacOS;
 
 // Url's
 const _apiVersion = '/v1';

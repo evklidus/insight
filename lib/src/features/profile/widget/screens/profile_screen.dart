@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
+
 import 'package:insight/src/features/profile/model/user_edit.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
@@ -116,25 +118,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (context, state) {
         return Scaffold(
           appBar: CustomAppBar(
-            leadingText: AppStrings.profile,
+            title: AppStrings.profile,
             action: GestureDetector(
               onTap: _profileBloc.state.data.isNotNull
                   ? () => _save(_profileBloc.state.data!.id)
                   : null,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: ShapeDecoration(
-                  color: _isEditing
-                      ? context.colorScheme.surfaceContainerHighest
-                      : context.colorScheme.surfaceContainerLow,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+              child: AnimatedOpacity(
+                duration: standartDuration,
+                opacity: _isEditing ? 1 : 0.8,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: ShapeDecoration(
+                    color: context.colorScheme.surfaceContainerHigh,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
                   ),
-                ),
-                child: Text(
-                  _isEditing ? 'Сохранить' : 'Изменить',
+                  child: Text(
+                    _isEditing ? 'Сохранить' : 'Изменить',
+                    style: context.textTheme.bodyMedium,
+                  ),
                 ),
               ),
             ),

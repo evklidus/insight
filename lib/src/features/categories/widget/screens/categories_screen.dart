@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
+import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
@@ -33,22 +36,22 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   Widget build(BuildContext context) {
     final authState = Provider.of<AuthBloc>(context).state;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppStrings.appName),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.add_circle,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-            onPressed: () => authState.isAuthenticated ?? false
-                ? context.pushNamed('create')
-                : InsightSnackBar.showError(
-                    context,
-                    text: AppStrings.needAuthToCreateCourse,
-                  ),
+      appBar: CustomAppBar(
+        title: AppStrings.appName,
+        action: IconButton(
+          icon: Icon(
+            isNeedCupertino
+                ? CupertinoIcons.add_circled_solid
+                : Icons.add_circle,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
-        ],
+          onPressed: () => authState.isAuthenticated ?? false
+              ? context.pushNamed('create')
+              : InsightSnackBar.showError(
+                  context,
+                  text: AppStrings.needAuthToCreateCourse,
+                ),
+        ),
       ),
       body: BlocProvider(
         create: (context) => categoriesBloc,
@@ -71,7 +74,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 ),
               );
             } else {
-              return CategoriesList(categories: state.data);
+              return CategoriesList(
+                categories: state.data,
+              );
             }
           },
         ),

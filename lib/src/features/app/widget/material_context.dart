@@ -16,7 +16,6 @@ class MaterialContext extends StatefulWidget {
 }
 
 class _MaterialContextState extends State<MaterialContext> {
-  // This global key is needed for [MaterialApp]
   final _appRouter = AppRouter();
 
   @override
