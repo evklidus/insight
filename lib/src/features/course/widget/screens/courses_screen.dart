@@ -32,7 +32,10 @@ class _CoursesScreenState extends State<CoursesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: AppStrings.categories),
+      appBar: const CustomAppBar(
+        title: AppStrings.courses,
+        previousPageTitle: AppStrings.categories,
+      ),
       body: BlocProvider(
         create: (context) => coursesBloc,
         child: BlocConsumer<CourseBloc, CourseState>(

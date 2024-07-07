@@ -9,10 +9,12 @@ class CustomAppBar extends StatelessWidget
   const CustomAppBar({
     super.key,
     this.title,
+    this.previousPageTitle,
     this.action,
   });
 
   final String? title;
+  final String? previousPageTitle;
   final Widget? action;
 
   @override
@@ -20,6 +22,7 @@ class CustomAppBar extends StatelessWidget
     return isNeedCupertino
         ? CupertinoNavigationBar(
             backgroundColor: context.colorScheme.surface,
+            previousPageTitle: previousPageTitle,
             middle: title.isNotNull
                 ? Text(
                     title!,
