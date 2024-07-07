@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/widgets/adaptive_button.dart';
-import 'package:insight/src/common/widgets/file/choice_file.dart';
+import 'package:insight/src/common/widgets/file/file_widget.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 import 'package:permission_handler/permission_handler.dart';
 

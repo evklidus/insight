@@ -4,7 +4,7 @@ import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
-import 'package:insight/src/common/widgets/file/choice_file.dart';
+import 'package:insight/src/common/widgets/file/file_widget.dart';
 import 'package:insight/src/common/widgets/file/file_placeholder.dart';
 import 'package:insight/src/common/widgets/shimmer.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';

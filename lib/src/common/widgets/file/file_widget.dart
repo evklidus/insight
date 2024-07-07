@@ -57,9 +57,11 @@ class FileWidget extends StatelessWidget {
                       child: _childFromFileType(type),
                     ),
                   )
-            : FilePlaceholder.rounded(
-                type: type,
-                sizeRadius: sizeRadius,
-              ),
+            : _isRounded
+                ? FilePlaceholder.rounded(
+                    type: type,
+                    sizeRadius: sizeRadius,
+                  )
+                : FilePlaceholder(type: type),
       );
 }
