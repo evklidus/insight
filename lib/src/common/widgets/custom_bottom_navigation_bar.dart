@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
-import 'package:insight_snackbar/common/platform_helpers.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar(this.navigationShell, {super.key});

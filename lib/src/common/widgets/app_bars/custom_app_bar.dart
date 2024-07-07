@@ -1,76 +1,54 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBar extends StatelessWidget
+    implements ObstructingPreferredSizeWidget {
   const CustomAppBar({
     super.key,
-    this.leadingText,
-    this.onTap,
+    this.title,
+    this.previousPageTitle,
     this.action,
   });
 
-  final String? leadingText;
-  final Function? onTap;
-
+  final String? title;
+  final String? previousPageTitle;
   final Widget? action;
 
-  bool get _hasLeadingText => leadingText != null;
-
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: kToolbarHeight),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _RoundedBackButton(onTap: onTap),
-          if (_hasLeadingText)
-            Text(
-              leadingText!,
-              style: context.textTheme.titleLarge,
-            ),
-          if (action.isNotNull) ...[
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: action!,
-            ),
-          ]
-        ],
-      ),
-    );
-  }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class _RoundedBackButton extends StatelessWidget {
-  const _RoundedBackButton({this.onTap});
-
-  final Function? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return isNeddCupertino
-        ? CupertinoButton(
-            onPressed: () => onTap?.call() ?? context.pop(),
-            child: const Icon(
-              CupertinoIcons.chevron_left,
-              size: 32,
-            ),
+    return isNeedCupertino
+        ? CupertinoNavigationBar(
+            backgroundColor: context.colorScheme.surface,
+            previousPageTitle: previousPageTitle,
+            middle: title.isNotNull
+                ? Text(
+                    title!,
+                    style: context.textTheme.titleLarge,
+                  )
+                : null,
+            trailing: action,
           )
-        : MaterialButton(
-            onPressed: () => onTap?.call() ?? context.pop(),
-            shape: const CircleBorder(),
-            child: const Icon(
-              Icons.chevron_left,
-              size: 32,
-            ),
+        : AppBar(
+            title: title.isNotNull ? Text(title!) : null,
+            actions: action.isNotNull
+                ? [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: action!,
+                    )
+                  ]
+                : null,
           );
   }
+
+  @override
+  Size get preferredSize => Size.fromHeight(
+        isNeedCupertino ? kMinInteractiveDimensionCupertino : kToolbarHeight,
+      );
+
+  @override
+  bool shouldFullyObstruct(BuildContext context) => false;
 }

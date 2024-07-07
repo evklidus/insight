@@ -3,6 +3,7 @@ import 'package:insight/gen/assets.gen.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
+
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/gen/pubspec.yaml.g.dart';
 
@@ -18,7 +19,7 @@ class AppAboutScreen extends StatelessWidget {
     final imageHeight = MediaQuery.sizeOf(context).height / 4;
 
     return Scaffold(
-      appBar: const CustomAppBar(leadingText: 'О приложении'),
+      appBar: const CustomAppBar(title: 'О приложении'),
       body: Center(
         child: Column(
           children: [

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
-import 'package:insight/src/common/widgets/file/choice_file.dart';
+import 'package:insight/src/common/widgets/file/file_widget.dart';
 
 class FilePlaceholder extends StatelessWidget {
   const FilePlaceholder({
