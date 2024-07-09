@@ -5,6 +5,7 @@ import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/adaptive_button.dart';
 
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
+import 'package:insight/src/common/widgets/modal_popup.dart';
 import 'package:insight/src/features/course_page/widget/components/add_lesson_widget.dart';
 import 'package:insight/src/common/widgets/insight_dismissible.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
@@ -28,9 +29,9 @@ class CoursePageInfo extends StatefulWidget {
 }
 
 class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
-  void _onAddLessonHandler(BuildContext ctx) => showBottomSheet(
+  void _onAddLessonHandler(BuildContext ctx) => ModalPopup.show(
         context: context,
-        builder: (ctx) => AddLessonWidget(
+        child: AddLessonWidget(
           onAdd: (name, videoPath) =>
               Provider.of<CoursePageBloc>(context, listen: false).add(
             CoursePageEvent.addLesson(

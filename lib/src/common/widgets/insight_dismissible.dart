@@ -28,7 +28,7 @@ class InsightDismissible extends StatefulWidget {
 /// State for widget InsightDismissible.
 class _InsightDismissibleState extends State<InsightDismissible> {
   double swipeProgress = 0;
-  final _dismissValue = 0.5;
+  final _dismissValue = 0.35;
 
   bool _isDeletConfirmed = false;
 
@@ -44,7 +44,6 @@ class _InsightDismissibleState extends State<InsightDismissible> {
       key: ValueKey(widget.itemKey),
       direction: DismissDirection.endToStart,
       dismissThresholds: {DismissDirection.endToStart: _dismissValue},
-      movementDuration: const Duration(milliseconds: 300),
       confirmDismiss: (direction) async {
         if (swipeProgress == 1) {
           await showAdaptiveDialog(
@@ -80,12 +79,11 @@ class _InsightDismissibleState extends State<InsightDismissible> {
       },
       onUpdate: (details) {
         if (details.progress <= _dismissValue) {
-          swipeProgress = details.progress * 2;
-          setState(() {});
+          swipeProgress = details.progress / _dismissValue;
         } else if (details.progress > _dismissValue) {
           swipeProgress = 1;
-          setState(() {});
         }
+        setState(() {});
       },
       background: Container(
         alignment: Alignment.centerRight,
@@ -105,7 +103,7 @@ class _InsightDismissibleState extends State<InsightDismissible> {
               opacity: swipeProgress,
               child: CircularProgressIndicator(
                 strokeWidth: 3,
-                color: context.colorScheme.surfaceBright,
+                color: context.colorScheme.surfaceContainerHighest,
                 value: swipeProgress,
               ),
             ),

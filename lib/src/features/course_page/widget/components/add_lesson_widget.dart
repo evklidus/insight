@@ -52,8 +52,7 @@ class _AddLessonWidgetState extends State<AddLessonWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16),
+  Widget build(BuildContext context) => SingleChildScrollView(
         child: Column(
           children: [
             FileWidget(
