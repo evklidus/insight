@@ -9,19 +9,11 @@ get_all:
 	flutter pub get
 	dart run build_runner build --delete-conflicting-outputs
 
-	cd packages/auth_client && flutter pub get && dart run build_runner build --delete-conflicting-outputs
-
-	cd packages/rest_client && flutter pub get && dart run build_runner build --delete-conflicting-outputs
-
 gen_icons:
 	dart run flutter_launcher_icons:main -f flutter_launcher_icons*
 
-clean_all_dependencies:
+clean:
 	flutter clean
-
-	cd packages/auth_client && flutter clean
-
-	cd packages/rest_client && flutter clean
 
 coverage:
 	flutter test --coverage

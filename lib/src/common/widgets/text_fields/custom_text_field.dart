@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 
+enum InputType { basic, email, newPassword, password, firstName, lastName }
+
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
@@ -8,11 +10,24 @@ class CustomTextField extends StatelessWidget {
     String? hintText,
     void Function(String)? onChanged,
     String? Function(String?)? validator,
+    InputType type = InputType.basic,
   })  : _hintText = hintText,
         _controller = controller,
         _onChanged = onChanged,
         _validator = validator,
-        _isForPassword = false;
+        _type = type;
+
+  const CustomTextField.newPassword({
+    super.key,
+    TextEditingController? controller,
+    String? hintText,
+    void Function(String)? onChanged,
+    String? Function(String?)? validator,
+  })  : _hintText = hintText ?? AppStrings.password,
+        _controller = controller,
+        _onChanged = onChanged,
+        _validator = validator,
+        _type = InputType.newPassword;
 
   const CustomTextField.password({
     super.key,
@@ -24,13 +39,15 @@ class CustomTextField extends StatelessWidget {
         _controller = controller,
         _onChanged = onChanged,
         _validator = validator,
-        _isForPassword = true;
+        _type = InputType.password;
 
   final TextEditingController? _controller;
   final String? _hintText;
   final void Function(String)? _onChanged;
   final String? Function(String?)? _validator;
-  final bool _isForPassword;
+  final InputType _type;
+
+  bool get _isForPassword => _type == InputType.password;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +68,22 @@ class CustomTextField extends StatelessWidget {
       obscureText: _isForPassword,
       enableSuggestions: !_isForPassword,
       autocorrect: !_isForPassword,
+      autofillHints: switch (_type) {
+        InputType.email => [AutofillHints.email],
+        InputType.newPassword => [AutofillHints.newPassword],
+        InputType.password => [AutofillHints.password],
+        InputType.firstName => [AutofillHints.name],
+        InputType.lastName => [AutofillHints.familyName],
+        InputType.basic => null,
+      },
+      keyboardType: switch (_type) {
+        InputType.email => TextInputType.emailAddress,
+        InputType.newPassword => TextInputType.visiblePassword,
+        InputType.password => TextInputType.visiblePassword,
+        InputType.firstName => TextInputType.name,
+        InputType.lastName => TextInputType.name,
+        InputType.basic => TextInputType.text,
+      },
     );
   }
 }

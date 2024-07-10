@@ -46,87 +46,91 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
 
-    return Center(
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 30),
-            AnimatedSwitcher(
-              duration: standartDuration,
-              child: widget.user.avatarUrl.isNotNull && widget.image.isNull
-                  ? CustomImageWidget(
-                      widget.user.avatarUrl!,
-                      size: Size.square(size.shortestSide * .64),
-                      shape: BoxShape.circle,
-                    )
-                  : FileWidget.rounded(
-                      filePath: widget.image?.path,
-                      type: FileType.image,
-                      sizeRadius: size.shortestSide * .32,
-                    ),
-            ),
-            AnimatedSwitcher(
-              duration: standartDuration,
-              child: widget.isEditing
-                  ? AdaptiveButton(
-                      onPressed: widget.addPhotoHandler,
-                      child: Text(
-                        widget.image.isNotNull ||
-                                widget.user.avatarUrl.isNotNull
-                            ? AppStrings.changePhoto
-                            : AppStrings.addPhoto,
+    return Form(
+      key: _formKey,
+      child: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 30),
+              AnimatedSwitcher(
+                duration: standartDuration,
+                child: widget.user.avatarUrl.isNotNull && widget.image.isNull
+                    ? CustomImageWidget(
+                        widget.user.avatarUrl!,
+                        size: Size.square(size.shortestSide * .64),
+                        shape: BoxShape.circle,
+                      )
+                    : FileWidget.rounded(
+                        filePath: widget.image?.path,
+                        type: FileType.image,
+                        sizeRadius: size.shortestSide * .32,
                       ),
-                    )
-                  : const SizedBox(height: 20),
-            ),
-            AnimatedSwitcher(
-              duration: standartDuration,
-              child: widget.isEditing
-                  ? Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          CustomTextField(
-                            controller: widget.nameController,
-                            hintText: 'Укажите имя',
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return AppStrings.pleaseEnterSomething;
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 16),
-                          CustomTextField(
-                            controller: widget.lastNameController,
-                            hintText: 'Укажите фамилию',
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return AppStrings.pleaseEnterSomething;
-                              }
-                              return null;
-                            },
-                          ),
-                        ],
-                      ),
-                    )
-                  : Text(
-                      widget.user.fullName,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-            ),
-            const SizedBox(height: 10),
-            AnimatedOpacity(
-              opacity: widget.isEditing ? .4 : 1,
-              duration: standartDuration,
-              child: Text(
-                widget.user.email,
-                style: Theme.of(context).textTheme.bodySmall,
               ),
-            ),
-          ],
+              AnimatedSwitcher(
+                duration: standartDuration,
+                child: widget.isEditing
+                    ? AdaptiveButton(
+                        onPressed: widget.addPhotoHandler,
+                        child: Text(
+                          widget.image.isNotNull ||
+                                  widget.user.avatarUrl.isNotNull
+                              ? AppStrings.changePhoto
+                              : AppStrings.addPhoto,
+                        ),
+                      )
+                    : const SizedBox(height: 20),
+              ),
+              AnimatedSwitcher(
+                duration: standartDuration,
+                child: widget.isEditing
+                    ? Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          children: [
+                            CustomTextField(
+                              type: InputType.firstName,
+                              controller: widget.nameController,
+                              hintText: 'Укажите имя',
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return AppStrings.pleaseEnterSomething;
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            CustomTextField(
+                              type: InputType.lastName,
+                              controller: widget.lastNameController,
+                              hintText: 'Укажите фамилию',
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return AppStrings.pleaseEnterSomething;
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    : Text(
+                        widget.user.fullName,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+              ),
+              const SizedBox(height: 10),
+              AnimatedOpacity(
+                opacity: widget.isEditing ? .4 : 1,
+                duration: standartDuration,
+                child: Text(
+                  widget.user.email,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

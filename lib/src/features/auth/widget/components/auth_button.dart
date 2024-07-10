@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
 class AuthButton extends StatelessWidget {
   const AuthButton({
@@ -19,7 +20,7 @@ class AuthButton extends StatelessWidget {
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Colors.black54,
+          color: context.colorScheme.surfaceContainerHighest,
         ),
         alignment: Alignment.center,
         child: Text(

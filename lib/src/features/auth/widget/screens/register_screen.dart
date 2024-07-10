@@ -59,6 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: CustomTextField(
+                  type: InputType.email,
                   hintText: AppStrings.login,
                   onChanged: (value) => username = value,
                   validator: (value) {
@@ -73,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: CustomTextField.password(
+                child: CustomTextField.newPassword(
                   onChanged: (value) => password = value,
                   validator: (value) {
                     if (value == null || value.isEmpty) {

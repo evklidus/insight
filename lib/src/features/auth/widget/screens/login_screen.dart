@@ -64,6 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: CustomTextField(
+                  type: InputType.email,
                   hintText: AppStrings.login,
                   validator: (value) {
                     if (value == null || value.isEmpty) {

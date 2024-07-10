@@ -26,18 +26,17 @@ class CategoryWidget extends StatelessWidget {
         children: [
           CustomImageWidget(
             category.imageUrl,
-            // size: double.infinity,
             borderRadius: BorderRadius.circular(20),
           ),
           Container(
             padding: const EdgeInsets.all(8),
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(16),
             ),
             clipBehavior: Clip.hardEdge,
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
               child: Text(
                 category.name,
                 style: context.textTheme.labelLarge?.copyWith(

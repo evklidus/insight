@@ -90,7 +90,7 @@ final class CoursePageFirestoreDataProviderImpl
     final courseDetailCollection = await courseDoc.collection('detail').get();
     final courseDetailData = courseDetailCollection.docs.first;
 
-    final userId = _firebaseAuth.currentUser!.uid;
+    final userId = _firebaseAuth.currentUser?.uid;
 
     return CoursePage.fromFirestore(
       courseData.id,

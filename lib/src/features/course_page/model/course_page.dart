@@ -28,7 +28,7 @@ class CoursePage extends Course {
     String id,
     Map<String, dynamic>? courseData,
     Map<String, dynamic>? detailData,
-    String userId,
+    String? userId,
   ) =>
       CoursePage(
         id: id,
