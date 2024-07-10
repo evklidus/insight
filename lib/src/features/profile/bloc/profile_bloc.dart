@@ -65,9 +65,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
         ),
       );
       await _repository.editUser(event.user);
+      // В любом случае обновляем данные тк нам нужен url аватара
+      final newData = await _repository.getUser();
       emit(
         ProfileState.successful(
-          data: state.data,
+          data: newData,
           message: 'Профиль обновлен',
         ),
       );
