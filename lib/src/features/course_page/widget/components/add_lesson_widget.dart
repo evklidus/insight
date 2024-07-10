@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/adaptive_button.dart';
 import 'package:insight/src/common/widgets/file/file_widget.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
+import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 /// {@template add_lesson_widget}
@@ -29,6 +31,8 @@ class _AddLessonWidgetState extends State<AddLessonWidget> {
   String _name = '';
   XFile? _video;
 
+  final _formKey = GlobalKey<FormState>();
+
   Future<void> _addVideoHandler() async {
     final status = await Permission.photos.status;
     if (status.isDenied) {
@@ -46,42 +50,52 @@ class _AddLessonWidgetState extends State<AddLessonWidget> {
     }
   }
 
-  void _addLessonHandler() {
-    widget.onAdd(_name, _video!.path);
-    context.pop();
+  void _addLessonHandler(BuildContext context) {
+    if (_video.isNull) {
+      return InsightSnackBar.showError(
+        context,
+        text: 'Добавьте видео',
+      );
+    } else if (_formKey.currentState!.validate() && _video.isNotNull) {
+      widget.onAdd(_name, _video!.path);
+      context.pop();
+    }
   }
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
-        child: Column(
-          children: [
-            FileWidget(
-              filePath: _video?.path,
-              type: FileType.video,
-            ),
-            AdaptiveButton(
-              onPressed: _addVideoHandler,
-              child: Text(
-                _video == null ? AppStrings.addVideo : AppStrings.changeVideo,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              FileWidget(
+                filePath: _video?.path,
+                type: FileType.video,
               ),
-            ),
-            const SizedBox(height: 24),
-            CustomTextField(
-              hintText: AppStrings.lessoneNameHint,
-              onChanged: (value) => _name = value,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return AppStrings.pleaseEnterSomething;
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 32),
-            AdaptiveButton.filled(
-              onPressed: _addLessonHandler,
-              child: const Text(AppStrings.add),
-            ),
-          ],
+              AdaptiveButton(
+                onPressed: _addVideoHandler,
+                child: Text(
+                  _video == null ? AppStrings.addVideo : AppStrings.changeVideo,
+                ),
+              ),
+              const SizedBox(height: 24),
+              CustomTextField(
+                hintText: AppStrings.lessoneNameHint,
+                onChanged: (value) => _name = value,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return AppStrings.pleaseEnterSomething;
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 32),
+              AdaptiveButton.filled(
+                onPressed: () => _addLessonHandler(context),
+                child: const Text(AppStrings.add),
+              ),
+            ],
+          ),
         ),
       );
 }
