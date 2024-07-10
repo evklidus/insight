@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
 
 /// {@template adaptive_button}
 /// AdaptiveButton widget.
@@ -11,36 +10,51 @@ class AdaptiveButton extends StatelessWidget {
   const AdaptiveButton({
     required this.onPressed,
     required this.child,
+    this.padding,
+    this.borderRadius,
     super.key,
   }) : _isFilled = false;
 
   const AdaptiveButton.filled({
     required this.onPressed,
     required this.child,
+    this.padding,
+    this.borderRadius,
     super.key,
   }) : _isFilled = true;
 
   final VoidCallback onPressed;
   final Widget child;
+  final EdgeInsetsGeometry? padding;
+  final BorderRadius? borderRadius;
   final bool _isFilled;
 
   @override
-  Widget build(BuildContext context) => _isFilled
-      ? Platform.isIOS
+  Widget build(BuildContext context) => isNeedCupertino
+      ? _isFilled
           ? CupertinoButton.filled(
+              padding: padding,
+              borderRadius: borderRadius,
               onPressed: onPressed,
               child: child,
             )
-          : FilledButton(
+          : CupertinoButton(
+              padding: padding,
               onPressed: onPressed,
               child: child,
             )
-      : Platform.isIOS
-          ? CupertinoButton(
+      : _isFilled
+          ? FilledButton(
+              style: ButtonStyle(
+                padding: WidgetStateProperty.all(padding),
+              ),
               onPressed: onPressed,
               child: child,
             )
           : TextButton(
+              style: ButtonStyle(
+                padding: WidgetStateProperty.all(padding),
+              ),
               onPressed: onPressed,
               child: child,
             );
