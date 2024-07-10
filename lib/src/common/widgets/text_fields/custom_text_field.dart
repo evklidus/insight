@@ -65,6 +65,12 @@ class CustomTextField extends StatelessWidget {
         filled: true,
         hintText: _hintText,
       ),
+      textCapitalization: switch (_type) {
+        InputType.firstName => TextCapitalization.words,
+        InputType.lastName => TextCapitalization.words,
+        InputType.basic => TextCapitalization.sentences,
+        _ => TextCapitalization.none,
+      },
       obscureText: _isForPassword,
       enableSuggestions: !_isForPassword,
       autocorrect: !_isForPassword,
