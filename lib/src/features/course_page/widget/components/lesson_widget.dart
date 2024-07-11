@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/insight_list_tile.dart';
 
@@ -23,7 +24,10 @@ class LessonWidget extends StatelessWidget {
           'videoUrl': lesson.videoUrl,
         },
       ),
-      title: Text(lesson.name),
+      title: Text(
+        lesson.name,
+        style: context.textTheme.bodyLarge,
+      ),
       trailing: Icon(
         isNeedCupertino ? CupertinoIcons.play_fill : Icons.play_arrow_rounded,
         size: 30,

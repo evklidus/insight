@@ -50,7 +50,6 @@ class InsightListTile extends StatelessWidget {
           child: ListTile(
             onTap: onTap,
             contentPadding: padding,
-            selected: false,
             tileColor: backgroundColor ??
                 Theme.of(context).colorScheme.surfaceContainer,
             shape: RoundedRectangleBorder(

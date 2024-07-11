@@ -51,4 +51,24 @@ class CoursePage extends Course {
 
   final String description;
   final List<Lesson>? lessons;
+
+  CoursePage copyWith({
+    String? id,
+    String? name,
+    String? description,
+    String? imageUrl,
+    List<Lesson>? lessons,
+    String? tag,
+    bool? isItsOwn,
+  }) {
+    return CoursePage(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      imageUrl: imageUrl ?? this.imageUrl,
+      lessons: lessons ?? this.lessons,
+      tag: tag ?? this.tag,
+      isItsOwn: isItsOwn ?? this.isItsOwn,
+    );
+  }
 }

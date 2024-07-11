@@ -1,9 +1,12 @@
 import 'package:insight/src/features/course_page/data/course_page_network_data_provider.dart';
+import 'package:insight/src/features/course_page/model/course_edit.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
 import 'package:insight/src/features/course_page/model/lesson.dart';
 
 abstract interface class CoursePageRepository {
   Future<CoursePage> getCoursePage(String id);
+
+  Future<void> editCourse(Course$Edit course);
 
   Future<void> addLesson({
     required String courseId,
@@ -32,6 +35,9 @@ final class CoursePageRepositoryImpl implements CoursePageRepository {
 
   @override
   getCoursePage(String id) => _networkDataProvider.getCoursePage(id);
+
+  @override
+  editCourse(Course$Edit course) => _networkDataProvider.editCourse(course);
 
   @override
   Future<void> deleteCourse({

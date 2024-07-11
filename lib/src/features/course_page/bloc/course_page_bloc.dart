@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_state.dart';
 import 'package:insight/src/features/course_page/data/course_page_repository.dart';
-import 'package:insight/src/features/course_page/model/course_page.dart';
+import 'package:insight/src/features/course_page/model/course_edit.dart';
 import 'package:insight/src/features/course_page/model/lesson.dart';
 
 part 'course_page_event.dart';
@@ -16,6 +16,7 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
     on<CoursePageEvent>(
       (event, emit) => switch (event) {
         _CoursePageEvent$Fetch() => _fetch(emit, event),
+        _CoursePageEvent$Edit() => _edit(emit, event),
         _CoursePageEvent$AddLesson() => _addLesson(emit, event),
         _CoursePageEvent$RemoveLesson() => _removeLesson(emit, event),
         _CoursePageEvent$Delete() => _delete(emit, event),
@@ -31,12 +32,39 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
   ) async {
     try {
       emit(CoursePageState.processing(data: state.data));
-      final CoursePage coursePage = await _repository.getCoursePage(event.id);
+      final coursePage = await _repository.getCoursePage(event.id);
       emit(CoursePageState.successful(data: coursePage));
     } on Object {
       emit(CoursePageState.error(
         data: state.data,
         message: 'Ошибка получения курса',
+      ));
+      rethrow;
+    } finally {
+      emit(CoursePageState.idle(data: state.data));
+    }
+  }
+
+  Future<void> _edit(
+    Emitter<CoursePageState> emit,
+    _CoursePageEvent$Edit event,
+  ) async {
+    try {
+      emit(
+        CoursePageState.processing(
+          data: state.data?.copyWith(
+            name: event.course.name,
+            description: event.course.description,
+          ),
+        ),
+      );
+      await _repository.editCourse(event.course);
+      final coursePage = await _repository.getCoursePage(state.data!.id);
+      emit(CoursePageState.successful(data: coursePage));
+    } on Object {
+      emit(CoursePageState.error(
+        data: state.data,
+        message: 'Ошибка редактирования курса',
       ));
       rethrow;
     } finally {
@@ -55,8 +83,7 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
         lessonName: event.name,
         videoPath: event.videoPath,
       );
-      final CoursePage coursePage =
-          await _repository.getCoursePage(state.data!.id);
+      final coursePage = await _repository.getCoursePage(state.data!.id);
       event.onAdd();
       emit(CoursePageState.successful(data: coursePage));
     } on Object {
@@ -80,8 +107,7 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
         courseId: state.data!.id,
         lesson: event.lesson,
       );
-      final CoursePage coursePage =
-          await _repository.getCoursePage(state.data!.id);
+      final coursePage = await _repository.getCoursePage(state.data!.id);
       event.onRemove();
       emit(CoursePageState.successful(data: coursePage));
     } on Object {
