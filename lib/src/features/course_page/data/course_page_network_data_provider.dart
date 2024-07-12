@@ -4,11 +4,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:insight/src/common/utils/extensions/object_x.dart';
+import 'package:insight/src/features/course_page/model/course_edit.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
 import 'package:insight/src/features/course_page/model/lesson.dart';
 
 abstract interface class CoursePageNetworkDataProvider {
   Future<CoursePage> getCoursePage(String id);
+
+  Future<void> editCourse(Course$Edit course);
+
+  Future<void> deleteCourse({
+    required String courseId,
+    // Нужно чтобы удалить обложку
+    required String imageUrl,
+  });
 
   Future<void> addLesson({
     required String courseId,
@@ -19,12 +30,6 @@ abstract interface class CoursePageNetworkDataProvider {
   Future<void> removeLesson({
     required String courseId,
     required Lesson lesson,
-  });
-
-  Future<void> deleteCourse({
-    required String courseId,
-    // Нужно чтобы удалить обложку
-    required String imageUrl,
   });
 }
 
@@ -67,6 +72,12 @@ final class CoursePageNetworkDataProviderImpl
     required Lesson lesson,
   }) => // TODO: Заменить на lesson id
       _client.delete('/lessons/$courseId');
+
+  @override
+  Future<void> editCourse(Course$Edit course) {
+    // TODO: implement editCourse
+    throw UnimplementedError();
+  }
 }
 
 final class CoursePageFirestoreDataProviderImpl
@@ -97,6 +108,52 @@ final class CoursePageFirestoreDataProviderImpl
       courseData.data(),
       courseDetailData.data(),
       userId,
+    );
+  }
+
+  @override
+  Future<void> editCourse(Course$Edit course) async {
+    String? imageUrl;
+
+    if (course.imagePath.isNotNull) {
+      // Compress avatar
+      final splitterAvatarPath = course.imagePath!.split('.');
+      splitterAvatarPath.insert(1, '_copmpressed');
+      final compressedAvatarPath = splitterAvatarPath.join('.');
+
+      final compressedAvatar = await FlutterImageCompress.compressAndGetFile(
+        course.imagePath!,
+        compressedAvatarPath,
+        quality: 80,
+      );
+
+      final image = File(compressedAvatar!.path);
+
+      // Upload avatar
+      final uploadTask = await _firebaseStorage
+          .ref()
+          .child('images')
+          .child('courses')
+          .child(course.name)
+          .child('${course.name}_main_photo')
+          .putFile(image);
+
+      imageUrl = await uploadTask.ref.getDownloadURL();
+    }
+
+    final courseDoc = _firestore.collection('course').doc(course.id);
+    await courseDoc.update({
+      if (course.name.isNotNull) 'name': course.name,
+      if (course.imagePath.isNotNull) 'image_url': imageUrl,
+      if (course.tag.isNotNull) 'tag': course.tag,
+    });
+
+    final detailDoc = await courseDoc.collection('detail').get();
+    final detailDocPath = detailDoc.docs.first.id;
+    courseDoc.collection('detail').doc(detailDocPath).update(
+      {
+        if (course.description.isNotNull) 'description': course.description,
+      },
     );
   }
 

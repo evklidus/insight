@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
@@ -76,7 +77,9 @@ class ProfileWidget extends StatelessWidget {
                 const Spacer(),
                 IconButton(
                   onPressed: onEditPressed,
-                  icon: const Icon(Icons.edit),
+                  icon: Icon(
+                    isNeedCupertino ? CupertinoIcons.pencil : Icons.edit,
+                  ),
                 )
               ],
             ),

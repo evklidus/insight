@@ -7,12 +7,14 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     TextEditingController? controller,
+    int? maxLines,
     String? hintText,
     void Function(String)? onChanged,
     String? Function(String?)? validator,
     InputType type = InputType.basic,
   })  : _hintText = hintText,
         _controller = controller,
+        _maxLines = maxLines,
         _onChanged = onChanged,
         _validator = validator,
         _type = type;
@@ -20,11 +22,13 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField.newPassword({
     super.key,
     TextEditingController? controller,
+    int? maxLines,
     String? hintText,
     void Function(String)? onChanged,
     String? Function(String?)? validator,
   })  : _hintText = hintText ?? AppStrings.password,
         _controller = controller,
+        _maxLines = maxLines,
         _onChanged = onChanged,
         _validator = validator,
         _type = InputType.newPassword;
@@ -32,16 +36,19 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField.password({
     super.key,
     TextEditingController? controller,
+    int? maxLines,
     String? hintText,
     void Function(String)? onChanged,
     String? Function(String?)? validator,
   })  : _hintText = hintText ?? AppStrings.password,
         _controller = controller,
+        _maxLines = maxLines,
         _onChanged = onChanged,
         _validator = validator,
         _type = InputType.password;
 
   final TextEditingController? _controller;
+  final int? _maxLines;
   final String? _hintText;
   final void Function(String)? _onChanged;
   final String? Function(String?)? _validator;
@@ -53,9 +60,9 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: _controller,
+      maxLines: _maxLines,
       onChanged: _onChanged,
       validator: _validator,
-      style: Theme.of(context).textTheme.bodyMedium,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
@@ -65,6 +72,12 @@ class CustomTextField extends StatelessWidget {
         filled: true,
         hintText: _hintText,
       ),
+      textCapitalization: switch (_type) {
+        InputType.firstName => TextCapitalization.words,
+        InputType.lastName => TextCapitalization.words,
+        InputType.basic => TextCapitalization.sentences,
+        _ => TextCapitalization.none,
+      },
       obscureText: _isForPassword,
       enableSuggestions: !_isForPassword,
       autocorrect: !_isForPassword,

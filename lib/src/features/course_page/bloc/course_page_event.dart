@@ -5,6 +5,9 @@ sealed class CoursePageEvent {
 
   const factory CoursePageEvent.fetch(String id) = _CoursePageEvent$Fetch;
 
+  const factory CoursePageEvent.editCourse(Course$Edit course) =
+      _CoursePageEvent$Edit;
+
   const factory CoursePageEvent.addLesson({
     required String name,
     required String videoPath,
@@ -24,6 +27,12 @@ final class _CoursePageEvent$Fetch extends CoursePageEvent {
   const _CoursePageEvent$Fetch(this.id);
 
   final String id;
+}
+
+final class _CoursePageEvent$Edit extends CoursePageEvent {
+  const _CoursePageEvent$Edit(this.course);
+
+  final Course$Edit course;
 }
 
 final class _CoursePageEvent$AddLesson extends CoursePageEvent {

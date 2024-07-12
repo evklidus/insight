@@ -51,7 +51,7 @@ final class ProfileFirestoreDataProviderImpl
     if (user.avatarPath.isNotNull) {
       // Compress avatar
       final splitterAvatarPath = user.avatarPath!.split('.');
-      splitterAvatarPath.insert(1, '_cpmpressed');
+      splitterAvatarPath.insert(1, '_copmpressed');
       final compressedAvatarPath = splitterAvatarPath.join('.');
 
       final compressedAvatar = await FlutterImageCompress.compressAndGetFile(

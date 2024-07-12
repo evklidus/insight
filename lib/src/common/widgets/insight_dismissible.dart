@@ -13,12 +13,14 @@ class InsightDismissible extends StatefulWidget {
   const InsightDismissible({
     required this.itemKey,
     required this.child,
+    this.isEnabled = true,
     required this.deleteHandler,
     super.key,
   });
 
   final Widget child;
   final Object itemKey;
+  final bool isEnabled;
   final VoidCallback deleteHandler;
 
   @override
@@ -42,7 +44,9 @@ class _InsightDismissibleState extends State<InsightDismissible> {
   Widget build(BuildContext context) {
     return Dismissible(
       key: ValueKey(widget.itemKey),
-      direction: DismissDirection.endToStart,
+      direction: widget.isEnabled
+          ? DismissDirection.endToStart
+          : DismissDirection.none,
       dismissThresholds: {DismissDirection.endToStart: _dismissValue},
       confirmDismiss: (direction) async {
         if (swipeProgress == 1) {

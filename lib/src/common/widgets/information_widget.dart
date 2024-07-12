@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 
 import 'package:insight/gen/assets.gen.dart';
+import 'package:insight/src/common/widgets/adaptive_button.dart';
 
 class InformationWidget extends StatelessWidget {
   const InformationWidget({
@@ -36,50 +37,47 @@ class InformationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onSurface,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: Image.asset(imagePath),
-            ),
-          ),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              description,
-              style: const TextStyle(
-                fontSize: 15,
-                color: Colors.white,
+    return SafeArea(
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        margin: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Image.asset(imagePath),
               ),
-              textAlign: TextAlign.center,
             ),
-          ),
-          if (reloadFunc != null) const SizedBox(height: 8),
-          if (reloadFunc != null)
-            FilledButton(
-              onPressed: reloadFunc,
-              child: const Text(AppStrings.tryAgain),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 20),
             ),
-        ],
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                description,
+                style: const TextStyle(fontSize: 15),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            if (reloadFunc != null) ...[
+              const SizedBox(height: 24),
+              AdaptiveButton.filled(
+                onPressed: reloadFunc,
+                child: const Text(AppStrings.tryAgain),
+              ),
+            ]
+          ],
+        ),
       ),
     );
   }
