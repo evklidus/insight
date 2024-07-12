@@ -49,7 +49,7 @@ dependencies:
   flutter_native_splash: ^2.2.0+1
   insight_player:
     path: packages/insight_player
-  insight_snackbar: ^2.0.0
+  insight_snackbar: ^2.0.1
   video_player: ^2.8.7
 
 dev_dependencies:
