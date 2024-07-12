@@ -55,15 +55,18 @@ class _VideoPreviewState extends State<VideoPreview> {
               ),
             ),
             secondChild: Center(
-              child: GestureDetector(
-                onTap: () => _controller.value.isPlaying
-                    ? _controller.pause()
-                    : _controller.play(),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: VideoPlayer(_controller),
+              child: VideoScrubber(
+                controller: _controller,
+                child: GestureDetector(
+                  onTap: () => _controller.value.isPlaying
+                      ? _controller.pause()
+                      : _controller.play(),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    ),
                   ),
                 ),
               ),

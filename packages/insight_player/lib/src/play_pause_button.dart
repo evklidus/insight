@@ -5,12 +5,12 @@ import 'package:video_player/video_player.dart';
 
 class PlayPauseButton extends StatefulWidget {
   const PlayPauseButton(
-    this.connectionState,
+    this.isInitialized,
     this.videoPlayerController, {
     super.key,
   });
 
-  final ConnectionState connectionState;
+  final bool isInitialized;
   final VideoPlayerController videoPlayerController;
 
   @override
@@ -23,28 +23,27 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
 
   @override
   Widget build(BuildContext context) {
-    final iconColor = widget.connectionState == ConnectionState.done
+    final query = MediaQuery.of(context);
+    final iconColor = widget.isInitialized
         ? Theme.of(context).colorScheme.primary
-        : Colors.grey;
+        : Theme.of(context).colorScheme.onSurface.withOpacity(0.4);
 
     return GestureDetector(
-      onTap: () {
-        if (widget.connectionState == ConnectionState.done) {
-          widget.videoPlayerController.value.isPlaying
-              ? widget.videoPlayerController.pause()
-              : widget.videoPlayerController.play();
-        }
-      },
-      child: SizedBox(
-        height: 75,
-        width: 75,
+      onTap: widget.isInitialized
+          ? () {
+              widget.videoPlayerController.value.isPlaying
+                  ? widget.videoPlayerController.pause()
+                  : widget.videoPlayerController.play();
+            }
+          : null,
+      child: SizedBox.square(
+        dimension: query.size.shortestSide / 5.5,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 500),
             alignment: Alignment.center,
-            padding: const EdgeInsets.all(20),
-            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+            color: Theme.of(context).colorScheme.surfaceContainerHigh,
             child: ValueListenableBuilder<VideoPlayerValue>(
               valueListenable: widget.videoPlayerController,
               builder: (context, value, _) {

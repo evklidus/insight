@@ -12,7 +12,8 @@
             "args": [
                 "--flavor",
                 "dev"
-            ] // , "--target", "lib/main_dev.dart"
+            ],
+            "program": "${workspaceFolder}/lib/main.dart"
         },
         {
             "name": "insight (profile, dev)",
@@ -42,7 +43,7 @@
             "args": [
                 "--flavor",
                 "prod"
-            ] // , "--target", "lib/main_prod.dart"
+            ]
         },
         {
             "name": "insight (profile, prod)",
