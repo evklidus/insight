@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
+import 'package:insight/src/common/widgets/insight_list_tile.dart';
 
 class SettingRow extends StatelessWidget {
   const SettingRow({
@@ -16,27 +18,13 @@ class SettingRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InsightListTile(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 12,
-        ),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: textStyle,
-            ),
-            icon,
-          ],
-        ),
+      backgroundColor: context.colorScheme.surfaceContainerLow,
+      leading: icon,
+      title: Text(
+        title,
+        style: context.textTheme.titleMedium,
       ),
     );
   }
