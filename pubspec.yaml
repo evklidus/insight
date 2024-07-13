@@ -3,7 +3,7 @@ description: Future learning platform
 
 publish_to: "none"
 
-version: 2.3.0-beta
+version: 2.3.1-beta
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
