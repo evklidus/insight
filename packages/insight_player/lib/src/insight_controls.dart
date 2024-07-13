@@ -62,7 +62,6 @@ class _InsightControlsState extends State<InsightControls> {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 4),
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: VideoProgressIndicator(

@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
-import 'package:insight/src/common/widgets/adaptive_button.dart';
+import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/common/widgets/file/file_widget.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';

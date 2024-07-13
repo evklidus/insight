@@ -4,7 +4,7 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
-import 'package:insight/src/common/widgets/adaptive_button.dart';
+import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 
