@@ -5,21 +5,28 @@ import 'package:flutter/material.dart';
 /// {@endtemplate}
 class SeparatedColumn extends StatelessWidget {
   /// {@macro separated_column}
-  const SeparatedColumn({super.key});
+  const SeparatedColumn({
+    super.key,
+    required this.itemBuilder,
+    required this.separatorBuilder,
+    required this.itemCount,
+  });
+
+  // final List list;
+  final Widget Function(BuildContext, int) itemBuilder;
+  final Widget Function(BuildContext, int) separatorBuilder;
+  final int itemCount;
 
   @override
   Widget build(BuildContext context) => Column(
-        children: courses!
-            .map(
-              (course) => Padding(
-                padding: EdgeInsets.only(
-                    top: courses!.indexOf(course) == 0 ? 0 : 20),
-                child: CourseWidget(
-                  course: course,
-                  categoryTag: categoryTag,
-                ),
-              ),
-            )
-            .toList(),
+        children: List.generate(
+          itemCount,
+          (index) => Column(
+            children: [
+              itemBuilder(context, index),
+              if (index != itemCount - 1) separatorBuilder(context, index),
+            ],
+          ),
+        ),
       );
 }

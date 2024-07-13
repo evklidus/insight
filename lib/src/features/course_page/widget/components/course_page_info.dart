@@ -86,10 +86,8 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
   Widget build(BuildContext context) {
     final deleteCourseButtonStyle = TextStyle(color: context.colorScheme.error);
 
-    return ListView(
-      padding: context.adaptiveScreenPadding,
+    return Column(
       children: [
-        const SizedBox(height: 20),
         AnimatedSwitcher(
           duration: standartDuration,
           child: widget.coursePage.imageUrl.isNotNull &&

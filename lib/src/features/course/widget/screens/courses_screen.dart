@@ -41,33 +41,36 @@ class _CoursesScreenState extends State<CoursesScreen> {
         children: [
           BlocProvider(
             create: (context) => coursesBloc,
-            child: BlocConsumer<CourseBloc, CourseState>(
-              listener: (context, state) => state.mapOrNull(
-                error: (state) => InsightSnackBar.showError(
-                  context,
-                  text: state.message,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: BlocConsumer<CourseBloc, CourseState>(
+                listener: (context, state) => state.mapOrNull(
+                  error: (state) => InsightSnackBar.showError(
+                    context,
+                    text: state.message,
+                  ),
                 ),
+                builder: (context, state) {
+                  if (!state.hasData && state.hasError) {
+                    return InformationWidget.error(
+                      reloadFunc: () => coursesBloc.add(
+                        CourseEvent.fetch(widget.categoryTag),
+                      ),
+                    );
+                  } else if (!state.hasData && !state.isProcessing) {
+                    return InformationWidget.empty(
+                      reloadFunc: () => coursesBloc.add(
+                        CourseEvent.fetch(widget.categoryTag),
+                      ),
+                    );
+                  } else {
+                    return CourseList(
+                      courses: state.data,
+                      categoryTag: widget.categoryTag,
+                    );
+                  }
+                },
               ),
-              builder: (context, state) {
-                if (!state.hasData && state.hasError) {
-                  return InformationWidget.error(
-                    reloadFunc: () => coursesBloc.add(
-                      CourseEvent.fetch(widget.categoryTag),
-                    ),
-                  );
-                } else if (!state.hasData && !state.isProcessing) {
-                  return InformationWidget.empty(
-                    reloadFunc: () => coursesBloc.add(
-                      CourseEvent.fetch(widget.categoryTag),
-                    ),
-                  );
-                } else {
-                  return CourseList(
-                    courses: state.data,
-                    categoryTag: widget.categoryTag,
-                  );
-                }
-              },
             ),
           ),
         ],

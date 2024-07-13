@@ -16,7 +16,7 @@ class AdaptiveScaffold extends StatelessWidget {
   });
 
   final CustomAppBar? appBar;
-  final ListView body;
+  final Widget body;
 
   /// NavigationBar for android
   final Widget? bottomNavigationBar;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:insight/src/common/constants/base_constants.dart';
 
 extension BuildContextX on BuildContext {
   /// Returns [ColorScheme] from [BuildContext]
@@ -7,14 +6,6 @@ extension BuildContextX on BuildContext {
 
   /// Returns [TextTheme] from [BuildContext].
   TextTheme get textTheme => Theme.of(this).textTheme;
-
-  /// Use onle with [CustomAppBar]
-  EdgeInsets get adaptiveScreenPadding => isNeedCupertino
-      ? EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: MediaQuery.paddingOf(this).vertical / 2,
-        )
-      : const EdgeInsets.all(16);
 
   /// Obtain the nearest widget of the given type T,
   /// which must be the type of a concrete [InheritedWidget] subclass,

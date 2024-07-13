@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
+import 'package:insight/src/common/utils/build_mode.dart';
 import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
-
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
-
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/settings/widget/components/profile_widget.dart';
@@ -80,7 +79,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const Spacer(),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     if (isAuthenticated)
                       AdaptiveButton(
@@ -92,7 +90,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         },
                         child: const Text(AppStrings.signOut),
                       ),
-                    if (!Flavor.isProd) Text(Flavor.current),
+                    if (!Flavor.isProd) ...[
+                      Text('flavor: ${Flavor.current}'),
+                      Text('build mode: ${BuildMode.current}'),
+                    ],
                   ],
                 )
               ],
