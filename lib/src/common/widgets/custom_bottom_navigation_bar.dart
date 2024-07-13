@@ -4,19 +4,26 @@ import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 
-class CustomBottomNavigationBar extends StatelessWidget {
+class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar(this.navigationShell, {super.key});
 
   final StatefulNavigationShell navigationShell;
 
   @override
+  State<CustomBottomNavigationBar> createState() =>
+      _CustomBottomNavigationBarState();
+}
+
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+  @override
   Widget build(context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: isNeedCupertino
-          ? CupertinoTabBar(
-              currentIndex: navigationShell.currentIndex,
-              onTap: (tappedIndex) => navigationShell.goBranch(tappedIndex),
+    return isNeedCupertino
+        ? CupertinoTabScaffold(
+            key: UniqueKey(),
+            tabBar: CupertinoTabBar(
+              currentIndex: widget.navigationShell.currentIndex,
+              onTap: (tappedIndex) =>
+                  widget.navigationShell.goBranch(tappedIndex),
               items: const [
                 BottomNavigationBarItem(
                   activeIcon: Icon(CupertinoIcons.house_fill),
@@ -29,11 +36,17 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   label: AppStrings.settings,
                 ),
               ],
-            )
-          : NavigationBar(
+            ),
+            tabBuilder: (context, index) => CupertinoTabView(
+              builder: (context) => widget.navigationShell,
+            ),
+          )
+        : Scaffold(
+            body: widget.navigationShell,
+            bottomNavigationBar: NavigationBar(
               onDestinationSelected: (tappedIndex) =>
-                  navigationShell.goBranch(tappedIndex),
-              selectedIndex: navigationShell.currentIndex,
+                  widget.navigationShell.goBranch(tappedIndex),
+              selectedIndex: widget.navigationShell.currentIndex,
               destinations: const [
                 NavigationDestination(
                   selectedIcon: Icon(Icons.home_filled),
@@ -47,6 +60,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 )
               ],
             ),
-    );
+          );
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+// UI
+
 const standartDuration = Duration(milliseconds: 150);
 
 final isNeedCupertino = Platform.isIOS || Platform.isMacOS;

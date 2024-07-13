@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -112,8 +113,8 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
               InsightSnackBar.showError(context, text: errorState.message),
         ),
         builder: (context, state) {
-          return Scaffold(
-            appBar: CustomAppBar(
+          return CupertinoPageScaffold(
+            navigationBar: CustomAppBar(
               previousPageTitle: AppStrings.courses,
               action: EditButton(
                 isEditing: _isEditing,
@@ -126,7 +127,7 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
                     : null,
               ),
             ),
-            body: Builder(
+            child: Builder(
               builder: (context) {
                 if (!state.hasData && state.isProcessing) {
                   return const CoursePageSkeleton();

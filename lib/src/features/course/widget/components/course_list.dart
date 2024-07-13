@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/shimmer.dart';
 
 import 'package:insight/src/features/course/model/course.dart';
@@ -16,18 +17,29 @@ class CourseList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(16),
-      itemCount: courses?.length ?? 5,
-      itemBuilder: (context, index) => courses == null
-          ? const Shimmer(
-              size: Size.fromHeight(100),
-            )
-          : CourseWidget(
-              course: courses![index],
-              categoryTag: categoryTag,
+    ListView.separated(itemBuilder: itemBuilder, separatorBuilder: separatorBuilder, itemCount: itemCount)
+    return courses.isNotNull
+        ? Column(
+            children: courses!
+                .map(
+                  (course) => Padding(
+                    padding: EdgeInsets.only(
+                        top: courses!.indexOf(course) == 0 ? 0 : 20),
+                    child: CourseWidget(
+                      course: course,
+                      categoryTag: categoryTag,
+                    ),
+                  ),
+                )
+                .toList(),
+          )
+        : Column(
+            children: List.generate(
+              5,
+              (index) => const Shimmer(
+                size: Size.fromHeight(100),
+              ),
             ),
-      separatorBuilder: (context, index) => const SizedBox(height: 20),
-    );
+          );
   }
 }

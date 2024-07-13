@@ -86,160 +86,155 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
   Widget build(BuildContext context) {
     final deleteCourseButtonStyle = TextStyle(color: context.colorScheme.error);
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            AnimatedSwitcher(
-              duration: standartDuration,
-              child: widget.coursePage.imageUrl.isNotNull &&
-                      widget.editData.image.isNull
-                  ? AspectRatio(
-                      aspectRatio: 4 / 3,
-                      child: CustomImageWidget(
-                        widget.coursePage.imageUrl,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    )
-                  : FileWidget(
-                      filePath: widget.editData.image?.path,
-                      type: FileType.image,
-                    ),
-            ),
-            AnimatedSwitcher(
-              duration: standartDuration,
-              child: widget.editData.isEditing
-                  ? Center(
-                      child: AdaptiveButton(
-                        onPressed: widget.editData.addPhotoHandler,
-                        child: Text(
-                          widget.editData.image.isNotNull ||
-                                  widget.coursePage.imageUrl.isNotNull
-                              ? AppStrings.changePhoto
-                              : AppStrings.addPhoto,
-                        ),
-                      ),
-                    )
-                  : const SizedBox(height: 20),
-            ),
-            AnimatedSwitcher(
-              duration: standartDuration,
-              child: widget.editData.isEditing
-                  ? Column(
-                      children: [
-                        CustomTextField(
-                          controller: widget.editData.titleController,
-                          hintText: 'Название',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return AppStrings.pleaseEnterSomething;
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        CustomTextField(
-                          controller: widget.editData.descriptionController,
-                          hintText: 'Описание',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return AppStrings.pleaseEnterSomething;
-                            }
-                            return null;
-                          },
-                        ),
-                      ],
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.coursePage.name,
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          widget.coursePage.description,
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                      ],
-                    ),
-            ),
-            const SizedBox(height: 20),
-            if (widget.coursePage.lessons?.isNotEmpty ?? false)
-              IgnorePointer(
-                ignoring: widget.editData.isEditing,
-                child: AnimatedOpacity(
-                  duration: standartDuration,
-                  opacity: widget.editData.isEditing ? 0.4 : 1,
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.coursePage.lessons!.length,
-                    itemBuilder: (context, index) {
-                      final lesson = widget.coursePage.lessons![index];
-                      return InsightDismissible(
-                        isEnabled: widget.coursePage.isItsOwn,
-                        itemKey: lesson,
-                        deleteHandler: () =>
-                            Provider.of<CoursePageBloc>(context, listen: false)
-                                .add(
-                          CoursePageEvent.removeLesson(
-                            lesson: lesson,
-                            onRemove: () {
-                              InsightSnackBar.showSuccessful(
-                                context,
-                                text: 'Урок удален',
-                              );
-                            },
-                          ),
-                        ),
-                        child: LessonWidget(lesson),
-                      );
-                    },
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 20),
+    return ListView(
+      padding: context.adaptiveScreenPadding,
+      children: [
+        const SizedBox(height: 20),
+        AnimatedSwitcher(
+          duration: standartDuration,
+          child: widget.coursePage.imageUrl.isNotNull &&
+                  widget.editData.image.isNull
+              ? AspectRatio(
+                  aspectRatio: 4 / 3,
+                  child: CustomImageWidget(
+                    widget.coursePage.imageUrl,
+                    borderRadius: BorderRadius.circular(30),
                   ),
+                )
+              : FileWidget(
+                  filePath: widget.editData.image?.path,
+                  type: FileType.image,
                 ),
-              )
-            else
-              Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                decoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+        ),
+        AnimatedSwitcher(
+          duration: standartDuration,
+          child: widget.editData.isEditing
+              ? Center(
+                  child: AdaptiveButton(
+                    onPressed: widget.editData.addPhotoHandler,
+                    child: Text(
+                      widget.editData.image.isNotNull ||
+                              widget.coursePage.imageUrl.isNotNull
+                          ? AppStrings.changePhoto
+                          : AppStrings.addPhoto,
+                    ),
                   ),
-                  color: context.colorScheme.surfaceContainerLowest,
+                )
+              : const SizedBox(height: 20),
+        ),
+        AnimatedSwitcher(
+          duration: standartDuration,
+          child: widget.editData.isEditing
+              ? Column(
+                  children: [
+                    CustomTextField(
+                      controller: widget.editData.titleController,
+                      hintText: 'Название',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppStrings.pleaseEnterSomething;
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    CustomTextField(
+                      controller: widget.editData.descriptionController,
+                      hintText: 'Описание',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppStrings.pleaseEnterSomething;
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.coursePage.name,
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      widget.coursePage.description,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ],
                 ),
-                child: const Text('Курс в разработке'),
-              ),
-            const SizedBox(height: 20),
-            if (widget.coursePage.isItsOwn)
-              Align(
-                alignment: Alignment.center,
-                child: AdaptiveButton(
+        ),
+        if (widget.coursePage.isItsOwn && widget.editData.isEditing)
+          Center(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                AdaptiveButton(
                   onPressed: () => _onAddLessonHandler(context),
                   child: const Text(AppStrings.addLesson),
                 ),
-              ),
-            if (widget.coursePage.isItsOwn)
-              Align(
-                alignment: Alignment.center,
-                child: AdaptiveButton(
+                AdaptiveButton(
                   onPressed: () => _onDeletHandler(context),
                   child: Text(
                     AppStrings.delete,
                     style: deleteCourseButtonStyle,
                   ),
-                ),
+                )
+              ],
+            ),
+          ),
+        const SizedBox(height: 20),
+        if (widget.coursePage.lessons?.isNotEmpty ?? false)
+          IgnorePointer(
+            ignoring: widget.editData.isEditing,
+            child: AnimatedOpacity(
+              duration: standartDuration,
+              opacity: widget.editData.isEditing ? 0.4 : 1,
+              child: ListView.separated(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.coursePage.lessons!.length,
+                itemBuilder: (context, index) {
+                  final lesson = widget.coursePage.lessons![index];
+                  return InsightDismissible(
+                    isEnabled: widget.coursePage.isItsOwn,
+                    itemKey: lesson,
+                    deleteHandler: () =>
+                        Provider.of<CoursePageBloc>(context, listen: false).add(
+                      CoursePageEvent.removeLesson(
+                        lesson: lesson,
+                        onRemove: () {
+                          InsightSnackBar.showSuccessful(
+                            context,
+                            text: 'Урок удален',
+                          );
+                        },
+                      ),
+                    ),
+                    child: LessonWidget(lesson),
+                  );
+                },
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 20),
               ),
-          ],
-        ),
-      ),
+            ),
+          )
+        else
+          Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            decoration: ShapeDecoration(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              color: context.colorScheme.surfaceContainerLowest,
+            ),
+            child: const Text('Курс в разработке'),
+          ),
+        const SizedBox(height: 20),
+      ],
     );
   }
 }
