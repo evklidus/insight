@@ -7,6 +7,7 @@ import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/common/widgets/file/file_widget.dart';
 import 'package:insight/src/common/widgets/file/file_placeholder.dart';
+import 'package:insight/src/common/widgets/insight_list_tile.dart';
 import 'package:insight/src/common/widgets/shimmer.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/profile/bloc/profile_state.dart';
@@ -27,65 +28,45 @@ class ProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        if (!state.hasData) {
+          return const _BodySkeleton();
+        }
 
-    return Container(
-      decoration: ShapeDecoration(
-        color: context.colorScheme.surfaceContainerHigh,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: BlocBuilder<ProfileBloc, ProfileState>(
-        builder: (context, state) {
-          if (!state.hasData) {
-            return const _BodySkeleton();
-          }
-
-          final user = state.data!;
-          return GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: onPressed,
-            child: Row(
-              children: [
-                AnimatedSwitcher(
-                  duration: standartDuration,
-                  child: user.avatarUrl.isNotNull
-                      ? CustomImageWidget(
-                          user.avatarUrl!,
-                          size: Size.square(size.shortestSide * .15),
-                          shape: BoxShape.circle,
-                        )
-                      : FilePlaceholder.rounded(
-                          type: FileType.image,
-                          sizeRadius: size.shortestSide * .075,
-                        ),
-                ),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(user.fullName),
-                    Text(
-                      user.email,
-                      style: context.textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.w300),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                IconButton(
-                  onPressed: onEditPressed,
-                  icon: Icon(
-                    isNeedCupertino ? CupertinoIcons.pencil : Icons.edit,
+        final user = state.data!;
+        return InsightListTile(
+          backgroundColor: context.colorScheme.surfaceContainerHigh,
+          onTap: onPressed,
+          leadingSize: 48,
+          leading: AnimatedSwitcher(
+            duration: standartDuration,
+            child: user.avatarUrl.isNotNull
+                ? CustomImageWidget(
+                    user.avatarUrl!,
+                    shape: BoxShape.circle,
+                  )
+                : const FilePlaceholder.rounded(
+                    type: FileType.image,
                   ),
-                )
-              ],
+          ),
+          title: Text(
+            user.fullName,
+            style: context.textTheme.titleLarge,
+          ),
+          subtitle: Text(
+            user.email,
+            style: context.textTheme.titleSmall
+                ?.copyWith(fontWeight: FontWeight.w300),
+          ),
+          trailing: IconButton(
+            onPressed: onEditPressed,
+            icon: Icon(
+              isNeedCupertino ? CupertinoIcons.pencil : Icons.edit,
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
