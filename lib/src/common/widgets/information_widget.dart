@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 
 import 'package:insight/gen/assets.gen.dart';
-import 'package:insight/src/common/widgets/adaptive_button.dart';
+import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 
 class InformationWidget extends StatelessWidget {
   const InformationWidget({

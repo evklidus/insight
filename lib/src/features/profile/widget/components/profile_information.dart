@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
-import 'package:insight/src/common/widgets/adaptive_button.dart';
+import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/common/widgets/file/file_widget.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';

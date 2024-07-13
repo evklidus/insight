@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
-import 'package:insight/src/common/constants/base_constants.dart';
-import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
+import 'package:insight/src/common/widgets/buttons/edit_button.dart';
 import 'package:insight/src/features/course_page/model/course_edit.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
@@ -108,77 +107,59 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
     return BlocProvider(
       create: (context) => _coursePageBloc,
       child: BlocConsumer<CoursePageBloc, CoursePageState>(
-          listener: (context, state) => state.mapOrNull(
-                error: (errorState) => InsightSnackBar.showError(context,
-                    text: errorState.message),
+        listener: (context, state) => state.mapOrNull(
+          error: (errorState) =>
+              InsightSnackBar.showError(context, text: errorState.message),
+        ),
+        builder: (context, state) {
+          return Scaffold(
+            appBar: CustomAppBar(
+              previousPageTitle: AppStrings.courses,
+              action: EditButton(
+                isEditing: _isEditing,
+                opacity:
+                    state.data?.isItsOwn ?? false ? (_isEditing ? 1 : 0.8) : 0,
+                onPressed: state.data?.isItsOwn ?? false
+                    ? (_coursePageBloc.state.data.isNotNull
+                        ? () => _save(_coursePageBloc.state.data!.id)
+                        : null)
+                    : null,
               ),
-          builder: (context, state) {
-            return Scaffold(
-              appBar: CustomAppBar(
-                previousPageTitle: AppStrings.courses,
-                action: AnimatedOpacity(
-                  duration: standartDuration,
-                  opacity: state.data?.isItsOwn ?? false ? 1 : 0,
-                  child: GestureDetector(
-                    onTap: state.data?.isItsOwn ?? false
-                        ? (_coursePageBloc.state.data.isNotNull
-                            ? () => _save(_coursePageBloc.state.data!.id)
-                            : null)
-                        : null,
-                    child: AnimatedOpacity(
-                      duration: standartDuration,
-                      opacity: _isEditing ? 1 : 0.8,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 6),
-                        decoration: ShapeDecoration(
-                          color: context.colorScheme.surfaceContainerHigh,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        child: Text(
-                          _isEditing ? 'Сохранить' : 'Изменить',
-                          style: context.textTheme.bodyMedium,
-                        ),
-                      ),
+            ),
+            body: Builder(
+              builder: (context) {
+                if (!state.hasData && state.isProcessing) {
+                  return const CoursePageSkeleton();
+                } else if (!state.hasData && state.hasError) {
+                  return InformationWidget.error(
+                    reloadFunc: () => _coursePageBloc.add(
+                      CoursePageEvent.fetch(widget.coursePageId),
                     ),
-                  ),
-                ),
-              ),
-              body: Builder(
-                builder: (context) {
-                  if (!state.hasData && state.isProcessing) {
-                    return const CoursePageSkeleton();
-                  } else if (!state.hasData && state.hasError) {
-                    return InformationWidget.error(
-                      reloadFunc: () => _coursePageBloc.add(
-                        CoursePageEvent.fetch(widget.coursePageId),
-                      ),
-                    );
-                  } else if (!state.hasData) {
-                    return InformationWidget.empty(
-                      reloadFunc: () => _coursePageBloc.add(
-                        CoursePageEvent.fetch(widget.coursePageId),
-                      ),
-                    );
-                  } else {
-                    return CoursePageInfo(
-                      coursePage: state.data!,
-                      refreshCoursesList: widget.refreshCoursesList,
-                      editData: (
-                        isEditing: _isEditing,
-                        titleController: _titleController,
-                        descriptionController: _descriptionController,
-                        image: _image,
-                        addPhotoHandler: _addPhotoHandler,
-                      ),
-                    );
-                  }
-                },
-              ),
-            );
-          }),
+                  );
+                } else if (!state.hasData) {
+                  return InformationWidget.empty(
+                    reloadFunc: () => _coursePageBloc.add(
+                      CoursePageEvent.fetch(widget.coursePageId),
+                    ),
+                  );
+                } else {
+                  return CoursePageInfo(
+                    coursePage: state.data!,
+                    refreshCoursesList: widget.refreshCoursesList,
+                    editData: (
+                      isEditing: _isEditing,
+                      titleController: _titleController,
+                      descriptionController: _descriptionController,
+                      image: _image,
+                      addPhotoHandler: _addPhotoHandler,
+                    ),
+                  );
+                }
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }

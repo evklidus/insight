@@ -13,8 +13,10 @@ class InsightListTile extends StatelessWidget {
     this.backgroundColor,
     this.padding,
     this.borderRadius,
+    this.leadingSize = 28,
     this.leading,
     required this.title,
+    this.subtitle,
     this.trailing,
   });
 
@@ -22,8 +24,10 @@ class InsightListTile extends StatelessWidget {
   final Color? backgroundColor;
   final EdgeInsetsGeometry? padding;
   final BorderRadius? borderRadius;
+  final double leadingSize;
   final Widget? leading;
   final Widget title;
+  final Widget? subtitle;
   final Widget? trailing;
 
   @override
@@ -31,6 +35,7 @@ class InsightListTile extends StatelessWidget {
       ? ClipRRect(
           borderRadius: borderRadius ?? BorderRadius.circular(24),
           child: CupertinoListTile(
+            leadingSize: leadingSize,
             onTap: onTap,
             padding: padding ??
                 const EdgeInsets.symmetric(
@@ -41,6 +46,7 @@ class InsightListTile extends StatelessWidget {
                 Theme.of(context).colorScheme.surfaceContainer,
             leading: leading,
             title: title,
+            subtitle: subtitle,
             trailing: trailing,
           ),
         )
@@ -57,6 +63,7 @@ class InsightListTile extends StatelessWidget {
             ),
             leading: leading,
             title: title,
+            subtitle: subtitle,
             trailing: trailing,
           ),
         );

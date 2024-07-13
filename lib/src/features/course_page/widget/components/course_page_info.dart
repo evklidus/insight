@@ -5,7 +5,7 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
-import 'package:insight/src/common/widgets/adaptive_button.dart';
+import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/common/widgets/file/file_widget.dart';
@@ -128,33 +128,30 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
             AnimatedSwitcher(
               duration: standartDuration,
               child: widget.editData.isEditing
-                  ? Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          CustomTextField(
-                            controller: widget.editData.titleController,
-                            hintText: 'Название',
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return AppStrings.pleaseEnterSomething;
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 16),
-                          CustomTextField(
-                            controller: widget.editData.descriptionController,
-                            hintText: 'Описание',
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return AppStrings.pleaseEnterSomething;
-                              }
-                              return null;
-                            },
-                          ),
-                        ],
-                      ),
+                  ? Column(
+                      children: [
+                        CustomTextField(
+                          controller: widget.editData.titleController,
+                          hintText: 'Название',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return AppStrings.pleaseEnterSomething;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        CustomTextField(
+                          controller: widget.editData.descriptionController,
+                          hintText: 'Описание',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return AppStrings.pleaseEnterSomething;
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
                     )
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

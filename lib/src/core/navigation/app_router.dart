@@ -37,7 +37,6 @@ class AppRouter {
                   GoRoute(
                     name: 'courses',
                     path: 'courses/:tag',
-                    parentNavigatorKey: _rootNavigatorKey,
                     builder: (context, state) => CoursesScreen(
                       state.pathParameters['tag'] as String,
                     ),
@@ -45,7 +44,6 @@ class AppRouter {
                       GoRoute(
                         name: 'page',
                         path: 'course-page/:coursePageId',
-                        parentNavigatorKey: _rootNavigatorKey,
                         builder: (context, state) => CoursePageScreen(
                           coursePageId:
                               state.pathParameters['coursePageId'].toString(),
@@ -73,7 +71,6 @@ class AppRouter {
                   GoRoute(
                     name: 'create',
                     path: 'create',
-                    parentNavigatorKey: _rootNavigatorKey,
                     builder: (context, state) => const CreateCourseScreen(),
                   ),
                 ],
@@ -117,7 +114,6 @@ class AppRouter {
                   GoRoute(
                     name: 'profile',
                     path: 'profile',
-                    parentNavigatorKey: _rootNavigatorKey,
                     builder: (context, state) => ProfileScreen(
                       isEditing:
                           state.uri.queryParameters['isEditing'] == 'true',
@@ -126,7 +122,6 @@ class AppRouter {
                   GoRoute(
                     name: 'about',
                     path: 'about',
-                    parentNavigatorKey: _rootNavigatorKey,
                     builder: (context, state) => const AppAboutScreen(),
                   ),
                 ],
