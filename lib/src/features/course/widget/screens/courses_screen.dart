@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
@@ -10,6 +11,7 @@ import 'package:insight/src/features/course/bloc/course_bloc.dart';
 import 'package:insight/src/features/course/bloc/course_state.dart';
 import 'package:insight/src/features/course/widget/components/course_list.dart';
 
+@RoutePage()
 class CoursesScreen extends StatefulWidget {
   const CoursesScreen(this.categoryTag, {super.key});
 

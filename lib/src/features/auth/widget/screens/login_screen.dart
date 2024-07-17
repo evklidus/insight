@@ -1,9 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
-import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
+import 'package:insight/src/core/navigation/app_router.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 
@@ -12,6 +12,7 @@ import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/src/features/auth/widget/components/auth_button.dart';
 import 'package:insight/src/features/auth/widget/components/change_auth_type_button.dart';
 
+@RoutePage()
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -39,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) => state.mapOrNull(
         successful: (state) {
-          context.go('/');
+          context.router.navigate(const CategoriesRoute());
           context.read<ProfileBloc>().add(
                 const ProfileEvent.fetch(),
               );
@@ -106,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ChangeAuthTypeButton(
                 title: AppStrings.dontHaveAnAccount,
                 subTitle: AppStrings.register,
-                onPressed: () => context.goRelativeNamed('register'),
+                onPressed: () {},
               ),
             ],
           ),

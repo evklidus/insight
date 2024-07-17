@@ -26,7 +26,7 @@ class _MaterialContextState extends State<MaterialContext> {
       theme: theme.lightTheme,
       darkTheme: theme.darkTheme,
       themeMode: theme.mode,
-      routerConfig: _appRouter.router,
+      routerConfig: _appRouter.config(),
     );
   }
 }

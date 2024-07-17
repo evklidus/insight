@@ -1,10 +1,11 @@
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
-import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
+import 'package:insight/src/core/navigation/app_router.dart';
 import 'package:insight/src/features/categories/model/category.dart';
 
 class CategoryWidget extends StatelessWidget {
@@ -15,12 +16,7 @@ class CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.goRelativeNamed(
-        'courses',
-        pathParameters: {
-          'tag': category.tag,
-        },
-      ),
+      onTap: () => context.pushRoute(CoursesRoute(categoryTag: category.tag)),
       child: Stack(
         alignment: AlignmentDirectional.bottomStart,
         children: [

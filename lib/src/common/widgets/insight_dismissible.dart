@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
 /// {@template insight_dismissible}
@@ -36,7 +36,7 @@ class _InsightDismissibleState extends State<InsightDismissible> {
 
   void confirmDismiss() {
     _isDeletConfirmed = true;
-    context.pop();
+    context.back();
     widget.deleteHandler();
   }
 
@@ -67,12 +67,12 @@ class _InsightDismissibleState extends State<InsightDismissible> {
                       ),
                 Platform.isIOS
                     ? CupertinoDialogAction(
-                        onPressed: context.pop,
+                        onPressed: context.back,
                         isDefaultAction: true,
                         child: const Text('Отменить'),
                       )
                     : TextButton(
-                        onPressed: context.pop,
+                        onPressed: context.back,
                         child: const Text('Отменить'),
                       ),
               ],

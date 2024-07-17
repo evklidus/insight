@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,7 @@ import 'package:insight/src/features/course_page/widget/components/course_page_s
 import 'package:insight/src/features/course_page/widget/components/course_page_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+@RoutePage()
 class CoursePageScreen extends StatefulWidget {
   const CoursePageScreen({
     super.key,

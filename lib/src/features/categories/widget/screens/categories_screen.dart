@@ -1,9 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
+import 'package:insight/src/core/navigation/app_router.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
@@ -14,6 +15,7 @@ import 'package:insight/src/features/categories/bloc/categories_state.dart';
 import 'package:insight/src/features/categories/widget/components/categories_list.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
 
@@ -46,7 +48,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
           onPressed: () => authState.isAuthenticated ?? false
-              ? context.pushNamed('create')
+              ? context.pushRoute(const CreateCourseRoute())
               : InsightSnackBar.showError(
                   context,
                   text: AppStrings.needAuthToCreateCourse,

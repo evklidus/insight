@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/gen/assets.gen.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
@@ -7,11 +8,8 @@ import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/gen/pubspec.yaml.g.dart';
 
-/// {@template app_about_screen}
-/// AppAboutScreen widget.
-/// {@endtemplate}
+@RoutePage()
 class AppAboutScreen extends StatelessWidget {
-  /// {@macro app_about_screen}
   const AppAboutScreen({super.key});
 
   @override
