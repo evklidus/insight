@@ -5,14 +5,9 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 
 @RoutePage()
-class RootScreen extends StatefulWidget {
+class RootScreen extends StatelessWidget {
   const RootScreen({super.key});
 
-  @override
-  State<RootScreen> createState() => _RootScreenState();
-}
-
-class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(context) {
     return AutoTabsRouter(

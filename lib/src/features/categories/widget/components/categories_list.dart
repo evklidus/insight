@@ -15,8 +15,8 @@ class CategoriesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.only(
-        top: 16,
+      padding: EdgeInsets.only(
+        top: MediaQuery.paddingOf(context).top + 16,
         left: 16,
         right: 16,
       ),
