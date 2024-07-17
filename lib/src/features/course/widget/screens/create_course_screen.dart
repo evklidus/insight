@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
@@ -20,8 +20,11 @@ import 'package:insight/src/features/course/bloc/create_course/create_course_eve
 import 'package:insight/src/features/course/bloc/create_course/create_course_state.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-@RoutePage()
+/// {@template create_course_screen}
+/// CreateCourseScreen widget.
+/// {@endtemplate}
 class CreateCourseScreen extends StatefulWidget {
+  /// {@macro create_course_screen}
   const CreateCourseScreen({super.key});
 
   @override
@@ -88,7 +91,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
           imagePath: _image!.path,
           categoryTag: _selectedCategory.first,
           onCreateCallback: () {
-            context.back();
+            context.pop();
             InsightSnackBar.showSuccessful(
               context,
               text: AppStrings.courseSuccessfullyCreated,

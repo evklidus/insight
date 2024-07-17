@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 void showCustomAlert(
   BuildContext context, {
@@ -17,12 +17,12 @@ void showCustomAlert(
         actions: [
           Platform.isIOS
               ? CupertinoDialogAction(
-                  onPressed: context.back,
+                  onPressed: context.pop,
                   isDefaultAction: true,
                   child: const Text('Окей'),
                 )
               : TextButton(
-                  onPressed: context.back,
+                  onPressed: context.pop,
                   child: const Text('Окей'),
                 ),
         ],

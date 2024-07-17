@@ -1,9 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
+import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/common/widgets/insight_list_tile.dart';
-import 'package:insight/src/core/navigation/app_router.dart';
 
 import 'package:insight/src/features/course/bloc/course_bloc.dart';
 import 'package:insight/src/features/course/model/course.dart';
@@ -19,13 +18,13 @@ class CourseWidget extends StatelessWidget {
   final Course course;
   final String categoryTag;
 
-  void _onPressedHandler(BuildContext context) => context.pushRoute(
-        CoursePageRoute(
-          coursePageId: course.id,
-          refreshCoursesList: () =>
-              Provider.of<CourseBloc>(context, listen: false).add(
-            CourseEvent.fetch(categoryTag),
-          ),
+  void _onPressedHandler(BuildContext context) => context.goRelativeNamed(
+        'page',
+        pathParameters: {
+          'coursePageId': course.id.toString(),
+        },
+        extra: () => Provider.of<CourseBloc>(context, listen: false).add(
+          CourseEvent.fetch(categoryTag),
         ),
       );
 

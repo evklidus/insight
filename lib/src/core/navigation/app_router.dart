@@ -1,6 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
-import 'package:insight/src/common/widgets/root_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:insight/src/common/widgets/custom_bottom_navigation_bar.dart';
 import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/categories_screen.dart';
@@ -10,92 +10,126 @@ import 'package:insight/src/features/course/widget/screens/courses_screen.dart';
 import 'package:insight/src/features/profile/widget/screens/profile_screen.dart';
 import 'package:insight/src/features/settings/widget/screens/app_about_screen.dart';
 import 'package:insight/src/features/settings/widget/screens/settings_screen.dart';
-import 'package:insight/src/common/widgets/insight_player_screen.dart';
+import 'package:insight_player/insight_player.dart';
 
-part 'app_router.gr.dart';
+const _defaultFadeTransitionDuration = Duration(milliseconds: 200);
 
-@AutoRouterConfig(replaceInRouteName: 'Screen,Route')
-class AppRouter extends _$AppRouter {
-  @override
-  List<AutoRoute> get routes => [
-        AutoRoute(
-          page: RootRoute.page,
-          initial: true,
-          children: [
-            // Home aka categories
-            _homeRoute,
-            _settingsRoute,
-          ],
-        ),
-        AutoRoute(
-          path: '/video',
-          page: InsightPlayerRoute.page,
-        ),
-      ];
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
-  final _homeRoute = AutoRoute(
-    page: HomeTabRoute.page,
-    children: [
-      AutoRoute(
-        page: CategoriesRoute.page,
-        initial: true,
-        path: 'categories',
-      ),
-      // Курсы определенной категории
-      AutoRoute(
-        path: 'courses',
-        page: CoursesRoute.page,
-      ),
-      AutoRoute(
-        path: 'course-page',
-        page: CoursePageRoute.page,
-      ),
-      // Создание курса
-      AutoRoute(
-        path: 'create',
-        page: CreateCourseRoute.page,
+class AppRouter {
+  final router = GoRouter(
+    navigatorKey: _rootNavigatorKey,
+    initialLocation: '/',
+    routes: [
+      StatefulShellRoute.indexedStack(
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state, navigationShell) =>
+            CustomBottomNavigationBar(navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              // Категории
+              GoRoute(
+                path: '/',
+                builder: (context, state) => const CategoriesScreen(),
+                routes: [
+                  // Курсы определенной категории
+                  GoRoute(
+                    name: 'courses',
+                    path: 'courses/:tag',
+                    builder: (context, state) => CoursesScreen(
+                      state.pathParameters['tag'] as String,
+                    ),
+                    routes: [
+                      GoRoute(
+                        name: 'page',
+                        path: 'course-page/:coursePageId',
+                        builder: (context, state) => CoursePageScreen(
+                          coursePageId:
+                              state.pathParameters['coursePageId'].toString(),
+                          refreshCoursesList: state.extra as VoidCallback?,
+                        ),
+                        routes: [
+                          GoRoute(
+                            name: 'video',
+                            path: 'video/:coursePageTitle',
+                            parentNavigatorKey: _rootNavigatorKey,
+                            builder: (context, state) => InsightPlayer(
+                              videoUrl: state.uri.queryParameters['videoUrl']
+                                  as String,
+                              title: state.pathParameters['coursePageTitle']
+                                  as String,
+                              onVideoEnd: context.pop,
+                              onCloseButtonPressed: context.pop,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  // Создание курса
+                  GoRoute(
+                    name: 'create',
+                    path: 'create',
+                    builder: (context, state) => const CreateCourseScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/settings',
+                builder: (context, state) => const SettingsScreen(),
+                routes: [
+                  GoRoute(
+                    name: 'login',
+                    path: 'login',
+                    parentNavigatorKey: _rootNavigatorKey,
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const LoginScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                              FadeTransition(opacity: animation, child: child),
+                      transitionDuration: _defaultFadeTransitionDuration,
+                      reverseTransitionDuration: _defaultFadeTransitionDuration,
+                    ),
+                  ),
+                  GoRoute(
+                    name: 'register',
+                    path: 'register',
+                    parentNavigatorKey: _rootNavigatorKey,
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const RegisterScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                              FadeTransition(opacity: animation, child: child),
+                      transitionDuration: _defaultFadeTransitionDuration,
+                      reverseTransitionDuration: _defaultFadeTransitionDuration,
+                    ),
+                  ),
+                  GoRoute(
+                    name: 'profile',
+                    path: 'profile',
+                    builder: (context, state) => ProfileScreen(
+                      isEditing:
+                          state.uri.queryParameters['isEditing'] == 'true',
+                    ),
+                  ),
+                  GoRoute(
+                    name: 'about',
+                    path: 'about',
+                    builder: (context, state) => const AppAboutScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     ],
   );
-
-  final _settingsRoute = AutoRoute(
-    page: SettingsTabRoute.page,
-    children: [
-      AutoRoute(
-        initial: true,
-        path: 'settings',
-        page: SettingsRoute.page,
-      ),
-      // Авторизация
-      AutoRoute(
-        path: 'login',
-        page: LoginRoute.page,
-      ),
-      // Регистрация
-      AutoRoute(
-        path: 'register',
-        page: RegisterRoute.page,
-      ),
-      // Профиль
-      AutoRoute(
-        path: 'profile',
-        page: ProfileRoute.page,
-      ),
-      // О программе
-      AutoRoute(
-        path: 'about',
-        page: AppAboutRoute.page,
-      ),
-    ],
-  );
-}
-
-@RoutePage(name: 'HomeTabRoute')
-class HomeTab extends AutoRouter {
-  const HomeTab({super.key});
-}
-
-@RoutePage(name: 'SettingsTabRoute')
-class SettingsTab extends AutoRouter {
-  const SettingsTab({super.key});
 }

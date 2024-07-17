@@ -1,20 +1,18 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/build_mode.dart';
 import 'package:insight/src/common/utils/current_flavor.dart';
+import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
-import 'package:insight/src/core/navigation/app_router.dart';
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/settings/widget/components/profile_widget.dart';
 import 'package:insight/src/features/settings/widget/components/setting_row.dart';
 import 'package:insight/src/features/settings/widget/components/theme_change_widget.dart';
 
-@RoutePage()
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -54,10 +52,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   duration: standartDuration,
                   child: isAuthenticated
                       ? ProfileWidget(
-                          onPressed: () =>
-                              context.pushRoute(ProfileRoute(isEditing: false)),
-                          onEditPressed: () =>
-                              context.pushRoute(ProfileRoute(isEditing: true)),
+                          onPressed: () => context.goRelativeNamed('profile'),
+                          onEditPressed: () => context.goRelativeNamed(
+                            'profile',
+                            queryParams: {'isEditing': 'true'},
+                          ),
                         )
                       : SettingRow(
                           title: AppStrings.signIn,
@@ -65,7 +64,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Icons.login_rounded,
                             color: Theme.of(context).colorScheme.primary,
                           ),
-                          onTap: () => context.pushRoute(const LoginRoute()),
+                          onTap: () => context.goRelativeNamed('login'),
                         ),
                 ),
                 const SizedBox(height: 20),
@@ -76,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 SettingRow(
                   title: 'О приложении',
                   icon: const Icon(Icons.info_rounded),
-                  onTap: () => context.pushRoute(const AppAboutRoute()),
+                  onTap: () => context.goRelativeNamed('about'),
                 ),
                 const Spacer(),
                 Column(
