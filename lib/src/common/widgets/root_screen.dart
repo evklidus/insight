@@ -4,17 +4,16 @@ import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 
-class CustomBottomNavigationBar extends StatefulWidget {
-  const CustomBottomNavigationBar(this.navigationShell, {super.key});
+class RootScreen extends StatefulWidget {
+  const RootScreen(this.navigationShell, {super.key});
 
   final StatefulNavigationShell navigationShell;
 
   @override
-  State<CustomBottomNavigationBar> createState() =>
-      _CustomBottomNavigationBarState();
+  State<RootScreen> createState() => _RootScreenState();
 }
 
-class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(context) {
     return isNeedCupertino
