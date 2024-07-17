@@ -44,7 +44,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
           BlocProvider(
             create: (context) => coursesBloc,
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
               child: BlocConsumer<CourseBloc, CourseState>(
                 listener: (context, state) => state.mapOrNull(
                   error: (state) => InsightSnackBar.showError(

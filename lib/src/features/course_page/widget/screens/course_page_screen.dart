@@ -133,7 +133,7 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
             body: ListView(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
                   child: Builder(
                     builder: (context) {
                       if (!state.hasData && state.isProcessing) {
