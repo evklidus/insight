@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/build_mode.dart';
@@ -64,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Icons.login_rounded,
                             color: Theme.of(context).colorScheme.primary,
                           ),
-                          onTap: () => context.goRelativeNamed('login'),
+                          onTap: () => context.pushNamed('login'),
                         ),
                 ),
                 const SizedBox(height: 20),

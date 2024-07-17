@@ -14,15 +14,53 @@ import 'package:insight_player/insight_player.dart';
 
 const _defaultFadeTransitionDuration = Duration(milliseconds: 200);
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
+// final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppRouter {
   final router = GoRouter(
-    navigatorKey: _rootNavigatorKey,
+    // navigatorKey: _rootNavigatorKey,
     initialLocation: '/',
     routes: [
+      // Video
+      GoRoute(
+        name: 'video',
+        path: '/video/:coursePageTitle',
+        builder: (context, state) => InsightPlayer(
+          videoUrl: state.uri.queryParameters['videoUrl'] as String,
+          title: state.pathParameters['coursePageTitle'] as String,
+          onVideoEnd: context.pop,
+          onCloseButtonPressed: context.pop,
+        ),
+      ),
+
+      // Auth
+      GoRoute(
+        name: 'login',
+        path: '/login',
+        pageBuilder: (context, state) => CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: const LoginScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              FadeTransition(opacity: animation, child: child),
+          transitionDuration: _defaultFadeTransitionDuration,
+          reverseTransitionDuration: _defaultFadeTransitionDuration,
+        ),
+      ),
+      GoRoute(
+        name: 'register',
+        path: '/register',
+        pageBuilder: (context, state) => CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: const RegisterScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              FadeTransition(opacity: animation, child: child),
+          transitionDuration: _defaultFadeTransitionDuration,
+          reverseTransitionDuration: _defaultFadeTransitionDuration,
+        ),
+      ),
+
+      // Tabs
       StatefulShellRoute.indexedStack(
-        parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state, navigationShell) =>
             RootScreen(navigationShell),
         branches: [
@@ -49,21 +87,6 @@ class AppRouter {
                               state.pathParameters['coursePageId'].toString(),
                           refreshCoursesList: state.extra as VoidCallback?,
                         ),
-                        routes: [
-                          GoRoute(
-                            name: 'video',
-                            path: 'video/:coursePageTitle',
-                            parentNavigatorKey: _rootNavigatorKey,
-                            builder: (context, state) => InsightPlayer(
-                              videoUrl: state.uri.queryParameters['videoUrl']
-                                  as String,
-                              title: state.pathParameters['coursePageTitle']
-                                  as String,
-                              onVideoEnd: context.pop,
-                              onCloseButtonPressed: context.pop,
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),
@@ -83,34 +106,6 @@ class AppRouter {
                 path: '/settings',
                 builder: (context, state) => const SettingsScreen(),
                 routes: [
-                  GoRoute(
-                    name: 'login',
-                    path: 'login',
-                    parentNavigatorKey: _rootNavigatorKey,
-                    pageBuilder: (context, state) => CustomTransitionPage<void>(
-                      key: state.pageKey,
-                      child: const LoginScreen(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) =>
-                              FadeTransition(opacity: animation, child: child),
-                      transitionDuration: _defaultFadeTransitionDuration,
-                      reverseTransitionDuration: _defaultFadeTransitionDuration,
-                    ),
-                  ),
-                  GoRoute(
-                    name: 'register',
-                    path: 'register',
-                    parentNavigatorKey: _rootNavigatorKey,
-                    pageBuilder: (context, state) => CustomTransitionPage<void>(
-                      key: state.pageKey,
-                      child: const RegisterScreen(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) =>
-                              FadeTransition(opacity: animation, child: child),
-                      transitionDuration: _defaultFadeTransitionDuration,
-                      reverseTransitionDuration: _defaultFadeTransitionDuration,
-                    ),
-                  ),
                   GoRoute(
                     name: 'profile',
                     path: 'profile',
