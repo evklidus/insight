@@ -81,6 +81,7 @@ class CustomTextField extends StatelessWidget {
       InputType.basic => TextInputType.text,
     };
     return Material(
+      color: Colors.transparent,
       child: TextFormField(
         controller: _controller,
         maxLines: _maxLines,

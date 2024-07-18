@@ -62,7 +62,7 @@ class _VideoPreviewState extends State<VideoPreview> {
                       ? _controller.pause()
                       : _controller.play(),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(24),
                     child: AspectRatio(
                       aspectRatio: _controller.value.aspectRatio,
                       child: VideoPlayer(_controller),

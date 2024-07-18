@@ -51,6 +51,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
 
   void _onAddLessonHandler(BuildContext ctx) => ModalPopup.show(
         context: context,
+        useRootNavigator: true,
         child: AddLessonWidget(
           onAdd: (name, videoPath) =>
               Provider.of<CoursePageBloc>(context, listen: false).add(
@@ -146,42 +147,34 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                         return null;
                       },
                     ),
+                    const SizedBox(height: 16),
+                    AdaptiveButton(
+                      onPressed: () => _onDeletHandler(context),
+                      child: Text(
+                        AppStrings.delete,
+                        style: deleteCourseButtonStyle,
+                      ),
+                    )
                   ],
                 )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.coursePage.name,
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      widget.coursePage.description,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ],
+              : Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.coursePage.name,
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        widget.coursePage.description,
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    ],
+                  ),
                 ),
         ),
-        if (widget.coursePage.isItsOwn && widget.editData.isEditing)
-          Center(
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                AdaptiveButton(
-                  onPressed: () => _onAddLessonHandler(context),
-                  child: const Text(AppStrings.addLesson),
-                ),
-                AdaptiveButton(
-                  onPressed: () => _onDeletHandler(context),
-                  child: Text(
-                    AppStrings.delete,
-                    style: deleteCourseButtonStyle,
-                  ),
-                )
-              ],
-            ),
-          ),
         const SizedBox(height: 20),
         if (widget.coursePage.lessons?.isNotEmpty ?? false)
           IgnorePointer(
@@ -232,6 +225,11 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
             child: const Text('Курс в разработке'),
           ),
         const SizedBox(height: 20),
+        if (widget.coursePage.isItsOwn)
+          AdaptiveButton(
+            onPressed: () => _onAddLessonHandler(context),
+            child: const Text(AppStrings.addLesson),
+          ),
       ],
     );
   }

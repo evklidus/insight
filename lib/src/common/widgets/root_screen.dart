@@ -18,7 +18,7 @@ class _RootScreenState extends State<RootScreen> {
   Widget build(context) {
     return isNeedCupertino
         ? CupertinoTabScaffold(
-            key: UniqueKey(),
+            key: ValueKey(widget.navigationShell.currentIndex),
             tabBar: CupertinoTabBar(
               currentIndex: widget.navigationShell.currentIndex,
               onTap: (tappedIndex) =>
