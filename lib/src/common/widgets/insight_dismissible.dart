@@ -53,6 +53,7 @@ class _InsightDismissibleState extends State<InsightDismissible> {
           // TODO: Должно передаваться + флаг
           // TODO: Вынести в отдельный файл
           await showAdaptiveDialog(
+            useRootNavigator: false,
             context: context,
             builder: (context) => AlertDialog.adaptive(
               title: const Text('Подтверждение'),

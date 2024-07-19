@@ -53,8 +53,13 @@ class _RootScreenState extends State<RootScreen> {
       bottomNavigationBar: isNeedCupertino
           ? CupertinoTabBar(
               currentIndex: widget.navigationShell.currentIndex,
-              onTap: (tappedIndex) =>
-                  widget.navigationShell.goBranch(tappedIndex),
+              onTap: (tappedIndex) => widget.navigationShell.goBranch(
+                tappedIndex,
+                initialLocation:
+                    tappedIndex == widget.navigationShell.currentIndex
+                        ? true
+                        : false,
+              ),
               items: const [
                 BottomNavigationBarItem(
                   activeIcon: Icon(CupertinoIcons.house_fill),

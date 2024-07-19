@@ -87,6 +87,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
         );
 
     showAdaptiveDialog(
+      useRootNavigator: false,
       context: context,
       builder: (context) => AlertDialog.adaptive(
         title: const Text('Подтверждение'),
