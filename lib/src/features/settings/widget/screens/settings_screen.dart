@@ -6,6 +6,7 @@ import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/build_mode.dart';
 import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
+import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
@@ -32,7 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AdaptiveScaffold(
       appBar: const CustomAppBar(
         title: AppStrings.settings,
       ),
@@ -47,7 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           builder: (context, state) {
             final isAuthenticated = _authBloc.state.isAuthenticated!;
 
-            return Column(
+            return ListView(
               children: [
                 AnimatedSwitcher(
                   duration: standartDuration,
@@ -78,9 +79,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   icon: const Icon(Icons.info_rounded),
                   onTap: () => context.goRelativeNamed('about'),
                 ),
-                const Spacer(),
                 Column(
                   children: [
+                    const SizedBox(height: 20),
                     if (isAuthenticated)
                       AdaptiveButton(
                         onPressed: () {

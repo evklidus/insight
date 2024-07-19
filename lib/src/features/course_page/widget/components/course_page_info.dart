@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:go_router/go_router.dart';
@@ -69,19 +72,49 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
         ),
       );
 
-  void _onDeletHandler(BuildContext ctx) =>
-      Provider.of<CoursePageBloc>(ctx, listen: false).add(
-        CoursePageEvent.delete(
-          () {
-            widget.refreshCoursesList?.call();
-            InsightSnackBar.showSuccessful(
-              context,
-              text: AppStrings.courseDelete,
-            );
-            context.pop();
-          },
-        ),
-      );
+  void _onDeletHandler(BuildContext ctx) {
+    void deleteCourse() => Provider.of<CoursePageBloc>(ctx, listen: false).add(
+          CoursePageEvent.delete(
+            () {
+              widget.refreshCoursesList?.call();
+              InsightSnackBar.showSuccessful(
+                context,
+                text: AppStrings.courseDelete,
+              );
+              context.pop();
+            },
+          ),
+        );
+
+    showAdaptiveDialog(
+      context: context,
+      builder: (context) => AlertDialog.adaptive(
+        title: const Text('Подтверждение'),
+        content: const Text('Вы действительно хотитете удалить урок ?'),
+        actions: [
+          Platform.isIOS
+              ? CupertinoDialogAction(
+                  onPressed: deleteCourse,
+                  child: const Text('Удалить'),
+                )
+              : TextButton(
+                  onPressed: deleteCourse,
+                  child: const Text('Удалить'),
+                ),
+          Platform.isIOS
+              ? CupertinoDialogAction(
+                  onPressed: context.pop,
+                  isDefaultAction: true,
+                  child: const Text('Отменить'),
+                )
+              : TextButton(
+                  onPressed: context.pop,
+                  child: const Text('Отменить'),
+                ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -226,9 +259,13 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
           ),
         const SizedBox(height: 20),
         if (widget.coursePage.isItsOwn)
-          AdaptiveButton(
-            onPressed: () => _onAddLessonHandler(context),
-            child: const Text(AppStrings.addLesson),
+          AnimatedOpacity(
+            duration: standartDuration,
+            opacity: widget.editData.isEditing ? 0.4 : 1,
+            child: AdaptiveButton(
+              onPressed: () => _onAddLessonHandler(context),
+              child: const Text(AppStrings.addLesson),
+            ),
           ),
       ],
     );

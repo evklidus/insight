@@ -80,29 +80,26 @@ class CustomTextField extends StatelessWidget {
       InputType.lastName => TextInputType.name,
       InputType.basic => TextInputType.text,
     };
-    return Material(
-      color: Colors.transparent,
-      child: TextFormField(
-        controller: _controller,
-        maxLines: _maxLines,
-        onChanged: _onChanged,
-        validator: _validator,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          fillColor: Theme.of(context).colorScheme.surfaceContainer,
-          filled: true,
-          hintText: _hintText,
+    return TextFormField(
+      controller: _controller,
+      maxLines: _maxLines,
+      onChanged: _onChanged,
+      validator: _validator,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(16),
         ),
-        obscureText: _isForPassword,
-        enableSuggestions: !_isForPassword,
-        autocorrect: !_isForPassword,
-        textCapitalization: textCapitalization,
-        autofillHints: autofillHints,
-        keyboardType: keyboardType,
+        fillColor: Theme.of(context).colorScheme.surfaceContainer,
+        filled: true,
+        hintText: _hintText,
       ),
+      obscureText: _isForPassword,
+      enableSuggestions: !_isForPassword,
+      autocorrect: !_isForPassword,
+      textCapitalization: textCapitalization,
+      autofillHints: autofillHints,
+      keyboardType: keyboardType,
     );
   }
 }

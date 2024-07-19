@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/constants/app_colors.dart';
 
 /// {@template app_theme}
 /// An immutable class that holds properties needed
@@ -35,7 +36,7 @@ final class AppTheme with Diagnosticable {
   /// The default [AppTheme].
   static final defaultTheme = AppTheme(
     mode: ThemeMode.system,
-    seed: const Color(0xff3965E3),
+    seed: AppColors.primary,
   );
 
   /// The [ThemeData] for this [AppTheme].
