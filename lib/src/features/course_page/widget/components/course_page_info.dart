@@ -52,23 +52,23 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
     widget.editData.descriptionController.text = widget.coursePage.description;
   }
 
-  void _onAddLessonHandler(BuildContext ctx) => ModalPopup.show(
-        context: context,
+  void _onAddLessonHandler(BuildContext context) => ModalPopup.show(
         useRootNavigator: true,
+        context: context,
         child: AddLessonWidget(
-          onAdd: (name, videoPath) =>
-              Provider.of<CoursePageBloc>(context, listen: false).add(
-            CoursePageEvent.addLesson(
-              name: name,
-              videoPath: videoPath,
-              onAdd: () {
-                InsightSnackBar.showSuccessful(
+          onAdd: (name, videoPath) {
+            Navigator.of(context, rootNavigator: true).pop();
+            Provider.of<CoursePageBloc>(context, listen: false).add(
+              CoursePageEvent.addLesson(
+                name: name,
+                videoPath: videoPath,
+                onAdd: () => InsightSnackBar.showSuccessful(
                   context,
                   text: 'Урок добавлен',
-                );
-              },
-            ),
-          ),
+                ),
+              ),
+            );
+          },
         ),
       );
 
