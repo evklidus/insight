@@ -34,6 +34,7 @@ class InsightControls extends StatelessWidget {
             controller,
             allowScrubbing: true,
             borderRadius: BorderRadius.circular(12),
+            padding: const EdgeInsets.symmetric(vertical: 6),
             colors: VideoProgressColors(
               playedColor: Theme.of(context).colorScheme.primary,
             ),
