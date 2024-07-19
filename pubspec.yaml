@@ -21,10 +21,10 @@ dependencies:
   bloc_concurrency: ^0.2.2
 
   # firebase
-  firebase_core: ^2.27.0
-  cloud_firestore: ^4.8.4
-  firebase_storage: ^11.2.5
-  firebase_auth: ^4.7.2
+  firebase_core: ^3.2.0
+  cloud_firestore: ^5.1.0
+  firebase_storage: ^12.1.1
+  firebase_auth: ^5.1.2
   firebase_core_platform_interface: ^5.0.0
 
   # DB
