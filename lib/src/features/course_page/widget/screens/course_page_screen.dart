@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
+import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/buttons/edit_button.dart';
 import 'package:insight/src/features/course_page/model/course_edit.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
@@ -112,7 +114,7 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
               InsightSnackBar.showError(context, text: errorState.message),
         ),
         builder: (context, state) {
-          return Scaffold(
+          return AdaptiveScaffold(
             appBar: CustomAppBar(
               previousPageTitle: AppStrings.courses,
               action: EditButton(
@@ -126,36 +128,43 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
                     : null,
               ),
             ),
-            body: Builder(
-              builder: (context) {
-                if (!state.hasData && state.isProcessing) {
-                  return const CoursePageSkeleton();
-                } else if (!state.hasData && state.hasError) {
-                  return InformationWidget.error(
-                    reloadFunc: () => _coursePageBloc.add(
-                      CoursePageEvent.fetch(widget.coursePageId),
-                    ),
-                  );
-                } else if (!state.hasData) {
-                  return InformationWidget.empty(
-                    reloadFunc: () => _coursePageBloc.add(
-                      CoursePageEvent.fetch(widget.coursePageId),
-                    ),
-                  );
-                } else {
-                  return CoursePageInfo(
-                    coursePage: state.data!,
-                    refreshCoursesList: widget.refreshCoursesList,
-                    editData: (
-                      isEditing: _isEditing,
-                      titleController: _titleController,
-                      descriptionController: _descriptionController,
-                      image: _image,
-                      addPhotoHandler: _addPhotoHandler,
-                    ),
-                  );
-                }
-              },
+            body: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                  child: Builder(
+                    builder: (context) {
+                      if (!state.hasData && state.isProcessing) {
+                        return const CoursePageSkeleton();
+                      } else if (!state.hasData && state.hasError) {
+                        return InformationWidget.error(
+                          reloadFunc: () => _coursePageBloc.add(
+                            CoursePageEvent.fetch(widget.coursePageId),
+                          ),
+                        );
+                      } else if (!state.hasData) {
+                        return InformationWidget.empty(
+                          reloadFunc: () => _coursePageBloc.add(
+                            CoursePageEvent.fetch(widget.coursePageId),
+                          ),
+                        );
+                      } else {
+                        return CoursePageInfo(
+                          coursePage: state.data!,
+                          refreshCoursesList: widget.refreshCoursesList,
+                          editData: (
+                            isEditing: _isEditing,
+                            titleController: _titleController,
+                            descriptionController: _descriptionController,
+                            image: _image,
+                            addPhotoHandler: _addPhotoHandler,
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
           );
         },

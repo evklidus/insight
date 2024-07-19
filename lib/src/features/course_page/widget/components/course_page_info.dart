@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:go_router/go_router.dart';
@@ -49,197 +52,223 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
     widget.editData.descriptionController.text = widget.coursePage.description;
   }
 
-  void _onAddLessonHandler(BuildContext ctx) => ModalPopup.show(
+  void _onAddLessonHandler(BuildContext context) => ModalPopup.show(
+        useRootNavigator: true,
         context: context,
         child: AddLessonWidget(
-          onAdd: (name, videoPath) =>
-              Provider.of<CoursePageBloc>(context, listen: false).add(
-            CoursePageEvent.addLesson(
-              name: name,
-              videoPath: videoPath,
-              onAdd: () {
-                InsightSnackBar.showSuccessful(
+          onAdd: (name, videoPath) {
+            Navigator.of(context, rootNavigator: true).pop();
+            Provider.of<CoursePageBloc>(context, listen: false).add(
+              CoursePageEvent.addLesson(
+                name: name,
+                videoPath: videoPath,
+                onAdd: () => InsightSnackBar.showSuccessful(
                   context,
                   text: 'Урок добавлен',
-                );
-              },
-            ),
-          ),
-        ),
-      );
-
-  void _onDeletHandler(BuildContext ctx) =>
-      Provider.of<CoursePageBloc>(ctx, listen: false).add(
-        CoursePageEvent.delete(
-          () {
-            widget.refreshCoursesList?.call();
-            InsightSnackBar.showSuccessful(
-              context,
-              text: AppStrings.courseDelete,
+                ),
+              ),
             );
-            context.pop();
           },
         ),
       );
+
+  void _onDeletHandler(BuildContext ctx) {
+    void deleteCourse() => Provider.of<CoursePageBloc>(ctx, listen: false).add(
+          CoursePageEvent.delete(
+            () {
+              widget.refreshCoursesList?.call();
+              InsightSnackBar.showSuccessful(
+                context,
+                text: AppStrings.courseDelete,
+              );
+              context.pop();
+            },
+          ),
+        );
+
+    showAdaptiveDialog(
+      useRootNavigator: false,
+      context: context,
+      builder: (context) => AlertDialog.adaptive(
+        title: const Text('Подтверждение'),
+        content: const Text('Вы действительно хотитете удалить урок ?'),
+        actions: [
+          Platform.isIOS
+              ? CupertinoDialogAction(
+                  onPressed: deleteCourse,
+                  child: const Text('Удалить'),
+                )
+              : TextButton(
+                  onPressed: deleteCourse,
+                  child: const Text('Удалить'),
+                ),
+          Platform.isIOS
+              ? CupertinoDialogAction(
+                  onPressed: context.pop,
+                  isDefaultAction: true,
+                  child: const Text('Отменить'),
+                )
+              : TextButton(
+                  onPressed: context.pop,
+                  child: const Text('Отменить'),
+                ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final deleteCourseButtonStyle = TextStyle(color: context.colorScheme.error);
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            AnimatedSwitcher(
-              duration: standartDuration,
-              child: widget.coursePage.imageUrl.isNotNull &&
-                      widget.editData.image.isNull
-                  ? AspectRatio(
-                      aspectRatio: 4 / 3,
-                      child: CustomImageWidget(
-                        widget.coursePage.imageUrl,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    )
-                  : FileWidget(
-                      filePath: widget.editData.image?.path,
-                      type: FileType.image,
-                    ),
-            ),
-            AnimatedSwitcher(
-              duration: standartDuration,
-              child: widget.editData.isEditing
-                  ? Center(
-                      child: AdaptiveButton(
-                        onPressed: widget.editData.addPhotoHandler,
-                        child: Text(
-                          widget.editData.image.isNotNull ||
-                                  widget.coursePage.imageUrl.isNotNull
-                              ? AppStrings.changePhoto
-                              : AppStrings.addPhoto,
-                        ),
-                      ),
-                    )
-                  : const SizedBox(height: 20),
-            ),
-            AnimatedSwitcher(
-              duration: standartDuration,
-              child: widget.editData.isEditing
-                  ? Column(
-                      children: [
-                        CustomTextField(
-                          controller: widget.editData.titleController,
-                          hintText: 'Название',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return AppStrings.pleaseEnterSomething;
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        CustomTextField(
-                          controller: widget.editData.descriptionController,
-                          hintText: 'Описание',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return AppStrings.pleaseEnterSomething;
-                            }
-                            return null;
-                          },
-                        ),
-                      ],
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.coursePage.name,
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          widget.coursePage.description,
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                      ],
-                    ),
-            ),
-            const SizedBox(height: 20),
-            if (widget.coursePage.lessons?.isNotEmpty ?? false)
-              IgnorePointer(
-                ignoring: widget.editData.isEditing,
-                child: AnimatedOpacity(
-                  duration: standartDuration,
-                  opacity: widget.editData.isEditing ? 0.4 : 1,
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.coursePage.lessons!.length,
-                    itemBuilder: (context, index) {
-                      final lesson = widget.coursePage.lessons![index];
-                      return InsightDismissible(
-                        isEnabled: widget.coursePage.isItsOwn,
-                        itemKey: lesson,
-                        deleteHandler: () =>
-                            Provider.of<CoursePageBloc>(context, listen: false)
-                                .add(
-                          CoursePageEvent.removeLesson(
-                            lesson: lesson,
-                            onRemove: () {
-                              InsightSnackBar.showSuccessful(
-                                context,
-                                text: 'Урок удален',
-                              );
-                            },
-                          ),
-                        ),
-                        child: LessonWidget(lesson),
-                      );
-                    },
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 20),
+    return Column(
+      children: [
+        AnimatedSwitcher(
+          duration: standartDuration,
+          child: widget.coursePage.imageUrl.isNotNull &&
+                  widget.editData.image.isNull
+              ? AspectRatio(
+                  aspectRatio: 4 / 3,
+                  child: CustomImageWidget(
+                    widget.coursePage.imageUrl,
+                    borderRadius: BorderRadius.circular(30),
                   ),
+                )
+              : FileWidget(
+                  filePath: widget.editData.image?.path,
+                  type: FileType.image,
                 ),
-              )
-            else
-              Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                decoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  color: context.colorScheme.surfaceContainerLowest,
-                ),
-                child: const Text('Курс в разработке'),
-              ),
-            const SizedBox(height: 20),
-            if (widget.coursePage.isItsOwn)
-              Align(
-                alignment: Alignment.center,
-                child: AdaptiveButton(
-                  onPressed: () => _onAddLessonHandler(context),
-                  child: const Text(AppStrings.addLesson),
-                ),
-              ),
-            if (widget.coursePage.isItsOwn)
-              Align(
-                alignment: Alignment.center,
-                child: AdaptiveButton(
-                  onPressed: () => _onDeletHandler(context),
-                  child: Text(
-                    AppStrings.delete,
-                    style: deleteCourseButtonStyle,
-                  ),
-                ),
-              ),
-          ],
         ),
-      ),
+        AnimatedSwitcher(
+          duration: standartDuration,
+          child: widget.editData.isEditing
+              ? Center(
+                  child: AdaptiveButton(
+                    onPressed: widget.editData.addPhotoHandler,
+                    child: Text(
+                      widget.editData.image.isNotNull ||
+                              widget.coursePage.imageUrl.isNotNull
+                          ? AppStrings.changePhoto
+                          : AppStrings.addPhoto,
+                    ),
+                  ),
+                )
+              : const SizedBox(height: 20),
+        ),
+        AnimatedSwitcher(
+          duration: standartDuration,
+          child: widget.editData.isEditing
+              ? Column(
+                  children: [
+                    CustomTextField(
+                      controller: widget.editData.titleController,
+                      hintText: 'Название',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppStrings.pleaseEnterSomething;
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    CustomTextField(
+                      controller: widget.editData.descriptionController,
+                      hintText: 'Описание',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppStrings.pleaseEnterSomething;
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    AdaptiveButton(
+                      onPressed: () => _onDeletHandler(context),
+                      child: Text(
+                        AppStrings.delete,
+                        style: deleteCourseButtonStyle,
+                      ),
+                    )
+                  ],
+                )
+              : Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.coursePage.name,
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        widget.coursePage.description,
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    ],
+                  ),
+                ),
+        ),
+        const SizedBox(height: 20),
+        if (widget.coursePage.lessons?.isNotEmpty ?? false)
+          IgnorePointer(
+            ignoring: widget.editData.isEditing,
+            child: AnimatedOpacity(
+              duration: standartDuration,
+              opacity: widget.editData.isEditing ? 0.4 : 1,
+              child: ListView.separated(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.coursePage.lessons!.length,
+                itemBuilder: (context, index) {
+                  final lesson = widget.coursePage.lessons![index];
+                  return InsightDismissible(
+                    isEnabled: widget.coursePage.isItsOwn,
+                    itemKey: lesson,
+                    deleteHandler: () =>
+                        Provider.of<CoursePageBloc>(context, listen: false).add(
+                      CoursePageEvent.removeLesson(
+                        lesson: lesson,
+                        onRemove: () {
+                          InsightSnackBar.showSuccessful(
+                            context,
+                            text: 'Урок удален',
+                          );
+                        },
+                      ),
+                    ),
+                    child: LessonWidget(lesson),
+                  );
+                },
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 20),
+              ),
+            ),
+          )
+        else
+          Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            decoration: ShapeDecoration(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              color: context.colorScheme.surfaceContainerLowest,
+            ),
+            child: const Text('Курс в разработке'),
+          ),
+        const SizedBox(height: 20),
+        if (widget.coursePage.isItsOwn)
+          AnimatedOpacity(
+            duration: standartDuration,
+            opacity: widget.editData.isEditing ? 0.4 : 1,
+            child: AdaptiveButton(
+              onPressed: () => _onAddLessonHandler(context),
+              child: const Text(AppStrings.addLesson),
+            ),
+          ),
+      ],
     );
   }
 }

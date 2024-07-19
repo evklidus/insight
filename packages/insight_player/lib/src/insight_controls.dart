@@ -1,52 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:insight_player/src/custom_video_progress_indicator.dart';
 import 'package:insight_player/src/play_pause_button.dart';
 import 'package:video_player/video_player.dart';
 
 /// {@template insight_controls}
 /// InsightControls widget.
 /// {@endtemplate}
-class InsightControls extends StatefulWidget {
+class InsightControls extends StatelessWidget {
   /// {@macro insight_controls}
   const InsightControls({super.key, required this.controller});
 
   final VideoPlayerController controller;
 
   @override
-  State<InsightControls> createState() => _InsightControlsState();
-}
-
-/// State for widget InsightControls.
-class _InsightControlsState extends State<InsightControls> {
-  /* #region Lifecycle */
-  @override
-  void initState() {
-    super.initState();
-    // Initial state initialization
-  }
-
-  @override
-  void didUpdateWidget(InsightControls oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Widget configuration changed
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // The configuration of InheritedWidgets has changed
-    // Also called after initState but before build
-  }
-
-  @override
-  void dispose() {
-    // Permanent removal of a tree stent
-    super.dispose();
-  }
-  /* #endregion */
-
-  @override
   Widget build(BuildContext context) {
-    final isInitialized = widget.controller.value.isInitialized;
+    final isInitialized = controller.value.isInitialized;
     final iconColor = isInitialized
         ? Theme.of(context).colorScheme.primary
         : Theme.of(context).colorScheme.onSurface.withOpacity(0.4);
@@ -62,15 +30,13 @@ class _InsightControlsState extends State<InsightControls> {
       ),
       child: Column(
         children: [
-          ClipRRect(
+          CustomVideoProgressIndicator(
+            controller,
+            allowScrubbing: true,
             borderRadius: BorderRadius.circular(12),
-            child: VideoProgressIndicator(
-              widget.controller,
-              allowScrubbing: true,
-              padding: EdgeInsets.zero,
-              colors: VideoProgressColors(
-                playedColor: Theme.of(context).colorScheme.primary,
-              ),
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            colors: VideoProgressColors(
+              playedColor: Theme.of(context).colorScheme.primary,
             ),
           ),
           const SizedBox(height: 16),
@@ -78,9 +44,9 @@ class _InsightControlsState extends State<InsightControls> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                onPressed: () => widget.controller.seekTo(
+                onPressed: () => controller.seekTo(
                   Duration(
-                    seconds: widget.controller.value.position.inSeconds - 15,
+                    seconds: controller.value.position.inSeconds - 15,
                   ),
                 ),
                 icon: Icon(
@@ -91,12 +57,12 @@ class _InsightControlsState extends State<InsightControls> {
               ),
               PlayPauseButton(
                 isInitialized,
-                widget.controller,
+                controller,
               ),
               IconButton(
-                onPressed: () => widget.controller.seekTo(
+                onPressed: () => controller.seekTo(
                   Duration(
-                    seconds: widget.controller.value.position.inSeconds + 15,
+                    seconds: controller.value.position.inSeconds + 15,
                   ),
                 ),
                 icon: Icon(

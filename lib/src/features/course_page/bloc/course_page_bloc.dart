@@ -83,8 +83,8 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
         lessonName: event.name,
         videoPath: event.videoPath,
       );
-      final coursePage = await _repository.getCoursePage(state.data!.id);
       event.onAdd();
+      final coursePage = await _repository.getCoursePage(state.data!.id);
       emit(CoursePageState.successful(data: coursePage));
     } on Object {
       emit(CoursePageState.error(
@@ -107,8 +107,8 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
         courseId: state.data!.id,
         lesson: event.lesson,
       );
-      final coursePage = await _repository.getCoursePage(state.data!.id);
       event.onRemove();
+      final coursePage = await _repository.getCoursePage(state.data!.id);
       emit(CoursePageState.successful(data: coursePage));
     } on Object {
       emit(CoursePageState.error(

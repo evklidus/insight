@@ -53,7 +53,7 @@ class FileWidget extends StatelessWidget {
                 : ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: AspectRatio(
-                      aspectRatio: 4 / 3,
+                      aspectRatio: 1,
                       child: _childFromFileType(type),
                     ),
                   )

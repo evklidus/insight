@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:insight/src/common/widgets/custom_bottom_navigation_bar.dart';
+import 'package:insight/src/common/widgets/root_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/categories_screen.dart';
@@ -21,10 +21,10 @@ class AppRouter {
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/',
     routes: [
+      // Tabs
       StatefulShellRoute.indexedStack(
-        parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state, navigationShell) =>
-            CustomBottomNavigationBar(navigationShell),
+            RootScreen(navigationShell),
         branches: [
           StatefulShellBranch(
             routes: [
@@ -43,13 +43,14 @@ class AppRouter {
                     routes: [
                       GoRoute(
                         name: 'page',
-                        path: 'course-page/:coursePageId',
+                        path: ':coursePageId',
                         builder: (context, state) => CoursePageScreen(
                           coursePageId:
                               state.pathParameters['coursePageId'].toString(),
                           refreshCoursesList: state.extra as VoidCallback?,
                         ),
                         routes: [
+                          // Video
                           GoRoute(
                             name: 'video',
                             path: 'video/:coursePageTitle',
@@ -83,6 +84,7 @@ class AppRouter {
                 path: '/settings',
                 builder: (context, state) => const SettingsScreen(),
                 routes: [
+                  // Auth
                   GoRoute(
                     name: 'login',
                     path: 'login',
@@ -97,6 +99,7 @@ class AppRouter {
                       reverseTransitionDuration: _defaultFadeTransitionDuration,
                     ),
                   ),
+                  // Registration
                   GoRoute(
                     name: 'register',
                     path: 'register',
@@ -111,6 +114,8 @@ class AppRouter {
                       reverseTransitionDuration: _defaultFadeTransitionDuration,
                     ),
                   ),
+
+                  // Profile
                   GoRoute(
                     name: 'profile',
                     path: 'profile',
@@ -119,6 +124,8 @@ class AppRouter {
                           state.uri.queryParameters['isEditing'] == 'true',
                     ),
                   ),
+
+                  // About
                   GoRoute(
                     name: 'about',
                     path: 'about',

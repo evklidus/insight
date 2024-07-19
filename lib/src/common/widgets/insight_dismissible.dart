@@ -50,7 +50,10 @@ class _InsightDismissibleState extends State<InsightDismissible> {
       dismissThresholds: {DismissDirection.endToStart: _dismissValue},
       confirmDismiss: (direction) async {
         if (swipeProgress == 1) {
+          // TODO: Должно передаваться + флаг
+          // TODO: Вынести в отдельный файл
           await showAdaptiveDialog(
+            useRootNavigator: false,
             context: context,
             builder: (context) => AlertDialog.adaptive(
               title: const Text('Подтверждение'),

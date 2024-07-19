@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
+import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/common/widgets/file/file_widget.dart';
@@ -116,12 +117,17 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
         builder: (context, state) {
           return WholeScreenLoadingIndicator(
             isLoading: state.isProcessing,
-            child: Scaffold(
+            child: AdaptiveScaffold(
               appBar: const CustomAppBar(title: AppStrings.courseCreation),
               body: Form(
                 key: _formKey,
                 child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    top: 103,
+                    bottom: 80,
+                  ),
                   children: [
                     Container(
                       margin: const EdgeInsets.all(16),
@@ -130,16 +136,12 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         color: context.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Text(
+                      child: const Text(
                         AppStrings.addLessonsAfterCreatingCourse,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: context.colorScheme.onSurface.withOpacity(0.6),
-                        ),
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const Text(AppStrings.photo),
+                    const _Headline(AppStrings.photo),
                     const SizedBox(height: 8),
                     FileWidget(
                       filePath: _image?.path,
@@ -154,7 +156,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text(AppStrings.title),
+                    const _Headline(AppStrings.title),
                     const SizedBox(height: 8),
                     CustomTextField(
                       controller: _nameController,
@@ -167,7 +169,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    const Text(AppStrings.description),
+                    const _Headline(AppStrings.description),
                     const SizedBox(height: 8),
                     CustomTextField(
                       controller: _descrController,
@@ -180,7 +182,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    const Text(AppStrings.category),
+                    const _Headline(AppStrings.category),
                     const SizedBox(height: 8),
                     if (state.hasTags && _selectedCategory.first.isNotEmpty)
                       Platform.isIOS
@@ -253,5 +255,17 @@ class _SegmentWidget extends StatelessWidget {
           text,
           style: context.textTheme.labelLarge,
         ),
+      );
+}
+
+class _Headline extends StatelessWidget {
+  const _Headline(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Text(
+        text,
+        style: context.textTheme.titleLarge,
       );
 }

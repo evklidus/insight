@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
+import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
+import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
@@ -35,7 +36,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = Provider.of<AuthBloc>(context).state;
-    return Scaffold(
+    return AdaptiveScaffold(
       appBar: CustomAppBar(
         title: AppStrings.appName,
         action: IconButton(
@@ -46,7 +47,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
           onPressed: () => authState.isAuthenticated ?? false
-              ? context.pushNamed('create')
+              ? context.goRelativeNamed('create')
               : InsightSnackBar.showError(
                   context,
                   text: AppStrings.needAuthToCreateCourse,

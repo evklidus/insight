@@ -58,45 +58,69 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textCapitalization = switch (_type) {
+      InputType.firstName => TextCapitalization.words,
+      InputType.lastName => TextCapitalization.words,
+      InputType.basic => TextCapitalization.sentences,
+      _ => TextCapitalization.none,
+    };
+    final autofillHints = switch (_type) {
+      InputType.email => [AutofillHints.email],
+      InputType.newPassword => [AutofillHints.newPassword],
+      InputType.password => [AutofillHints.password],
+      InputType.firstName => [AutofillHints.name],
+      InputType.lastName => [AutofillHints.familyName],
+      InputType.basic => null,
+    };
+    final keyboardType = switch (_type) {
+      InputType.email => TextInputType.emailAddress,
+      InputType.newPassword => TextInputType.visiblePassword,
+      InputType.password => TextInputType.visiblePassword,
+      InputType.firstName => TextInputType.name,
+      InputType.lastName => TextInputType.name,
+      InputType.basic => TextInputType.text,
+    };
     return TextFormField(
       controller: _controller,
-      maxLines: _maxLines,
+      maxLines: _isForPassword ? 1 : _maxLines,
       onChanged: _onChanged,
       validator: _validator,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(16),
         ),
         fillColor: Theme.of(context).colorScheme.surfaceContainer,
         filled: true,
         hintText: _hintText,
       ),
-      textCapitalization: switch (_type) {
-        InputType.firstName => TextCapitalization.words,
-        InputType.lastName => TextCapitalization.words,
-        InputType.basic => TextCapitalization.sentences,
-        _ => TextCapitalization.none,
-      },
       obscureText: _isForPassword,
       enableSuggestions: !_isForPassword,
       autocorrect: !_isForPassword,
-      autofillHints: switch (_type) {
-        InputType.email => [AutofillHints.email],
-        InputType.newPassword => [AutofillHints.newPassword],
-        InputType.password => [AutofillHints.password],
-        InputType.firstName => [AutofillHints.name],
-        InputType.lastName => [AutofillHints.familyName],
-        InputType.basic => null,
-      },
-      keyboardType: switch (_type) {
-        InputType.email => TextInputType.emailAddress,
-        InputType.newPassword => TextInputType.visiblePassword,
-        InputType.password => TextInputType.visiblePassword,
-        InputType.firstName => TextInputType.name,
-        InputType.lastName => TextInputType.name,
-        InputType.basic => TextInputType.text,
-      },
+      textCapitalization: textCapitalization,
+      autofillHints: autofillHints,
+      keyboardType: keyboardType,
     );
   }
 }
+
+// Если вдруг почему-то нужен будет CupertinoTextFormFieldRow:
+// isNeedCupertino
+//         ? CupertinoTextFormFieldRow(
+//             controller: _controller,
+//             maxLines: _maxLines,
+//             onChanged: _onChanged,
+//             validator: _validator,
+//             placeholder: _hintText,
+//             textCapitalization: textCapitalization,
+//             autofillHints: autofillHints,
+//             keyboardType: keyboardType,
+//             decoration: BoxDecoration(
+//               borderRadius: BorderRadius.circular(12),
+//               color: Theme.of(context).colorScheme.surfaceContainer,
+//             ),
+//             padding: EdgeInsets.zero,
+//             placeholderStyle: Theme.of(context).textTheme.bodySmall,
+//             style: Theme.of(context).textTheme.bodyLarge,
+//           )
+//         : 

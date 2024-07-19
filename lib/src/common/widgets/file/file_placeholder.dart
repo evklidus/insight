@@ -36,7 +36,7 @@ class FilePlaceholder extends StatelessWidget {
           ),
         )
       : AspectRatio(
-          aspectRatio: 4 / 3,
+          aspectRatio: 1,
           child: DecoratedBox(
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(

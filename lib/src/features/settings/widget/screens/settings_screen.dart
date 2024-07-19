@@ -4,10 +4,10 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
+import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
-
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
-
+import 'package:insight/src/common/widgets/test_values_widget.dart';
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/settings/widget/components/profile_widget.dart';
@@ -32,7 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AdaptiveScaffold(
       appBar: const CustomAppBar(
         title: AppStrings.settings,
       ),
@@ -47,7 +47,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           builder: (context, state) {
             final isAuthenticated = _authBloc.state.isAuthenticated!;
 
-            return Column(
+            return ListView(
               children: [
                 AnimatedSwitcher(
                   duration: standartDuration,
@@ -78,23 +78,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   icon: const Icon(Icons.info_rounded),
                   onTap: () => context.goRelativeNamed('about'),
                 ),
-                const Spacer(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    if (isAuthenticated)
-                      AdaptiveButton(
-                        onPressed: () {
-                          _authBloc.add(const AuthEvent.logout());
-                          context.read<ProfileBloc>().add(
-                                const ProfileEvent.clear(),
-                              );
-                        },
-                        child: const Text(AppStrings.signOut),
-                      ),
-                    if (!Flavor.isProd) Text(Flavor.current),
-                  ],
-                )
+                const SizedBox(height: 20),
+                if (!Flavor.isProd) const TestValues(),
+                const SizedBox(height: 20),
+                if (isAuthenticated)
+                  AdaptiveButton(
+                    onPressed: () {
+                      _authBloc.add(const AuthEvent.logout());
+                      context.read<ProfileBloc>().add(
+                            const ProfileEvent.clear(),
+                          );
+                    },
+                    child: const Text(AppStrings.signOut),
+                  ),
               ],
             );
           },

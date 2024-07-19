@@ -21,12 +21,12 @@ class CustomAppBar extends StatelessWidget
   Widget build(BuildContext context) {
     return isNeedCupertino
         ? CupertinoNavigationBar(
-            backgroundColor: context.colorScheme.surface,
+            backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
             previousPageTitle: previousPageTitle,
             middle: title.isNotNull
                 ? Text(
                     title!,
-                    style: context.textTheme.titleLarge,
+                    style: context.textTheme.titleMedium,
                   )
                 : null,
             trailing: action,

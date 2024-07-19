@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/utils/extensions/object_x.dart';
+import 'package:insight/src/common/widgets/separated_column.dart';
 import 'package:insight/src/common/widgets/shimmer.dart';
 
 import 'package:insight/src/features/course/model/course.dart';
@@ -16,18 +18,21 @@ class CourseList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(16),
-      itemCount: courses?.length ?? 5,
-      itemBuilder: (context, index) => courses == null
-          ? const Shimmer(
-              size: Size.fromHeight(100),
-            )
-          : CourseWidget(
+    return courses.isNotNull
+        ? SeparatedColumn(
+            itemCount: courses!.length,
+            itemBuilder: (context, index) => CourseWidget(
               course: courses![index],
               categoryTag: categoryTag,
             ),
-      separatorBuilder: (context, index) => const SizedBox(height: 20),
-    );
+            separatorBuilder: (context, index) => const SizedBox(height: 20),
+          )
+        : SeparatedColumn(
+            itemCount: 5,
+            itemBuilder: (context, index) => const Shimmer(
+              size: Size.fromHeight(100),
+            ),
+            separatorBuilder: (context, index) => const SizedBox(height: 20),
+          );
   }
 }

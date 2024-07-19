@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
+import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/buttons/edit_button.dart';
 
 import 'package:insight/src/features/profile/model/user_edit.dart';
@@ -115,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       builder: (context, state) {
-        return Scaffold(
+        return AdaptiveScaffold(
           appBar: CustomAppBar(
             title: AppStrings.profile,
             action: EditButton(
@@ -126,33 +127,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   : null,
             ),
           ),
-          body: Builder(
-            builder: (context) {
-              if (!state.hasData && state.isProcessing) {
-                return const ProfileSkeleton();
-              } else if (!state.hasData && state.hasError) {
-                return InformationWidget.error(
-                  reloadFunc: () => _profileBloc.add(
-                    const ProfileEvent.fetch(),
-                  ),
-                );
-              } else if (!state.hasData) {
-                return InformationWidget.empty(
-                  reloadFunc: () => _profileBloc.add(
-                    const ProfileEvent.fetch(),
-                  ),
-                );
-              } else {
-                return ProfileInformation(
-                  user: state.data!,
-                  isEditing: _isEditing,
-                  image: _image,
-                  addPhotoHandler: _addPhotoHandler,
-                  nameController: _nameController,
-                  lastNameController: _lastNameController,
-                );
-              }
-            },
+          body: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Builder(
+                  builder: (context) {
+                    if (!state.hasData && state.isProcessing) {
+                      return const ProfileSkeleton();
+                    } else if (!state.hasData && state.hasError) {
+                      return InformationWidget.error(
+                        reloadFunc: () => _profileBloc.add(
+                          const ProfileEvent.fetch(),
+                        ),
+                      );
+                    } else if (!state.hasData) {
+                      return InformationWidget.empty(
+                        reloadFunc: () => _profileBloc.add(
+                          const ProfileEvent.fetch(),
+                        ),
+                      );
+                    } else {
+                      return ProfileInformation(
+                        user: state.data!,
+                        isEditing: _isEditing,
+                        image: _image,
+                        addPhotoHandler: _addPhotoHandler,
+                        nameController: _nameController,
+                        lastNameController: _lastNameController,
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
           ),
         );
       },

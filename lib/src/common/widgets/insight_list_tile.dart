@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
+import 'package:insight/src/common/utils/extensions/object_x.dart';
 
 /// {@template insight_list_tile}
 /// InsightListTile widget.
@@ -35,7 +36,6 @@ class InsightListTile extends StatelessWidget {
       ? ClipRRect(
           borderRadius: borderRadius ?? BorderRadius.circular(24),
           child: CupertinoListTile(
-            leadingSize: leadingSize,
             onTap: onTap,
             padding: padding ??
                 const EdgeInsets.symmetric(
@@ -44,6 +44,7 @@ class InsightListTile extends StatelessWidget {
                 ),
             backgroundColor: backgroundColor ??
                 Theme.of(context).colorScheme.surfaceContainer,
+            leadingSize: leadingSize,
             leading: leading,
             title: title,
             subtitle: subtitle,
@@ -61,7 +62,12 @@ class InsightListTile extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: borderRadius ?? BorderRadius.circular(24),
             ),
-            leading: leading,
+            leading: leading.isNotNull
+                ? SizedBox.square(
+                    dimension: leadingSize,
+                    child: leading,
+                  )
+                : null,
             title: title,
             subtitle: subtitle,
             trailing: trailing,
