@@ -82,7 +82,7 @@ class CustomTextField extends StatelessWidget {
     };
     return TextFormField(
       controller: _controller,
-      maxLines: _maxLines,
+      maxLines: _isForPassword ? 1 : _maxLines,
       onChanged: _onChanged,
       validator: _validator,
       decoration: InputDecoration(

@@ -16,7 +16,12 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(context) {
-    return isNeedCupertino
+    return
+        // Пришлось времеено отключить адаптивность Scaffold'а из-за бага с ребилдом картинок
+        // Link - <https://github.com/flutter/flutter/issues/93916>
+
+        /*
+    isNeedCupertino
         ? CupertinoTabScaffold(
             key: ValueKey(widget.navigationShell.currentIndex),
             tabBar: CupertinoTabBar(
@@ -40,9 +45,30 @@ class _RootScreenState extends State<RootScreen> {
               builder: (context) => widget.navigationShell,
             ),
           )
-        : Scaffold(
-            body: widget.navigationShell,
-            bottomNavigationBar: NavigationBar(
+        : 
+        */
+
+        Scaffold(
+      body: widget.navigationShell,
+      bottomNavigationBar: isNeedCupertino
+          ? CupertinoTabBar(
+              currentIndex: widget.navigationShell.currentIndex,
+              onTap: (tappedIndex) =>
+                  widget.navigationShell.goBranch(tappedIndex),
+              items: const [
+                BottomNavigationBarItem(
+                  activeIcon: Icon(CupertinoIcons.house_fill),
+                  icon: Icon(CupertinoIcons.house),
+                  label: AppStrings.main,
+                ),
+                BottomNavigationBarItem(
+                  activeIcon: Icon(CupertinoIcons.settings_solid),
+                  icon: Icon(CupertinoIcons.settings),
+                  label: AppStrings.settings,
+                ),
+              ],
+            )
+          : NavigationBar(
               onDestinationSelected: (tappedIndex) =>
                   widget.navigationShell.goBranch(tappedIndex),
               selectedIndex: widget.navigationShell.currentIndex,
@@ -59,6 +85,6 @@ class _RootScreenState extends State<RootScreen> {
                 )
               ],
             ),
-          );
+    );
   }
 }
