@@ -30,6 +30,7 @@ class AppRouter {
             routes: [
               // Категории
               GoRoute(
+                name: 'categories',
                 path: '/',
                 builder: (context, state) => const CategoriesScreen(),
                 routes: [

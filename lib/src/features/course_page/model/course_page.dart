@@ -11,7 +11,7 @@ class CoursePage extends Course {
     required super.imageUrl,
     this.lessons,
     required super.tag,
-    required super.isItsOwn,
+    required super.creatorId,
   });
 
   factory CoursePage.fromJson(Map json) => CoursePage(
@@ -21,7 +21,7 @@ class CoursePage extends Course {
         imageUrl: json['image_url'],
         lessons: (json['lessons'] as List<Map>).map(Lesson.fromJson).toList(),
         tag: json['tag'],
-        isItsOwn: json['is_its_own'],
+        creatorId: json['owner_id'],
       );
 
   factory CoursePage.fromFirestore(
@@ -46,7 +46,7 @@ class CoursePage extends Course {
                 .toList()
             : null,
         tag: courseData['tag'],
-        isItsOwn: courseData['owner_id'] == userId,
+        creatorId: courseData['owner_id'],
       );
 
   final String description;
@@ -59,7 +59,7 @@ class CoursePage extends Course {
     String? imageUrl,
     List<Lesson>? lessons,
     String? tag,
-    bool? isItsOwn,
+    String? creatorId,
   }) {
     return CoursePage(
       id: id ?? this.id,
@@ -68,7 +68,7 @@ class CoursePage extends Course {
       imageUrl: imageUrl ?? this.imageUrl,
       lessons: lessons ?? this.lessons,
       tag: tag ?? this.tag,
-      isItsOwn: isItsOwn ?? this.isItsOwn,
+      creatorId: creatorId ?? this.creatorId,
     );
   }
 }
