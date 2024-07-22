@@ -209,12 +209,15 @@ final class CoursePageFirestoreDataProviderImpl
     required String courseId,
     required String imageUrl,
   }) async {
-    // Удаляем курс с Firestore
-    final courseCollection = _firestore.collection('course');
-    await courseCollection.doc(courseId).delete();
+    // Удалаяем уроки курса
+    await _firebaseStorage.ref().child('courses').child(courseId).delete();
 
     // Удаляем обложку
     await _firebaseStorage.refFromURL(imageUrl).delete();
+
+    // Удаляем курс с Firestore
+    final courseCollection = _firestore.collection('course');
+    await courseCollection.doc(courseId).delete();
   }
 
   @override

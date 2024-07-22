@@ -5,15 +5,14 @@ import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
+import 'package:insight/src/features/auth/widget/auth_scope.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
-import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
 import 'package:insight/src/features/categories/bloc/categories_bloc.dart';
 import 'package:insight/src/features/categories/bloc/categories_state.dart';
 import 'package:insight/src/features/categories/widget/components/categories_list.dart';
-import 'package:provider/provider.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
@@ -35,7 +34,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = Provider.of<AuthBloc>(context).state;
+    final authScope = AuthScope.of(context);
+
     return AdaptiveScaffold(
       appBar: CustomAppBar(
         title: AppStrings.appName,
@@ -46,7 +46,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 : Icons.add_circle,
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
-          onPressed: () => authState.isAuthenticated ?? false
+          onPressed: () => authScope.isAuthenticated
               ? context.goRelativeNamed('create')
               : InsightSnackBar.showError(
                   context,

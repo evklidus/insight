@@ -6,6 +6,7 @@ import 'package:insight/src/common/widgets/insight_list_tile.dart';
 
 import 'package:insight/src/features/course/bloc/course_bloc.dart';
 import 'package:insight/src/features/course/model/course.dart';
+import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:provider/provider.dart';
 
 class CourseWidget extends StatelessWidget {
@@ -30,6 +31,9 @@ class CourseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profileBloc = Provider.of<ProfileBloc>(context);
+    final isItsOwn = course.creatorId == profileBloc.state.data?.id;
+
     return InsightListTile(
       onTap: () => _onPressedHandler(context),
       padding: const EdgeInsets.all(16),
@@ -43,7 +47,7 @@ class CourseWidget extends StatelessWidget {
         style: Theme.of(context).textTheme.titleMedium,
         maxLines: 2,
       ),
-      trailing: course.isItsOwn
+      trailing: isItsOwn
           ? FittedBox(
               fit: BoxFit.scaleDown,
               child: Container(

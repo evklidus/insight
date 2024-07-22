@@ -7,6 +7,7 @@ import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/buttons/edit_button.dart';
 import 'package:insight/src/features/course_page/model/course_edit.dart';
+import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
@@ -16,6 +17,7 @@ import 'package:insight/src/features/course_page/bloc/course_page_state.dart';
 import 'package:insight/src/features/course_page/widget/components/course_page_skeleton.dart';
 import 'package:insight/src/features/course_page/widget/components/course_page_info.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 class CoursePageScreen extends StatefulWidget {
   const CoursePageScreen({
@@ -114,14 +116,15 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
               InsightSnackBar.showError(context, text: errorState.message),
         ),
         builder: (context, state) {
+          final profileBloc = Provider.of<ProfileBloc>(context);
+          final isItsOwn = state.data?.creatorId == profileBloc.state.data?.id;
           return AdaptiveScaffold(
             appBar: CustomAppBar(
               previousPageTitle: AppStrings.courses,
               action: EditButton(
                 isEditing: _isEditing,
-                opacity:
-                    state.data?.isItsOwn ?? false ? (_isEditing ? 1 : 0.8) : 0,
-                onPressed: state.data?.isItsOwn ?? false
+                opacity: isItsOwn ? (_isEditing ? 1 : 0.8) : 0,
+                onPressed: isItsOwn
                     ? (_coursePageBloc.state.data.isNotNull
                         ? () => _save(_coursePageBloc.state.data!.id)
                         : null)

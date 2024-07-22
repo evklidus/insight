@@ -19,7 +19,7 @@ void main() {
       name: 'name',
       imageUrl: 'imageUrl',
       tag: categoryTag,
-      isItsOwn: false,
+      creatorId: '1',
     ),
   ];
 

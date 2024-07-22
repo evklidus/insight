@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/features/app/widget/material_context.dart';
-import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
+import 'package:insight/src/features/auth/widget/auth_scope.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/settings/bloc/settings_bloc.dart';
 import 'package:insight/src/features/settings/widget/settings_scope.dart';
@@ -23,15 +23,12 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late final AuthBloc _authBloc;
   late final ProfileBloc _profileBloc;
   late final SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
-    _authBloc = AuthBloc(repository: DIContainer.instance.authRepository)
-      ..add(const AuthEvent.checkStatus());
 
     _profileBloc = ProfileBloc(
       repository: DIContainer.instance.profileRepository,
@@ -48,12 +45,11 @@ class _AppState extends State<App> {
     FlutterNativeSplash.remove();
 
     return BlocProvider(
-      create: (context) => _authBloc,
-      child: BlocProvider(
-        create: (context) => _profileBloc,
-        child: SettingsScope(
-          settingsBloc: _settingsBloc,
-          child: const MaterialContext(),
+      create: (context) => _profileBloc,
+      child: SettingsScope(
+        settingsBloc: _settingsBloc,
+        child: const AuthScope(
+          MaterialContext(),
         ),
       ),
     );

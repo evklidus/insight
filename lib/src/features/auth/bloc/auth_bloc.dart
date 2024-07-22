@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart' as bloc_concurrency;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/utils/exception_to_message.dart';
 import 'package:insight/src/common/utils/mixins/set_state_mixin.dart';
 import 'package:insight/src/features/auth/data/auth_repository.dart';
-import 'package:meta/meta.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -71,11 +71,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
         event.username,
         event.password,
       );
+      event.onSuccess?.call('Вы успешно зарегистрировались');
       emit(AuthState.successful(
         isAuthenticated: state.isAuthenticated,
         message: 'Вы успешно зарегистрировались',
       ));
-    } on Object {
+    } on Object catch (e) {
+      event.onError?.call(exceptionToMessage(e));
       emit(AuthState.error(
         isAuthenticated: state.isAuthenticated,
         message: 'Регистрация временно недоступна',
@@ -96,11 +98,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
         event.username,
         event.password,
       );
+      event.onSuccess?.call('Вы успешно вошли');
       emit(const AuthState.successful(
         isAuthenticated: true,
         message: 'Вы успешно вошли',
       ));
     } on Object catch (e) {
+      event.onError?.call(exceptionToMessage(e));
       emit(AuthState.error(
         isAuthenticated: state.isAuthenticated,
         message: exceptionToMessage(e),

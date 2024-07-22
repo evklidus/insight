@@ -16,6 +16,7 @@ import 'package:insight/src/common/widgets/modal_popup.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 import 'package:insight/src/features/course_page/widget/components/add_lesson_widget.dart';
 import 'package:insight/src/common/widgets/insight_dismissible.dart';
+import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
@@ -121,6 +122,9 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
   Widget build(BuildContext context) {
     final deleteCourseButtonStyle = TextStyle(color: context.colorScheme.error);
 
+    final profileBloc = Provider.of<ProfileBloc>(context);
+    final isItsOwn = widget.coursePage.creatorId == profileBloc.state.data?.id;
+
     return Column(
       children: [
         AnimatedSwitcher(
@@ -224,7 +228,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                 itemBuilder: (context, index) {
                   final lesson = widget.coursePage.lessons![index];
                   return InsightDismissible(
-                    isEnabled: widget.coursePage.isItsOwn,
+                    isEnabled: isItsOwn,
                     itemKey: lesson,
                     deleteHandler: () =>
                         Provider.of<CoursePageBloc>(context, listen: false).add(
@@ -259,7 +263,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
             child: const Text('Курс в разработке'),
           ),
         const SizedBox(height: 20),
-        if (widget.coursePage.isItsOwn)
+        if (isItsOwn)
           AnimatedOpacity(
             duration: standartDuration,
             opacity: widget.editData.isEditing ? 0.4 : 1,
