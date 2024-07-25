@@ -6,6 +6,7 @@ import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
+import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/widget_switcher.dart';
 import 'package:insight/src/features/auth/widget/auth_scope.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
@@ -40,12 +41,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     return AdaptiveScaffold(
       appBar: CustomAppBar(
         title: AppStrings.appName,
-        action: IconButton(
-          icon: Icon(
+        action: AdaptiveButton(
+          padding: const EdgeInsets.all(8),
+          child: Icon(
             isNeedCupertino
                 ? CupertinoIcons.add_circled_solid
                 : Icons.add_circle,
             color: Theme.of(context).colorScheme.onSurfaceVariant,
+            size: 24,
           ),
           onPressed: () => authScope.isAuthenticated
               ? context.goRelativeNamed(RouteKeys.create.name)
