@@ -134,28 +134,25 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
             ),
             body: ListView(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                  child: WidgetSwitcher(
-                    state: (
-                      hasData: state.hasData,
-                      isProcessing: state.isProcessing,
-                      hasError: state.hasError,
-                    ),
-                    skeletonBuilder: (context) => const CoursePageSkeleton(),
-                    refresh: () => _coursePageBloc.add(
-                      CoursePageEvent.fetch(widget.coursePageId),
-                    ),
-                    childBuilder: (context) => CoursePageInfo(
-                      coursePage: state.data!,
-                      refreshCoursesList: widget.refreshCoursesList,
-                      editData: (
-                        isEditing: _isEditing,
-                        titleController: _titleController,
-                        descriptionController: _descriptionController,
-                        image: _image,
-                        addPhotoHandler: _addPhotoHandler,
-                      ),
+                WidgetSwitcher(
+                  state: (
+                    hasData: state.hasData,
+                    isProcessing: state.isProcessing,
+                    hasError: state.hasError,
+                  ),
+                  skeletonBuilder: (context) => const CoursePageSkeleton(),
+                  refresh: () => _coursePageBloc.add(
+                    CoursePageEvent.fetch(widget.coursePageId),
+                  ),
+                  childBuilder: (context) => CoursePageInfo(
+                    coursePage: state.data!,
+                    refreshCoursesList: widget.refreshCoursesList,
+                    editData: (
+                      isEditing: _isEditing,
+                      titleController: _titleController,
+                      descriptionController: _descriptionController,
+                      image: _image,
+                      addPhotoHandler: _addPhotoHandler,
                     ),
                   ),
                 ),

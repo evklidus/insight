@@ -43,43 +43,40 @@ class _CoursesScreenState extends State<CoursesScreen> {
         children: [
           BlocProvider(
             create: (context) => coursesBloc,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-              child: BlocConsumer<CourseBloc, CourseState>(
-                listener: (context, state) => state.mapOrNull(
-                  error: (state) => InsightSnackBar.showError(
-                    context,
-                    text: state.message,
-                  ),
+            child: BlocConsumer<CourseBloc, CourseState>(
+              listener: (context, state) => state.mapOrNull(
+                error: (state) => InsightSnackBar.showError(
+                  context,
+                  text: state.message,
                 ),
-                builder: (context, state) => WidgetSwitcher(
-                  state: (
-                    hasData: state.hasData,
-                    isProcessing: state.isProcessing,
-                    hasError: state.hasError,
+              ),
+              builder: (context, state) => WidgetSwitcher(
+                state: (
+                  hasData: state.hasData,
+                  isProcessing: state.isProcessing,
+                  hasError: state.hasError,
+                ),
+                skeletonBuilder: (context) => SeparatedColumn(
+                  itemCount: 3,
+                  itemBuilder: (context, index) => const Shimmer(
+                    size: Size.fromHeight(92),
+                    cornerRadius: 24,
                   ),
-                  skeletonBuilder: (context) => SeparatedColumn(
-                    itemCount: 3,
-                    itemBuilder: (context, index) => const Shimmer(
-                      size: Size.fromHeight(92),
-                      cornerRadius: 24,
-                    ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 20),
-                  ),
-                  childBuilder: (context) => AnimatedList(
-                    initialItemCount: state.data!.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index, _) => Column(
-                      children: [
-                        if (index != 0) const SizedBox(height: 20),
-                        CourseWidget(
-                          course: state.data![index],
-                          categoryTag: widget.categoryTag,
-                        ),
-                      ],
-                    ),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 20),
+                ),
+                childBuilder: (context) => AnimatedList(
+                  initialItemCount: state.data!.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index, _) => Column(
+                    children: [
+                      if (index != 0) const SizedBox(height: 20),
+                      CourseWidget(
+                        course: state.data![index],
+                        categoryTag: widget.categoryTag,
+                      ),
+                    ],
                   ),
                 ),
               ),

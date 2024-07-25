@@ -69,6 +69,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               hasError: state.hasError,
             ),
             refresh: () => categoriesBloc.add(const CategoriesEvent.fetch()),
+            duration: const Duration(milliseconds: 350),
+            padding: EdgeInsets.zero,
             skeletonBuilder: (context) => const CategoriesListSkeleton(),
             childBuilder: (context) => CategoriesList(
               categories: state.data!,
