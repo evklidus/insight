@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
@@ -20,7 +21,7 @@ class CourseWidget extends StatelessWidget {
   final String categoryTag;
 
   void _onPressedHandler(BuildContext context) => context.goRelativeNamed(
-        'page',
+        RouteKeys.coursePage.name,
         pathParameters: {
           'coursePageId': course.id.toString(),
         },

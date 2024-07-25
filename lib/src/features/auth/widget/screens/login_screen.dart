@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/features/auth/widget/auth_scope.dart';
@@ -78,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     email: email!,
                     password: password!,
                     onSuccess: (message) {
-                      context.go('/');
+                      context.go(RouteKeys.categories.path);
                       context.read<ProfileBloc>().add(
                             const ProfileEvent.fetch(),
                           );
@@ -94,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ChangeAuthTypeButton(
               title: AppStrings.dontHaveAnAccount,
               subTitle: AppStrings.register,
-              onPressed: () => context.goRelativeNamed('register'),
+              onPressed: () => context.goRelativeNamed(RouteKeys.register.path),
             ),
           ],
         ),

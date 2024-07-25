@@ -135,7 +135,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                   aspectRatio: 4 / 3,
                   child: CustomImageWidget(
                     widget.coursePage.imageUrl,
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(28),
                   ),
                 )
               : FileWidget(

@@ -6,12 +6,12 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/buttons/edit_button.dart';
+import 'package:insight/src/common/widgets/widget_switcher.dart';
 import 'package:insight/src/features/course_page/model/course_edit.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
-import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_state.dart';
 import 'package:insight/src/features/course_page/widget/components/course_page_skeleton.dart';
@@ -118,6 +118,7 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
         builder: (context, state) {
           final profileBloc = Provider.of<ProfileBloc>(context);
           final isItsOwn = state.data?.creatorId == profileBloc.state.data?.id;
+
           return AdaptiveScaffold(
             appBar: CustomAppBar(
               previousPageTitle: AppStrings.courses,
@@ -135,36 +136,27 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                  child: Builder(
-                    builder: (context) {
-                      if (!state.hasData && state.isProcessing) {
-                        return const CoursePageSkeleton();
-                      } else if (!state.hasData && state.hasError) {
-                        return InformationWidget.error(
-                          reloadFunc: () => _coursePageBloc.add(
-                            CoursePageEvent.fetch(widget.coursePageId),
-                          ),
-                        );
-                      } else if (!state.hasData) {
-                        return InformationWidget.empty(
-                          reloadFunc: () => _coursePageBloc.add(
-                            CoursePageEvent.fetch(widget.coursePageId),
-                          ),
-                        );
-                      } else {
-                        return CoursePageInfo(
-                          coursePage: state.data!,
-                          refreshCoursesList: widget.refreshCoursesList,
-                          editData: (
-                            isEditing: _isEditing,
-                            titleController: _titleController,
-                            descriptionController: _descriptionController,
-                            image: _image,
-                            addPhotoHandler: _addPhotoHandler,
-                          ),
-                        );
-                      }
-                    },
+                  child: WidgetSwitcher(
+                    state: (
+                      hasData: state.hasData,
+                      isProcessing: state.isProcessing,
+                      hasError: state.hasError,
+                    ),
+                    skeletonBuilder: (context) => const CoursePageSkeleton(),
+                    refresh: () => _coursePageBloc.add(
+                      CoursePageEvent.fetch(widget.coursePageId),
+                    ),
+                    childBuilder: (context) => CoursePageInfo(
+                      coursePage: state.data!,
+                      refreshCoursesList: widget.refreshCoursesList,
+                      editData: (
+                        isEditing: _isEditing,
+                        titleController: _titleController,
+                        descriptionController: _descriptionController,
+                        image: _image,
+                        addPhotoHandler: _addPhotoHandler,
+                      ),
+                    ),
                   ),
                 ),
               ],

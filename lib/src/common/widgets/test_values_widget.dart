@@ -55,6 +55,7 @@ class _TestValueText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         Clipboard.setData(ClipboardData(text: value));
         InsightSnackBar.showInfo(

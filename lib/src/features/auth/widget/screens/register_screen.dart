@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/features/auth/widget/auth_scope.dart';
@@ -81,7 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         email: email!,
                         password: password!,
                         onSuccess: (message) {
-                          context.goRelativeNamed('login');
+                          context.goRelativeNamed(RouteKeys.login.name);
                           InsightSnackBar.showSuccessful(context,
                               text: message);
                         },
@@ -95,7 +96,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ChangeAuthTypeButton(
                   title: AppStrings.haveAnAccount,
                   subTitle: AppStrings.signIn,
-                  onPressed: () => context.goRelativeNamed('login'),
+                  onPressed: () =>
+                      context.goRelativeNamed(RouteKeys.login.name),
                 ),
               ],
             ),

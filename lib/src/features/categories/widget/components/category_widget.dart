@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
@@ -16,7 +17,7 @@ class CategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => context.goRelativeNamed(
-        'courses',
+        RouteKeys.courses.name,
         pathParameters: {
           'tag': category.tag,
         },

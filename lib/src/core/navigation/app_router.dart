@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/widgets/root_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
@@ -19,7 +20,7 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 class AppRouter {
   final router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/',
+    initialLocation: RouteKeys.categories.path,
     routes: [
       // Tabs
       StatefulShellRoute.indexedStack(
@@ -30,21 +31,21 @@ class AppRouter {
             routes: [
               // Категории
               GoRoute(
-                name: 'categories',
-                path: '/',
+                name: RouteKeys.categories.name,
+                path: RouteKeys.categories.path,
                 builder: (context, state) => const CategoriesScreen(),
                 routes: [
                   // Курсы определенной категории
                   GoRoute(
-                    name: 'courses',
-                    path: 'courses/:tag',
+                    name: RouteKeys.courses.name,
+                    path: RouteKeys.courses.path,
                     builder: (context, state) => CoursesScreen(
                       state.pathParameters['tag'] as String,
                     ),
                     routes: [
                       GoRoute(
-                        name: 'page',
-                        path: ':coursePageId',
+                        name: RouteKeys.coursePage.name,
+                        path: RouteKeys.coursePage.path,
                         builder: (context, state) => CoursePageScreen(
                           coursePageId:
                               state.pathParameters['coursePageId'].toString(),
@@ -53,8 +54,8 @@ class AppRouter {
                         routes: [
                           // Video
                           GoRoute(
-                            name: 'video',
-                            path: 'video/:coursePageTitle',
+                            name: RouteKeys.video.name,
+                            path: RouteKeys.video.path,
                             parentNavigatorKey: _rootNavigatorKey,
                             builder: (context, state) => InsightPlayer(
                               videoUrl: state.uri.queryParameters['videoUrl']
@@ -71,8 +72,8 @@ class AppRouter {
                   ),
                   // Создание курса
                   GoRoute(
-                    name: 'create',
-                    path: 'create',
+                    name: RouteKeys.create.name,
+                    path: RouteKeys.create.path,
                     builder: (context, state) => const CreateCourseScreen(),
                   ),
                 ],
@@ -82,13 +83,14 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/settings',
+                name: RouteKeys.settings.name,
+                path: RouteKeys.settings.path,
                 builder: (context, state) => const SettingsScreen(),
                 routes: [
                   // Auth
                   GoRoute(
-                    name: 'login',
-                    path: 'login',
+                    name: RouteKeys.login.name,
+                    path: RouteKeys.login.path,
                     parentNavigatorKey: _rootNavigatorKey,
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
@@ -102,8 +104,8 @@ class AppRouter {
                   ),
                   // Registration
                   GoRoute(
-                    name: 'register',
-                    path: 'register',
+                    name: RouteKeys.register.name,
+                    path: RouteKeys.register.path,
                     parentNavigatorKey: _rootNavigatorKey,
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
@@ -118,8 +120,8 @@ class AppRouter {
 
                   // Profile
                   GoRoute(
-                    name: 'profile',
-                    path: 'profile',
+                    name: RouteKeys.profile.name,
+                    path: RouteKeys.profile.path,
                     builder: (context, state) => ProfileScreen(
                       isEditing:
                           state.uri.queryParameters['isEditing'] == 'true',
@@ -128,8 +130,8 @@ class AppRouter {
 
                   // About
                   GoRoute(
-                    name: 'about',
-                    path: 'about',
+                    name: RouteKeys.about.name,
+                    path: RouteKeys.about.path,
                     builder: (context, state) => const AppAboutScreen(),
                   ),
                 ],

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
+import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/insight_list_tile.dart';
@@ -16,7 +17,7 @@ class LessonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InsightListTile(
       onTap: () => context.goRelativeNamed(
-        'video',
+        RouteKeys.video.name,
         pathParameters: {
           'coursePageTitle': lesson.name,
         },
@@ -26,6 +27,7 @@ class LessonWidget extends StatelessWidget {
       ),
       title: Text(
         lesson.name,
+        maxLines: 2,
         style: context.textTheme.bodyLarge,
       ),
       trailing: Icon(
