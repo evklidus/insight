@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
-import 'package:insight/src/common/utils/extensions/object_x.dart';
-import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
-import 'package:insight/src/common/widgets/file/file_widget.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 
 import 'package:insight/src/features/profile/model/user.dart';
@@ -54,33 +51,14 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 30),
-              AnimatedSwitcher(
-                duration: standartDuration,
-                child: widget.user.avatarUrl.isNotNull && widget.image.isNull
-                    ? CustomImageWidget(
-                        widget.user.avatarUrl!,
-                        size: Size.square(size.shortestSide * .64),
-                        shape: BoxShape.circle,
-                      )
-                    : FileWidget.rounded(
-                        filePath: widget.image?.path,
-                        type: FileType.image,
-                        sizeRadius: size.shortestSide * .32,
-                      ),
-              ),
-              AnimatedSwitcher(
-                duration: standartDuration,
-                child: widget.isEditing
-                    ? AdaptiveButton(
-                        onPressed: widget.addPhotoHandler,
-                        child: Text(
-                          widget.image.isNotNull ||
-                                  widget.user.avatarUrl.isNotNull
-                              ? AppStrings.changePhoto
-                              : AppStrings.addPhoto,
-                        ),
-                      )
-                    : const SizedBox(height: 20),
+              CustomImageWidget.editable(
+                widget.user.avatarUrl!,
+                size: Size.square(size.shortestSide * .64),
+                shape: BoxShape.circle,
+                isEditing: widget.isEditing,
+                filePath: widget.image?.path,
+                onPressed: widget.addPhotoHandler,
+                placeholderSizeRadius: size.shortestSide * .32,
               ),
               AnimatedSwitcher(
                 duration: standartDuration,
