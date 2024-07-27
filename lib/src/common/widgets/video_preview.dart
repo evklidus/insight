@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:video_player/video_player.dart';
 
 /// {@template video_preview}
@@ -65,7 +68,21 @@ class _VideoPreviewState extends State<VideoPreview> {
                     borderRadius: BorderRadius.circular(24),
                     child: AspectRatio(
                       aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          VideoPlayer(_controller),
+                          VideoProgressIndicator(
+                            _controller,
+                            allowScrubbing: false,
+                            colors: VideoProgressColors(
+                              playedColor: isNeedCupertino
+                                  ? CupertinoTheme.of(context).primaryColor
+                                  : context.colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
