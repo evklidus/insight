@@ -187,8 +187,8 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
         ),
         const SizedBox(height: 20),
         if (widget.coursePage.lessons?.isNotEmpty ?? false)
-          IgnorePointer(
-            ignoring: widget.editData.isEditing,
+          AbsorbPointer(
+            absorbing: widget.editData.isEditing,
             child: AnimatedOpacity(
               duration: standartDuration,
               opacity: widget.editData.isEditing ? 0.4 : 1,
@@ -236,13 +236,11 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
           ),
         const SizedBox(height: 20),
         if (isItsOwn)
-          AnimatedOpacity(
-            duration: standartDuration,
-            opacity: widget.editData.isEditing ? 0.4 : 1,
-            child: AdaptiveButton(
-              onPressed: () => _onAddLessonHandler(context),
-              child: const Text(AppStrings.addLesson),
-            ),
+          AdaptiveButton(
+            onPressed: widget.editData.isEditing
+                ? null
+                : () => _onAddLessonHandler(context),
+            child: const Text(AppStrings.addLesson),
           ),
       ],
     );
