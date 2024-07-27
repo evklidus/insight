@@ -48,12 +48,19 @@ class FileWidget extends StatelessWidget {
 
   bool get _isRounded => sizeRadius.isNotNull;
 
-  Widget _childFromFileType(FileType type) => switch (type) {
+  Widget _childFromFileType() => switch (type) {
         FileType.image => Image.file(
             File(filePath!),
             fit: BoxFit.cover,
           ),
         FileType.video => VideoPreview(video: File(filePath!)),
+      };
+
+  String _buttonTitleFromFileType() => switch (type) {
+        FileType.image =>
+          filePath.isNotNull ? AppStrings.changePhoto : AppStrings.addPhoto,
+        FileType.video =>
+          filePath.isNotNull ? AppStrings.changeVideo : AppStrings.addVideo,
       };
 
   @override
@@ -65,14 +72,14 @@ class FileWidget extends StatelessWidget {
               ? ClipOval(
                   child: SizedBox.fromSize(
                     size: Size.fromRadius(sizeRadius!),
-                    child: _childFromFileType(type),
+                    child: _childFromFileType(),
                   ),
                 )
               : ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: AspectRatio(
                     aspectRatio: 1,
-                    child: _childFromFileType(type),
+                    child: _childFromFileType(),
                   ),
                 )
           : _isRounded
@@ -86,21 +93,19 @@ class FileWidget extends StatelessWidget {
     if (!isEditable) {
       return placeholder;
     } else {
+      final isHasVideo = filePath.isNotNull && type == FileType.video;
       return Column(
         children: [
           AdaptiveButton(
-            onPressed: onPressed,
+            padding: EdgeInsets.zero,
+            onPressed: isHasVideo ? null : onPressed,
             child: placeholder,
           ),
           AnimatedSwitcher(
             duration: standartDuration,
             child: AdaptiveButton(
               onPressed: onPressed,
-              child: Text(
-                filePath.isNotNull
-                    ? AppStrings.changePhoto
-                    : AppStrings.addPhoto,
-              ),
+              child: Text(_buttonTitleFromFileType()),
             ),
           ),
         ],

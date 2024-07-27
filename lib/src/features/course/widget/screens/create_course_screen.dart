@@ -125,12 +125,12 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     left: 16,
                     right: 16,
                     top: 103,
-                    bottom: 80,
+                    bottom: 16,
                   ),
                   children: [
                     Container(
                       margin: const EdgeInsets.all(16),
-                      padding: const EdgeInsets.all(14),
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: context.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(16),

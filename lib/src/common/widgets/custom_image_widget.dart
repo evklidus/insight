@@ -70,6 +70,7 @@ class CustomImageWidget extends StatelessWidget {
       return Column(
         children: [
           AdaptiveButton(
+            padding: EdgeInsets.zero,
             onPressed: isEditing ? onPressed : null,
             child: AnimatedSwitcher(
               duration: standartDuration,
@@ -84,13 +85,14 @@ class CustomImageWidget extends StatelessWidget {
                           filePath: filePath,
                           type: FileType.image,
                         )
-                  : image,
+                  : AspectRatio(aspectRatio: 4 / 3, child: image),
             ),
           ),
           AnimatedSwitcher(
             duration: standartDuration,
             child: isEditing
                 ? AdaptiveButton(
+                    padding: const EdgeInsets.all(24),
                     onPressed: onPressed,
                     child: Text(
                       filePath.isNotNull || imageUrl.isNotNull

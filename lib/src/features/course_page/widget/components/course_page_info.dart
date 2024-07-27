@@ -7,11 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
-import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
-
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
-import 'package:insight/src/common/widgets/file/file_widget.dart';
 import 'package:insight/src/common/widgets/modal_popup.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 import 'package:insight/src/features/course_page/widget/components/add_lesson_widget.dart';
@@ -127,37 +124,12 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
 
     return Column(
       children: [
-        AnimatedSwitcher(
-          duration: standartDuration,
-          child: widget.coursePage.imageUrl.isNotNull &&
-                  widget.editData.image.isNull
-              ? AspectRatio(
-                  aspectRatio: 4 / 3,
-                  child: CustomImageWidget(
-                    widget.coursePage.imageUrl,
-                    borderRadius: BorderRadius.circular(28),
-                  ),
-                )
-              : FileWidget(
-                  filePath: widget.editData.image?.path,
-                  type: FileType.image,
-                ),
-        ),
-        AnimatedSwitcher(
-          duration: standartDuration,
-          child: widget.editData.isEditing
-              ? Center(
-                  child: AdaptiveButton(
-                    onPressed: widget.editData.addPhotoHandler,
-                    child: Text(
-                      widget.editData.image.isNotNull ||
-                              widget.coursePage.imageUrl.isNotNull
-                          ? AppStrings.changePhoto
-                          : AppStrings.addPhoto,
-                    ),
-                  ),
-                )
-              : const SizedBox(height: 20),
+        CustomImageWidget.editable(
+          widget.coursePage.imageUrl,
+          isEditing: widget.editData.isEditing,
+          filePath: widget.editData.image?.path,
+          onPressed: widget.editData.addPhotoHandler,
+          borderRadius: BorderRadius.circular(28),
         ),
         AnimatedSwitcher(
           duration: standartDuration,
