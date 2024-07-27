@@ -15,10 +15,9 @@ class CoursePageSkeleton extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 20),
         const AspectRatio(
           aspectRatio: 4 / 3,
-          child: Shimmer(),
+          child: Shimmer(cornerRadius: 28),
         ),
         const SizedBox(height: 20),
         Shimmer(size: Size(size.width / 1.2, 35)),

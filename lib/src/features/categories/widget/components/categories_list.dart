@@ -10,7 +10,7 @@ class CategoriesList extends StatelessWidget {
     required this.categories,
   });
 
-  final List<Category>? categories;
+  final List<Category> categories;
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +26,34 @@ class CategoriesList extends StatelessWidget {
         crossAxisSpacing: 25,
         childAspectRatio: 168 / 206,
       ),
-      itemCount: categories?.length ?? 6,
+      itemCount: categories.length,
       itemBuilder: (context, index) {
-        if (categories == null) return const Shimmer();
-        final category = categories![index];
+        final category = categories[index];
         return CategoryWidget(category);
       },
+    );
+  }
+}
+
+class CategoriesListSkeleton extends StatelessWidget {
+  const CategoriesListSkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      padding: EdgeInsets.only(
+        top: MediaQuery.paddingOf(context).top + 16,
+        left: 16,
+        right: 16,
+      ),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 25,
+        crossAxisSpacing: 25,
+        childAspectRatio: 168 / 206,
+      ),
+      itemCount: 4,
+      itemBuilder: (context, index) => const Shimmer(cornerRadius: 16),
     );
   }
 }

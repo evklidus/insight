@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
+import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/common/widgets/file/file_widget.dart';
 import 'package:insight/src/common/widgets/file/file_placeholder.dart';
@@ -59,9 +60,10 @@ class ProfileWidget extends StatelessWidget {
             style: context.textTheme.titleSmall
                 ?.copyWith(fontWeight: FontWeight.w300),
           ),
-          trailing: IconButton(
+          trailing: AdaptiveButton(
+            padding: EdgeInsets.zero,
             onPressed: onEditPressed,
-            icon: Icon(
+            child: Icon(
               isNeedCupertino ? CupertinoIcons.pencil : Icons.edit,
             ),
           ),

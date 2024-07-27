@@ -44,8 +44,9 @@ class _AddLessonWidgetState extends State<AddLessonWidget> {
       final image = await ImagePicker().pickVideo(
         source: ImageSource.gallery,
       );
-      _video = image;
-      setState(() => _video = image);
+      if (image.isNotNull) {
+        setState(() => _video = image);
+      }
     }
   }
 
@@ -66,15 +67,10 @@ class _AddLessonWidgetState extends State<AddLessonWidget> {
           key: _formKey,
           child: Column(
             children: [
-              FileWidget(
+              FileWidget.editable(
                 filePath: _video?.path,
                 type: FileType.video,
-              ),
-              AdaptiveButton(
                 onPressed: _addVideoHandler,
-                child: Text(
-                  _video == null ? AppStrings.addVideo : AppStrings.changeVideo,
-                ),
               ),
               const SizedBox(height: 24),
               CustomTextField(

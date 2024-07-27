@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
+import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
@@ -43,9 +44,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               duration: standartDuration,
               child: authScope.isAuthenticated
                   ? ProfileWidget(
-                      onPressed: () => context.goRelativeNamed('profile'),
+                      onPressed: () =>
+                          context.goRelativeNamed(RouteKeys.profile.name),
                       onEditPressed: () => context.goRelativeNamed(
-                        'profile',
+                        RouteKeys.profile.name,
                         queryParams: {'isEditing': 'true'},
                       ),
                     )
@@ -55,7 +57,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Icons.login_rounded,
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                      onTap: () => context.goRelativeNamed('login'),
+                      onTap: () =>
+                          context.goRelativeNamed(RouteKeys.login.name),
                     ),
             ),
             const SizedBox(height: 20),

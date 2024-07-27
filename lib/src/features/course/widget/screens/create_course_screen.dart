@@ -9,7 +9,6 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
-import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/common/widgets/file/file_widget.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
@@ -126,12 +125,12 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     left: 16,
                     right: 16,
                     top: 103,
-                    bottom: 80,
+                    bottom: 16,
                   ),
                   children: [
                     Container(
                       margin: const EdgeInsets.all(16),
-                      padding: const EdgeInsets.all(14),
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: context.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(16),
@@ -143,17 +142,10 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     ),
                     const _Headline(AppStrings.photo),
                     const SizedBox(height: 8),
-                    FileWidget(
+                    FileWidget.editable(
                       filePath: _image?.path,
                       type: FileType.image,
-                    ),
-                    AdaptiveButton(
                       onPressed: _addPhotoHandler,
-                      child: Text(
-                        _image == null
-                            ? AppStrings.addPhoto
-                            : AppStrings.changePhoto,
-                      ),
                     ),
                     const SizedBox(height: 16),
                     const _Headline(AppStrings.title),
