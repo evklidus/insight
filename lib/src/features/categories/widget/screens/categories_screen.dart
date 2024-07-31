@@ -34,6 +34,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ..add(const CategoriesEvent.fetch());
   }
 
+  Future<void> _onRefresh() async {
+    final block = categoriesBloc.stream.first;
+    categoriesBloc.add(const CategoriesEvent.fetch());
+    await block;
+  }
+
   @override
   Widget build(BuildContext context) {
     final authScope = AuthScope.of(context);
@@ -71,7 +77,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               isProcessing: state.isProcessing,
               hasError: state.hasError,
             ),
-            refresh: () => categoriesBloc.add(const CategoriesEvent.fetch()),
+            refresh: _onRefresh,
             duration: const Duration(milliseconds: 350),
             padding: EdgeInsets.zero,
             skeletonBuilder: (context) => const CategoriesListSkeleton(),

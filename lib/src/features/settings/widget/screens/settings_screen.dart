@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
@@ -54,8 +55,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   : SettingRow(
                       title: AppStrings.signIn,
                       icon: Icon(
-                        Icons.login_rounded,
-                        color: Theme.of(context).colorScheme.primary,
+                        isNeedCupertino
+                            ? CupertinoIcons.person_fill
+                            : Icons.login_rounded,
                       ),
                       onTap: () =>
                           context.goRelativeNamed(RouteKeys.login.name),
@@ -64,11 +66,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 20),
             // Theme
             const ThemeChangeWidget(),
+            AnimatedSwitcher(
+              duration: standartDuration,
+              child: authScope.isAuthenticated
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: SettingRow(
+                        title: 'Мои курсы',
+                        icon: Icon(
+                          isNeedCupertino
+                              ? CupertinoIcons.person_solid
+                              : Icons.person,
+                        ),
+                        onTap: () =>
+                            context.goRelativeNamed(RouteKeys.userCourses.name),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
             const SizedBox(height: 20),
             // About app
             SettingRow(
               title: 'О приложении',
-              icon: const Icon(Icons.info_rounded),
+              icon: Icon(
+                isNeedCupertino
+                    ? CupertinoIcons.info_circle_fill
+                    : Icons.info_rounded,
+              ),
               onTap: () => context.goRelativeNamed('about'),
             ),
             const SizedBox(height: 20),

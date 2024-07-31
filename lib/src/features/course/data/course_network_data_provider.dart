@@ -11,6 +11,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 abstract interface class CourseNetworkDataProvider {
   Future<List<Course>> getCourse(String categoryTag);
 
+  Future<List<Course>> getUserCourse();
+
   Future<void> createCourse({
     required String name,
     required String description,
@@ -30,6 +32,12 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
   @override
   Future<List<Course>> getCourse(String categoryTag) async {
     final response = await _client.get('/course/$categoryTag');
+    return (response.data as List<Map>).map(Course.fromJson).toList();
+  }
+
+  @override
+  Future<List<Course>> getUserCourse() async {
+    final response = await _client.get('/course/my');
     return (response.data as List<Map>).map(Course.fromJson).toList();
   }
 
@@ -86,6 +94,21 @@ final class CourseFirestoreDataProviderImpl
     final coursesCollection = await _firestore
         .collection('course')
         .where('tag', isEqualTo: categoryTag)
+        .get();
+
+    final courses = coursesCollection.docs
+        .map((doc) => Course.fromFirestore(doc.id, doc.data()))
+        .toList();
+    return courses;
+  }
+
+  @override
+  Future<List<Course>> getUserCourse() async {
+    final userId = _firebaseAuth.currentUser!.uid;
+
+    final coursesCollection = await _firestore
+        .collection('course')
+        .where('owner_id', isEqualTo: userId)
         .get();
 
     final courses = coursesCollection.docs

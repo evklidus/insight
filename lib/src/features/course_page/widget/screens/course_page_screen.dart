@@ -106,6 +106,12 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
     }
   }
 
+  Future<void> _onRefresh() async {
+    final block = _coursePageBloc.stream.first;
+    _coursePageBloc.add(CoursePageEvent.fetch(widget.coursePageId));
+    await block;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -141,9 +147,7 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
                     hasError: state.hasError,
                   ),
                   skeletonBuilder: (context) => const CoursePageSkeleton(),
-                  refresh: () => _coursePageBloc.add(
-                    CoursePageEvent.fetch(widget.coursePageId),
-                  ),
+                  refresh: _onRefresh,
                   childBuilder: (context) => CoursePageInfo(
                     coursePage: state.data!,
                     refreshCoursesList: widget.refreshCoursesList,

@@ -105,6 +105,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<void> _onRefresh() async {
+    final block = _profileBloc.stream.first;
+    _profileBloc.add(const ProfileEvent.fetch());
+    await block;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileBloc, ProfileState>(
@@ -118,6 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         return AdaptiveScaffold(
           appBar: CustomAppBar(
             title: AppStrings.profile,
+            previousPageTitle: AppStrings.settings,
             action: EditButton(
               isEditing: _isEditing,
               opacity: _isEditing ? 1 : 0.8,
@@ -134,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   isProcessing: state.isProcessing,
                   hasError: state.hasError,
                 ),
-                refresh: () => _profileBloc.add(const ProfileEvent.fetch()),
+                refresh: _onRefresh,
                 skeletonBuilder: (context) => const ProfileSkeleton(),
                 childBuilder: (context) => ProfileInformation(
                   user: state.data!,

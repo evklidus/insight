@@ -31,7 +31,10 @@ class _AppAboutScreenState extends State<AppAboutScreen> {
     final imageHeight = MediaQuery.sizeOf(context).height / 4;
 
     return AdaptiveScaffold(
-      appBar: const CustomAppBar(title: 'О приложении'),
+      appBar: const CustomAppBar(
+        title: 'О приложении',
+        previousPageTitle: AppStrings.settings,
+      ),
       body: ListView(
         children: [
           Column(

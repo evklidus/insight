@@ -4,6 +4,8 @@ import 'package:insight/src/features/course/model/course.dart';
 abstract interface class CourseRepository {
   Future<List<Course>> getCourse(String categoryTag);
 
+  Future<List<Course>> getUserCourse();
+
   Future<void> createCourse({
     required String name,
     required String description,
@@ -24,6 +26,9 @@ final class CourseRepositoryImpl implements CourseRepository {
   @override
   Future<List<Course>> getCourse(String categoryTag) =>
       _networkDataProvider.getCourse(categoryTag);
+
+  @override
+  Future<List<Course>> getUserCourse() => _networkDataProvider.getUserCourse();
 
   @override
   Future<void> createCourse({

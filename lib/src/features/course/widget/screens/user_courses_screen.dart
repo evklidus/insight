@@ -8,24 +8,20 @@ import 'package:insight/src/common/widgets/separated_column.dart';
 import 'package:insight/src/common/widgets/shimmer.dart';
 import 'package:insight/src/common/widgets/widget_switcher.dart';
 import 'package:insight/src/features/course/widget/components/course_widget.dart';
-import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/features/course/bloc/course_bloc.dart';
 import 'package:insight/src/features/course/bloc/course_state.dart';
-import 'package:provider/provider.dart';
 
-class CoursesScreen extends StatefulWidget {
-  const CoursesScreen(this.categoryTag, {super.key});
-
-  final String categoryTag;
+class UserCoursesScreen extends StatefulWidget {
+  const UserCoursesScreen({super.key});
 
   @override
-  State<CoursesScreen> createState() => _CoursesScreenState();
+  State<UserCoursesScreen> createState() => _UserCoursesScreenState();
 }
 
-class _CoursesScreenState extends State<CoursesScreen> {
+class _UserCoursesScreenState extends State<UserCoursesScreen> {
   late final CourseBloc coursesBloc;
 
   @override
@@ -33,17 +29,15 @@ class _CoursesScreenState extends State<CoursesScreen> {
     super.initState();
     coursesBloc = CourseBloc(
       repository: DIContainer.instance.coursesRepository,
-    )..add(CourseEvent.fetch(widget.categoryTag));
+    )..add(const CourseEvent.fetchUserCourses());
   }
 
   @override
   Widget build(BuildContext context) {
-    final profileBloc = Provider.of<ProfileBloc>(context);
-
     return AdaptiveScaffold(
       appBar: const CustomAppBar(
-        title: AppStrings.courses,
-        previousPageTitle: AppStrings.categories,
+        title: AppStrings.myCourses,
+        previousPageTitle: AppStrings.settings,
       ),
       body: ListView(
         children: [
@@ -75,25 +69,27 @@ class _CoursesScreenState extends State<CoursesScreen> {
                   initialItemCount: state.data!.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index, _) => Column(
-                    children: [
-                      if (index != 0) const SizedBox(height: 20),
-                      CourseWidget(
-                        course: state.data![index],
-                        categoryTag: widget.categoryTag,
-                        userId: profileBloc.state.data?.id,
-                        onTap: () => context.pushNamed(
-                          RouteKeys.coursePage.name,
-                          pathParameters: {
-                            'coursePageId': state.data![index].id.toString(),
-                          },
-                          extra: () => coursesBloc.add(
-                            CourseEvent.fetch(widget.categoryTag),
+                  itemBuilder: (context, index, _) {
+                    final course = state.data![index];
+                    return Column(
+                      children: [
+                        if (index != 0) const SizedBox(height: 20),
+                        CourseWidget.withCategory(
+                          course: course,
+                          categoryTag: course.tag,
+                          onTap: () => context.pushNamed(
+                            RouteKeys.coursePage.name,
+                            pathParameters: {
+                              'coursePageId': course.id.toString(),
+                            },
+                            extra: () => coursesBloc.add(
+                              const CourseEvent.fetchUserCourses(),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),
