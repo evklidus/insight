@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
-import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 
@@ -16,6 +15,7 @@ class ProfileInformation extends StatefulWidget {
     required this.addPhotoHandler,
     required this.nameController,
     required this.lastNameController,
+    required this.usernameController,
   });
 
   final User user;
@@ -24,6 +24,7 @@ class ProfileInformation extends StatefulWidget {
   final VoidCallback addPhotoHandler;
   final TextEditingController nameController;
   final TextEditingController lastNameController;
+  final TextEditingController usernameController;
 
   @override
   State<ProfileInformation> createState() => _ProfileLoadedScreenState();
@@ -37,6 +38,7 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
     super.initState();
     widget.nameController.text = widget.user.firstName;
     widget.lastNameController.text = widget.user.lastName ?? '';
+    widget.usernameController.text = widget.user.username ?? '';
   }
 
   @override
@@ -71,24 +73,17 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
                               type: InputType.firstName,
                               controller: widget.nameController,
                               hintText: 'Укажите имя',
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return AppStrings.pleaseEnterSomething;
-                                }
-                                return null;
-                              },
                             ),
                             const SizedBox(height: 16),
                             CustomTextField(
                               type: InputType.lastName,
                               controller: widget.lastNameController,
                               hintText: 'Укажите фамилию',
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return AppStrings.pleaseEnterSomething;
-                                }
-                                return null;
-                              },
+                            ),
+                            const SizedBox(height: 32),
+                            CustomTextField(
+                              controller: widget.usernameController,
+                              hintText: 'Имя пользователя',
                             ),
                           ],
                         ),

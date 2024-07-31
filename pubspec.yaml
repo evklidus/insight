@@ -51,6 +51,7 @@ dependencies:
     path: packages/insight_player
   insight_snackbar: ^2.0.1
   video_player: ^2.8.7
+  swipe_refresh: ^1.1.2
 
 dev_dependencies:
   build_runner: ^2.4.6

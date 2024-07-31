@@ -79,6 +79,7 @@ final class ProfileFirestoreDataProviderImpl
       if (user.firstName.isNotNull) 'first_name': user.firstName,
       if (user.lastName.isNotNull) 'last_name': user.lastName,
       if (avatarUrl.isNotNull) 'avatar_url': avatarUrl,
+      if (user.username.isNotNull) 'username': user.username,
     });
   }
 }

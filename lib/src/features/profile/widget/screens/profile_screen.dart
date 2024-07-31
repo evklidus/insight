@@ -34,6 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late final ProfileBloc _profileBloc;
   late final TextEditingController _nameController;
   late final TextEditingController _lastNameController;
+  late final TextEditingController _usernameController;
 
   @override
   void initState() {
@@ -43,12 +44,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _profileBloc = context.read<ProfileBloc>();
     _nameController = TextEditingController();
     _lastNameController = TextEditingController();
+    _usernameController = TextEditingController();
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     _lastNameController.dispose();
+    _usernameController.dispose();
     super.dispose();
   }
 
@@ -72,13 +75,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (_isEditing) {
       String name = _nameController.text.trim();
       final lastName = _lastNameController.text.trim();
+      final username = _usernameController.text.trim();
 
       final isNameChanged =
           name != _profileBloc.state.data!.firstName && name.isNotEmpty;
       final isLastNameChanged = lastName != _profileBloc.state.data!.lastName;
+      final isUsernameChanged = username != _profileBloc.state.data!.username;
       final isImageChanged = _image != null;
 
-      final isEdited = isNameChanged || isLastNameChanged || isImageChanged;
+      final usernameRegExp = RegExp(r"^[a-zA-Z][a-zA-Z0-9]*$");
+
+      if (!usernameRegExp.hasMatch(username)) {
+        return InsightSnackBar.showError(
+          context,
+          text:
+              'Имя пользователя не может содержать пробелов или начинаться с цифр',
+          bottomPadding: MediaQuery.viewInsetsOf(context).bottom.toInt(),
+        );
+      }
+
+      final isEdited = isNameChanged ||
+          isLastNameChanged ||
+          isUsernameChanged ||
+          isImageChanged;
 
       // Восстановление имени в контроллере в том случае, если его попытались убрать
       if (!isNameChanged) {
@@ -93,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               id: userId,
               firstName: name,
               lastName: lastName,
-              avatarPath: _image?.path,
+              username: username,
             ),
           ),
         );
@@ -123,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (context, state) {
         return AdaptiveScaffold(
           appBar: CustomAppBar(
-            title: AppStrings.profile,
+            title: state.data?.username ?? AppStrings.profile,
             previousPageTitle: AppStrings.settings,
             action: EditButton(
               isEditing: _isEditing,
@@ -150,6 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   addPhotoHandler: _addPhotoHandler,
                   nameController: _nameController,
                   lastNameController: _lastNameController,
+                  usernameController: _usernameController,
                 ),
               ),
             ],

@@ -31,6 +31,7 @@ final class User {
         avatarUrl: userData['avatar_url'],
         firstName: userData['first_name'],
         lastName: userData['last_name'],
+        username: userData['username'],
       );
 
   final String id;
