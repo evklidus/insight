@@ -762,13 +762,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
-  insight_player:
-    dependency: "direct main"
-    description:
-      path: "packages/insight_player"
-      relative: true
-    source: path
-    version: "0.0.1"
   insight_snackbar:
     dependency: "direct main"
     description:
@@ -1323,14 +1316,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  swipe_refresh:
-    dependency: "direct main"
-    description:
-      name: swipe_refresh
-      sha256: "7f155dd2c370d128cd77f4d73cf8e477b0413268d8554639e4211a98abc98438"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.2"
   sync_http:
     dependency: transitive
     description:

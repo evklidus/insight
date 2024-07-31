@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/constants/route_keys.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
@@ -53,7 +54,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             isNeedCupertino
                 ? CupertinoIcons.add_circled_solid
                 : Icons.add_circle,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
+            color: context.colorScheme.onSurfaceVariant,
             size: 24,
           ),
           onPressed: () => authScope.isAuthenticated

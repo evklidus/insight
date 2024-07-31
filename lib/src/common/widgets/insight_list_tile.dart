@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 
 /// {@template insight_list_tile}
@@ -42,8 +43,8 @@ class InsightListTile extends StatelessWidget {
                   vertical: 16,
                   horizontal: 20,
                 ),
-            backgroundColor: backgroundColor ??
-                Theme.of(context).colorScheme.surfaceContainer,
+            backgroundColor:
+                backgroundColor ?? context.colorScheme.surfaceContainer,
             leadingSize: leadingSize,
             leading: leading,
             title: title,
@@ -57,8 +58,7 @@ class InsightListTile extends StatelessWidget {
           child: ListTile(
             onTap: onTap,
             contentPadding: padding,
-            tileColor: backgroundColor ??
-                Theme.of(context).colorScheme.surfaceContainer,
+            tileColor: backgroundColor ?? context.colorScheme.surfaceContainer,
             shape: RoundedRectangleBorder(
               borderRadius: borderRadius ?? BorderRadius.circular(24),
             ),

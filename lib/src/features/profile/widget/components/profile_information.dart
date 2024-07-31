@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 
@@ -90,7 +91,7 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
                       )
                     : Text(
                         widget.user.fullName,
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: context.textTheme.titleLarge,
                       ),
               ),
               const SizedBox(height: 10),
@@ -99,7 +100,7 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
                 duration: standartDuration,
                 child: Text(
                   widget.user.email,
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: context.textTheme.bodySmall,
                 ),
               ),
             ],

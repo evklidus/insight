@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 
 import 'package:insight/gen/assets.gen.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 
 class InformationWidget extends StatelessWidget {
@@ -42,7 +43,7 @@ class InformationWidget extends StatelessWidget {
         child: Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+            color: context.colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(25),
           ),
           margin: const EdgeInsets.all(16),

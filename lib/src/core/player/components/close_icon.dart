@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
+import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 
 class CloseIcon extends StatelessWidget {
   const CloseIcon(this.onPressed, {super.key});
@@ -12,8 +14,9 @@ class CloseIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final isNeedCupertino = Platform.isIOS || Platform.isMacOS;
 
-    return GestureDetector(
-      onTap: onPressed,
+    return AdaptiveButton(
+      padding: EdgeInsets.zero,
+      onPressed: onPressed,
       child: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(6),
@@ -21,7 +24,7 @@ class CloseIcon extends StatelessWidget {
           borderRadius: BorderRadius.circular(
             12,
           ),
-          color: Theme.of(context).colorScheme.surfaceContainerLow,
+          color: context.colorScheme.surfaceContainerLow,
         ),
         child: SizedBox.square(
           child: Icon(

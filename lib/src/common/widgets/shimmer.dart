@@ -3,6 +3,7 @@ import 'dart:ui' as ui show FragmentProgram, FragmentShader;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
 /// {@template shimmer}
 /// A widget that creates a shimmering effect similar
@@ -105,11 +106,11 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
                 shader: snapshot.data,
                 seed: _seed,
                 /* ?? Colors.grey */
-                color: widget.color ??
-                    Theme.of(context).colorScheme.surfaceContainerHighest,
-                /* ?? Theme.of(context).colorScheme.surface */
+                color:
+                    widget.color ?? context.colorScheme.surfaceContainerHighest,
+                /* ?? context.colorScheme.surface */
                 backgroundColor: widget.backgroundColor ??
-                    Theme.of(context).colorScheme.surfaceContainerLow,
+                    context.colorScheme.surfaceContainerLow,
                 cornerRadius: widget.cornerRadius,
                 stripeWidth: widget.stripeWidth,
               ),

@@ -174,12 +174,12 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                     children: [
                       Text(
                         widget.coursePage.name,
-                        style: Theme.of(context).textTheme.headlineMedium,
+                        style: context.textTheme.headlineMedium,
                       ),
                       const SizedBox(height: 12),
                       Text(
                         widget.coursePage.description,
-                        style: Theme.of(context).textTheme.titleSmall,
+                        style: context.textTheme.titleSmall,
                       ),
                     ],
                   ),

@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insight_player/src/custom_video_progress_indicator.dart';
-import 'package:insight_player/src/play_pause_button.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
+import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
+import 'custom_video_progress_indicator.dart';
+import 'play_pause_button.dart';
 import 'package:video_player/video_player.dart';
 
 /// {@template insight_controls}
@@ -16,8 +20,10 @@ class InsightControls extends StatelessWidget {
   Widget build(BuildContext context) {
     final isInitialized = controller.value.isInitialized;
     final iconColor = isInitialized
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.onSurface.withOpacity(0.4);
+        ? (isNeedCupertino
+            ? CupertinoTheme.of(context).primaryColor
+            : context.colorScheme.primary)
+        : context.colorScheme.onSurface.withOpacity(0.4);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -26,7 +32,7 @@ class InsightControls extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(28),
         ),
-        color: Theme.of(context).colorScheme.surfaceContainerLow,
+        color: context.colorScheme.surfaceContainerLow,
       ),
       child: Column(
         children: [
@@ -36,20 +42,21 @@ class InsightControls extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             padding: const EdgeInsets.symmetric(vertical: 6),
             colors: VideoProgressColors(
-              playedColor: Theme.of(context).colorScheme.primary,
+              playedColor: iconColor,
+              backgroundColor: iconColor.withOpacity(0.1),
             ),
           ),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              IconButton(
+              AdaptiveButton(
                 onPressed: () => controller.seekTo(
                   Duration(
                     seconds: controller.value.position.inSeconds - 15,
                   ),
                 ),
-                icon: Icon(
+                child: Icon(
                   Icons.replay_10_rounded,
                   size: 32,
                   color: iconColor,
@@ -59,13 +66,13 @@ class InsightControls extends StatelessWidget {
                 isInitialized,
                 controller,
               ),
-              IconButton(
+              AdaptiveButton(
                 onPressed: () => controller.seekTo(
                   Duration(
                     seconds: controller.value.position.inSeconds + 15,
                   ),
                 ),
-                icon: Icon(
+                child: Icon(
                   Icons.forward_10_rounded,
                   size: 32,
                   color: iconColor,

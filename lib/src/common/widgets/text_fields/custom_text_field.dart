@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
 enum InputType { basic, email, newPassword, password, firstName, lastName }
 
@@ -90,7 +91,7 @@ class CustomTextField extends StatelessWidget {
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(16),
         ),
-        fillColor: Theme.of(context).colorScheme.surfaceContainer,
+        fillColor: context.colorScheme.surfaceContainer,
         filled: true,
         hintText: _hintText,
       ),
@@ -117,10 +118,10 @@ class CustomTextField extends StatelessWidget {
 //             keyboardType: keyboardType,
 //             decoration: BoxDecoration(
 //               borderRadius: BorderRadius.circular(12),
-//               color: Theme.of(context).colorScheme.surfaceContainer,
+//               color: context.colorScheme.surfaceContainer,
 //             ),
 //             padding: EdgeInsets.zero,
-//             placeholderStyle: Theme.of(context).textTheme.bodySmall,
-//             style: Theme.of(context).textTheme.bodyLarge,
+//             placeholderStyle: context.textTheme.bodySmall,
+//             style: context.textTheme.bodyLarge,
 //           )
 //         : 

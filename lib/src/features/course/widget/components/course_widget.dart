@@ -41,7 +41,7 @@ class CourseWidget extends StatelessWidget {
       ),
       title: Text(
         course.name,
-        style: Theme.of(context).textTheme.titleMedium,
+        style: context.textTheme.titleMedium,
         maxLines: 2,
       ),
       subtitle: _withCategory ? Text(categoryTag) : null,

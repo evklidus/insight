@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/widgets/root_screen.dart';
+import 'package:insight/src/core/player/insight_player.dart';
 import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/categories_screen.dart';
@@ -12,7 +13,6 @@ import 'package:insight/src/features/course/widget/screens/courses_screen.dart';
 import 'package:insight/src/features/profile/widget/screens/profile_screen.dart';
 import 'package:insight/src/features/settings/widget/screens/app_about_screen.dart';
 import 'package:insight/src/features/settings/widget/screens/settings_screen.dart';
-import 'package:insight_player/insight_player.dart';
 
 const _defaultFadeTransitionDuration = Duration(milliseconds: 200);
 

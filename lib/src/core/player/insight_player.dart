@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:insight_player/src/insight_controls.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
+import 'package:insight/src/core/player/components/close_icon.dart';
+import 'package:insight/src/core/player/components/insight_controls.dart';
 import 'package:video_player/video_player.dart';
-import 'close_icon.dart';
 
 class InsightPlayer extends StatefulWidget {
   const InsightPlayer({
@@ -67,9 +68,11 @@ class _InsightPlayerState extends State<InsightPlayer> {
                     children: [
                       CloseIcon(widget.onCloseButtonPressed),
                       const SizedBox(width: 12),
-                      Text(
-                        widget.title,
-                        style: Theme.of(context).textTheme.titleMedium,
+                      Expanded(
+                        child: Text(
+                          widget.title,
+                          style: context.textTheme.titleMedium,
+                        ),
                       ),
                     ],
                   ),
