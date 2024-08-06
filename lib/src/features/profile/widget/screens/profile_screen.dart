@@ -1,14 +1,15 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
+import 'package:insight/src/common/widgets/app_bars/custom_sliver_app_bar.dart';
 import 'package:insight/src/common/widgets/buttons/edit_button.dart';
+import 'package:insight/src/common/widgets/custom_android_refresh_indicator.dart';
 import 'package:insight/src/common/widgets/widget_switcher.dart';
 import 'package:insight/src/features/profile/model/user_edit.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
-import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/profile/bloc/profile_state.dart';
 import 'package:insight/src/features/profile/widget/components/profile_information.dart';
@@ -140,39 +141,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       builder: (context, state) {
-        return AdaptiveScaffold(
-          appBar: CustomAppBar(
-            title: state.data?.username ?? AppStrings.profile,
-            previousPageTitle: AppStrings.settings,
-            action: EditButton(
-              isEditing: _isEditing,
-              opacity: _isEditing ? 1 : 0.8,
-              onPressed: _profileBloc.state.data.isNotNull
-                  ? () => _save(_profileBloc.state.data!.id)
-                  : null,
+        return CustomAndroidRefreshIndicator(
+          onRefresh: _onRefresh,
+          child: AdaptiveScaffold(
+            body: CustomScrollView(
+              slivers: [
+                CustomSliverAppBar(
+                  title: state.data?.username ?? AppStrings.profile,
+                  previousPageTitle: AppStrings.settings,
+                  action: EditButton(
+                    isEditing: _isEditing,
+                    opacity: _isEditing ? 1 : 0.8,
+                    onPressed: _profileBloc.state.data.isNotNull
+                        ? () => _save(_profileBloc.state.data!.id)
+                        : null,
+                  ),
+                ),
+                CupertinoSliverRefreshControl(onRefresh: _onRefresh),
+                WidgetSwitcher.sliver(
+                  state: (
+                    hasData: state.hasData,
+                    isProcessing: state.isProcessing,
+                    hasError: state.hasError,
+                  ),
+                  refresh: _onRefresh,
+                  skeletonBuilder: (context) =>
+                      const SliverToBoxAdapter(child: ProfileSkeleton()),
+                  childBuilder: (context) => ProfileInformation(
+                    user: state.data!,
+                    isEditing: _isEditing,
+                    image: _image,
+                    addPhotoHandler: _addPhotoHandler,
+                    nameController: _nameController,
+                    lastNameController: _lastNameController,
+                    usernameController: _usernameController,
+                  ),
+                ),
+              ],
             ),
-          ),
-          body: ListView(
-            children: [
-              WidgetSwitcher(
-                state: (
-                  hasData: state.hasData,
-                  isProcessing: state.isProcessing,
-                  hasError: state.hasError,
-                ),
-                refresh: _onRefresh,
-                skeletonBuilder: (context) => const ProfileSkeleton(),
-                childBuilder: (context) => ProfileInformation(
-                  user: state.data!,
-                  isEditing: _isEditing,
-                  image: _image,
-                  addPhotoHandler: _addPhotoHandler,
-                  nameController: _nameController,
-                  lastNameController: _lastNameController,
-                  usernameController: _usernameController,
-                ),
-              ),
-            ],
           ),
         );
       },

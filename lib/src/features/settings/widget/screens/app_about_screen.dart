@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:insight/gen/assets.gen.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
@@ -45,6 +46,7 @@ class _AppAboutScreenState extends State<AppAboutScreen> {
                   _imageTapCount++;
                   if (_imageTapCount >= _maxTapCountToShowTestValues) {
                     isNeedToShowTestValues = true;
+                    HapticFeedback.selectionClick();
                     setState(() {});
                   }
                 },

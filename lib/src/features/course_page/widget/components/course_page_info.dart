@@ -9,9 +9,7 @@ import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
-import 'package:insight/src/common/widgets/modal_popup.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
-import 'package:insight/src/features/course_page/widget/components/add_lesson_widget.dart';
 import 'package:insight/src/common/widgets/insight_dismissible.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
@@ -49,26 +47,6 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
     widget.editData.titleController.text = widget.coursePage.name;
     widget.editData.descriptionController.text = widget.coursePage.description;
   }
-
-  void _onAddLessonHandler(BuildContext context) => ModalPopup.show(
-        useRootNavigator: true,
-        context: context,
-        child: AddLessonWidget(
-          onAdd: (name, videoPath) {
-            Navigator.of(context, rootNavigator: true).pop();
-            Provider.of<CoursePageBloc>(context, listen: false).add(
-              CoursePageEvent.addLesson(
-                name: name,
-                videoPath: videoPath,
-                onAdd: () => InsightSnackBar.showSuccessful(
-                  context,
-                  text: 'Урок добавлен',
-                ),
-              ),
-            );
-          },
-        ),
-      );
 
   void _onDeletHandler(BuildContext ctx) {
     void deleteCourse() => Provider.of<CoursePageBloc>(ctx, listen: false).add(
@@ -122,7 +100,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
     final profileBloc = Provider.of<ProfileBloc>(context);
     final isItsOwn = widget.coursePage.creatorId == profileBloc.state.data?.id;
 
-    return Column(
+    return SliverList.list(
       children: [
         CustomImageWidget.editable(
           widget.coursePage.imageUrl,
@@ -233,14 +211,6 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
               color: context.colorScheme.surfaceContainerLowest,
             ),
             child: const Text('Курс в разработке'),
-          ),
-        const SizedBox(height: 20),
-        if (isItsOwn)
-          AdaptiveButton(
-            onPressed: widget.editData.isEditing
-                ? null
-                : () => _onAddLessonHandler(context),
-            child: const Text(AppStrings.addLesson),
           ),
       ],
     );

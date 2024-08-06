@@ -48,64 +48,62 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
 
     return Form(
       key: _formKey,
-      child: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 30),
-              CustomImageWidget.editable(
-                widget.user.avatarUrl!,
-                size: Size.square(size.shortestSide * .64),
-                shape: BoxShape.circle,
-                isEditing: widget.isEditing,
-                filePath: widget.image?.path,
-                onPressed: widget.addPhotoHandler,
-                placeholderSizeRadius: size.shortestSide * .32,
-              ),
-              AnimatedSwitcher(
-                duration: standartDuration,
-                child: widget.isEditing
-                    ? Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          children: [
-                            CustomTextField(
-                              type: InputType.firstName,
-                              controller: widget.nameController,
-                              hintText: 'Укажите имя',
-                            ),
-                            const SizedBox(height: 16),
-                            CustomTextField(
-                              type: InputType.lastName,
-                              controller: widget.lastNameController,
-                              hintText: 'Укажите фамилию',
-                            ),
-                            const SizedBox(height: 32),
-                            CustomTextField(
-                              controller: widget.usernameController,
-                              hintText: 'Имя пользователя',
-                            ),
-                          ],
-                        ),
-                      )
-                    : Text(
-                        widget.user.fullName,
-                        style: context.textTheme.titleLarge,
-                      ),
-              ),
-              const SizedBox(height: 10),
-              AnimatedOpacity(
-                opacity: widget.isEditing ? .4 : 1,
-                duration: standartDuration,
-                child: Text(
-                  widget.user.email,
-                  style: context.textTheme.bodySmall,
-                ),
-              ),
-            ],
+      child: SliverList.list(
+        children: [
+          const SizedBox(height: 30),
+          CustomImageWidget.editable(
+            widget.user.avatarUrl!,
+            size: Size.square(size.shortestSide * .64),
+            shape: BoxShape.circle,
+            isEditing: widget.isEditing,
+            filePath: widget.image?.path,
+            onPressed: widget.addPhotoHandler,
+            placeholderSizeRadius: size.shortestSide * .32,
           ),
-        ),
+          AnimatedSwitcher(
+            duration: standartDuration,
+            child: widget.isEditing
+                ? Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        CustomTextField(
+                          type: InputType.firstName,
+                          controller: widget.nameController,
+                          hintText: 'Укажите имя',
+                        ),
+                        const SizedBox(height: 16),
+                        CustomTextField(
+                          type: InputType.lastName,
+                          controller: widget.lastNameController,
+                          hintText: 'Укажите фамилию',
+                        ),
+                        const SizedBox(height: 32),
+                        CustomTextField(
+                          controller: widget.usernameController,
+                          hintText: 'Имя пользователя',
+                        ),
+                      ],
+                    ),
+                  )
+                : Text(
+                    widget.user.fullName,
+                    style: context.textTheme.titleLarge,
+                  ),
+          ),
+          const SizedBox(height: 8),
+          Center(
+            child: AnimatedOpacity(
+              opacity: widget.isEditing ? .4 : 1,
+              duration: standartDuration,
+              child: Text(
+                widget.user.email,
+                style: context.textTheme.bodySmall,
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
       ),
     );
   }

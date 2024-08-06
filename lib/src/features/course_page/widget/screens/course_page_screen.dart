@@ -1,17 +1,20 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
+import 'package:insight/src/common/widgets/app_bars/custom_sliver_app_bar.dart';
+import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/buttons/edit_button.dart';
+import 'package:insight/src/common/widgets/custom_android_refresh_indicator.dart';
+import 'package:insight/src/common/widgets/modal_popup.dart';
 import 'package:insight/src/common/widgets/widget_switcher.dart';
 import 'package:insight/src/features/course_page/model/course_edit.dart';
+import 'package:insight/src/features/course_page/widget/components/add_lesson_widget.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
-import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_state.dart';
 import 'package:insight/src/features/course_page/widget/components/course_page_skeleton.dart';
@@ -112,6 +115,26 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
     await block;
   }
 
+  void _onAddLessonHandler(BuildContext context) => ModalPopup.show(
+        useRootNavigator: true,
+        context: context,
+        child: AddLessonWidget(
+          onAdd: (name, videoPath) {
+            Navigator.of(context, rootNavigator: true).pop();
+            Provider.of<CoursePageBloc>(context, listen: false).add(
+              CoursePageEvent.addLesson(
+                name: name,
+                videoPath: videoPath,
+                onAdd: () => InsightSnackBar.showSuccessful(
+                  context,
+                  text: 'Урок добавлен',
+                ),
+              ),
+            );
+          },
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -125,42 +148,61 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
           final profileBloc = Provider.of<ProfileBloc>(context);
           final isItsOwn = state.data?.creatorId == profileBloc.state.data?.id;
 
-          return AdaptiveScaffold(
-            appBar: CustomAppBar(
-              previousPageTitle: AppStrings.courses,
-              action: EditButton(
-                isEditing: _isEditing,
-                opacity: isItsOwn ? (_isEditing ? 1 : 0.8) : 0,
-                onPressed: isItsOwn
-                    ? (_coursePageBloc.state.data.isNotNull
-                        ? () => _save(_coursePageBloc.state.data!.id)
-                        : null)
-                    : null,
-              ),
-            ),
-            body: ListView(
-              children: [
-                WidgetSwitcher(
-                  state: (
-                    hasData: state.hasData,
-                    isProcessing: state.isProcessing,
-                    hasError: state.hasError,
-                  ),
-                  skeletonBuilder: (context) => const CoursePageSkeleton(),
-                  refresh: _onRefresh,
-                  childBuilder: (context) => CoursePageInfo(
-                    coursePage: state.data!,
-                    refreshCoursesList: widget.refreshCoursesList,
-                    editData: (
+          return CustomAndroidRefreshIndicator(
+            onRefresh: _onRefresh,
+            child: AdaptiveScaffold(
+              body: CustomScrollView(
+                slivers: [
+                  CustomSliverAppBar(
+                    previousPageTitle: AppStrings.courses,
+                    action: EditButton(
                       isEditing: _isEditing,
-                      titleController: _titleController,
-                      descriptionController: _descriptionController,
-                      image: _image,
-                      addPhotoHandler: _addPhotoHandler,
+                      opacity: isItsOwn ? (_isEditing ? 1 : 0.8) : 0,
+                      onPressed: isItsOwn
+                          ? (_coursePageBloc.state.data.isNotNull
+                              ? () => _save(_coursePageBloc.state.data!.id)
+                              : null)
+                          : null,
+                    ),
+                    title: state.data?.name ?? '',
+                  ),
+                  CupertinoSliverRefreshControl(onRefresh: _onRefresh),
+                  WidgetSwitcher.sliver(
+                    state: (
+                      hasData: state.hasData,
+                      isProcessing: state.isProcessing,
+                      hasError: state.hasError,
+                    ),
+                    skeletonBuilder: (context) =>
+                        const SliverToBoxAdapter(child: CoursePageSkeleton()),
+                    refresh: _onRefresh,
+                    childBuilder: (context) => CoursePageInfo(
+                      coursePage: state.data!,
+                      refreshCoursesList: widget.refreshCoursesList,
+                      editData: (
+                        isEditing: _isEditing,
+                        titleController: _titleController,
+                        descriptionController: _descriptionController,
+                        image: _image,
+                        addPhotoHandler: _addPhotoHandler,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  if (isItsOwn)
+                    SliverPadding(
+                      padding: const EdgeInsets.all(16),
+                      sliver: SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: AdaptiveButton(
+                          onPressed: _isEditing
+                              ? null
+                              : () => _onAddLessonHandler(context),
+                          child: const Text(AppStrings.addLesson),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           );
         },
