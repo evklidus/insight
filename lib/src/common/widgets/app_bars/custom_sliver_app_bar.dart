@@ -10,11 +10,13 @@ class CustomSliverAppBar extends StatelessWidget {
   /// {@macro custom_sliver_app_bar}
   const CustomSliverAppBar({
     super.key,
+    this.leading,
     required this.title,
     this.previousPageTitle,
     this.action,
   });
 
+  final Widget? leading;
   final String? title;
   final String? previousPageTitle;
   final Widget? action;
@@ -24,6 +26,7 @@ class CustomSliverAppBar extends StatelessWidget {
       ? CupertinoSliverNavigationBar(
           automaticallyImplyTitle: false,
           previousPageTitle: previousPageTitle,
+          leading: leading,
           largeTitle: title.isNotNull ? Text(title!) : null,
           trailing: action,
         )

@@ -5,6 +5,7 @@ import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_sliver_app_bar.dart';
+import 'package:insight/src/common/widgets/buttons/cancel_button.dart';
 import 'package:insight/src/common/widgets/buttons/edit_button.dart';
 import 'package:insight/src/common/widgets/custom_android_refresh_indicator.dart';
 import 'package:insight/src/common/widgets/widget_switcher.dart';
@@ -131,6 +132,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await block;
   }
 
+  void _cancel() {
+    final profile = _profileBloc.state.data!;
+    _nameController.text = profile.firstName;
+    if (profile.lastName.isNotNull) {
+      _lastNameController.text = profile.lastName!;
+    }
+    if (profile.username.isNotNull) {
+      _usernameController.text = profile.username!;
+    }
+    _isEditing = false;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileBloc, ProfileState>(
@@ -147,6 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             body: CustomScrollView(
               slivers: [
                 CustomSliverAppBar(
+                  leading: _isEditing ? CancelButton(onPressed: _cancel) : null,
                   title: state.data?.username ?? AppStrings.profile,
                   previousPageTitle: AppStrings.settings,
                   action: EditButton(

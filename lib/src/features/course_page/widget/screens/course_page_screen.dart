@@ -6,6 +6,7 @@ import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_sliver_app_bar.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
+import 'package:insight/src/common/widgets/buttons/cancel_button.dart';
 import 'package:insight/src/common/widgets/buttons/edit_button.dart';
 import 'package:insight/src/common/widgets/custom_android_refresh_indicator.dart';
 import 'package:insight/src/common/widgets/modal_popup.dart';
@@ -115,6 +116,14 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
     await block;
   }
 
+  void _cancel() {
+    final coursePage = _coursePageBloc.state.data!;
+    _titleController.text = coursePage.name;
+    _descriptionController.text = coursePage.description;
+    _isEditing = false;
+    setState(() {});
+  }
+
   void _onAddLessonHandler(BuildContext context) => ModalPopup.show(
         useRootNavigator: true,
         context: context,
@@ -155,6 +164,8 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
                 slivers: [
                   CustomSliverAppBar(
                     previousPageTitle: AppStrings.courses,
+                    leading:
+                        _isEditing ? CancelButton(onPressed: _cancel) : null,
                     action: EditButton(
                       isEditing: _isEditing,
                       opacity: isItsOwn ? (_isEditing ? 1 : 0.8) : 0,
