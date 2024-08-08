@@ -10,6 +10,7 @@ class AppStrings {
   static const tryAgain = 'Попробовать снова';
   static const noInternetConnection = 'Нет интернет соединения';
   static const photo = 'Фото';
+  static const done = 'Готово';
 
   // Common actions
   static const cancel = 'Отменить';

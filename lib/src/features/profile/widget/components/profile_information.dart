@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
+import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
+import 'package:insight/src/common/widgets/insight_list_tile.dart';
+import 'package:insight/src/common/widgets/modal_popup.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 
 import 'package:insight/src/features/profile/model/user.dart';
+import 'package:insight/src/features/profile/widget/components/change_nickname.dart';
 
 class ProfileInformation extends StatefulWidget {
   const ProfileInformation({
@@ -16,7 +20,6 @@ class ProfileInformation extends StatefulWidget {
     required this.addPhotoHandler,
     required this.nameController,
     required this.lastNameController,
-    required this.usernameController,
   });
 
   final User user;
@@ -25,7 +28,6 @@ class ProfileInformation extends StatefulWidget {
   final VoidCallback addPhotoHandler;
   final TextEditingController nameController;
   final TextEditingController lastNameController;
-  final TextEditingController usernameController;
 
   @override
   State<ProfileInformation> createState() => _ProfileLoadedScreenState();
@@ -39,7 +41,6 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
     super.initState();
     widget.nameController.text = widget.user.firstName;
     widget.lastNameController.text = widget.user.lastName ?? '';
-    widget.usernameController.text = widget.user.username ?? '';
   }
 
   @override
@@ -63,35 +64,53 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
           AnimatedSwitcher(
             duration: standartDuration,
             child: widget.isEditing
-                ? Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        CustomTextField(
-                          type: InputType.firstName,
-                          controller: widget.nameController,
-                          hintText: 'Укажите имя',
+                ? Column(
+                    children: [
+                      CustomTextField(
+                        type: InputType.firstName,
+                        controller: widget.nameController,
+                        hintText: 'Укажите имя',
+                      ),
+                      const SizedBox(height: 16),
+                      CustomTextField(
+                        type: InputType.lastName,
+                        controller: widget.lastNameController,
+                        hintText: 'Укажите фамилию',
+                      ),
+                      const SizedBox(height: 32),
+                      InsightListTile(
+                        onTap: () => ModalPopup.show(
+                          useRootNavigator: true,
+                          context: context,
+                          child: ChangeNickname(widget.user.username),
                         ),
-                        const SizedBox(height: 16),
-                        CustomTextField(
-                          type: InputType.lastName,
-                          controller: widget.lastNameController,
-                          hintText: 'Укажите фамилию',
+                        title: Row(
+                          children: [
+                            Text(
+                              'Имя пользователя',
+                              style: context.textTheme.titleSmall,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              widget.user.username.isNotNull
+                                  ? '@${widget.user.username}'
+                                  : '',
+                              style: context.textTheme.titleMedium?.copyWith(
+                                color: context.colorScheme.primary,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 32),
-                        CustomTextField(
-                          controller: widget.usernameController,
-                          hintText: 'Имя пользователя',
-                        ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
                   )
                 : Text(
                     widget.user.fullName,
                     style: context.textTheme.titleLarge,
                   ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           Center(
             child: AnimatedOpacity(
               opacity: widget.isEditing ? .4 : 1,
@@ -102,7 +121,7 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 32),
         ],
       ),
     );

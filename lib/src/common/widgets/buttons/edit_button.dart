@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 
@@ -26,7 +27,7 @@ class EditButton extends StatelessWidget {
           onPressed: onPressed,
           padding: EdgeInsets.zero,
           child: Text(
-            isEditing ? 'Сохранить' : 'Изменить',
+            isEditing ? AppStrings.done : 'Изменить',
           ),
         ),
       );
