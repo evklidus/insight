@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
+import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/buttons/cancel_button.dart';
 import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
@@ -43,6 +44,7 @@ class _ChangeNicknameState extends State<ChangeNickname> {
   @override
   void dispose() {
     _nicknameBloc.close();
+    _nicknameController.dispose();
     super.dispose();
   }
 
@@ -71,28 +73,31 @@ class _ChangeNicknameState extends State<ChangeNickname> {
                       : AdaptiveButton(
                           padding: EdgeInsets.zero,
                           onPressed: () {
-                            final username = _nicknameController.text.trim();
+                            final trimmedText = _nicknameController.text.trim();
+                            final username =
+                                trimmedText.isNotEmpty ? trimmedText : null;
                             final isUsernameChanged =
                                 username != widget.nickname;
 
                             if (isUsernameChanged) {
                               final usernameRegExp =
-                                  RegExp(r"^[a-zA-Z][a-zA-Z0-9_]*$");
-
-                              if (!usernameRegExp.hasMatch(username)) {
-                                return InsightSnackBar.showError(
-                                  context,
-                                  text:
-                                      'Имя пользователя не может содержать пробелов или начинаться с цифр',
-                                  bottomPadding:
-                                      MediaQuery.viewInsetsOf(context)
-                                          .bottom
-                                          .toInt(),
-                                );
+                                  RegExp(r"^[a-zA-Z][a-zA-Z0-9_]*?$");
+                              if (username.isNotNull) {
+                                if (!usernameRegExp.hasMatch(username!)) {
+                                  return InsightSnackBar.showError(
+                                    context,
+                                    text:
+                                        'Имя пользователя не может содержать пробелов или начинаться с цифр',
+                                    bottomPadding:
+                                        MediaQuery.viewInsetsOf(context)
+                                            .bottom
+                                            .toInt(),
+                                  );
+                                }
                               }
                               _nicknameBloc.add(
                                 NicknameEvent.save(
-                                  newNickname: _nicknameController.text,
+                                  newNickname: username,
                                   oldNickname: widget.nickname,
                                   onSuccess: () {
                                     Navigator.of(context).pop();
@@ -100,6 +105,7 @@ class _ChangeNicknameState extends State<ChangeNickname> {
                                       const ProfileEvent.fetch(),
                                     );
                                   },
+                                  // TODO: Получать text из state
                                   onError: () => InsightSnackBar.showError(
                                     context,
                                     text: 'Это имя пользователя уже занято',

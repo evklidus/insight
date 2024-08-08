@@ -107,7 +107,6 @@ final class ProfileFirestoreDataProviderImpl
     });
 
     final niksDock = _firestore.collection('validate').doc('nick');
-    // final niks = niksDock.get();
     await niksDock.update({
       userId!: newNickname?.toLowerCase(),
     });
