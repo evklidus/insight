@@ -44,7 +44,7 @@ class _AppAboutScreenState extends State<AppAboutScreen> {
               BounceWidget(
                 onPressed: () {
                   _imageTapCount++;
-                  HapticFeedback.selectionClick();
+                  HapticFeedback.lightImpact();
                   if (_imageTapCount >= _maxTapCountToShowTestValues) {
                     isNeedToShowTestValues = true;
                     setState(() {});
