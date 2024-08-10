@@ -31,6 +31,7 @@ final class User {
         avatarUrl: userData['avatar_url'],
         firstName: userData['first_name'],
         lastName: userData['last_name'],
+        username: userData['username'],
       );
 
   final String id;
@@ -42,6 +43,8 @@ final class User {
 
   String get fullName =>
       lastName.isNotNull ? '$firstName $lastName' : firstName;
+
+  String get usernameWithDog => '@$username';
 
   User copyWith({
     String? id,

@@ -3,7 +3,7 @@ description: Future learning platform
 
 publish_to: "none"
 
-version: 2.5.0-beta
+version: 2.6.0-beta
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -47,8 +47,6 @@ dependencies:
   flutter_svg: ^2.0.5
   flutter_bounce_widget: ^1.0.2
   flutter_native_splash: ^2.2.0+1
-  insight_player:
-    path: packages/insight_player
   insight_snackbar: ^2.0.1
   video_player: ^2.8.7
 

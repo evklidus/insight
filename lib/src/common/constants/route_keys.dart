@@ -14,11 +14,11 @@ class RouteKeys {
   );
   static const RouteKey coursePage = (
     name: 'course-page',
-    path: ':coursePageId',
+    path: '/:coursePageId',
   );
   static const RouteKey video = (
     name: 'video',
-    path: 'video/:coursePageTitle',
+    path: '/video/:coursePageTitle',
   );
   static const RouteKey create = (
     name: 'create',
@@ -41,6 +41,10 @@ class RouteKeys {
   static const RouteKey profile = (
     name: 'profile',
     path: 'profile',
+  );
+  static const RouteKey userCourses = (
+    name: 'userCourses',
+    path: 'userCourses',
   );
   static const RouteKey about = (
     name: 'about',

@@ -10,6 +10,7 @@ class AppStrings {
   static const tryAgain = 'Попробовать снова';
   static const noInternetConnection = 'Нет интернет соединения';
   static const photo = 'Фото';
+  static const done = 'Готово';
 
   // Common actions
   static const cancel = 'Отменить';
@@ -32,6 +33,7 @@ class AppStrings {
   // Courses
   static const lessons = 'Уроки';
   static const courses = 'Курсы';
+  static const myCourses = 'Мои курсы';
   static const categories = 'Категории';
   static const description = 'Описание';
   static const category = 'Категория';

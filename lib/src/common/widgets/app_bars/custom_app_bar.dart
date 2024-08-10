@@ -8,21 +8,23 @@ class CustomAppBar extends StatelessWidget
     implements ObstructingPreferredSizeWidget {
   const CustomAppBar({
     super.key,
-    this.title,
     this.previousPageTitle,
+    this.leading,
+    this.title,
     this.action,
   });
 
-  final String? title;
   final String? previousPageTitle;
+  final Widget? leading;
+  final String? title;
   final Widget? action;
 
   @override
   Widget build(BuildContext context) {
     return isNeedCupertino
         ? CupertinoNavigationBar(
-            backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
             previousPageTitle: previousPageTitle,
+            leading: leading,
             middle: title.isNotNull
                 ? Text(
                     title!,
@@ -32,6 +34,7 @@ class CustomAppBar extends StatelessWidget
             trailing: action,
           )
         : AppBar(
+            leading: leading,
             title: title.isNotNull ? Text(title!) : null,
             actions: action.isNotNull
                 ? [

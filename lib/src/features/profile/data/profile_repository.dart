@@ -7,6 +7,10 @@ import 'package:meta/meta.dart';
 abstract interface class ProfileRepository {
   Future<User?> getUser();
   Future<void> editUser(User$Edit user);
+  Future<void> editNickname({
+    required String? newNickname,
+    required String? oldNickname,
+  });
 }
 
 @immutable
@@ -23,4 +27,14 @@ final class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<void> editUser(User$Edit user) =>
       _profileNetworkDataProvider.editUser(user);
+
+  @override
+  Future<void> editNickname({
+    required String? newNickname,
+    required String? oldNickname,
+  }) =>
+      _profileNetworkDataProvider.editNickname(
+        newNickname: newNickname,
+        oldNickname: oldNickname,
+      );
 }

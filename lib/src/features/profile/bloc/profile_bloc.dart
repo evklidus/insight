@@ -61,6 +61,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
           data: state.data?.copyWith(
             firstName: event.user.firstName,
             lastName: event.user.lastName,
+            username: event.user.username,
           ),
         ),
       );

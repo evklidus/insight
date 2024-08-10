@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
+import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
 import 'package:video_player/video_player.dart';
 
@@ -19,14 +21,14 @@ class PlayPauseButton extends StatefulWidget {
 
 class _PlayPauseButtonState extends State<PlayPauseButton>
     with TickerProviderStateMixin {
-  var isPlaying = true;
-
   @override
   Widget build(BuildContext context) {
     final query = MediaQuery.of(context);
     final iconColor = widget.isInitialized
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.onSurface.withOpacity(0.4);
+        ? (isNeedCupertino
+            ? CupertinoTheme.of(context).primaryColor
+            : context.colorScheme.primary)
+        : context.colorScheme.onSurface.withOpacity(0.4);
 
     return GestureDetector(
       onTap: widget.isInitialized
@@ -41,9 +43,9 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
+            duration: standartDuration,
             alignment: Alignment.center,
-            color: Theme.of(context).colorScheme.surfaceContainerHigh,
+            color: context.colorScheme.surfaceContainerHigh,
             child: ValueListenableBuilder<VideoPlayerValue>(
               valueListenable: widget.videoPlayerController,
               builder: (context, value, _) {
@@ -53,14 +55,18 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
                   duration: const Duration(milliseconds: 150),
                   child: value.isPlaying
                       ? Icon(
-                          CupertinoIcons.pause_fill,
-                          size: 30,
+                          isNeedCupertino
+                              ? CupertinoIcons.pause_fill
+                              : Icons.pause,
+                          size: 32,
                           color: iconColor,
                           key: const ValueKey('PauseIcon'),
                         )
                       : Icon(
-                          CupertinoIcons.play_fill,
-                          size: 30,
+                          isNeedCupertino
+                              ? CupertinoIcons.play_fill
+                              : Icons.play_arrow,
+                          size: 32,
                           color: iconColor,
                           key: const ValueKey('PlayIcon'),
                         ),

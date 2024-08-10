@@ -7,10 +7,12 @@ final class User$Edit {
     this.avatarPath,
     this.firstName,
     this.lastName,
+    this.username,
   });
 
   final String id;
   final String? avatarPath;
   final String? firstName;
   final String? lastName;
+  final String? username;
 }

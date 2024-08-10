@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
@@ -32,72 +33,76 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       appBar: const CustomAppBar(),
-      body: Form(
-        key: formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              AppStrings.authorization,
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 50),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: CustomTextField(
-                type: InputType.email,
-                hintText: AppStrings.login,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppStrings.pleaseEnterSomething;
+      body: AutofillGroup(
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                AppStrings.authorization,
+                style: TextStyle(fontSize: 20),
+              ),
+              const SizedBox(height: 50),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: CustomTextField(
+                  type: InputType.email,
+                  hintText: AppStrings.login,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return AppStrings.pleaseEnterSomething;
+                    }
+                    email = value;
+                    return null;
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: CustomTextField.password(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return AppStrings.pleaseEnterSomething;
+                    }
+                    password = value;
+                    return null;
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+              AuthButton(
+                title: AppStrings.signIn,
+                onTap: () {
+                  if (formKey.currentState!.validate()) {
+                    authScope.login(
+                      email: email!,
+                      password: password!,
+                      onSuccess: (message) {
+                        context.go(RouteKeys.categories.path);
+                        context.read<ProfileBloc>().add(
+                              const ProfileEvent.fetch(),
+                            );
+                        InsightSnackBar.showSuccessful(context, text: message);
+                      },
+                      onError: (message) =>
+                          InsightSnackBar.showError(context, text: message),
+                    );
+                    TextInput.finishAutofillContext();
                   }
-                  email = value;
-                  return null;
                 },
               ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: CustomTextField.password(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppStrings.pleaseEnterSomething;
-                  }
-                  password = value;
-                  return null;
-                },
+              const SizedBox(height: 20),
+              ChangeAuthTypeButton(
+                title: AppStrings.dontHaveAnAccount,
+                subTitle: AppStrings.register,
+                onPressed: () =>
+                    context.goRelativeNamed(RouteKeys.register.path),
               ),
-            ),
-            const SizedBox(height: 20),
-            AuthButton(
-              title: AppStrings.signIn,
-              onTap: () {
-                if (formKey.currentState!.validate()) {
-                  authScope.login(
-                    email: email!,
-                    password: password!,
-                    onSuccess: (message) {
-                      context.go(RouteKeys.categories.path);
-                      context.read<ProfileBloc>().add(
-                            const ProfileEvent.fetch(),
-                          );
-                      InsightSnackBar.showSuccessful(context, text: message);
-                    },
-                    onError: (message) =>
-                        InsightSnackBar.showError(context, text: message),
-                  );
-                }
-              },
-            ),
-            const SizedBox(height: 20),
-            ChangeAuthTypeButton(
-              title: AppStrings.dontHaveAnAccount,
-              subTitle: AppStrings.register,
-              onPressed: () => context.goRelativeNamed(RouteKeys.register.path),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

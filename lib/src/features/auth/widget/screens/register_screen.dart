@@ -30,7 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     return Scaffold(
       appBar: const CustomAppBar(),
-      body: Form(
+      body: AutofillGroup(
         key: formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

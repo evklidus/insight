@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:insight/gen/assets.gen.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
-
 import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
 import 'package:insight/gen/pubspec.yaml.g.dart';
 import 'package:insight/src/common/widgets/test_values_widget.dart';
+import 'package:flutter_bounce_widget/flutter_bounce_widget.dart';
 
 /// {@template app_about_screen}
 /// AppAboutScreen widget.
@@ -31,21 +32,26 @@ class _AppAboutScreenState extends State<AppAboutScreen> {
     final imageHeight = MediaQuery.sizeOf(context).height / 4;
 
     return AdaptiveScaffold(
-      appBar: const CustomAppBar(title: 'О приложении'),
+      appBar: const CustomAppBar(
+        title: 'О приложении',
+        previousPageTitle: AppStrings.settings,
+      ),
       body: ListView(
         children: [
           Column(
             children: [
               const SizedBox(height: 32),
-              GestureDetector(
-                onTap: () {
+              BounceWidget(
+                onPressed: () {
                   _imageTapCount++;
+                  HapticFeedback.lightImpact();
                   if (_imageTapCount >= _maxTapCountToShowTestValues) {
                     isNeedToShowTestValues = true;
                     setState(() {});
                   }
                 },
-                child: Assets.images.insightAppLogo.image(
+                child: Image.asset(
+                  Assets.images.insightAppLogo.keyName,
                   height: imageHeight,
                   width: imageHeight,
                 ),

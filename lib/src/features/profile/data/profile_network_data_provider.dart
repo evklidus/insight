@@ -11,6 +11,10 @@ import 'package:insight/src/features/profile/model/user_edit.dart';
 abstract interface class ProfileNetworkDataProvider {
   Future<User?> getUser();
   Future<void> editUser(User$Edit user);
+  Future<void> editNickname({
+    required String? newNickname,
+    required String? oldNickname,
+  });
 }
 
 // final class ProfileNetworkDataProviderImpl
@@ -79,6 +83,32 @@ final class ProfileFirestoreDataProviderImpl
       if (user.firstName.isNotNull) 'first_name': user.firstName,
       if (user.lastName.isNotNull) 'last_name': user.lastName,
       if (avatarUrl.isNotNull) 'avatar_url': avatarUrl,
+      if (user.username.isNotNull) 'username': user.username,
+    });
+  }
+
+  @override
+  Future<void> editNickname({
+    required String? newNickname,
+    required String? oldNickname,
+  }) async {
+    final userId = _firebaseAuth.currentUser?.uid;
+    // Validate nickname
+    if (newNickname.isNotNull) {
+      final nicks = await _firestore.collection('validate').doc('nick').get();
+      if (nicks.data()!.containsValue(newNickname?.toLowerCase())) {
+        throw Exception('Nickname already exists');
+      }
+    }
+
+    // Update nickname
+    await _firestore.collection('users').doc(userId).update({
+      'username': newNickname,
+    });
+
+    final niksDock = _firestore.collection('validate').doc('nick');
+    await niksDock.update({
+      userId!: newNickname?.toLowerCase(),
     });
   }
 }
