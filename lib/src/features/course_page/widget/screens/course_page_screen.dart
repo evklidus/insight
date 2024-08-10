@@ -201,7 +201,7 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
                   ),
                   if (isItsOwn)
                     SliverPadding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(32),
                       sliver: SliverFillRemaining(
                         hasScrollBody: false,
                         child: AdaptiveButton(

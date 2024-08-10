@@ -51,7 +51,7 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
       key: _formKey,
       child: SliverList.list(
         children: [
-          const SizedBox(height: 30),
+          const SizedBox(height: 24),
           CustomImageWidget.editable(
             widget.user.avatarUrl!,
             size: Size.square(size.shortestSide * .64),
@@ -93,10 +93,10 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
                             const SizedBox(width: 8),
                             Text(
                               widget.user.username.isNotNull
-                                  ? '@${widget.user.username}'
+                                  ? widget.user.usernameWithDog
                                   : '',
                               style: context.textTheme.titleMedium?.copyWith(
-                                color: context.colorScheme.primary,
+                                color: context.primaryColor,
                               ),
                             ),
                           ],
@@ -116,7 +116,10 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
               opacity: widget.isEditing ? .4 : 1,
               duration: standartDuration,
               child: Text(
-                widget.user.email,
+                widget.user.email +
+                    (widget.isEditing || widget.user.username.isNull
+                        ? ''
+                        : ' • ${widget.user.usernameWithDog}'),
                 style: context.textTheme.bodySmall,
               ),
             ),

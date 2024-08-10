@@ -139,9 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               slivers: [
                 CustomSliverAppBar(
                   leading: _isEditing ? CancelButton(onPressed: _cancel) : null,
-                  title: _isEditing
-                      ? 'Редактирование'
-                      : state.data?.username ?? AppStrings.profile,
+                  title: AppStrings.profile,
                   previousPageTitle: AppStrings.settings,
                   action: EditButton(
                     isEditing: _isEditing,

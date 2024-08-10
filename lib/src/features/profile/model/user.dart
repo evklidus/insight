@@ -44,6 +44,8 @@ final class User {
   String get fullName =>
       lastName.isNotNull ? '$firstName $lastName' : firstName;
 
+  String get usernameWithDog => '@$username';
+
   User copyWith({
     String? id,
     String? username,

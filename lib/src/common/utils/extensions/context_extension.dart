@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
 
 extension BuildContextX on BuildContext {
   /// Returns [ColorScheme] from [BuildContext]
@@ -6,6 +8,10 @@ extension BuildContextX on BuildContext {
 
   /// Returns [TextTheme] from [BuildContext].
   TextTheme get textTheme => Theme.of(this).textTheme;
+
+  Color get primaryColor => isNeedCupertino
+      ? CupertinoTheme.of(this).primaryColor
+      : colorScheme.primary;
 
   /// Obtain the nearest widget of the given type T,
   /// which must be the type of a concrete [InheritedWidget] subclass,
