@@ -20,6 +20,7 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
         _CoursePageEvent$AddLesson() => _addLesson(emit, event),
         _CoursePageEvent$RemoveLesson() => _removeLesson(emit, event),
         _CoursePageEvent$Delete() => _delete(emit, event),
+        _CoursePageEvent$SetLessonCompleteStatus() => _setLessonCompleteStatus(emit, event),
       },
     );
   }
@@ -137,6 +138,30 @@ class CoursePageBloc extends Bloc<CoursePageEvent, CoursePageState> {
       emit(CoursePageState.error(
         data: state.data,
         message: 'Ошибка удаления курса',
+      ));
+      rethrow;
+    } finally {
+      emit(CoursePageState.idle(data: state.data));
+    }
+  }
+
+  Future<void> _setLessonCompleteStatus(
+    Emitter<CoursePageState> emit,
+    _CoursePageEvent$SetLessonCompleteStatus event,
+  ) async {
+    try {
+      emit(CoursePageState.processing(data: state.data));
+      await _repository.setLessonCompleteStatus(
+        courseId: state.data!.id,
+        lessonId: event.lessonId,
+        isComplete: event.isComplete,
+      );
+      final coursePage = await _repository.getCoursePage(state.data!.id);
+      emit(CoursePageState.successful(data: coursePage));
+    } on Object {
+      emit(CoursePageState.error(
+        data: state.data,
+        message: 'Ошибка смены статуса курса',
       ));
       rethrow;
     } finally {

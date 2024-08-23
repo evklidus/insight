@@ -24,6 +24,12 @@ abstract interface class CoursePageRepository {
     // Нужно чтобы удалить обложку
     required String imageUrl,
   });
+
+  Future<void> setLessonCompleteStatus({
+    required String courseId,
+    required String lessonId,
+    required bool isComplete,
+  });
 }
 
 final class CoursePageRepositoryImpl implements CoursePageRepository {
@@ -69,5 +75,17 @@ final class CoursePageRepositoryImpl implements CoursePageRepository {
       _networkDataProvider.removeLesson(
         courseId: courseId,
         lesson: lesson,
+      );
+
+  @override
+  Future<void> setLessonCompleteStatus({
+    required String courseId,
+    required String lessonId,
+    required bool isComplete,
+  }) =>
+      _networkDataProvider.setLessonCompleteStatus(
+        courseId: courseId,
+        lessonId: lessonId,
+        isComplete: isComplete,
       );
 }

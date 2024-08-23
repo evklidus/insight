@@ -5,8 +5,7 @@ sealed class CoursePageEvent {
 
   const factory CoursePageEvent.fetch(String id) = _CoursePageEvent$Fetch;
 
-  const factory CoursePageEvent.editCourse(Course$Edit course) =
-      _CoursePageEvent$Edit;
+  const factory CoursePageEvent.editCourse(Course$Edit course) = _CoursePageEvent$Edit;
 
   const factory CoursePageEvent.addLesson({
     required String name,
@@ -19,8 +18,12 @@ sealed class CoursePageEvent {
     required VoidCallback onRemove,
   }) = _CoursePageEvent$RemoveLesson;
 
-  const factory CoursePageEvent.delete(VoidCallback onDelete) =
-      _CoursePageEvent$Delete;
+  const factory CoursePageEvent.delete(VoidCallback onDelete) = _CoursePageEvent$Delete;
+
+  const factory CoursePageEvent.setLessonCompleteStatus({
+    required String lessonId,
+    required bool isComplete,
+  }) = _CoursePageEvent$SetLessonCompleteStatus;
 }
 
 final class _CoursePageEvent$Fetch extends CoursePageEvent {
@@ -61,4 +64,14 @@ final class _CoursePageEvent$Delete extends CoursePageEvent {
   const _CoursePageEvent$Delete(this.onDelete);
 
   final VoidCallback onDelete;
+}
+
+final class _CoursePageEvent$SetLessonCompleteStatus extends CoursePageEvent {
+  const _CoursePageEvent$SetLessonCompleteStatus({
+    required this.lessonId,
+    required this.isComplete,
+  });
+
+  final String lessonId;
+  final bool isComplete;
 }

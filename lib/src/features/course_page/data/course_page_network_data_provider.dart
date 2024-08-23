@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -31,57 +30,61 @@ abstract interface class CoursePageNetworkDataProvider {
     required String courseId,
     required Lesson lesson,
   });
+
+  Future<void> setLessonCompleteStatus({
+    required String courseId,
+    required String lessonId,
+    required bool isComplete,
+  });
 }
 
-final class CoursePageNetworkDataProviderImpl
-    implements CoursePageNetworkDataProvider {
-  const CoursePageNetworkDataProviderImpl(Dio client) : _client = client;
-  final Dio _client;
+// final class CoursePageNetworkDataProviderImpl implements CoursePageNetworkDataProvider {
+//   const CoursePageNetworkDataProviderImpl(Dio client) : _client = client;
+//   final Dio _client;
 
-  @override
-  Future<CoursePage> getCoursePage(String id) async {
-    final response = await _client.get('/course_pages/$id');
-    return CoursePage.fromJson(response.data);
-  }
+//   @override
+//   Future<CoursePage> getCoursePage(String id) async {
+//     final response = await _client.get('/course_pages/$id');
+//     return CoursePage.fromJson(response.data);
+//   }
 
-  @override
-  Future<void> deleteCourse({
-    required String courseId,
-    required String imageUrl,
-  }) =>
-      _client.delete('/course_pages/$courseId');
+//   @override
+//   Future<void> deleteCourse({
+//     required String courseId,
+//     required String imageUrl,
+//   }) =>
+//       _client.delete('/course_pages/$courseId');
 
-  @override
-  Future<void> addLesson({
-    required String courseId,
-    required String lessonName,
-    required String videoPath,
-  }) =>
-      _client.post(
-        '/lessons',
-        data: {
-          'courseId': courseId,
-          'name': lessonName,
-          'videoPath': videoPath,
-        },
-      );
+//   @override
+//   Future<void> addLesson({
+//     required String courseId,
+//     required String lessonName,
+//     required String videoPath,
+//   }) =>
+//       _client.post(
+//         '/lessons',
+//         data: {
+//           'courseId': courseId,
+//           'name': lessonName,
+//           'videoPath': videoPath,
+//         },
+//       );
 
-  @override
-  Future<void> removeLesson({
-    required String courseId,
-    required Lesson lesson,
-  }) => // TODO: Заменить на lesson id
-      _client.delete('/lessons/$courseId');
+//   @override
+//   Future<void> removeLesson({
+//     required String courseId,
+//     required Lesson lesson,
+//   }) => // TODO: Заменить на lesson id
+//       _client.delete('/lessons/$courseId');
 
-  @override
-  Future<void> editCourse(Course$Edit course) {
-    // TODO: implement editCourse
-    throw UnimplementedError();
-  }
-}
+//   @override
+//   Future<void> editCourse(Course$Edit course) {
+//     // TODO: implement editCourse
+//     throw UnimplementedError();
+//   }
+// }
 
-final class CoursePageFirestoreDataProviderImpl
-    implements CoursePageNetworkDataProvider {
+final class CoursePageFirestoreDataProviderImpl implements CoursePageNetworkDataProvider {
   const CoursePageFirestoreDataProviderImpl(
     FirebaseAuth firebaseAuth,
     FirebaseFirestore firestore,
@@ -256,5 +259,30 @@ final class CoursePageFirestoreDataProviderImpl
 
     // Обновляем список уроков в документе "detail"
     detailDoc.docs.first.reference.update(detailDocData);
+  }
+
+  @override
+  Future<void> setLessonCompleteStatus({
+    required String courseId,
+    required String lessonId,
+    required bool isComplete,
+  }) async {
+    final detail = await _getDetailDocAndData(lessonId);
+
+    final existingLessons = detail.data['lessons'] ?? [];
+    final index = existingLessons.indexWhere((element) => element['name'] == lessonId);
+    existingLessons[index]['is_complete'] = isComplete;
+    detail.doc.docs.first.reference.update({'lessons': existingLessons});
+  }
+
+  Future<({QuerySnapshot<Map> doc, Map data})> _getDetailDocAndData(String courseId) async {
+    // Получаем ссылку на документ курса
+    final courseDoc = _firestore.collection('course').doc(courseId);
+
+    final detailDoc = await courseDoc.collection('detail').get();
+
+    final detailDocData = detailDoc.docs.first.data();
+
+    return (doc: detailDoc, data: detailDocData);
   }
 }
