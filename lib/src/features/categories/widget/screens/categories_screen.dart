@@ -73,8 +73,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             CupertinoSliverRefreshControl(onRefresh: _onRefresh),
             BlocConsumer<CategoriesBloc, CategoriesState>(
               listener: (context, state) => state.mapOrNull(
-                error: (errorState) => InsightSnackBar.showError(context,
-                    text: errorState.message),
+                error: (errorState) => InsightSnackBar.showError(
+                  context,
+                  text: errorState.message,
+                ),
               ),
               builder: (context, state) => WidgetSwitcher.sliver(
                 state: (
