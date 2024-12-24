@@ -25,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -68,12 +62,33 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDAt0R8cmrCz7mq85cNW4JSaYhcq7KSfpo',
-    appId: '1:966237282337:ios:298070d39cabe6a6ea8360',
+    appId: '1:966237282337:ios:3577056b15dc6da0ea8360',
     messagingSenderId: '966237282337',
     projectId: 'cicdtest-e5722',
     databaseURL: 'https://cicdtest-e5722-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'cicdtest-e5722.appspot.com',
-    iosClientId: '966237282337-3s4ilh9o2q6295g7fgihsds5e43v145l.apps.googleusercontent.com',
-    iosBundleId: 'com.example.m-insight',
+    iosBundleId: 'com.example.insight.RunnerTests',
   );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDAt0R8cmrCz7mq85cNW4JSaYhcq7KSfpo',
+    appId: '1:966237282337:ios:5b730ff950ef85a9ea8360',
+    messagingSenderId: '966237282337',
+    projectId: 'cicdtest-e5722',
+    databaseURL: 'https://cicdtest-e5722-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'cicdtest-e5722.appspot.com',
+    iosBundleId: 'com.example.insight',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyBFqe8aE2vAf5JetiE-4goa2hlbte_MP5w',
+    appId: '1:966237282337:web:cb952b99e51611d3ea8360',
+    messagingSenderId: '966237282337',
+    projectId: 'cicdtest-e5722',
+    authDomain: 'cicdtest-e5722.firebaseapp.com',
+    databaseURL: 'https://cicdtest-e5722-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'cicdtest-e5722.appspot.com',
+    measurementId: 'G-GZYJ7WQNZR',
+  );
+
 }
