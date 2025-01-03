@@ -56,6 +56,7 @@ class AppStrings {
   static const sport = 'Спорт';
   static const programming = 'Программирование';
   static const finance = 'Финансы';
+  static const currentLesson = 'Текущий урок';
 
   // Settings
   static const settings = 'Настройки';
