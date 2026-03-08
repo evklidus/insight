@@ -13,6 +13,7 @@ import 'package:insight/src/common/widgets/modal_popup.dart';
 import 'package:insight/src/common/widgets/widget_switcher.dart';
 import 'package:insight/src/features/course_page/model/course_edit.dart';
 import 'package:insight/src/features/course_page/widget/components/add_lesson_widget.dart';
+import 'package:insight/src/features/course_page/widget/components/invite_user_widget.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
@@ -40,6 +41,7 @@ class CoursePageScreen extends StatefulWidget {
 class _CoursePageScreenState extends State<CoursePageScreen> {
   XFile? _image;
   bool _isEditing = false;
+  bool _isClosed = false;
 
   late final CoursePageBloc _coursePageBloc;
   late final TextEditingController _titleController;
@@ -82,8 +84,12 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
       final isLastNameChanged =
           description != _coursePageBloc.state.data!.description;
       final isImageChanged = _image.isNotNull;
+      final isClosedChanged = _isClosed != _coursePageBloc.state.data!.isClosed;
 
-      final isEdited = isNameChanged || isLastNameChanged || isImageChanged;
+      final isEdited = isNameChanged ||
+          isLastNameChanged ||
+          isImageChanged ||
+          isClosedChanged;
 
       // Восстановление имени в контроллере в том случае, если его попытались убрать
       if (!isNameChanged) {
@@ -99,6 +105,7 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
               name: title,
               description: description,
               imagePath: _image?.path,
+              isClosed: _isClosed,
             ),
           ),
         );
@@ -106,6 +113,7 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
 
       setState(() => _isEditing = false);
     } else {
+      _isClosed = _coursePageBloc.state.data!.isClosed;
       setState(() => _isEditing = true);
     }
   }
@@ -120,6 +128,7 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
     final coursePage = _coursePageBloc.state.data!;
     _titleController.text = coursePage.name;
     _descriptionController.text = coursePage.description;
+    _isClosed = coursePage.isClosed;
     _isEditing = false;
     setState(() {});
   }
@@ -141,6 +150,15 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
               ),
             );
           },
+        ),
+      );
+
+  void _onInviteHandler(BuildContext context) => ModalPopup.show(
+        useRootNavigator: true,
+        context: context,
+        child: InviteUserWidget(
+          courseId: widget.coursePageId,
+          onInviteSent: () {},
         ),
       );
 
@@ -196,6 +214,9 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
                         descriptionController: _descriptionController,
                         image: _image,
                         addPhotoHandler: _addPhotoHandler,
+                        isClosed: _isClosed,
+                        onIsClosedChanged: (value) =>
+                            setState(() => _isClosed = value),
                       ),
                     ),
                   ),
@@ -204,11 +225,25 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
                       padding: const EdgeInsets.all(32),
                       sliver: SliverFillRemaining(
                         hasScrollBody: false,
-                        child: AdaptiveButton(
-                          onPressed: _isEditing
-                              ? null
-                              : () => _onAddLessonHandler(context),
-                          child: const Text(AppStrings.addLesson),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            AdaptiveButton(
+                              onPressed: _isEditing
+                                  ? null
+                                  : () => _onAddLessonHandler(context),
+                              child: const Text(AppStrings.addLesson),
+                            ),
+                            if (state.data!.isClosed) ...[
+                              const SizedBox(height: 8),
+                              AdaptiveButton(
+                                onPressed: _isEditing
+                                    ? null
+                                    : () => _onInviteHandler(context),
+                                child: const Text(AppStrings.invite),
+                              ),
+                            ],
+                          ],
                         ),
                       ),
                     ),

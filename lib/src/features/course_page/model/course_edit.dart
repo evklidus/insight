@@ -5,6 +5,7 @@ class Course$Edit {
     required this.name,
     this.description,
     this.tag,
+    this.isClosed,
   });
 
   final String id;
@@ -12,4 +13,5 @@ class Course$Edit {
   final String name;
   final String? description;
   final String? tag;
+  final bool? isClosed;
 }

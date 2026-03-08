@@ -5,6 +5,7 @@ class Course {
     required this.imageUrl,
     required this.tag,
     required this.creatorId,
+    this.isClosed = false,
   });
 
   factory Course.fromJson(Map json) => Course(
@@ -13,6 +14,7 @@ class Course {
         imageUrl: json['image_url'],
         tag: json['tag'],
         creatorId: json['creatorId'],
+        isClosed: json['is_closed'] as bool? ?? false,
       );
 
   factory Course.fromFirestore(
@@ -25,6 +27,7 @@ class Course {
         imageUrl: data['image_url'],
         tag: data['tag'],
         creatorId: data['owner_id'],
+        isClosed: data['is_closed'] as bool? ?? false,
       );
 
   final String id;
@@ -32,4 +35,5 @@ class Course {
   final String imageUrl;
   final String tag;
   final String creatorId;
+  final bool isClosed;
 }

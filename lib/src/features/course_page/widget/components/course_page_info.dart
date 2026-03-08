@@ -34,6 +34,8 @@ class CoursePageInfo extends StatefulWidget {
     VoidCallback addPhotoHandler,
     TextEditingController titleController,
     TextEditingController descriptionController,
+    bool isClosed,
+    void Function(bool) onIsClosedChanged,
   }) editData;
 
   @override
@@ -136,6 +138,45 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                       },
                     ),
                     const SizedBox(height: 16),
+                    Text(
+                      AppStrings.courseType,
+                      style: context.textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Platform.isIOS
+                        ? CupertinoSegmentedControl<bool>(
+                            selectedColor:
+                                context.colorScheme.surfaceContainerHighest,
+                            unselectedColor:
+                                context.colorScheme.surfaceContainerLow,
+                            pressedColor:
+                                context.colorScheme.surfaceContainerHigh,
+                            borderColor:
+                                context.colorScheme.outline.withOpacity(.25),
+                            padding: const EdgeInsets.all(0),
+                            groupValue: widget.editData.isClosed,
+                            onValueChanged: widget.editData.onIsClosedChanged,
+                            children: const {
+                              false: _CourseTypeSegment(AppStrings.courseTypeOpen),
+                              true: _CourseTypeSegment(AppStrings.courseTypeClosed),
+                            },
+                          )
+                        : SegmentedButton<bool>(
+                            selected: {widget.editData.isClosed},
+                            segments: const [
+                              ButtonSegment(
+                                value: false,
+                                label: Text(AppStrings.courseTypeOpen),
+                              ),
+                              ButtonSegment(
+                                value: true,
+                                label: Text(AppStrings.courseTypeClosed),
+                              ),
+                            ],
+                            onSelectionChanged: (value) =>
+                                widget.editData.onIsClosedChanged(value.first),
+                          ),
+                    const SizedBox(height: 16),
                     AdaptiveButton(
                       onPressed: () => _onDeletHandler(context),
                       child: Text(
@@ -215,4 +256,19 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
       ],
     );
   }
+}
+
+class _CourseTypeSegment extends StatelessWidget {
+  const _CourseTypeSegment(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(5),
+        child: Text(
+          text,
+          style: context.textTheme.labelLarge,
+        ),
+      );
 }

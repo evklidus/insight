@@ -13,6 +13,7 @@ sealed class CreateCourseEvent {
     required String description,
     required String imagePath,
     required String categoryTag,
+    required bool isClosed,
     VoidCallback? onCreateCallback,
   }) = CreateCourseEvent$Create;
 }
@@ -27,6 +28,7 @@ class CreateCourseEvent$Create extends CreateCourseEvent {
     required this.description,
     required this.imagePath,
     required this.categoryTag,
+    this.isClosed = false,
     this.onCreateCallback,
   });
 
@@ -34,5 +36,6 @@ class CreateCourseEvent$Create extends CreateCourseEvent {
   final String description;
   final String imagePath;
   final String categoryTag;
+  final bool isClosed;
   final VoidCallback? onCreateCallback;
 }

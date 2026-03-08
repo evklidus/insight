@@ -11,6 +11,7 @@ abstract interface class CourseRepository {
     required String description,
     required String imagePath,
     required String categoryTag,
+    bool isClosed = false,
   });
 
   Future<List<({String categoryName, String categoryTag})>> getCategoryTags();
@@ -36,12 +37,14 @@ final class CourseRepositoryImpl implements CourseRepository {
     required String description,
     required String imagePath,
     required String categoryTag,
+    bool isClosed = false,
   }) =>
       _networkDataProvider.createCourse(
         name: name,
         description: description,
         imagePath: imagePath,
         categoryTag: categoryTag,
+        isClosed: isClosed,
       );
 
   @override

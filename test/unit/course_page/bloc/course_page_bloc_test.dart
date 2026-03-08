@@ -20,10 +20,11 @@ void main() {
     imageUrl: 'imageUrl',
     lessons: [],
     tag: '',
-    isItsOwn: false,
+    creatorId: 'creator',
   );
 
   setUp(() {
+    provideDummy<CoursePage>(coursePage);
     coursePageRepository = MockCoursePageRepository();
   });
 
@@ -36,8 +37,9 @@ void main() {
     ),
     act: (bloc) => bloc.add(const CoursePageEvent.fetch(coursePageId)),
     expect: () => [
+      isA<CoursePageState$Processing>(),
       isA<CoursePageState$Successful>(),
-      const CoursePageState.successful(data: coursePage),
+      isA<CoursePageState$Idle>(),
     ],
   );
 
@@ -51,8 +53,10 @@ void main() {
     },
     act: (bloc) => bloc.add(const CoursePageEvent.fetch(coursePageId)),
     expect: () => [
+      isA<CoursePageState$Processing>(),
       isA<CoursePageState$Error>(),
-      isA<CoursePageState$Error>(),
+      isA<CoursePageState$Idle>(),
     ],
+    errors: () => [isException],
   );
 }

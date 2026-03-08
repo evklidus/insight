@@ -8,6 +8,7 @@
             "name": "insight (debug, dev)",
             "request": "launch",
             "type": "dart",
+            "preLaunchTask": "kill-xcodebuild",
             "flutterMode": "debug",
             "args": [
                 "--flavor",
@@ -19,6 +20,7 @@
             "name": "insight (profile, dev)",
             "request": "launch",
             "type": "dart",
+            "preLaunchTask": "kill-xcodebuild",
             "flutterMode": "profile",
             "args": [
                 "--flavor",
@@ -29,6 +31,7 @@
             "name": "insight (release, dev)",
             "request": "launch",
             "type": "dart",
+            "preLaunchTask": "kill-xcodebuild",
             "flutterMode": "release",
             "args": [
                 "--flavor",
@@ -39,6 +42,7 @@
             "name": "insight (debug, prod)",
             "request": "launch",
             "type": "dart",
+            "preLaunchTask": "kill-xcodebuild",
             "flutterMode": "debug",
             "args": [
                 "--flavor",
@@ -49,6 +53,7 @@
             "name": "insight (profile, prod)",
             "request": "launch",
             "type": "dart",
+            "preLaunchTask": "kill-xcodebuild",
             "flutterMode": "profile",
             "args": [
                 "--flavor",
@@ -59,6 +64,7 @@
             "name": "insight (release, prod)",
             "request": "launch",
             "type": "dart",
+            "preLaunchTask": "kill-xcodebuild",
             "flutterMode": "release",
             "args": [
                 "--flavor",
