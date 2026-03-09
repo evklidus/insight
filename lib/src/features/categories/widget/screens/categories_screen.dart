@@ -116,7 +116,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                   leadingSize: 60,
                                   leading: CustomImageWidget(
-                                    currentLesson!.imageUrl,
+                                    resolveStorageUrl(currentLesson!.imageUrl),
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                   title: Text(
@@ -141,8 +141,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                             currentLesson.lessonName,
                                       },
                                       queryParameters: {
-                                        'videoUrl':
-                                            currentLesson.lessonVideoUrl,
+                                        'videoUrl': resolveStorageUrl(
+                                          currentLesson.lessonVideoUrl,
+                                        ),
                                       },
                                     ),
                                     icon: Icon(

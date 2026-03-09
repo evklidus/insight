@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -17,15 +18,47 @@ abstract interface class ProfileNetworkDataProvider {
   });
 }
 
-// final class ProfileNetworkDataProviderImpl
-//     implements ProfileNetworkDataProvider {
-//   const ProfileNetworkDataProviderImpl(RestClient client) : _client = client;
+final class ProfileNetworkDataProviderImpl implements ProfileNetworkDataProvider {
+  const ProfileNetworkDataProviderImpl(Dio client) : _client = client;
 
-//   final RestClient _client;
+  final Dio _client;
 
-//   @override
-//   Future<User> getUser() => _client.getUser().then(User.fromDTO);
-// }
+  @override
+  Future<User?> getUser() async {
+    final response = await _client.get('/users/me');
+    final data = response.data;
+    if (data case Map<String, dynamic> json) {
+      return User.fromJson(json);
+    }
+    throw FormatException('Unexpected getUser response', data);
+  }
+
+  @override
+  Future<void> editUser(User$Edit user) async {
+    final formData = FormData.fromMap({
+      if (user.firstName.isNotNull) 'first_name': user.firstName,
+      if (user.lastName.isNotNull) 'last_name': user.lastName,
+      if (user.username.isNotNull) 'username': user.username,
+      if (user.avatarPath.isNotNull)
+        'avatar': await MultipartFile.fromFile(
+          user.avatarPath!,
+          filename: 'avatar_${user.id}',
+        ),
+    });
+    await _client.patch('/users/me', data: formData);
+  }
+
+  @override
+  Future<void> editNickname({
+    required String? newNickname,
+    required String? oldNickname,
+  }) async {
+    await _client.post(
+      '/users/me/nickname',
+      data: {'nickname': newNickname ?? ''},
+    );
+  }
+}
 
 final class ProfileFirestoreDataProviderImpl
     implements ProfileNetworkDataProvider {

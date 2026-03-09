@@ -13,8 +13,10 @@ class Course {
         name: json['name'],
         imageUrl: json['image_url'],
         tag: json['tag'],
-        creatorId: json['creatorId'],
-        isClosed: json['is_closed'] as bool? ?? false,
+        creatorId: json['creatorId'] ?? json['owner_id'],
+        isClosed: json['is_private'] as bool? ??
+            json['is_closed'] as bool? ??
+            false,
       );
 
   factory Course.fromFirestore(

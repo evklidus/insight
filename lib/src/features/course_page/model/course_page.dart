@@ -20,10 +20,14 @@ class CoursePage extends Course {
         name: json['name'],
         description: json['description'],
         imageUrl: json['image_url'],
-        lessons: (json['lessons'] as List<Map>).map(Lesson.fromJson).toList(),
+        lessons: (json['lessons'] as List?)
+            ?.map((e) => Lesson.fromJson(e as Map))
+            .toList(),
         tag: json['tag'],
-        creatorId: json['owner_id'],
-        isClosed: json['is_closed'] as bool? ?? false,
+        creatorId: json['creatorId'] ?? json['owner_id'],
+        isClosed: json['is_private'] as bool? ??
+            json['is_closed'] as bool? ??
+            false,
       );
 
   factory CoursePage.fromFirestore(

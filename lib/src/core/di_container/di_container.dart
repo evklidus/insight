@@ -1,21 +1,22 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/utils/interceptors/auth_interceptor.dart';
 import 'package:insight/src/features/auth/data/auth_network_data_provider.dart';
-import 'package:dio/dio.dart';
 import 'package:insight/src/features/auth/data/auth_repository.dart';
 import 'package:insight/src/features/auth/data/auth_storage_data_provider.dart';
+import 'package:insight/src/features/auth/model/token.dart';
 import 'package:insight/src/features/categories/data/categories_network_data_provider.dart';
 import 'package:insight/src/features/categories/data/categories_repository.dart';
-import 'package:insight/src/features/course_page/data/course_page_network_data_provider.dart';
-import 'package:insight/src/features/course_page/data/course_page_repository.dart';
 import 'package:insight/src/features/course/data/course_network_data_provider.dart';
 import 'package:insight/src/features/course/data/course_repository.dart';
+import 'package:insight/src/features/course_page/data/course_page_network_data_provider.dart';
+import 'package:insight/src/features/course_page/data/course_page_repository.dart';
 import 'package:insight/src/features/profile/data/profile_network_data_provider.dart';
 import 'package:insight/src/features/profile/data/profile_repository.dart';
 import 'package:insight/src/features/settings/data/theme_datasource.dart';
@@ -65,62 +66,95 @@ final class DIContainer {
   Future<void> initDeps() async {
     // DB
     sharedPreferences = await SharedPreferences.getInstance();
+    authStorageDataProvider =
+        AuthStorageDataProviderImpl(sharedPreferences: sharedPreferences);
 
     // Network
     authClient = Dio(BaseOptions(baseUrl: kBaseUrl));
 
-    // Возможно странноватое решение, но рабочее
     final isAuthenticatedController = StreamController<bool>();
     Stream<bool> isAuthenticatedStream =
         isAuthenticatedController.stream.asBroadcastStream(
-      onListen: (subscription) => isAuthenticatedController.add(
+      onListen: (_) => isAuthenticatedController.add(
         sharedPreferences.getString('auth.accessToken').isNotNull,
       ),
     );
 
-    restClient = Dio(BaseOptions(baseUrl: kBaseUrl))
-      ..interceptors.add(
-        AuthInterceptor(
-          getTokenFromDB: () async =>
-              sharedPreferences.getString('auth.accessToken'),
-          refreshToken: () {
-            sharedPreferences.remove('auth.accessToken');
-            firebaseAuth.signOut();
-            isAuthenticatedController.add(false);
-          },
-        ),
-      );
+    restClient = Dio(BaseOptions(baseUrl: kBaseUrl));
+    restClient.interceptors.add(
+      AuthInterceptor(
+        getTokenFromDB: () async =>
+            sharedPreferences.getString('auth.accessToken'),
+        refreshToken: () {
+          authStorageDataProvider.setLogout();
+          isAuthenticatedController.add(false);
+        },
+        tryRefreshToken: () async {
+          final refreshToken =
+              await authStorageDataProvider.getRefreshToken();
+          if (refreshToken == null || refreshToken.isEmpty) return false;
+          try {
+            final response = await authClient.post(
+              '/refresh',
+              data: {'refresh_token': refreshToken},
+            );
+            final data = response.data;
+            if (data case Map<String, dynamic> json) {
+              final token = Token.fromJson(json);
+              await authStorageDataProvider.setLoginData(
+                accessToken: token.accessToken,
+                refreshToken: token.refreshToken,
+              );
+              return true;
+            }
+          } catch (_) {}
+          return false;
+        },
+        retryDio: restClient,
+      ),
+    );
 
     // Firebase
     firebaseAuth = FirebaseAuth.instance;
     firebaseFirestore = FirebaseFirestore.instance;
     firebaseStorage = FirebaseStorage.instance;
 
-    // Data Providers
-    authNetworkDataProvider = AuthFirebaseDataProviderImpl(
-      firebaseAuth,
-      firebaseFirestore,
-    );
-    authStorageDataProvider =
-        AuthStorageDataProviderImpl(sharedPreferences: sharedPreferences);
-    categoriesNetworkDataProvider = CategoriesFirestoreDataProviderImpl(
-      firebaseFirestore,
-    );
-    courseNetworkDataProvider = CourseFirestoreDataProviderImpl(
-      firebaseAuth,
-      firebaseFirestore,
-      firebaseStorage,
-    );
-    coursePageNetworkDataProvider = CoursePageFirestoreDataProviderImpl(
-      firebaseAuth,
-      firebaseFirestore,
-      firebaseStorage,
-    );
-    profileNetworkDataProvider = ProfileFirestoreDataProviderImpl(
-      firestore: firebaseFirestore,
-      firebaseAuth: firebaseAuth,
-      firebaseStorage: firebaseStorage,
-    );
+    // Data Providers — Backend для dev и prod (USE_FIREBASE=true для Firebase)
+    const useBackend =
+        !bool.fromEnvironment('USE_FIREBASE', defaultValue: false);
+    if (useBackend) {
+      authNetworkDataProvider =
+          AuthNetworkDataProviderImpl(authClient, restClient);
+      categoriesNetworkDataProvider =
+          CategoriesNetworkDataProviderImpl(restClient);
+      courseNetworkDataProvider = CourseNetworkDataProviderImpl(restClient);
+      coursePageNetworkDataProvider =
+          CoursePageNetworkDataProviderImpl(restClient);
+      profileNetworkDataProvider = ProfileNetworkDataProviderImpl(restClient);
+    } else {
+      authNetworkDataProvider = AuthFirebaseDataProviderImpl(
+        firebaseAuth,
+        firebaseFirestore,
+      );
+      categoriesNetworkDataProvider = CategoriesFirestoreDataProviderImpl(
+        firebaseFirestore,
+      );
+      courseNetworkDataProvider = CourseFirestoreDataProviderImpl(
+        firebaseAuth,
+        firebaseFirestore,
+        firebaseStorage,
+      );
+      coursePageNetworkDataProvider = CoursePageFirestoreDataProviderImpl(
+        firebaseAuth,
+        firebaseFirestore,
+        firebaseStorage,
+      );
+      profileNetworkDataProvider = ProfileFirestoreDataProviderImpl(
+        firestore: firebaseFirestore,
+        firebaseAuth: firebaseAuth,
+        firebaseStorage: firebaseStorage,
+      );
+    }
     themeDataSource = ThemeDataSourceLocal(
       codec: const ThemeModeCodec(),
       sharedPreferences: sharedPreferences,

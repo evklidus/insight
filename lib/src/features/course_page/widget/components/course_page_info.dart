@@ -105,7 +105,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
     return SliverList.list(
       children: [
         CustomImageWidget.editable(
-          widget.coursePage.imageUrl,
+          resolveStorageUrl(widget.coursePage.imageUrl),
           isEditing: widget.editData.isEditing,
           filePath: widget.editData.image?.path,
           onPressed: widget.editData.addPhotoHandler,

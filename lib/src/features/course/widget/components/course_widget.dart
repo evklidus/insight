@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/common/widgets/insight_list_tile.dart';
@@ -36,7 +37,7 @@ class CourseWidget extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       leadingSize: 60,
       leading: CustomImageWidget(
-        course.imageUrl,
+        resolveStorageUrl(course.imageUrl),
         borderRadius: BorderRadius.circular(16),
       ),
       title: Text(

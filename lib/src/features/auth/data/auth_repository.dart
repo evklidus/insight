@@ -46,12 +46,14 @@ final class AuthRepositoryImpl implements AuthRepository {
     final token = await _networkDataProvider.login(username, password);
     await _storageDataProvider.setLoginData(
       accessToken: token.accessToken,
+      refreshToken: token.refreshToken,
     );
   }
 
   @override
   Future<void> logout() async {
-    await _networkDataProvider.logout();
+    final refreshToken = await _storageDataProvider.getRefreshToken();
+    await _networkDataProvider.logout(refreshToken);
     await _storageDataProvider.setLogout();
   }
 

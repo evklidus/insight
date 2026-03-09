@@ -49,17 +49,16 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
     required String imagePath,
     required String categoryTag,
     bool isClosed = false,
-  }) =>
-      // TODO: передать is_closed в data когда бэкенд будет поддерживать
-      _client.post(
-        '/course',
-        data: {
-          'name': name,
-          'description': description,
-          'imagePath': imagePath,
-          'tag': categoryTag,
-        },
-      );
+  }) async {
+    final formData = FormData.fromMap({
+      'name': name,
+      'description': description,
+      'tag': categoryTag,
+      'is_private': isClosed,
+      'image': await MultipartFile.fromFile(imagePath, filename: 'course_image'),
+    });
+    await _client.post('/course', data: formData);
+  }
 
   @override
   Future<List<({String categoryName, String categoryTag})>>

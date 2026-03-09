@@ -22,7 +22,7 @@ class LessonWidget extends StatelessWidget {
           'coursePageTitle': lesson.name,
         },
         queryParameters: {
-          'videoUrl': lesson.videoUrl,
+          'videoUrl': resolveStorageUrl(lesson.videoUrl),
         },
       ),
       title: Text(
