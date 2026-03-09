@@ -18,6 +18,7 @@ abstract interface class CourseNetworkDataProvider {
     required String description,
     required String imagePath,
     required String categoryTag,
+    bool isClosed = false,
   });
 
   Future<List<({String categoryName, String categoryTag})>> getCategoryTags();
@@ -47,7 +48,9 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
     required String description,
     required String imagePath,
     required String categoryTag,
+    bool isClosed = false,
   }) =>
+      // TODO: передать is_closed в data когда бэкенд будет поддерживать
       _client.post(
         '/course',
         data: {
@@ -99,6 +102,23 @@ final class CourseFirestoreDataProviderImpl
     final courses = coursesCollection.docs
         .map((doc) => Course.fromFirestore(doc.id, doc.data()))
         .toList();
+
+    // TODO: Тестово — первый по id курс закрытый. Удалить когда бэкенд будет отдавать is_closed
+    if (courses.isNotEmpty) {
+      final sorted = List<Course>.from(courses)
+        ..sort((a, b) => a.id.compareTo(b.id));
+      final firstId = sorted.first.id;
+      return courses
+          .map((c) => c.id == firstId ? Course(
+                id: c.id,
+                name: c.name,
+                imageUrl: c.imageUrl,
+                tag: c.tag,
+                creatorId: c.creatorId,
+                isClosed: true,
+              ) : c)
+          .toList();
+    }
     return courses;
   }
 
@@ -114,6 +134,23 @@ final class CourseFirestoreDataProviderImpl
     final courses = coursesCollection.docs
         .map((doc) => Course.fromFirestore(doc.id, doc.data()))
         .toList();
+
+    // TODO: Тестово — первый по id курс закрытый. Удалить когда бэкенд будет отдавать is_closed
+    if (courses.isNotEmpty) {
+      final sorted = List<Course>.from(courses)
+        ..sort((a, b) => a.id.compareTo(b.id));
+      final firstId = sorted.first.id;
+      return courses
+          .map((c) => c.id == firstId ? Course(
+                id: c.id,
+                name: c.name,
+                imageUrl: c.imageUrl,
+                tag: c.tag,
+                creatorId: c.creatorId,
+                isClosed: true,
+              ) : c)
+          .toList();
+    }
     return courses;
   }
 
@@ -123,6 +160,7 @@ final class CourseFirestoreDataProviderImpl
     required String description,
     required String imagePath,
     required String categoryTag,
+    bool isClosed = false,
   }) async {
     // Загружаем обложку в firebase storage
     final file = File(imagePath);
@@ -140,6 +178,7 @@ final class CourseFirestoreDataProviderImpl
     final userId = _firebaseAuth.currentUser!.uid;
 
     // Сохраняем курс в firestore
+    // TODO: передать is_closed когда бэкенд будет поддерживать
     final courseCollection = _firestore.collection('course');
     final doc = await courseCollection.add({
       'name': name,

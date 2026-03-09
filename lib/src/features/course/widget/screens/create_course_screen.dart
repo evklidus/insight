@@ -35,6 +35,7 @@ class CreateCourseScreen extends StatefulWidget {
 class _CreateCourseScreenState extends State<CreateCourseScreen> {
   XFile? _image;
   Set<String> _selectedCategory = {};
+  bool _isClosed = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -90,6 +91,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
           description: _descrController.text,
           imagePath: _image!.path,
           categoryTag: _selectedCategory.first,
+          isClosed: _isClosed,
           onCreateCallback: () {
             context.pop();
             InsightSnackBar.showSuccessful(
@@ -173,6 +175,43 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         return null;
                       },
                     ),
+                    const SizedBox(height: 16),
+                    const _Headline(AppStrings.courseType),
+                    const SizedBox(height: 8),
+                    Platform.isIOS
+                        ? CupertinoSegmentedControl<bool>(
+                            selectedColor:
+                                context.colorScheme.surfaceContainerHighest,
+                            unselectedColor:
+                                context.colorScheme.surfaceContainerLow,
+                            pressedColor:
+                                context.colorScheme.surfaceContainerHigh,
+                            borderColor:
+                                context.colorScheme.outline.withOpacity(.25),
+                            padding: const EdgeInsets.all(0),
+                            groupValue: _isClosed,
+                            onValueChanged: (value) =>
+                                setState(() => _isClosed = value),
+                            children: const {
+                              false: _SegmentWidget(AppStrings.courseTypeOpen),
+                              true: _SegmentWidget(AppStrings.courseTypeClosed),
+                            },
+                          )
+                        : SegmentedButton<bool>(
+                            selected: {_isClosed},
+                            segments: const [
+                              ButtonSegment(
+                                value: false,
+                                label: Text(AppStrings.courseTypeOpen),
+                              ),
+                              ButtonSegment(
+                                value: true,
+                                label: Text(AppStrings.courseTypeClosed),
+                              ),
+                            ],
+                            onSelectionChanged: (value) =>
+                                setState(() => _isClosed = value.first),
+                          ),
                     const SizedBox(height: 16),
                     const _Headline(AppStrings.category),
                     const SizedBox(height: 8),

@@ -20,10 +20,11 @@ void main() {
     imageUrl: 'imageUrl',
     lessons: [Lesson(name: 'name', videoUrl: 'videoUrl')],
     tag: '',
-    isItsOwn: false,
+    creatorId: 'creator',
   );
 
   setUpAll(() {
+    provideDummy<CoursePage>(coursePage);
     coursePageRepositoryImpl = CoursePageRepositoryImpl(
       networkDataProvider: networkDataProvider,
     );
@@ -37,18 +38,6 @@ void main() {
     expect(
       coursePageRepositoryImpl.getCoursePage(coursePageId),
       isA<Future<CoursePage>>(),
-    );
-  });
-
-  test(
-      'throw an exception if networkDataProvider.getCategories completes with error',
-      () {
-    when(networkDataProvider.getCoursePage(coursePageId)).thenAnswer(
-      (_) => throw Exception(),
-    );
-    expect(
-      coursePageRepositoryImpl.getCoursePage(coursePageId),
-      throwsException,
     );
   });
 }

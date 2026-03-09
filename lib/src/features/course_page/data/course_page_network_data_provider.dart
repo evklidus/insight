@@ -8,6 +8,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/features/course_page/model/course_edit.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
+import 'package:insight/src/features/course_page/model/invitation.dart';
 import 'package:insight/src/features/course_page/model/lesson.dart';
 
 abstract interface class CoursePageNetworkDataProvider {
@@ -31,6 +32,18 @@ abstract interface class CoursePageNetworkDataProvider {
     required String courseId,
     required Lesson lesson,
   });
+
+  /// Проверяет, существует ли пользователь с указанным email или никнеймом.
+  Future<bool> findUserByEmailOrNickname(String emailOrNickname);
+
+  /// Отправляет приглашение пользователю на просмотр закрытого курса.
+  Future<void> sendInvitation({
+    required String courseId,
+    required String emailOrNickname,
+  });
+
+  /// Возвращает список приглашённых на курс.
+  Future<List<Invitation>> getInvitations(String courseId);
 }
 
 final class CoursePageNetworkDataProviderImpl
@@ -78,6 +91,42 @@ final class CoursePageNetworkDataProviderImpl
     // TODO: implement editCourse
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> findUserByEmailOrNickname(String emailOrNickname) async {
+    // TODO: реализовать поиск пользователя по API
+    await Future<void>.delayed(const Duration(milliseconds: 300));
+    return emailOrNickname.trim().isNotEmpty;
+  }
+
+  @override
+  Future<void> sendInvitation({
+    required String courseId,
+    required String emailOrNickname,
+  }) async {
+    // TODO: реализовать отправку приглашения через API
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+  }
+
+  @override
+  Future<List<Invitation>> getInvitations(String courseId) async {
+    // TODO: реализовать получение приглашений через API
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+    return [
+      const Invitation(
+        emailOrNickname: 'ivan@example.com',
+        status: InvitationStatus.accepted,
+      ),
+      const Invitation(
+        emailOrNickname: 'maria',
+        status: InvitationStatus.accepted,
+      ),
+      const Invitation(
+        emailOrNickname: 'petr@mail.ru',
+        status: InvitationStatus.pending,
+      ),
+    ];
+  }
 }
 
 final class CoursePageFirestoreDataProviderImpl
@@ -103,12 +152,26 @@ final class CoursePageFirestoreDataProviderImpl
 
     final userId = _firebaseAuth.currentUser?.uid;
 
-    return CoursePage.fromFirestore(
+    var coursePage = CoursePage.fromFirestore(
       courseData.id,
       courseData.data(),
       courseDetailData.data(),
       userId,
     );
+
+    // TODO: Тестово — первый по id в категории закрытый. Удалить когда бэкенд будет отдавать is_closed
+    final tag = courseData.data()?['tag'] as String?;
+    if (tag != null) {
+      final inCategory = await _firestore
+          .collection('course')
+          .where('tag', isEqualTo: tag)
+          .get();
+      final ids = inCategory.docs.map((d) => d.id).toList()..sort();
+      if (ids.isNotEmpty && ids.first == id) {
+        coursePage = coursePage.copyWith(isClosed: true);
+      }
+    }
+    return coursePage;
   }
 
   @override
@@ -141,6 +204,7 @@ final class CoursePageFirestoreDataProviderImpl
       imageUrl = await uploadTask.ref.getDownloadURL();
     }
 
+    // TODO: передать is_closed в update когда бэкенд будет поддерживать
     final courseDoc = _firestore.collection('course').doc(course.id);
     await courseDoc.update({
       if (course.name.isNotNull) 'name': course.name,
@@ -256,5 +320,40 @@ final class CoursePageFirestoreDataProviderImpl
 
     // Обновляем список уроков в документе "detail"
     detailDoc.docs.first.reference.update(detailDocData);
+  }
+
+  @override
+  Future<bool> findUserByEmailOrNickname(String emailOrNickname) async {
+    // TODO: заглушка — всегда считаем что пользователь найден
+    return emailOrNickname.trim().isNotEmpty;
+  }
+
+  @override
+  Future<void> sendInvitation({
+    required String courseId,
+    required String emailOrNickname,
+  }) async {
+    // TODO: заглушка — приглашение не отправляется
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+  }
+
+  @override
+  Future<List<Invitation>> getInvitations(String courseId) async {
+    // TODO: заглушка — мок-данные для демонстрации
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+    return [
+      const Invitation(
+        emailOrNickname: 'ivan@example.com',
+        status: InvitationStatus.accepted,
+      ),
+      const Invitation(
+        emailOrNickname: 'maria',
+        status: InvitationStatus.accepted,
+      ),
+      const Invitation(
+        emailOrNickname: 'petr@mail.ru',
+        status: InvitationStatus.pending,
+      ),
+    ];
   }
 }

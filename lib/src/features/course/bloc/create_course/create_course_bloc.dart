@@ -65,6 +65,7 @@ class CreateCourseBLoC extends Bloc<CreateCourseEvent, CreateCourseState> {
         description: event.description,
         imagePath: event.imagePath,
         categoryTag: event.categoryTag,
+        isClosed: event.isClosed,
       );
       event.onCreateCallback?.call();
       emit(

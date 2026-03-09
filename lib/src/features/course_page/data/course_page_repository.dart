@@ -1,6 +1,7 @@
 import 'package:insight/src/features/course_page/data/course_page_network_data_provider.dart';
 import 'package:insight/src/features/course_page/model/course_edit.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
+import 'package:insight/src/features/course_page/model/invitation.dart';
 import 'package:insight/src/features/course_page/model/lesson.dart';
 
 abstract interface class CoursePageRepository {
@@ -24,6 +25,15 @@ abstract interface class CoursePageRepository {
     // Нужно чтобы удалить обложку
     required String imageUrl,
   });
+
+  Future<bool> findUserByEmailOrNickname(String emailOrNickname);
+
+  Future<void> sendInvitation({
+    required String courseId,
+    required String emailOrNickname,
+  });
+
+  Future<List<Invitation>> getInvitations(String courseId);
 }
 
 final class CoursePageRepositoryImpl implements CoursePageRepository {
@@ -70,4 +80,22 @@ final class CoursePageRepositoryImpl implements CoursePageRepository {
         courseId: courseId,
         lesson: lesson,
       );
+
+  @override
+  Future<bool> findUserByEmailOrNickname(String emailOrNickname) =>
+      _networkDataProvider.findUserByEmailOrNickname(emailOrNickname);
+
+  @override
+  Future<void> sendInvitation({
+    required String courseId,
+    required String emailOrNickname,
+  }) =>
+      _networkDataProvider.sendInvitation(
+        courseId: courseId,
+        emailOrNickname: emailOrNickname,
+      );
+
+  @override
+  Future<List<Invitation>> getInvitations(String courseId) =>
+      _networkDataProvider.getInvitations(courseId);
 }

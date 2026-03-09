@@ -38,6 +38,17 @@ class AppStrings {
   static const description = 'Описание';
   static const category = 'Категория';
   static const addLesson = 'Добавить урок';
+  static const courseType = 'Тип курса';
+  static const courseTypeOpen = 'Открытый';
+  static const courseTypeClosed = 'Закрытый';
+  static const invite = 'Пригласить';
+  static const inviteUser = 'Пригласить пользователя';
+  static const inviteEmailOrNicknameHint = 'Email или никнейм';
+  static const userNotFound = 'Пользователь не найден в системе';
+  static const invitationSent = 'Приглашение отправлено';
+  static const invitationAccepted = 'Принял приглашение';
+  static const invitationPending = 'Ожидает';
+  static const invitedList = 'Приглашённые';
 
   // Create course
   static const courseCreation = 'Создание курса';

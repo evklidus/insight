@@ -12,6 +12,7 @@ class CoursePage extends Course {
     this.lessons,
     required super.tag,
     required super.creatorId,
+    super.isClosed,
   });
 
   factory CoursePage.fromJson(Map json) => CoursePage(
@@ -22,6 +23,7 @@ class CoursePage extends Course {
         lessons: (json['lessons'] as List<Map>).map(Lesson.fromJson).toList(),
         tag: json['tag'],
         creatorId: json['owner_id'],
+        isClosed: json['is_closed'] as bool? ?? false,
       );
 
   factory CoursePage.fromFirestore(
@@ -47,6 +49,7 @@ class CoursePage extends Course {
             : null,
         tag: courseData['tag'],
         creatorId: courseData['owner_id'],
+        isClosed: courseData['is_closed'] as bool? ?? false,
       );
 
   final String description;
@@ -60,15 +63,16 @@ class CoursePage extends Course {
     List<Lesson>? lessons,
     String? tag,
     String? creatorId,
-  }) {
-    return CoursePage(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      imageUrl: imageUrl ?? this.imageUrl,
-      lessons: lessons ?? this.lessons,
-      tag: tag ?? this.tag,
-      creatorId: creatorId ?? this.creatorId,
-    );
-  }
+    bool? isClosed,
+  }) =>
+      CoursePage(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        description: description ?? this.description,
+        imageUrl: imageUrl ?? this.imageUrl,
+        lessons: lessons ?? this.lessons,
+        tag: tag ?? this.tag,
+        creatorId: creatorId ?? this.creatorId,
+        isClosed: isClosed ?? this.isClosed,
+      );
 }
