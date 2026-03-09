@@ -38,6 +38,7 @@ class AppStrings {
   static const description = 'Описание';
   static const category = 'Категория';
   static const addLesson = 'Добавить урок';
+  static const addCourse = 'Добавить курс';
   static const courseType = 'Тип курса';
   static const courseTypeOpen = 'Открытый';
   static const courseTypeClosed = 'Закрытый';
@@ -62,6 +63,11 @@ class AppStrings {
   static const courseDescrHint = 'Прикольное описание';
 
   static const lessoneNameHint = 'Самый лучший урок';
+
+  // Learning status
+  static const learningNotStarted = 'Не начат';
+  static const learningInProgress = 'В процессе';
+  static const learningCompleted = 'Завершён';
 
   // Categories
   static const sport = 'Спорт';

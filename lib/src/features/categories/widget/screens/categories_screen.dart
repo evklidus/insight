@@ -6,7 +6,6 @@ import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
-import 'package:insight/src/common/utils/extensions/object_x.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_sliver_app_bar.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
 import 'package:insight/src/common/widgets/custom_android_refresh_indicator.dart';
@@ -14,8 +13,8 @@ import 'package:insight/src/common/widgets/custom_image_widget.dart';
 import 'package:insight/src/common/widgets/insight_list_tile.dart';
 import 'package:insight/src/common/widgets/widget_switcher.dart';
 import 'package:insight/src/features/auth/widget/auth_scope.dart';
-import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
-import 'package:insight/src/features/profile/bloc/profile_state.dart';
+import 'package:insight/src/features/course/bloc/learning_bloc.dart';
+import 'package:insight/src/features/course/bloc/learning_state.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
@@ -39,6 +38,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     categoriesBloc =
         CategoriesBloc(repository: DIContainer.instance.categoriesRepository)
           ..add(const CategoriesEvent.fetch());
+    if (AuthScope.of(context, listen: false).isAuthenticated) {
+      context.read<LearningBloc>().add(LearningEvent.fetchCurrent);
+    }
   }
 
   Future<void> _onRefresh() async {
@@ -77,89 +79,94 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               ),
             ),
             CupertinoSliverRefreshControl(onRefresh: _onRefresh),
-            BlocBuilder<ProfileBloc, ProfileState>(
+            BlocBuilder<LearningBloc, LearningState>(
+              buildWhen: (prev, curr) =>
+                  prev.current != curr.current || prev.isProcessing != curr.isProcessing,
               builder: (context, state) {
-                final currentLesson = state.data?.currentLessons?.first;
-                return currentLesson.isNotNull
-                    ? SliverToBoxAdapter(
-                        child: Container(
-                          decoration: ShapeDecoration(
-                            color: context.colorScheme.surfaceContainer,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                          ),
-                          margin: const EdgeInsets.fromLTRB(8, 16, 8, 0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 12, top: 9),
-                                child: Text(
-                                  AppStrings.currentLesson,
-                                  style: context.textTheme.titleMedium,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Padding(
-                                padding: const EdgeInsets.all(4),
-                                child: InsightListTile(
-                                  backgroundColor:
-                                      context.colorScheme.surfaceContainer,
-                                  padding: const EdgeInsets.all(8),
-                                  onTap: () => context.pushNamed(
-                                    RouteKeys.coursePage.name,
-                                    pathParameters: {
-                                      'coursePageId': currentLesson.courseId,
-                                    },
-                                  ),
-                                  leadingSize: 60,
-                                  leading: CustomImageWidget(
-                                    resolveStorageUrl(currentLesson!.imageUrl),
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  title: Text(
-                                    currentLesson.lessonName,
-                                    maxLines: 3,
-                                    style: context.textTheme.titleLarge,
-                                  ),
-                                  subtitle: Text(
-                                    'Курс: ${currentLesson.courseName}',
-                                    maxLines: 2,
-                                    style:
-                                        context.textTheme.labelSmall?.copyWith(
-                                      color:
-                                          context.colorScheme.onSurfaceVariant,
-                                    ),
-                                  ),
-                                  trailing: IconButton(
-                                    onPressed: () => context.pushNamed(
-                                      RouteKeys.video.name,
-                                      pathParameters: {
-                                        'coursePageTitle':
-                                            currentLesson.lessonName,
-                                      },
-                                      queryParameters: {
-                                        'videoUrl': resolveStorageUrl(
-                                          currentLesson.lessonVideoUrl,
-                                        ),
-                                      },
-                                    ),
-                                    icon: Icon(
-                                      isNeedCupertino
-                                          ? CupertinoIcons.play_fill
-                                          : Icons.play_arrow_rounded,
-                                      size: 30,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                final currentLesson = state.current;
+                if (currentLesson == null) {
+                  return const SliverToBoxAdapter(child: SizedBox.shrink());
+                }
+                return SliverToBoxAdapter(
+                  child: Container(
+                    decoration: ShapeDecoration(
+                      color: context.colorScheme.surfaceContainer,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                    ),
+                    margin: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 12, top: 9),
+                          child: Text(
+                            AppStrings.currentLesson,
+                            style: context.textTheme.titleMedium,
                           ),
                         ),
-                      )
-                    : const SliverToBoxAdapter(child: SizedBox.shrink());
+                        const SizedBox(height: 4),
+                        Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: InsightListTile(
+                            backgroundColor:
+                                context.colorScheme.surfaceContainer,
+                            padding: const EdgeInsets.all(8),
+                            onTap: () => context.pushNamed(
+                              RouteKeys.coursePage.name,
+                              pathParameters: {
+                                'coursePageId': currentLesson.courseId,
+                              },
+                            ),
+                            leadingSize: 60,
+                            leading: CustomImageWidget(
+                              resolveStorageUrl(currentLesson.imageUrl),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            title: Text(
+                              currentLesson.lessonName,
+                              maxLines: 3,
+                              style: context.textTheme.titleLarge,
+                            ),
+                            subtitle: Text(
+                              'Курс: ${currentLesson.courseName}',
+                              maxLines: 2,
+                              style:
+                                  context.textTheme.labelSmall?.copyWith(
+                                color:
+                                    context.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                            trailing: IconButton(
+                              onPressed: () => context.pushNamed(
+                                RouteKeys.video.name,
+                                pathParameters: {
+                                  'coursePageTitle':
+                                      currentLesson.lessonName,
+                                },
+                                queryParameters: {
+                                  'videoUrl': resolveStorageUrl(
+                                    currentLesson.lessonVideoUrl,
+                                  ),
+                                  'courseId': currentLesson.courseId,
+                                  'lessonName': currentLesson.lessonName,
+                                },
+                              ),
+                              icon: Icon(
+                                isNeedCupertino
+                                    ? CupertinoIcons.play_fill
+                                    : Icons.play_arrow_rounded,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
             ),
             BlocConsumer<CategoriesBloc, CategoriesState>(

@@ -9,12 +9,15 @@ class UserCurrentLesson {
 
   factory UserCurrentLesson.fromMap(Map<String, dynamic> map) =>
       UserCurrentLesson(
-        courseId: map['course_id'],
-        courseName: map['course_name'],
-        imageUrl: map['image_url'],
-        lessonName: map['lesson_name'],
-        lessonVideoUrl: map['lesson_video_url'],
+        courseId: map['course_id'] as String,
+        courseName: map['course_name'] as String,
+        imageUrl: map['image_url'] as String,
+        lessonName: map['lesson_name'] as String,
+        lessonVideoUrl: map['lesson_video_url'] as String,
       );
+
+  factory UserCurrentLesson.fromJson(Map<String, dynamic> json) =>
+      UserCurrentLesson.fromMap(json);
 
   final String courseId;
   final String courseName;

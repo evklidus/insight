@@ -15,6 +15,7 @@ import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
+import 'package:insight/src/features/course_page/widget/components/add_course_button.dart';
 import 'package:insight/src/features/course_page/widget/components/lesson_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -205,6 +206,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                 ),
         ),
         const SizedBox(height: 20),
+        if (!isItsOwn) AddCourseButton(courseId: widget.coursePage.id),
         if (widget.coursePage.lessons?.isNotEmpty ?? false)
           AbsorbPointer(
             absorbing: widget.editData.isEditing,
@@ -233,7 +235,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                         },
                       ),
                     ),
-                    child: LessonWidget(lesson),
+                    child: LessonWidget(lesson, courseId: widget.coursePage.id),
                   );
                 },
                 separatorBuilder: (context, index) =>

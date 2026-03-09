@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/widgets/root_screen.dart';
-import 'package:insight/src/core/player/insight_player.dart';
+import 'package:insight/src/features/course_page/widget/screens/video_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/categories_screen.dart';
@@ -134,11 +134,11 @@ class AppRouter {
         name: RouteKeys.video.name,
         path: RouteKeys.video.path,
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => InsightPlayer(
+        builder: (context, state) => VideoScreen(
           videoUrl: state.uri.queryParameters['videoUrl'] as String,
           title: state.pathParameters['coursePageTitle'] as String,
-          onVideoEnd: context.pop,
-          onCloseButtonPressed: context.pop,
+          courseId: state.uri.queryParameters['courseId'],
+          lessonName: state.uri.queryParameters['lessonName'],
         ),
       ),
     ],

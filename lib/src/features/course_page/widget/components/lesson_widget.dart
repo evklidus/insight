@@ -9,9 +9,10 @@ import 'package:insight/src/common/widgets/insight_list_tile.dart';
 import 'package:insight/src/features/course_page/model/lesson.dart';
 
 class LessonWidget extends StatelessWidget {
-  const LessonWidget(this.lesson, {super.key});
+  const LessonWidget(this.lesson, {super.key, this.courseId});
 
   final Lesson lesson;
+  final String? courseId;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,8 @@ class LessonWidget extends StatelessWidget {
         },
         queryParameters: {
           'videoUrl': resolveStorageUrl(lesson.videoUrl),
+          if (courseId != null) 'courseId': courseId,
+          if (courseId != null) 'lessonName': lesson.name,
         },
       ),
       title: Text(

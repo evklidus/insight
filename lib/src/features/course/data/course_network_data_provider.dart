@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:insight/src/features/course/model/course.dart';
+import 'package:insight/src/features/course/model/course_progress.dart';
+import 'package:insight/src/features/course/model/learning_course.dart';
+import 'package:insight/src/features/profile/model/user_current_lesson.dart';
 import 'package:meta/meta.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 @immutable
 abstract interface class CourseNetworkDataProvider {
@@ -22,6 +25,16 @@ abstract interface class CourseNetworkDataProvider {
   });
 
   Future<List<({String categoryName, String categoryTag})>> getCategoryTags();
+
+  Future<void> enroll(String courseId);
+
+  Future<void> completeLesson(String courseId, String lessonName);
+
+  Future<List<LearningCourse>> getMyLearning();
+
+  Future<UserCurrentLesson?> getCurrent();
+
+  Future<CourseProgress?> getProgress(String courseId);
 }
 
 @immutable
@@ -73,6 +86,46 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
           ),
         )
         .toList();
+  }
+
+  @override
+  Future<void> enroll(String courseId) =>
+      _client.post('/courses/$courseId/enroll');
+
+  @override
+  Future<void> completeLesson(String courseId, String lessonName) =>
+      _client.post(
+        '/courses/$courseId/lessons/${Uri.encodeComponent(lessonName)}/complete',
+      );
+
+  @override
+  Future<List<LearningCourse>> getMyLearning() async {
+    final response = await _client.get('/courses/my/learning');
+    final list = response.data as List<dynamic>? ?? [];
+    return list
+        .map((e) => LearningCourse.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  @override
+  Future<UserCurrentLesson?> getCurrent() async {
+    final response = await _client.get('/courses/my/current');
+    final data = response.data;
+    if (data == null || data is! Map<String, dynamic>) return null;
+    return UserCurrentLesson.fromJson(data);
+  }
+
+  @override
+  Future<CourseProgress?> getProgress(String courseId) async {
+    try {
+      final response = await _client.get('/courses/$courseId/progress');
+      final data = response.data;
+      if (data == null) return null;
+      return CourseProgress.fromJson(data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) return null;
+      rethrow;
+    }
   }
 }
 
@@ -207,4 +260,23 @@ final class CourseFirestoreDataProviderImpl
         .toList();
     return categories;
   }
+
+  @override
+  Future<void> enroll(String courseId) async {
+    throw UnimplementedError('Learning mode not supported for Firebase');
+  }
+
+  @override
+  Future<void> completeLesson(String courseId, String lessonName) async {
+    throw UnimplementedError('Learning mode not supported for Firebase');
+  }
+
+  @override
+  Future<List<LearningCourse>> getMyLearning() async => [];
+
+  @override
+  Future<UserCurrentLesson?> getCurrent() async => null;
+
+  @override
+  Future<CourseProgress?> getProgress(String courseId) async => null;
 }
