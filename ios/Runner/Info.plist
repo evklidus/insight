@@ -41,6 +41,8 @@
 	<true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Приложение использует медиатеку для выбора фото и видео в курсах</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Дайте доступ, пожалуйста</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
