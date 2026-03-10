@@ -81,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       email: email!,
                       password: password!,
                       onSuccess: (message) {
+                        TextInput.finishAutofillContext();
                         context.go(RouteKeys.categories.path);
                         context.read<ProfileBloc>().add(
                               const ProfileEvent.fetch(),
@@ -88,13 +89,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         InsightSnackBar.showSuccessful(
                           context,
                           text: message,
-                          bottomPadding: 100,
+                          bottomPadding: 40,
                         );
                       },
                       onError: (message) =>
                           InsightSnackBar.showError(context, text: message),
                     );
-                    TextInput.finishAutofillContext();
                   }
                 },
               ),
