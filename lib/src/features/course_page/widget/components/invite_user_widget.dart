@@ -39,13 +39,35 @@ class _InviteUserWidgetState extends State<InviteUserWidget> {
   }
 
   Future<void> _loadInvitations() async {
-    final invitations = await DIContainer.instance.coursePageRepository
-        .getInvitations(widget.courseId);
-    if (mounted) {
-      setState(() {
-        _invitations = invitations;
-        _invitationsLoading = false;
-      });
+    try {
+      final invitations = await DIContainer.instance.coursePageRepository
+          .getInvitations(widget.courseId);
+      if (mounted) {
+        setState(() {
+          _invitations = invitations;
+          _invitationsLoading = false;
+        });
+      }
+    } on DioException catch (e) {
+      if (!mounted) return;
+      final code = e.response?.statusCode;
+      final message = code == 403
+          ? AppStrings.notCourseOwner
+          : code == 404
+              ? AppStrings.courseNotFound
+              : e.response?.data is Map
+                  ? (e.response!.data as Map)['message']?.toString()
+                  : e.message;
+      setState(() => _invitationsLoading = false);
+      InsightSnackBar.showError(
+        context,
+        text: message ?? e.toString(),
+        bottomPadding: MediaQuery.viewInsetsOf(context).bottom.round(),
+      );
+    } on Object catch (_) {
+      if (mounted) {
+        setState(() => _invitationsLoading = false);
+      }
     }
   }
 
@@ -60,20 +82,12 @@ class _InviteUserWidgetState extends State<InviteUserWidget> {
       );
 
       if (!mounted) return;
-      final sent = _emailOrNickname.trim();
-      setState(() {
-        _invitations = [
-          Invitation(
-            emailOrNickname: sent,
-            status: InvitationStatus.pending,
-          ),
-          ..._invitations,
-        ];
-        _emailOrNickname = '';
-      });
+      setState(() => _emailOrNickname = '');
       _formKey.currentState?.reset();
       widget.onInviteSent();
+      await _loadInvitations();
 
+      if (!mounted) return;
       InsightSnackBar.showSuccessful(
         context,
         text: AppStrings.invitationSent,
@@ -218,7 +232,7 @@ class _InvitationTile extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              invitation.emailOrNickname,
+              invitation.displayName,
               style: context.textTheme.bodyMedium,
             ),
           ),

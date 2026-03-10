@@ -114,9 +114,23 @@ final class CoursePageNetworkDataProviderImpl
 
   @override
   Future<List<Invitation>> getInvitations(String courseId) async {
-    // Backend GET /invitations/me возвращает приглашения текущему пользователю.
-    // Список приглашённых на курс (владельцем) требует отдельного endpoint.
-    return [];
+    final response = await _client.get('/courses/$courseId/invitations');
+
+    if (response.data case {'message': final String message, 'statusCode': final int code}) {
+      throw Exception('[$code] $message');
+    }
+
+    if (response.data case final List invitationsJson) {
+      return invitationsJson
+          .cast<Map<String, dynamic>>()
+          .map(Invitation.fromJson)
+          .toList(growable: false);
+    }
+
+    throw FormatException(
+      'Unexpected getInvitations response',
+      response.data,
+    );
   }
 }
 
@@ -328,15 +342,18 @@ final class CoursePageFirestoreDataProviderImpl
     await Future<void>.delayed(const Duration(milliseconds: 200));
     return [
       const Invitation(
-        emailOrNickname: 'ivan@example.com',
+        inviteeEmail: 'ivan@example.com',
+        inviteeUsername: null,
         status: InvitationStatus.accepted,
       ),
       const Invitation(
-        emailOrNickname: 'maria',
+        inviteeEmail: null,
+        inviteeUsername: 'maria',
         status: InvitationStatus.accepted,
       ),
       const Invitation(
-        emailOrNickname: 'petr@mail.ru',
+        inviteeEmail: 'petr@mail.ru',
+        inviteeUsername: null,
         status: InvitationStatus.pending,
       ),
     ];

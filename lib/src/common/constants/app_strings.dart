@@ -51,6 +51,8 @@ class AppStrings {
   static const userNotFound = 'Пользователь не найден';
   static const invitationSent = 'Приглашение отправлено';
   static const invitationAlreadyExists = 'Пользователь уже приглашён';
+  static const courseNotFound = 'Курс не найден';
+  static const notCourseOwner = 'Вы не владелец курса';
   static const invitationAccepted = 'Принял приглашение';
   static const invitationPending = 'Ожидает';
   static const invitedList = 'Приглашённые';
