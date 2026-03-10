@@ -26,8 +26,6 @@ abstract interface class CoursePageRepository {
     required String imageUrl,
   });
 
-  Future<bool> findUserByEmailOrNickname(String emailOrNickname);
-
   Future<void> sendInvitation({
     required String courseId,
     required String emailOrNickname,
@@ -80,10 +78,6 @@ final class CoursePageRepositoryImpl implements CoursePageRepository {
         courseId: courseId,
         lesson: lesson,
       );
-
-  @override
-  Future<bool> findUserByEmailOrNickname(String emailOrNickname) =>
-      _networkDataProvider.findUserByEmailOrNickname(emailOrNickname);
 
   @override
   Future<void> sendInvitation({

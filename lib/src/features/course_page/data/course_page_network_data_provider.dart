@@ -33,9 +33,6 @@ abstract interface class CoursePageNetworkDataProvider {
     required Lesson lesson,
   });
 
-  /// Проверяет, существует ли пользователь с указанным email или никнеймом.
-  Future<bool> findUserByEmailOrNickname(String emailOrNickname);
-
   /// Отправляет приглашение пользователю на просмотр закрытого курса.
   Future<void> sendInvitation({
     required String courseId,
@@ -101,11 +98,6 @@ final class CoursePageNetworkDataProviderImpl
         ),
     });
     await _client.patch('/course_pages/${course.id}', data: formData);
-  }
-
-  @override
-  Future<bool> findUserByEmailOrNickname(String emailOrNickname) async {
-    return emailOrNickname.trim().isNotEmpty;
   }
 
   @override
@@ -319,12 +311,6 @@ final class CoursePageFirestoreDataProviderImpl
 
     // Обновляем список уроков в документе "detail"
     detailDoc.docs.first.reference.update(detailDocData);
-  }
-
-  @override
-  Future<bool> findUserByEmailOrNickname(String emailOrNickname) async {
-    // TODO: заглушка — всегда считаем что пользователь найден
-    return emailOrNickname.trim().isNotEmpty;
   }
 
   @override

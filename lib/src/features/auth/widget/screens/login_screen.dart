@@ -85,7 +85,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         context.read<ProfileBloc>().add(
                               const ProfileEvent.fetch(),
                             );
-                        InsightSnackBar.showSuccessful(context, text: message);
+                        InsightSnackBar.showSuccessful(
+                          context,
+                          text: message,
+                          bottomPadding: 100,
+                        );
                       },
                       onError: (message) =>
                           InsightSnackBar.showError(context, text: message),

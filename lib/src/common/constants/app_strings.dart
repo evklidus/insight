@@ -45,8 +45,9 @@ class AppStrings {
   static const invite = 'Пригласить';
   static const inviteUser = 'Пригласить пользователя';
   static const inviteEmailOrNicknameHint = 'Email или никнейм';
-  static const userNotFound = 'Пользователь не найден в системе';
+  static const userNotFound = 'Пользователь не найден';
   static const invitationSent = 'Приглашение отправлено';
+  static const invitationAlreadyExists = 'Пользователь уже приглашён';
   static const invitationAccepted = 'Принял приглашение';
   static const invitationPending = 'Ожидает';
   static const invitedList = 'Приглашённые';

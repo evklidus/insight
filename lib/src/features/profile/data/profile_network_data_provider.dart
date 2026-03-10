@@ -18,7 +18,8 @@ abstract interface class ProfileNetworkDataProvider {
   });
 }
 
-final class ProfileNetworkDataProviderImpl implements ProfileNetworkDataProvider {
+final class ProfileNetworkDataProviderImpl
+    implements ProfileNetworkDataProvider {
   const ProfileNetworkDataProviderImpl(Dio client) : _client = client;
 
   final Dio _client;

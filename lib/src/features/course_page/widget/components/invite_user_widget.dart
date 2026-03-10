@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
@@ -50,19 +51,9 @@ class _InviteUserWidgetState extends State<InviteUserWidget> {
 
   Future<void> _inviteHandler() async {
     if (!_formKey.currentState!.validate()) return;
-
     setState(() => _isLoading = true);
-
+    final bottomPadding = MediaQuery.viewInsetsOf(context).bottom.round() - 20;
     try {
-      final exists = await DIContainer.instance.coursePageRepository
-          .findUserByEmailOrNickname(_emailOrNickname.trim());
-
-      if (!exists) {
-        if (!mounted) return;
-        InsightSnackBar.showError(context, text: AppStrings.userNotFound);
-        return;
-      }
-
       await DIContainer.instance.coursePageRepository.sendInvitation(
         courseId: widget.courseId,
         emailOrNickname: _emailOrNickname.trim(),
@@ -82,7 +73,43 @@ class _InviteUserWidgetState extends State<InviteUserWidget> {
       });
       _formKey.currentState?.reset();
       widget.onInviteSent();
-      InsightSnackBar.showSuccessful(context, text: AppStrings.invitationSent);
+
+      InsightSnackBar.showSuccessful(
+        context,
+        text: AppStrings.invitationSent,
+        bottomPadding: bottomPadding,
+      );
+    } on DioException catch (e) {
+      if (!mounted) return;
+      if (e.response?.statusCode == 404) {
+        InsightSnackBar.showError(
+          context,
+          text: AppStrings.userNotFound,
+          bottomPadding: bottomPadding,
+        );
+      } else {
+        final errMsg = e.response?.data is Map
+            ? (e.response!.data as Map)['error']?.toString()
+            : null;
+        final errLower = errMsg?.toLowerCase() ?? '';
+        final isAlreadyInvited =
+            errLower.contains('invitation already exists') ||
+                errLower.contains('invitation_already_exists');
+        InsightSnackBar.showError(
+          context,
+          text: isAlreadyInvited
+              ? AppStrings.invitationAlreadyExists
+              : (errMsg ?? e.message ?? e.toString()),
+          bottomPadding: bottomPadding,
+        );
+      }
+    } on Object catch (e) {
+      if (!mounted) return;
+      InsightSnackBar.showError(
+        context,
+        text: e.toString(),
+        bottomPadding: MediaQuery.viewInsetsOf(context).bottom.round(),
+      );
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }

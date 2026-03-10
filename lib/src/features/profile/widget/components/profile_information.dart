@@ -52,15 +52,16 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
       child: SliverList.list(
         children: [
           const SizedBox(height: 24),
-          CustomImageWidget.editable(
-            widget.user.avatarUrl!,
-            size: Size.square(size.shortestSide * .64),
-            shape: BoxShape.circle,
-            isEditing: widget.isEditing,
-            filePath: widget.image?.path,
-            onPressed: widget.addPhotoHandler,
-            placeholderSizeRadius: size.shortestSide * .32,
-          ),
+          if (widget.user.avatarUrl.isNotNull)
+            CustomImageWidget.editable(
+              widget.user.avatarUrl,
+              size: Size.square(size.shortestSide * .64),
+              shape: BoxShape.circle,
+              isEditing: widget.isEditing,
+              filePath: widget.image?.path,
+              onPressed: widget.addPhotoHandler,
+              placeholderSizeRadius: size.shortestSide * .32,
+            ),
           AnimatedSwitcher(
             duration: standartDuration,
             child: widget.isEditing
