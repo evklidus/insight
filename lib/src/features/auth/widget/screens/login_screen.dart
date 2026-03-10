@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         InsightSnackBar.showSuccessful(
                           context,
                           text: message,
-                          bottomPadding: 40,
+                          bottomPadding: 60,
                         );
                       },
                       onError: (message) =>
