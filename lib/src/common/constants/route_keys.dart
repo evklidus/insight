@@ -46,6 +46,10 @@ class RouteKeys {
     name: 'userCourses',
     path: 'userCourses',
   );
+  static const RouteKey invitations = (
+    name: 'invitations',
+    path: 'invitations',
+  );
   static const RouteKey about = (
     name: 'about',
     path: 'about',

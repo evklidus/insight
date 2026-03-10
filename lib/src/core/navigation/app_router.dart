@@ -8,6 +8,7 @@ import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/categories_screen.dart';
 import 'package:insight/src/features/course/widget/screens/create_course_screen.dart';
 import 'package:insight/src/features/course/widget/screens/user_courses_screen.dart';
+import 'package:insight/src/features/invitations/widget/screens/invitations_screen.dart';
 import 'package:insight/src/features/course_page/widget/screens/course_page_screen.dart';
 import 'package:insight/src/features/course/widget/screens/courses_screen.dart';
 import 'package:insight/src/features/profile/widget/screens/profile_screen.dart';
@@ -107,6 +108,13 @@ class AppRouter {
                     name: RouteKeys.userCourses.name,
                     path: RouteKeys.userCourses.path,
                     builder: (context, state) => const UserCoursesScreen(),
+                  ),
+
+                  // Invitations
+                  GoRoute(
+                    name: RouteKeys.invitations.name,
+                    path: RouteKeys.invitations.path,
+                    builder: (context, state) => const InvitationsScreen(),
                   ),
 
                   // About

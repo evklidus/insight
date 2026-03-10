@@ -51,6 +51,13 @@ class AppStrings {
   static const invitationAccepted = 'Принял приглашение';
   static const invitationPending = 'Ожидает';
   static const invitedList = 'Приглашённые';
+  static const myInvitations = 'Мои приглашения';
+  static const noInvitations = 'Нет приглашений';
+  static const noInvitationsDescription =
+      'Вам пока не поступало приглашений на курсы';
+  static const acceptInvitation = 'Принять приглашение';
+  static const invitationAcceptedSuccess = 'Приглашение принято';
+  static const goToCourse = 'Перейти';
 
   // Create course
   static const courseCreation = 'Создание курса';
