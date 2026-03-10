@@ -34,6 +34,9 @@ class AppStrings {
   static const lessons = 'Уроки';
   static const courses = 'Курсы';
   static const myCourses = 'Мои курсы';
+  static const noCourses = 'У вас пока нет курсов';
+  static const noCoursesDescription =
+      'Курсы, на которые вы записаны, будут отображаться здесь';
   static const categories = 'Категории';
   static const description = 'Описание';
   static const category = 'Категория';

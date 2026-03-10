@@ -6,6 +6,7 @@ import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
 import 'package:insight/src/common/widgets/app_bars/custom_sliver_app_bar.dart';
 import 'package:insight/src/common/widgets/custom_android_refresh_indicator.dart';
+import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/common/widgets/separated_column.dart';
 import 'package:insight/src/common/widgets/shimmer.dart';
 import 'package:insight/src/common/widgets/widget_switcher.dart';
@@ -54,7 +55,7 @@ class _UserCoursesScreenState extends State<UserCoursesScreen> {
               ),
               builder: (context, state) => WidgetSwitcher.sliver(
                 state: (
-                  hasData: state.learning.isNotEmpty,
+                  hasData: !state.isProcessing && !state.hasError,
                   isProcessing: state.isProcessing,
                   hasError: state.hasError,
                 ),
@@ -70,35 +71,43 @@ class _UserCoursesScreenState extends State<UserCoursesScreen> {
                   ),
                 ),
                 refresh: _onRefresh,
-                childBuilder: (context) => SliverAnimatedList(
-                  initialItemCount: state.learning.length,
-                  itemBuilder: (context, index, _) {
-                    final learningCourse = state.learning[index];
-                    final userId =
-                        context.read<ProfileBloc>().state.data?.id;
-                    return Column(
-                      children: [
-                        if (index != 0) const SizedBox(height: 20),
-                        CourseWidget.withCategory(
-                          course: learningCourse.course,
-                          categoryTag: learningCourse.course.tag,
-                          userId: userId,
-                          statusBadge: learningCourse.statusLabel,
-                          onTap: () => context.pushNamed(
-                            RouteKeys.coursePage.name,
-                            pathParameters: {
-                              'coursePageId':
-                                  learningCourse.course.id.toString(),
-                            },
-                            extra: () => context
-                                .read<LearningBloc>()
-                                .add(LearningEvent.fetchLearning),
-                          ),
+                childBuilder: (context) => state.learning.isEmpty
+                    ? SliverToBoxAdapter(
+                        child: InformationWidget.empty(
+                          title: AppStrings.noCourses,
+                          description: AppStrings.noCoursesDescription,
+                          reloadFunc: null,
                         ),
-                      ],
-                    );
-                  },
-                ),
+                      )
+                    : SliverAnimatedList(
+                        initialItemCount: state.learning.length,
+                        itemBuilder: (context, index, _) {
+                          final learningCourse = state.learning[index];
+                          final userId =
+                              context.read<ProfileBloc>().state.data?.id;
+                          return Column(
+                            children: [
+                              if (index != 0) const SizedBox(height: 20),
+                              CourseWidget.withCategory(
+                                course: learningCourse.course,
+                                categoryTag: learningCourse.course.tag,
+                                userId: userId,
+                                statusBadge: learningCourse.statusLabel,
+                                onTap: () => context.pushNamed(
+                                  RouteKeys.coursePage.name,
+                                  pathParameters: {
+                                    'coursePageId':
+                                        learningCourse.course.id.toString(),
+                                  },
+                                  extra: () => context
+                                      .read<LearningBloc>()
+                                      .add(LearningEvent.fetchLearning),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
               ),
             ),
           ],
