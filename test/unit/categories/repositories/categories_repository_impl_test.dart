@@ -14,6 +14,7 @@ void main() {
       MockCategoriesNetworkDataProvider();
   const models = [
     Category(
+      id: 'id',
       name: 'name',
       imageUrl: 'imageUrl',
       tag: 'tag',

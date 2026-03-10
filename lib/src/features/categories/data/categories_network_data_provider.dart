@@ -15,7 +15,20 @@ final class CategoriesNetworkDataProviderImpl
   @override
   Future<List<Category>> getCategories() async {
     final response = await _client.get('/categories');
-    return (response.data as List<Map>).map(Category.fromJson).toList();
+
+    if (response.data case final List categoriesJson) {
+      if (categoriesJson.isEmpty) return const [];
+
+      return categoriesJson
+          .cast<Map<String, dynamic>>()
+          .map(Category.fromJson)
+          .toList(growable: false);
+    }
+
+    throw FormatException(
+      'Unexpected getCategories response',
+      response.data,
+    );
   }
 }
 

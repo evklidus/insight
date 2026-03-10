@@ -46,13 +46,39 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
   @override
   Future<List<Course>> getCourse(String categoryTag) async {
     final response = await _client.get('/course/$categoryTag');
-    return (response.data as List<Map>).map(Course.fromJson).toList();
+
+    if (response.data case final List coursesJson) {
+      if (coursesJson.isEmpty) return const [];
+
+      return coursesJson
+          .cast<Map<String, dynamic>>()
+          .map(Course.fromJson)
+          .toList(growable: false);
+    }
+
+    throw FormatException(
+      'Unexpected getCourse response',
+      response.data,
+    );
   }
 
   @override
   Future<List<Course>> getUserCourse() async {
     final response = await _client.get('/course/my');
-    return (response.data as List<Map>).map(Course.fromJson).toList();
+
+    if (response.data case final List coursesJson) {
+      if (coursesJson.isEmpty) return const [];
+
+      return coursesJson
+          .cast<Map<String, dynamic>>()
+          .map(Course.fromJson)
+          .toList(growable: false);
+    }
+
+    throw FormatException(
+      'Unexpected getUserCourse response',
+      response.data,
+    );
   }
 
   @override
@@ -68,7 +94,8 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
       'description': description,
       'tag': categoryTag,
       'is_private': isClosed,
-      'image': await MultipartFile.fromFile(imagePath, filename: 'course_image'),
+      'image':
+          await MultipartFile.fromFile(imagePath, filename: 'course_image'),
     });
     await _client.post('/course', data: formData);
   }
@@ -77,15 +104,26 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
   Future<List<({String categoryName, String categoryTag})>>
       getCategoryTags() async {
     final response = await _client.get('/category_tags');
-    // TODO: Потом получать названия из локальной функции
-    return (response.data as List<Map>)
-        .map(
-          (json) => (
-            categoryName: json['name'] as String,
-            categoryTag: json['tag'] as String,
-          ),
-        )
-        .toList();
+
+    if (response.data case final List categoryTagsJson) {
+      if (categoryTagsJson.isEmpty) return const [];
+
+      // TODO: Потом получать названия из локальной функции
+      return categoryTagsJson
+          .cast<Map<String, dynamic>>()
+          .map(
+            (json) => (
+              categoryName: json['name'] as String,
+              categoryTag: json['tag'] as String,
+            ),
+          )
+          .toList(growable: false);
+    }
+
+    throw FormatException(
+      'Unexpected getCategoryTags response',
+      response.data,
+    );
   }
 
   @override
@@ -161,14 +199,16 @@ final class CourseFirestoreDataProviderImpl
         ..sort((a, b) => a.id.compareTo(b.id));
       final firstId = sorted.first.id;
       return courses
-          .map((c) => c.id == firstId ? Course(
-                id: c.id,
-                name: c.name,
-                imageUrl: c.imageUrl,
-                tag: c.tag,
-                creatorId: c.creatorId,
-                isClosed: true,
-              ) : c)
+          .map((c) => c.id == firstId
+              ? Course(
+                  id: c.id,
+                  name: c.name,
+                  imageUrl: c.imageUrl,
+                  tag: c.tag,
+                  creatorId: c.creatorId,
+                  isClosed: true,
+                )
+              : c)
           .toList();
     }
     return courses;
@@ -193,14 +233,16 @@ final class CourseFirestoreDataProviderImpl
         ..sort((a, b) => a.id.compareTo(b.id));
       final firstId = sorted.first.id;
       return courses
-          .map((c) => c.id == firstId ? Course(
-                id: c.id,
-                name: c.name,
-                imageUrl: c.imageUrl,
-                tag: c.tag,
-                creatorId: c.creatorId,
-                isClosed: true,
-              ) : c)
+          .map((c) => c.id == firstId
+              ? Course(
+                  id: c.id,
+                  name: c.name,
+                  imageUrl: c.imageUrl,
+                  tag: c.tag,
+                  creatorId: c.creatorId,
+                  isClosed: true,
+                )
+              : c)
           .toList();
     }
     return courses;
