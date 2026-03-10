@@ -32,17 +32,18 @@ class _AddCourseButtonState extends State<AddCourseButton> {
     _checkEnrollment();
   }
 
-  /// insight_backend GetProgress всегда возвращает 200 с объектом.
-  /// Зачислен = есть прогресс (status != not_started или watchedLessons не пусто).
+  /// Зачислен = курс есть в GET /courses/my/learning (источник истины для «Мои курсы»).
+  /// getProgress возвращает status='not_started' при приглашении до просмотра уроков,
+  /// поэтому не используем его для проверки зачисления.
   Future<void> _checkEnrollment() async {
     try {
-      final progress = await DIContainer.instance.coursesRepository
-          .getProgress(widget.courseId);
+      final learning =
+          await DIContainer.instance.coursesRepository.getMyLearning();
       if (mounted) {
         setState(() {
-          _isEnrolled = progress != null &&
-              (progress.status != 'not_started' ||
-                  progress.watchedLessons.isNotEmpty);
+          _isEnrolled = learning.any(
+            (lc) => lc.course.id == widget.courseId,
+          );
           _isLoading = false;
         });
       }
