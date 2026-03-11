@@ -7,7 +7,8 @@ import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/categories_screen.dart';
 import 'package:insight/src/features/course/widget/screens/create_course_screen.dart';
-import 'package:insight/src/features/course/widget/screens/user_courses_screen.dart';
+import 'package:insight/src/features/course/widget/screens/learning_screen.dart';
+import 'package:insight/src/features/course/widget/screens/my_courses_screen.dart';
 import 'package:insight/src/features/invitations/widget/screens/invitations_screen.dart';
 import 'package:insight/src/features/course_page/widget/screens/course_page_screen.dart';
 import 'package:insight/src/features/course/widget/screens/courses_screen.dart';
@@ -52,6 +53,15 @@ class AppRouter {
                     builder: (context, state) => const CreateCourseScreen(),
                   ),
                 ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                name: RouteKeys.learning.name,
+                path: RouteKeys.learning.path,
+                builder: (context, state) => const LearningScreen(),
               ),
             ],
           ),
@@ -103,11 +113,11 @@ class AppRouter {
                     ),
                   ),
 
-                  // User courses
+                  // My courses (created by user)
                   GoRoute(
                     name: RouteKeys.userCourses.name,
                     path: RouteKeys.userCourses.path,
-                    builder: (context, state) => const UserCoursesScreen(),
+                    builder: (context, state) => const MyCoursesScreen(),
                   ),
 
                   // Invitations

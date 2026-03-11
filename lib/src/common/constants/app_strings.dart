@@ -29,6 +29,7 @@ class AppStrings {
 
   // TabBar
   static const main = 'Главная';
+  static const learning = 'Учёба';
 
   // Courses
   static const lessons = 'Уроки';
@@ -37,6 +38,9 @@ class AppStrings {
   static const noCourses = 'У вас пока нет курсов';
   static const noCoursesDescription =
       'Курсы, на которые вы записаны, будут отображаться здесь';
+  static const noCreatedCourses = 'У вас пока нет созданных курсов';
+  static const noCreatedCoursesDescription =
+      'Созданные вами курсы будут отображаться здесь';
   static const categories = 'Категории';
   static const description = 'Описание';
   static const category = 'Категория';

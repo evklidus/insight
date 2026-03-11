@@ -12,6 +12,7 @@ class LearningBloc extends Bloc<LearningEvent, LearningState> {
       (event, emit) => switch (event) {
         _LearningEvent$FetchCurrent() => _fetchCurrent(emit),
         _LearningEvent$FetchLearning() => _fetchLearning(emit),
+        _LearningEvent$Clear() => emit(const LearningState()),
         _LearningEvent$CompleteLesson e => _completeLesson(emit, e),
         _LearningEvent$Enroll e => _enroll(emit, e),
       },

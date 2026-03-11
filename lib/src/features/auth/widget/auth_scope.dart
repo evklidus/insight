@@ -70,10 +70,16 @@ class _AuthScopeState extends State<AuthScope> with AuthenticationController {
   Widget build(BuildContext context) => BlocListener<AuthBloc, AuthState>(
         bloc: _authBloc,
         listenWhen: (prev, curr) =>
-            (curr is AuthState$Successful && prev is! AuthState$Successful) ||
-            (curr.isAuthenticated == true && prev.isAuthenticated != true),
-        listener: (context, _) =>
-            context.read<LearningBloc>().add(LearningEvent.fetchCurrent),
+            prev.isAuthenticated != curr.isAuthenticated,
+        listener: (context, state) {
+          final bloc = context.read<LearningBloc>();
+          if (state.isAuthenticated == true) {
+            bloc.add(LearningEvent.fetchCurrent);
+            bloc.add(LearningEvent.fetchLearning);
+          } else {
+            bloc.add(LearningEvent.clear);
+          }
+        },
         child: BlocBuilder<AuthBloc, AuthState>(
           bloc: _authBloc,
           builder: (context, state) {

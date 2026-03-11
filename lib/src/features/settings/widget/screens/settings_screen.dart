@@ -71,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: authScope.isAuthenticated
                   ? Padding(
                       padding: const EdgeInsets.only(top: 20),
-                      child: Column(
+                        child: Column(
                         children: [
                           SettingRow(
                             title: AppStrings.myCourses,

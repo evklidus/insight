@@ -5,6 +5,7 @@ sealed class LearningEvent {
 
   static const LearningEvent fetchCurrent = _LearningEvent$FetchCurrent();
   static const LearningEvent fetchLearning = _LearningEvent$FetchLearning();
+  static const LearningEvent clear = _LearningEvent$Clear();
 
   factory LearningEvent.completeLesson({
     required String courseId,
@@ -25,6 +26,10 @@ final class _LearningEvent$FetchCurrent extends LearningEvent {
 
 final class _LearningEvent$FetchLearning extends LearningEvent {
   const _LearningEvent$FetchLearning();
+}
+
+final class _LearningEvent$Clear extends LearningEvent {
+  const _LearningEvent$Clear();
 }
 
 final class _LearningEvent$CompleteLesson extends LearningEvent {

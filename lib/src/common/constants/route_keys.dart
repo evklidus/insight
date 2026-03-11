@@ -25,6 +25,12 @@ class RouteKeys {
     path: 'create',
   );
 
+  // Learning Tab
+  static const RouteKey learning = (
+    name: 'learning',
+    path: '/learning',
+  );
+
   // Settings Tab
   static const RouteKey settings = (
     name: 'settings',
