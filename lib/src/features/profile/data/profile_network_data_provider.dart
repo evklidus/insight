@@ -36,14 +36,18 @@ final class ProfileNetworkDataProviderImpl
 
   @override
   Future<void> editUser(User$Edit user) async {
+    final avatarPath = user.avatarPath;
+    final avatarFileName =
+        avatarPath == null ? null : File(avatarPath).uri.pathSegments.last;
+
     final formData = FormData.fromMap({
       if (user.firstName.isNotNull) 'first_name': user.firstName,
       if (user.lastName.isNotNull) 'last_name': user.lastName,
       if (user.username.isNotNull) 'username': user.username,
-      if (user.avatarPath.isNotNull)
+      if (avatarPath.isNotNull)
         'avatar': await MultipartFile.fromFile(
-          user.avatarPath!,
-          filename: 'avatar_${user.id}',
+          avatarPath!,
+          filename: avatarFileName,
         ),
     });
     await _client.patch('/users/me', data: formData);

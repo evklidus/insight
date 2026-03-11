@@ -27,10 +27,13 @@ String get kBaseUrlWithoutVersion {
   return 'http://$host:8080';
 }
 
-/// Преобразует относительный путь storage (/storage/...) в полный URL.
+/// Преобразует относительный путь storage в полный URL.
+/// Бэкенд раздаёт статику по /storage (например: /storage/images/users/...).
 String resolveStorageUrl(String? url) {
   if (url == null || url.isEmpty) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
   final base = kBaseUrlWithoutVersion;
-  return url.startsWith('/') ? '$base$url' : '$base/$url';
+  final path =
+      url.startsWith('/storage') ? url : '/storage/${url.replaceFirst(RegExp(r'^/+'), '')}';
+  return '$base$path';
 }

@@ -47,25 +47,26 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
 
-    return Form(
-      key: _formKey,
-      child: SliverList.list(
-        children: [
-          const SizedBox(height: 24),
-          if (widget.user.avatarUrl.isNotNull)
-            CustomImageWidget.editable(
-              widget.user.avatarUrl,
-              size: Size.square(size.shortestSide * .64),
-              shape: BoxShape.circle,
-              isEditing: widget.isEditing,
-              filePath: widget.image?.path,
-              onPressed: widget.addPhotoHandler,
-              placeholderSizeRadius: size.shortestSide * .32,
-            ),
-          AnimatedSwitcher(
+    return SliverList.list(
+      children: [
+        const SizedBox(height: 24),
+        if (widget.user.avatarUrl.isNotNull || widget.isEditing)
+          CustomImageWidget.editable(
+            widget.user.avatarUrl,
+            size: Size.square(size.shortestSide * .64),
+            shape: BoxShape.circle,
+            isEditing: widget.isEditing,
+            filePath: widget.image?.path,
+            onPressed: widget.addPhotoHandler,
+            placeholderSizeRadius: size.shortestSide * .32,
+          ),
+        Form(
+          key: _formKey,
+          child: AnimatedSwitcher(
             duration: standartDuration,
             child: widget.isEditing
                 ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       CustomTextField(
                         type: InputType.firstName,
@@ -111,23 +112,25 @@ class _ProfileLoadedScreenState extends State<ProfileInformation> {
                     style: context.textTheme.titleLarge,
                   ),
           ),
-          const SizedBox(height: 16),
-          Center(
-            child: AnimatedOpacity(
-              opacity: widget.isEditing ? .4 : 1,
-              duration: standartDuration,
-              child: Text(
-                widget.user.email +
-                    (widget.isEditing || widget.user.username.isNull
-                        ? ''
-                        : ' • ${widget.user.usernameWithDog}'),
-                style: context.textTheme.bodySmall,
+        ),
+        const SizedBox(height: 16),
+        Center(
+          child: AnimatedOpacity(
+            opacity: widget.isEditing ? .4 : 1,
+            duration: standartDuration,
+            child: Text(
+              widget.user.email +
+                  (widget.isEditing || widget.user.username.isNull
+                      ? ''
+                      : ' • ${widget.user.usernameWithDog}'),
+              style: context.textTheme.bodySmall?.copyWith(
+                color: context.colorScheme.onSurfaceVariant,
               ),
             ),
           ),
-          const SizedBox(height: 32),
-        ],
-      ),
+        ),
+        const SizedBox(height: 32),
+      ],
     );
   }
 }
