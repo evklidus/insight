@@ -37,11 +37,11 @@ class _InvitationsScreenState extends State<InvitationsScreen> {
     super.initState();
     _invitationsBloc = InvitationsBloc(
       repository: DIContainer.instance.invitationsRepository,
-    )..add(InvitationsEvent.fetch);
+    )..add(const InvitationsEvent.fetch());
   }
 
   Future<void> _onRefresh() async {
-    _invitationsBloc.add(InvitationsEvent.fetch);
+    _invitationsBloc.add(const InvitationsEvent.fetch());
     await _invitationsBloc.stream.first;
   }
 
@@ -59,7 +59,7 @@ class _InvitationsScreenState extends State<InvitationsScreen> {
         context,
         text: AppStrings.invitationAcceptedSuccess,
       );
-      _invitationsBloc.add(InvitationsEvent.fetch);
+      _invitationsBloc.add(const InvitationsEvent.fetch());
     } on Object catch (e) {
       if (!context.mounted) return;
       InsightSnackBar.showError(context, text: e.toString());
@@ -182,17 +182,14 @@ class _InvitationTile extends StatelessWidget {
           )
         : AdaptiveButton(
             onPressed: isAccepting ? null : onAccept,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: EdgeInsets.fromLTRB(16, 8, isAccepting ? 16 : 0, 8),
             child: isAccepting
-                ? SizedBox(
+                ? const SizedBox(
                     height: 16,
                     width: 16,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: context.colorScheme.primary,
-                    ),
+                    child: CircularProgressIndicator.adaptive(strokeWidth: 2),
                   )
-                : const Text(AppStrings.acceptInvitation),
+                : const Text(AppStrings.accept),
           );
     return InsightListTile(
       onTap: invitation.isAccepted ? onNavigate : null,

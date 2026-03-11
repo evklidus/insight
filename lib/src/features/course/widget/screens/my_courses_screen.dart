@@ -33,11 +33,11 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
     super.initState();
     _courseBloc = CourseBloc(
       repository: DIContainer.instance.coursesRepository,
-    )..add(CourseEvent.fetchUserCourses());
+    )..add(const CourseEvent.fetchUserCourses());
   }
 
   Future<void> _onRefresh() async {
-    _courseBloc.add(CourseEvent.fetchUserCourses());
+    _courseBloc.add(const CourseEvent.fetchUserCourses());
     await _courseBloc.stream.first;
   }
 
@@ -115,8 +115,8 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
                                 pathParameters: {
                                   'coursePageId': course.id.toString(),
                                 },
-                                extra: () =>
-                                    _courseBloc.add(CourseEvent.fetchUserCourses()),
+                                extra: () => _courseBloc
+                                    .add(const CourseEvent.fetchUserCourses()),
                               ),
                             ),
                           ],

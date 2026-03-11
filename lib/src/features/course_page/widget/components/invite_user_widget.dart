@@ -155,7 +155,7 @@ class _InviteUserWidgetState extends State<InviteUserWidget> {
                     ? const SizedBox(
                         height: 20,
                         width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
+                        child: CircularProgressIndicator.adaptive(strokeWidth: 2),
                       )
                     : const Text(AppStrings.invite),
               ),
@@ -197,7 +197,7 @@ class _InvitationsList extends StatelessWidget {
                 child: SizedBox(
                   height: 24,
                   width: 24,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  child: CircularProgressIndicator.adaptive(strokeWidth: 2),
                 ),
               ),
             ),

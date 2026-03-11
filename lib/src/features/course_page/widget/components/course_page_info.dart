@@ -158,8 +158,10 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                             groupValue: widget.editData.isClosed,
                             onValueChanged: widget.editData.onIsClosedChanged,
                             children: const {
-                              false: _CourseTypeSegment(AppStrings.courseTypeOpen),
-                              true: _CourseTypeSegment(AppStrings.courseTypeClosed),
+                              false:
+                                  _CourseTypeSegment(AppStrings.courseTypeOpen),
+                              true: _CourseTypeSegment(
+                                  AppStrings.courseTypeClosed),
                             },
                           )
                         : SegmentedButton<bool>(

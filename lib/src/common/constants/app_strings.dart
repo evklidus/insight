@@ -64,7 +64,7 @@ class AppStrings {
   static const noInvitations = 'Нет приглашений';
   static const noInvitationsDescription =
       'Вам пока не поступало приглашений на курсы';
-  static const acceptInvitation = 'Принять приглашение';
+  static const accept = 'Принять';
   static const invitationAcceptedSuccess = 'Приглашение принято';
   static const goToCourse = 'Перейти';
 
