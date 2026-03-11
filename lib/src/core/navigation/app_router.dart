@@ -156,7 +156,7 @@ class AppRouter {
           videoUrl: state.uri.queryParameters['videoUrl'] as String,
           title: state.pathParameters['coursePageTitle'] as String,
           courseId: state.uri.queryParameters['courseId'],
-          lessonName: state.uri.queryParameters['lessonName'],
+          lessonId: state.uri.queryParameters['lessonId'],
         ),
       ),
     ],

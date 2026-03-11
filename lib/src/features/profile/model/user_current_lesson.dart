@@ -3,6 +3,7 @@ class UserCurrentLesson {
     required this.courseId,
     required this.courseName,
     required this.imageUrl,
+    required this.lessonId,
     required this.lessonName,
     required this.lessonVideoUrl,
   });
@@ -12,6 +13,7 @@ class UserCurrentLesson {
         courseId: map['course_id'] as String,
         courseName: map['course_name'] as String,
         imageUrl: map['image_url'] as String,
+        lessonId: map['lesson_id'] as String? ?? '',
         lessonName: map['lesson_name'] as String,
         lessonVideoUrl: map['lesson_video_url'] as String,
       );
@@ -22,6 +24,7 @@ class UserCurrentLesson {
   final String courseId;
   final String courseName;
   final String imageUrl;
+  final String lessonId;
   final String lessonName;
   final String lessonVideoUrl;
 
@@ -29,6 +32,7 @@ class UserCurrentLesson {
         'course_id': courseId,
         'course_name': courseName,
         'image_url': imageUrl,
+        'lesson_id': lessonId,
         'lesson_name': lessonName,
         'lesson_video_url': lessonVideoUrl,
       };

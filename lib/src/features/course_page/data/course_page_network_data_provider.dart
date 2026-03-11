@@ -83,7 +83,9 @@ final class CoursePageNetworkDataProviderImpl
     required String courseId,
     required Lesson lesson,
   }) =>
-      _client.delete('/lessons/$courseId/${Uri.encodeComponent(lesson.name)}');
+      _client.delete(
+        '/lessons/$courseId/${Uri.encodeComponent(lesson.id.isNotEmpty ? lesson.id : lesson.name)}',
+      );
 
   @override
   Future<void> editCourse(Course$Edit course) async {
@@ -106,9 +108,8 @@ final class CoursePageNetworkDataProviderImpl
     required String emailOrNickname,
   }) async {
     final isEmail = emailOrNickname.contains('@');
-    final data = isEmail
-        ? {'email': emailOrNickname}
-        : {'username': emailOrNickname};
+    final data =
+        isEmail ? {'email': emailOrNickname} : {'username': emailOrNickname};
     await _client.post('/courses/$courseId/invitations', data: data);
   }
 
@@ -116,7 +117,8 @@ final class CoursePageNetworkDataProviderImpl
   Future<List<Invitation>> getInvitations(String courseId) async {
     final response = await _client.get('/courses/$courseId/invitations');
 
-    if (response.data case {'message': final String message, 'statusCode': final int code}) {
+    if (response.data
+        case {'message': final String message, 'statusCode': final int code}) {
       throw Exception('[$code] $message');
     }
 
@@ -263,8 +265,10 @@ final class CoursePageFirestoreDataProviderImpl
 
     // Добавляем новый урок в список
     existingLessons.add({
+      'id': uploadTask.ref.name,
       'name': lessonName,
       'video_url': videoUrl,
+      'completed': false,
     });
 
     detailDocData['lessons'] = existingLessons;
@@ -319,7 +323,11 @@ final class CoursePageFirestoreDataProviderImpl
     final List existingLessons = detailDocData['lessons'] ?? [];
 
     // Удаляем урок из списока
-    existingLessons.removeWhere((element) => element['name'] == lesson.name);
+    existingLessons.removeWhere(
+      (element) =>
+          element['id'] == lesson.id ||
+          (lesson.id.isEmpty && element['name'] == lesson.name),
+    );
 
     detailDocData['lessons'] = existingLessons;
 

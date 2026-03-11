@@ -10,13 +10,13 @@ class VideoScreen extends StatelessWidget {
     required this.videoUrl,
     required this.title,
     this.courseId,
-    this.lessonName,
+    this.lessonId,
   });
 
   final String videoUrl;
   final String title;
   final String? courseId;
-  final String? lessonName;
+  final String? lessonId;
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +29,11 @@ class VideoScreen extends StatelessWidget {
   }
 
   void _onVideoEnd(BuildContext context) {
-    if (courseId != null && lessonName != null) {
+    if (courseId != null && lessonId != null && lessonId!.isNotEmpty) {
       context.read<LearningBloc>().add(
             LearningEvent.completeLesson(
               courseId: courseId!,
-              lessonName: lessonName!,
+              lessonId: lessonId!,
             ),
           );
     }

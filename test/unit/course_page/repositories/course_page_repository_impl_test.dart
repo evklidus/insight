@@ -18,7 +18,7 @@ void main() {
     name: 'name',
     description: 'description',
     imageUrl: 'imageUrl',
-    lessons: [Lesson(name: 'name', videoUrl: 'videoUrl')],
+    lessons: [Lesson(id: 'lesson-1', name: 'name', videoUrl: 'videoUrl')],
     tag: '',
     creatorId: 'creator',
   );

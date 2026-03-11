@@ -9,11 +9,11 @@ sealed class LearningEvent {
 
   factory LearningEvent.completeLesson({
     required String courseId,
-    required String lessonName,
+    required String lessonId,
   }) =>
       _LearningEvent$CompleteLesson(
         courseId: courseId,
-        lessonName: lessonName,
+        lessonId: lessonId,
       );
 
   factory LearningEvent.enroll(String courseId) =>
@@ -35,11 +35,11 @@ final class _LearningEvent$Clear extends LearningEvent {
 final class _LearningEvent$CompleteLesson extends LearningEvent {
   const _LearningEvent$CompleteLesson({
     required this.courseId,
-    required this.lessonName,
+    required this.lessonId,
   });
 
   final String courseId;
-  final String lessonName;
+  final String lessonId;
 }
 
 final class _LearningEvent$Enroll extends LearningEvent {

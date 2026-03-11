@@ -25,7 +25,7 @@ class LessonWidget extends StatelessWidget {
         queryParameters: {
           'videoUrl': resolveStorageUrl(lesson.videoUrl),
           if (courseId != null) 'courseId': courseId,
-          if (courseId != null) 'lessonName': lesson.name,
+          if (courseId != null && lesson.id.isNotEmpty) 'lessonId': lesson.id,
         },
       ),
       title: Text(
@@ -34,7 +34,13 @@ class LessonWidget extends StatelessWidget {
         style: context.textTheme.bodyLarge,
       ),
       trailing: Icon(
-        isNeedCupertino ? CupertinoIcons.play_fill : Icons.play_arrow_rounded,
+        lesson.completed
+            ? (isNeedCupertino
+                ? CupertinoIcons.check_mark_circled_solid
+                : Icons.check_circle)
+            : (isNeedCupertino
+                ? CupertinoIcons.play_fill
+                : Icons.play_arrow_rounded),
         size: 30,
       ),
     );

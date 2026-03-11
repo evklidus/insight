@@ -28,7 +28,7 @@ abstract interface class CourseNetworkDataProvider {
 
   Future<void> enroll(String courseId);
 
-  Future<void> completeLesson(String courseId, String lessonName);
+  Future<void> completeLesson(String courseId, String lessonId);
 
   Future<List<LearningCourse>> getMyLearning();
 
@@ -131,9 +131,8 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
       _client.post('/courses/$courseId/enroll');
 
   @override
-  Future<void> completeLesson(String courseId, String lessonName) =>
-      _client.post(
-        '/courses/$courseId/lessons/${Uri.encodeComponent(lessonName)}/complete',
+  Future<void> completeLesson(String courseId, String lessonId) => _client.post(
+        '/courses/$courseId/lessons/${Uri.encodeComponent(lessonId)}/complete',
       );
 
   @override
@@ -309,7 +308,7 @@ final class CourseFirestoreDataProviderImpl
   }
 
   @override
-  Future<void> completeLesson(String courseId, String lessonName) async {
+  Future<void> completeLesson(String courseId, String lessonId) async {
     throw UnimplementedError('Learning mode not supported for Firebase');
   }
 

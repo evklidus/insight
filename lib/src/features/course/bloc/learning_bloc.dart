@@ -60,7 +60,7 @@ class LearningBloc extends Bloc<LearningEvent, LearningState> {
     _LearningEvent$CompleteLesson event,
   ) async {
     try {
-      await _repository.completeLesson(event.courseId, event.lessonName);
+      await _repository.completeLesson(event.courseId, event.lessonId);
       add(LearningEvent.fetchCurrent);
       add(LearningEvent.fetchLearning);
     } on Object {

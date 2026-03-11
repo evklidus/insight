@@ -25,9 +25,8 @@ class CoursePage extends Course {
             .toList(),
         tag: json['tag'],
         creatorId: json['creatorId'] ?? json['owner_id'],
-        isClosed: json['is_private'] as bool? ??
-            json['is_closed'] as bool? ??
-            false,
+        isClosed:
+            json['is_private'] as bool? ?? json['is_closed'] as bool? ?? false,
       );
 
   factory CoursePage.fromFirestore(
@@ -45,8 +44,10 @@ class CoursePage extends Course {
             ? List.of(detailData['lessons'])
                 .map(
                   (lessonData) => Lesson(
+                    id: lessonData['id'] as String? ?? '',
                     name: lessonData['name'],
                     videoUrl: lessonData['video_url'],
+                    completed: lessonData['completed'] as bool? ?? false,
                   ),
                 )
                 .toList()

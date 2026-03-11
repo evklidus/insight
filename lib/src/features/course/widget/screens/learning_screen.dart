@@ -164,7 +164,7 @@ class _CurrentLessonBlock extends StatelessWidget {
                   queryParameters: <String, String>{
                     'videoUrl': resolveStorageUrl(lesson.lessonVideoUrl),
                     'courseId': lesson.courseId,
-                    'lessonName': lesson.lessonName,
+                    if (lesson.lessonId.isNotEmpty) 'lessonId': lesson.lessonId,
                   },
                 ),
                 icon: Icon(

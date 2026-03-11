@@ -81,7 +81,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             CupertinoSliverRefreshControl(onRefresh: _onRefresh),
             BlocBuilder<LearningBloc, LearningState>(
               buildWhen: (prev, curr) =>
-                  prev.current != curr.current || prev.isProcessing != curr.isProcessing,
+                  prev.current != curr.current ||
+                  prev.isProcessing != curr.isProcessing,
               builder: (context, state) {
                 final currentLesson = state.current;
                 if (currentLesson == null) {
@@ -100,8 +101,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding:
-                              const EdgeInsets.only(left: 12, top: 9),
+                          padding: const EdgeInsets.only(left: 12, top: 9),
                           child: Text(
                             AppStrings.currentLesson,
                             style: context.textTheme.titleMedium,
@@ -133,25 +133,23 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             subtitle: Text(
                               'Курс: ${currentLesson.courseName}',
                               maxLines: 2,
-                              style:
-                                  context.textTheme.labelSmall?.copyWith(
-                                color:
-                                    context.colorScheme.onSurfaceVariant,
+                              style: context.textTheme.labelSmall?.copyWith(
+                                color: context.colorScheme.onSurfaceVariant,
                               ),
                             ),
                             trailing: IconButton(
                               onPressed: () => context.pushNamed(
                                 RouteKeys.video.name,
                                 pathParameters: {
-                                  'coursePageTitle':
-                                      currentLesson.lessonName,
+                                  'coursePageTitle': currentLesson.lessonName,
                                 },
                                 queryParameters: {
                                   'videoUrl': resolveStorageUrl(
                                     currentLesson.lessonVideoUrl,
                                   ),
                                   'courseId': currentLesson.courseId,
-                                  'lessonName': currentLesson.lessonName,
+                                  if (currentLesson.lessonId.isNotEmpty)
+                                    'lessonId': currentLesson.lessonId,
                                 },
                               ),
                               icon: Icon(
