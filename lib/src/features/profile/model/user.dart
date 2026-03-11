@@ -1,5 +1,4 @@
 import 'package:insight/src/common/utils/extensions/object_x.dart';
-import 'package:insight/src/features/profile/model/user_current_lesson.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -11,7 +10,6 @@ final class User {
     this.lastName,
     this.avatarUrl,
     this.username,
-    this.currentLessons,
   });
 
   factory User.fromJson(Map json) => User(
@@ -21,7 +19,6 @@ final class User {
         avatarUrl: json['avatar_url'],
         firstName: json['first_name'],
         lastName: json['last_name'],
-        currentLessons: json['current_lessons'],
       );
 
   factory User.fromFirestore(
@@ -35,9 +32,6 @@ final class User {
         firstName: userData['first_name'],
         lastName: userData['last_name'],
         username: userData['username'],
-        currentLessons: (userData['current_lessons'] as List?)
-            ?.map((lesson) => UserCurrentLesson.fromMap(lesson))
-            .toList(),
       );
 
   final String id;
@@ -46,7 +40,6 @@ final class User {
   final String? lastName;
   final String? avatarUrl;
   final String? username;
-  final List<UserCurrentLesson>? currentLessons;
 
   String get fullName =>
       lastName.isNotNull ? '$firstName $lastName' : firstName;
@@ -60,7 +53,6 @@ final class User {
     String? avatarUrl,
     String? firstName,
     String? lastName,
-    List<UserCurrentLesson>? currentLessons,
   }) =>
       User(
         id: id ?? this.id,
@@ -69,6 +61,5 @@ final class User {
         avatarUrl: avatarUrl ?? this.avatarUrl,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
-        currentLessons: currentLessons ?? this.currentLessons,
       );
 }
