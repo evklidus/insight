@@ -4,6 +4,8 @@ import 'package:insight/src/common/utils/preferences_dao.dart';
 abstract interface class AuthStorageDataProvider {
   Future<bool> checkAuthenticatedStatus();
 
+  Future<String?> getRefreshToken();
+
   Future<void> setLoginData({
     required String accessToken,
     String? refreshToken,
@@ -25,6 +27,9 @@ final class AuthStorageDataProviderImpl extends PreferencesDao
   Future<bool> checkAuthenticatedStatus() async {
     return _accessToken.read().isNotNull;
   }
+
+  @override
+  Future<String?> getRefreshToken() async => _refreshToken.read();
 
   @override
   Future<void> setLoginData({

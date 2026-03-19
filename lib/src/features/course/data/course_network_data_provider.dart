@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:insight/src/features/course/model/course.dart';
+import 'package:insight/src/features/course/model/course_progress.dart';
+import 'package:insight/src/features/course/model/learning_course.dart';
+import 'package:insight/src/features/profile/model/user_current_lesson.dart';
 import 'package:meta/meta.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 @immutable
 abstract interface class CourseNetworkDataProvider {
@@ -22,6 +25,16 @@ abstract interface class CourseNetworkDataProvider {
   });
 
   Future<List<({String categoryName, String categoryTag})>> getCategoryTags();
+
+  Future<void> enroll(String courseId);
+
+  Future<void> completeLesson(String courseId, String lessonId);
+
+  Future<List<LearningCourse>> getMyLearning();
+
+  Future<UserCurrentLesson?> getCurrent();
+
+  Future<CourseProgress?> getProgress(String courseId);
 }
 
 @immutable
@@ -33,13 +46,39 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
   @override
   Future<List<Course>> getCourse(String categoryTag) async {
     final response = await _client.get('/course/$categoryTag');
-    return (response.data as List<Map>).map(Course.fromJson).toList();
+
+    if (response.data case final List coursesJson) {
+      if (coursesJson.isEmpty) return const [];
+
+      return coursesJson
+          .cast<Map<String, dynamic>>()
+          .map(Course.fromJson)
+          .toList(growable: false);
+    }
+
+    throw FormatException(
+      'Unexpected getCourse response',
+      response.data,
+    );
   }
 
   @override
   Future<List<Course>> getUserCourse() async {
     final response = await _client.get('/course/my');
-    return (response.data as List<Map>).map(Course.fromJson).toList();
+
+    if (response.data case final List coursesJson) {
+      if (coursesJson.isEmpty) return const [];
+
+      return coursesJson
+          .cast<Map<String, dynamic>>()
+          .map(Course.fromJson)
+          .toList(growable: false);
+    }
+
+    throw FormatException(
+      'Unexpected getUserCourse response',
+      response.data,
+    );
   }
 
   @override
@@ -49,31 +88,81 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
     required String imagePath,
     required String categoryTag,
     bool isClosed = false,
-  }) =>
-      // TODO: передать is_closed в data когда бэкенд будет поддерживать
-      _client.post(
-        '/course',
-        data: {
-          'name': name,
-          'description': description,
-          'imagePath': imagePath,
-          'tag': categoryTag,
-        },
-      );
+  }) async {
+    final formData = FormData.fromMap({
+      'name': name,
+      'description': description,
+      'tag': categoryTag,
+      'is_private': isClosed,
+      'image':
+          await MultipartFile.fromFile(imagePath, filename: 'course_image'),
+    });
+    await _client.post('/course', data: formData);
+  }
 
   @override
   Future<List<({String categoryName, String categoryTag})>>
       getCategoryTags() async {
     final response = await _client.get('/category_tags');
-    // TODO: Потом получать названия из локальной функции
-    return (response.data as List<Map>)
-        .map(
-          (json) => (
-            categoryName: json['name'] as String,
-            categoryTag: json['tag'] as String,
-          ),
-        )
+
+    if (response.data case final List categoryTagsJson) {
+      if (categoryTagsJson.isEmpty) return const [];
+
+      // TODO: Потом получать названия из локальной функции
+      return categoryTagsJson
+          .cast<Map<String, dynamic>>()
+          .map(
+            (json) => (
+              categoryName: json['name'] as String,
+              categoryTag: json['tag'] as String,
+            ),
+          )
+          .toList(growable: false);
+    }
+
+    throw FormatException(
+      'Unexpected getCategoryTags response',
+      response.data,
+    );
+  }
+
+  @override
+  Future<void> enroll(String courseId) =>
+      _client.post('/courses/$courseId/enroll');
+
+  @override
+  Future<void> completeLesson(String courseId, String lessonId) => _client.post(
+        '/courses/$courseId/lessons/${Uri.encodeComponent(lessonId)}/complete',
+      );
+
+  @override
+  Future<List<LearningCourse>> getMyLearning() async {
+    final response = await _client.get('/courses/my/learning');
+    final list = response.data as List<dynamic>? ?? [];
+    return list
+        .map((e) => LearningCourse.fromJson(e as Map<String, dynamic>))
         .toList();
+  }
+
+  @override
+  Future<UserCurrentLesson?> getCurrent() async {
+    final response = await _client.get('/courses/my/current');
+    final data = response.data;
+    if (data == null || data is! Map<String, dynamic>) return null;
+    return UserCurrentLesson.fromJson(data);
+  }
+
+  @override
+  Future<CourseProgress?> getProgress(String courseId) async {
+    try {
+      final response = await _client.get('/courses/$courseId/progress');
+      final data = response.data;
+      if (data == null) return null;
+      return CourseProgress.fromJson(data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) return null;
+      rethrow;
+    }
   }
 }
 
@@ -109,14 +198,16 @@ final class CourseFirestoreDataProviderImpl
         ..sort((a, b) => a.id.compareTo(b.id));
       final firstId = sorted.first.id;
       return courses
-          .map((c) => c.id == firstId ? Course(
-                id: c.id,
-                name: c.name,
-                imageUrl: c.imageUrl,
-                tag: c.tag,
-                creatorId: c.creatorId,
-                isClosed: true,
-              ) : c)
+          .map((c) => c.id == firstId
+              ? Course(
+                  id: c.id,
+                  name: c.name,
+                  imageUrl: c.imageUrl,
+                  tag: c.tag,
+                  creatorId: c.creatorId,
+                  isClosed: true,
+                )
+              : c)
           .toList();
     }
     return courses;
@@ -141,14 +232,16 @@ final class CourseFirestoreDataProviderImpl
         ..sort((a, b) => a.id.compareTo(b.id));
       final firstId = sorted.first.id;
       return courses
-          .map((c) => c.id == firstId ? Course(
-                id: c.id,
-                name: c.name,
-                imageUrl: c.imageUrl,
-                tag: c.tag,
-                creatorId: c.creatorId,
-                isClosed: true,
-              ) : c)
+          .map((c) => c.id == firstId
+              ? Course(
+                  id: c.id,
+                  name: c.name,
+                  imageUrl: c.imageUrl,
+                  tag: c.tag,
+                  creatorId: c.creatorId,
+                  isClosed: true,
+                )
+              : c)
           .toList();
     }
     return courses;
@@ -208,4 +301,23 @@ final class CourseFirestoreDataProviderImpl
         .toList();
     return categories;
   }
+
+  @override
+  Future<void> enroll(String courseId) async {
+    throw UnimplementedError('Learning mode not supported for Firebase');
+  }
+
+  @override
+  Future<void> completeLesson(String courseId, String lessonId) async {
+    throw UnimplementedError('Learning mode not supported for Firebase');
+  }
+
+  @override
+  Future<List<LearningCourse>> getMyLearning() async => [];
+
+  @override
+  Future<UserCurrentLesson?> getCurrent() async => null;
+
+  @override
+  Future<CourseProgress?> getProgress(String courseId) async => null;
 }

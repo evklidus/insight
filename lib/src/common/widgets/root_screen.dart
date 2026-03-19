@@ -67,6 +67,11 @@ class _RootScreenState extends State<RootScreen> {
                   label: AppStrings.main,
                 ),
                 BottomNavigationBarItem(
+                  activeIcon: Icon(CupertinoIcons.book_fill),
+                  icon: Icon(CupertinoIcons.book),
+                  label: AppStrings.learning,
+                ),
+                BottomNavigationBarItem(
                   activeIcon: Icon(CupertinoIcons.settings_solid),
                   icon: Icon(CupertinoIcons.settings),
                   label: AppStrings.settings,
@@ -82,6 +87,11 @@ class _RootScreenState extends State<RootScreen> {
                   selectedIcon: Icon(Icons.home_filled),
                   icon: Icon(Icons.home_outlined),
                   label: AppStrings.main,
+                ),
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.school_rounded),
+                  icon: Icon(Icons.school_outlined),
+                  label: AppStrings.learning,
                 ),
                 NavigationDestination(
                   selectedIcon: Icon(Icons.settings),

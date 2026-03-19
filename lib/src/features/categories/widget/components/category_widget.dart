@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
@@ -26,7 +27,7 @@ class CategoryWidget extends StatelessWidget {
         alignment: AlignmentDirectional.bottomStart,
         children: [
           CustomImageWidget(
-            category.imageUrl,
+            resolveStorageUrl(category.imageUrl),
             borderRadius: BorderRadius.circular(20),
           ),
           Container(

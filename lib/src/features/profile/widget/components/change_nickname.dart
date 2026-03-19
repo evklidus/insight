@@ -51,9 +51,11 @@ class _ChangeNicknameState extends State<ChangeNickname> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.sizeOf(context);
-    final boldStyle = DefaultTextStyle.of(context).style.copyWith(
-          fontWeight: FontWeight.bold,
-        );
+    final baseStyle = context.textTheme.bodySmall?.copyWith(
+          color: context.colorScheme.onSurfaceVariant,
+        ) ??
+        DefaultTextStyle.of(context).style;
+    final boldStyle = baseStyle.copyWith(fontWeight: FontWeight.bold);
 
     return BlocBuilder<NicknameBloc, NicknameState>(
       bloc: _nicknameBloc,
@@ -136,12 +138,14 @@ class _ChangeNicknameState extends State<ChangeNickname> {
               type: InputType.username,
             ),
             const SizedBox(height: 20),
-            const Text(
+            Text(
               'Имя пользователя является публичным. Пока используется для развлечения 🙃',
+              style: baseStyle,
             ),
             const SizedBox(height: 12),
             RichText(
               text: TextSpan(
+                style: baseStyle,
                 text: 'Имя пользователя может состоять из ',
                 children: [
                   TextSpan(

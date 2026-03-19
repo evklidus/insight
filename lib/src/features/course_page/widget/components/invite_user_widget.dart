@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
@@ -38,51 +39,91 @@ class _InviteUserWidgetState extends State<InviteUserWidget> {
   }
 
   Future<void> _loadInvitations() async {
-    final invitations = await DIContainer.instance.coursePageRepository
-        .getInvitations(widget.courseId);
-    if (mounted) {
-      setState(() {
-        _invitations = invitations;
-        _invitationsLoading = false;
-      });
+    try {
+      final invitations = await DIContainer.instance.coursePageRepository
+          .getInvitations(widget.courseId);
+      if (mounted) {
+        setState(() {
+          _invitations = invitations;
+          _invitationsLoading = false;
+        });
+      }
+    } on DioException catch (e) {
+      if (!mounted) return;
+      final code = e.response?.statusCode;
+      final message = code == 403
+          ? AppStrings.notCourseOwner
+          : code == 404
+              ? AppStrings.courseNotFound
+              : e.response?.data is Map
+                  ? (e.response!.data as Map)['message']?.toString()
+                  : e.message;
+      setState(() => _invitationsLoading = false);
+      InsightSnackBar.showError(
+        context,
+        text: message ?? e.toString(),
+        bottomPadding: MediaQuery.viewInsetsOf(context).bottom.round(),
+      );
+    } on Object catch (_) {
+      if (mounted) {
+        setState(() => _invitationsLoading = false);
+      }
     }
   }
 
   Future<void> _inviteHandler() async {
     if (!_formKey.currentState!.validate()) return;
-
     setState(() => _isLoading = true);
-
+    final bottomPadding = MediaQuery.viewInsetsOf(context).bottom.round() - 20;
     try {
-      final exists = await DIContainer.instance.coursePageRepository
-          .findUserByEmailOrNickname(_emailOrNickname.trim());
-
-      if (!exists) {
-        if (!mounted) return;
-        InsightSnackBar.showError(context, text: AppStrings.userNotFound);
-        return;
-      }
-
       await DIContainer.instance.coursePageRepository.sendInvitation(
         courseId: widget.courseId,
         emailOrNickname: _emailOrNickname.trim(),
       );
 
       if (!mounted) return;
-      final sent = _emailOrNickname.trim();
-      setState(() {
-        _invitations = [
-          Invitation(
-            emailOrNickname: sent,
-            status: InvitationStatus.pending,
-          ),
-          ..._invitations,
-        ];
-        _emailOrNickname = '';
-      });
+      setState(() => _emailOrNickname = '');
       _formKey.currentState?.reset();
       widget.onInviteSent();
-      InsightSnackBar.showSuccessful(context, text: AppStrings.invitationSent);
+      await _loadInvitations();
+
+      if (!mounted) return;
+      InsightSnackBar.showSuccessful(
+        context,
+        text: AppStrings.invitationSent,
+        bottomPadding: bottomPadding,
+      );
+    } on DioException catch (e) {
+      if (!mounted) return;
+      if (e.response?.statusCode == 404) {
+        InsightSnackBar.showError(
+          context,
+          text: AppStrings.userNotFound,
+          bottomPadding: bottomPadding,
+        );
+      } else {
+        final errMsg = e.response?.data is Map
+            ? (e.response!.data as Map)['error']?.toString()
+            : null;
+        final errLower = errMsg?.toLowerCase() ?? '';
+        final isAlreadyInvited =
+            errLower.contains('invitation already exists') ||
+                errLower.contains('invitation_already_exists');
+        InsightSnackBar.showError(
+          context,
+          text: isAlreadyInvited
+              ? AppStrings.invitationAlreadyExists
+              : (errMsg ?? e.message ?? e.toString()),
+          bottomPadding: bottomPadding,
+        );
+      }
+    } on Object catch (e) {
+      if (!mounted) return;
+      InsightSnackBar.showError(
+        context,
+        text: e.toString(),
+        bottomPadding: MediaQuery.viewInsetsOf(context).bottom.round(),
+      );
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -114,7 +155,7 @@ class _InviteUserWidgetState extends State<InviteUserWidget> {
                     ? const SizedBox(
                         height: 20,
                         width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
+                        child: CircularProgressIndicator.adaptive(strokeWidth: 2),
                       )
                     : const Text(AppStrings.invite),
               ),
@@ -156,7 +197,7 @@ class _InvitationsList extends StatelessWidget {
                 child: SizedBox(
                   height: 24,
                   width: 24,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  child: CircularProgressIndicator.adaptive(strokeWidth: 2),
                 ),
               ),
             ),
@@ -191,7 +232,7 @@ class _InvitationTile extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              invitation.emailOrNickname,
+              invitation.displayName,
               style: context.textTheme.bodyMedium,
             ),
           ),

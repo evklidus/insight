@@ -2,12 +2,14 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/widgets/root_screen.dart';
-import 'package:insight/src/core/player/insight_player.dart';
+import 'package:insight/src/features/course_page/widget/screens/video_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/categories_screen.dart';
 import 'package:insight/src/features/course/widget/screens/create_course_screen.dart';
-import 'package:insight/src/features/course/widget/screens/user_courses_screen.dart';
+import 'package:insight/src/features/course/widget/screens/learning_screen.dart';
+import 'package:insight/src/features/course/widget/screens/my_courses_screen.dart';
+import 'package:insight/src/features/invitations/widget/screens/invitations_screen.dart';
 import 'package:insight/src/features/course_page/widget/screens/course_page_screen.dart';
 import 'package:insight/src/features/course/widget/screens/courses_screen.dart';
 import 'package:insight/src/features/profile/widget/screens/profile_screen.dart';
@@ -51,6 +53,15 @@ class AppRouter {
                     builder: (context, state) => const CreateCourseScreen(),
                   ),
                 ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                name: RouteKeys.learning.name,
+                path: RouteKeys.learning.path,
+                builder: (context, state) => const LearningScreen(),
               ),
             ],
           ),
@@ -102,11 +113,18 @@ class AppRouter {
                     ),
                   ),
 
-                  // User courses
+                  // My courses (created by user)
                   GoRoute(
                     name: RouteKeys.userCourses.name,
                     path: RouteKeys.userCourses.path,
-                    builder: (context, state) => const UserCoursesScreen(),
+                    builder: (context, state) => const MyCoursesScreen(),
+                  ),
+
+                  // Invitations
+                  GoRoute(
+                    name: RouteKeys.invitations.name,
+                    path: RouteKeys.invitations.path,
+                    builder: (context, state) => const InvitationsScreen(),
                   ),
 
                   // About
@@ -134,11 +152,11 @@ class AppRouter {
         name: RouteKeys.video.name,
         path: RouteKeys.video.path,
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => InsightPlayer(
+        builder: (context, state) => VideoScreen(
           videoUrl: state.uri.queryParameters['videoUrl'] as String,
           title: state.pathParameters['coursePageTitle'] as String,
-          onVideoEnd: context.pop,
-          onCloseButtonPressed: context.pop,
+          courseId: state.uri.queryParameters['courseId'],
+          lessonId: state.uri.queryParameters['lessonId'],
         ),
       ),
     ],

@@ -29,26 +29,44 @@ class AppStrings {
 
   // TabBar
   static const main = 'Главная';
+  static const learning = 'Учёба';
 
   // Courses
   static const lessons = 'Уроки';
   static const courses = 'Курсы';
   static const myCourses = 'Мои курсы';
+  static const noCourses = 'У вас пока нет курсов';
+  static const noCoursesDescription =
+      'Курсы, на которые вы записаны, будут отображаться здесь';
+  static const noCreatedCourses = 'У вас пока нет созданных курсов';
+  static const noCreatedCoursesDescription =
+      'Созданные вами курсы будут отображаться здесь';
   static const categories = 'Категории';
   static const description = 'Описание';
   static const category = 'Категория';
   static const addLesson = 'Добавить урок';
+  static const addCourse = 'Добавить курс';
   static const courseType = 'Тип курса';
   static const courseTypeOpen = 'Открытый';
   static const courseTypeClosed = 'Закрытый';
   static const invite = 'Пригласить';
   static const inviteUser = 'Пригласить пользователя';
   static const inviteEmailOrNicknameHint = 'Email или никнейм';
-  static const userNotFound = 'Пользователь не найден в системе';
+  static const userNotFound = 'Пользователь не найден';
   static const invitationSent = 'Приглашение отправлено';
+  static const invitationAlreadyExists = 'Пользователь уже приглашён';
+  static const courseNotFound = 'Курс не найден';
+  static const notCourseOwner = 'Вы не владелец курса';
   static const invitationAccepted = 'Принял приглашение';
   static const invitationPending = 'Ожидает';
   static const invitedList = 'Приглашённые';
+  static const myInvitations = 'Мои приглашения';
+  static const noInvitations = 'Нет приглашений';
+  static const noInvitationsDescription =
+      'Вам пока не поступало приглашений на курсы';
+  static const accept = 'Принять';
+  static const invitationAcceptedSuccess = 'Приглашение принято';
+  static const goToCourse = 'Перейти';
 
   // Create course
   static const courseCreation = 'Создание курса';
@@ -62,6 +80,11 @@ class AppStrings {
   static const courseDescrHint = 'Прикольное описание';
 
   static const lessoneNameHint = 'Самый лучший урок';
+
+  // Learning status
+  static const learningNotStarted = 'Не начат';
+  static const learningInProgress = 'В процессе';
+  static const learningCompleted = 'Завершён';
 
   // Categories
   static const sport = 'Спорт';

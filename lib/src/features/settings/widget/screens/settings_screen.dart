@@ -71,15 +71,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: authScope.isAuthenticated
                   ? Padding(
                       padding: const EdgeInsets.only(top: 20),
-                      child: SettingRow(
-                        title: 'Мои курсы',
-                        icon: Icon(
-                          isNeedCupertino
-                              ? CupertinoIcons.person_solid
-                              : Icons.person,
-                        ),
-                        onTap: () =>
-                            context.goRelativeNamed(RouteKeys.userCourses.name),
+                        child: Column(
+                        children: [
+                          SettingRow(
+                            title: AppStrings.myCourses,
+                            icon: Icon(
+                              isNeedCupertino
+                                  ? CupertinoIcons.person_solid
+                                  : Icons.person,
+                            ),
+                            onTap: () => context
+                                .goRelativeNamed(RouteKeys.userCourses.name),
+                          ),
+                          const SizedBox(height: 12),
+                          SettingRow(
+                            title: AppStrings.myInvitations,
+                            icon: Icon(
+                              isNeedCupertino
+                                  ? CupertinoIcons.mail_solid
+                                  : Icons.mail_outline,
+                            ),
+                            onTap: () => context
+                                .goRelativeNamed(RouteKeys.invitations.name),
+                          ),
+                        ],
                       ),
                     )
                   : const SizedBox.shrink(),

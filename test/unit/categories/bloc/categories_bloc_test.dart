@@ -14,6 +14,7 @@ void main() {
   late CategoriesRepository categoriesRepository;
   const categories = [
     Category(
+      id: 'id',
       name: 'name',
       imageUrl: 'imageUrl',
       tag: 'tag',

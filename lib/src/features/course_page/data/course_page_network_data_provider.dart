@@ -33,9 +33,6 @@ abstract interface class CoursePageNetworkDataProvider {
     required Lesson lesson,
   });
 
-  /// Проверяет, существует ли пользователь с указанным email или никнеймом.
-  Future<bool> findUserByEmailOrNickname(String emailOrNickname);
-
   /// Отправляет приглашение пользователю на просмотр закрытого курса.
   Future<void> sendInvitation({
     required String courseId,
@@ -69,34 +66,40 @@ final class CoursePageNetworkDataProviderImpl
     required String courseId,
     required String lessonName,
     required String videoPath,
-  }) =>
-      _client.post(
-        '/lessons',
-        data: {
-          'courseId': courseId,
-          'name': lessonName,
-          'videoPath': videoPath,
-        },
-      );
+  }) async {
+    final formData = FormData.fromMap({
+      'courseId': courseId,
+      'name': lessonName,
+      'video': await MultipartFile.fromFile(
+        videoPath,
+        filename: 'lesson_video',
+      ),
+    });
+    await _client.post('/lessons', data: formData);
+  }
 
   @override
   Future<void> removeLesson({
     required String courseId,
     required Lesson lesson,
-  }) => // TODO: Заменить на lesson id
-      _client.delete('/lessons/$courseId');
+  }) =>
+      _client.delete(
+        '/lessons/$courseId/${Uri.encodeComponent(lesson.id.isNotEmpty ? lesson.id : lesson.name)}',
+      );
 
   @override
-  Future<void> editCourse(Course$Edit course) {
-    // TODO: implement editCourse
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> findUserByEmailOrNickname(String emailOrNickname) async {
-    // TODO: реализовать поиск пользователя по API
-    await Future<void>.delayed(const Duration(milliseconds: 300));
-    return emailOrNickname.trim().isNotEmpty;
+  Future<void> editCourse(Course$Edit course) async {
+    final formData = FormData.fromMap({
+      if (course.name.isNotNull) 'name': course.name,
+      if (course.description.isNotNull) 'description': course.description,
+      if (course.tag.isNotNull) 'tag': course.tag,
+      if (course.imagePath.isNotNull)
+        'image': await MultipartFile.fromFile(
+          course.imagePath!,
+          filename: 'course_image',
+        ),
+    });
+    await _client.patch('/course_pages/${course.id}', data: formData);
   }
 
   @override
@@ -104,28 +107,32 @@ final class CoursePageNetworkDataProviderImpl
     required String courseId,
     required String emailOrNickname,
   }) async {
-    // TODO: реализовать отправку приглашения через API
-    await Future<void>.delayed(const Duration(milliseconds: 500));
+    final isEmail = emailOrNickname.contains('@');
+    final data =
+        isEmail ? {'email': emailOrNickname} : {'username': emailOrNickname};
+    await _client.post('/courses/$courseId/invitations', data: data);
   }
 
   @override
   Future<List<Invitation>> getInvitations(String courseId) async {
-    // TODO: реализовать получение приглашений через API
-    await Future<void>.delayed(const Duration(milliseconds: 200));
-    return [
-      const Invitation(
-        emailOrNickname: 'ivan@example.com',
-        status: InvitationStatus.accepted,
-      ),
-      const Invitation(
-        emailOrNickname: 'maria',
-        status: InvitationStatus.accepted,
-      ),
-      const Invitation(
-        emailOrNickname: 'petr@mail.ru',
-        status: InvitationStatus.pending,
-      ),
-    ];
+    final response = await _client.get('/courses/$courseId/invitations');
+
+    if (response.data
+        case {'message': final String message, 'statusCode': final int code}) {
+      throw Exception('[$code] $message');
+    }
+
+    if (response.data case final List invitationsJson) {
+      return invitationsJson
+          .cast<Map<String, dynamic>>()
+          .map(Invitation.fromJson)
+          .toList(growable: false);
+    }
+
+    throw FormatException(
+      'Unexpected getInvitations response',
+      response.data,
+    );
   }
 }
 
@@ -258,8 +265,10 @@ final class CoursePageFirestoreDataProviderImpl
 
     // Добавляем новый урок в список
     existingLessons.add({
+      'id': uploadTask.ref.name,
       'name': lessonName,
       'video_url': videoUrl,
+      'completed': false,
     });
 
     detailDocData['lessons'] = existingLessons;
@@ -314,18 +323,16 @@ final class CoursePageFirestoreDataProviderImpl
     final List existingLessons = detailDocData['lessons'] ?? [];
 
     // Удаляем урок из списока
-    existingLessons.removeWhere((element) => element['name'] == lesson.name);
+    existingLessons.removeWhere(
+      (element) =>
+          element['id'] == lesson.id ||
+          (lesson.id.isEmpty && element['name'] == lesson.name),
+    );
 
     detailDocData['lessons'] = existingLessons;
 
     // Обновляем список уроков в документе "detail"
     detailDoc.docs.first.reference.update(detailDocData);
-  }
-
-  @override
-  Future<bool> findUserByEmailOrNickname(String emailOrNickname) async {
-    // TODO: заглушка — всегда считаем что пользователь найден
-    return emailOrNickname.trim().isNotEmpty;
   }
 
   @override
@@ -343,15 +350,18 @@ final class CoursePageFirestoreDataProviderImpl
     await Future<void>.delayed(const Duration(milliseconds: 200));
     return [
       const Invitation(
-        emailOrNickname: 'ivan@example.com',
+        inviteeEmail: 'ivan@example.com',
+        inviteeUsername: null,
         status: InvitationStatus.accepted,
       ),
       const Invitation(
-        emailOrNickname: 'maria',
+        inviteeEmail: null,
+        inviteeUsername: 'maria',
         status: InvitationStatus.accepted,
       ),
       const Invitation(
-        emailOrNickname: 'petr@mail.ru',
+        inviteeEmail: 'petr@mail.ru',
+        inviteeUsername: null,
         status: InvitationStatus.pending,
       ),
     ];

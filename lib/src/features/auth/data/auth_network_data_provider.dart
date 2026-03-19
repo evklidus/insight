@@ -14,13 +14,14 @@ abstract interface class AuthNetworkDataProvider {
     String password,
   );
 
-  Future<void> logout();
+  Future<void> logout([String? refreshToken]);
 }
 
 final class AuthNetworkDataProviderImpl implements AuthNetworkDataProvider {
-  AuthNetworkDataProviderImpl(Dio authClient) : _authClient = authClient;
+  AuthNetworkDataProviderImpl(this._authClient, this._restClient);
 
   final Dio _authClient;
+  final Dio _restClient;
 
   @override
   Future<void> register(
@@ -49,7 +50,10 @@ final class AuthNetworkDataProviderImpl implements AuthNetworkDataProvider {
       ).then((r) => Token.fromJson(r.data));
 
   @override
-  Future<void> logout() => _authClient.post('/logout');
+  Future<void> logout([String? refreshToken]) => _restClient.post(
+        '/logout',
+        data: refreshToken != null ? {'refresh_token': refreshToken} : null,
+      );
 }
 
 final class AuthFirebaseDataProviderImpl implements AuthNetworkDataProvider {
@@ -96,5 +100,5 @@ final class AuthFirebaseDataProviderImpl implements AuthNetworkDataProvider {
   }
 
   @override
-  Future<void> logout() => _firebaseAuth.signOut();
+  Future<void> logout([String? refreshToken]) => _firebaseAuth.signOut();
 }

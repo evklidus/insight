@@ -95,9 +95,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               id: userId,
               firstName: name,
               lastName: lastName,
+              avatarPath: _image?.path,
             ),
           ),
         );
+        _image = null;
       }
 
       setState(() => _isEditing = false);
@@ -118,6 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (profile.lastName.isNotNull) {
       _lastNameController.text = profile.lastName!;
     }
+    _image = null;
     _isEditing = false;
     setState(() {});
   }

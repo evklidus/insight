@@ -47,10 +47,11 @@ class CustomImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final resolvedUrl = resolveStorageUrl(imageUrl);
     final image = CachedNetworkImage(
       width: size?.width,
       height: size?.height,
-      imageUrl: imageUrl!,
+      imageUrl: resolvedUrl,
       imageBuilder: (context, imageProvider) => Container(
         width: size?.width,
         height: size?.height,

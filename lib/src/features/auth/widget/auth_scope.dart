@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
+import 'package:insight/src/features/course/bloc/learning_bloc.dart';
 
 ///
 abstract mixin class AuthenticationController {
@@ -66,16 +67,30 @@ class _AuthScopeState extends State<AuthScope> with AuthenticationController {
   }
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<AuthBloc, AuthState>(
+  Widget build(BuildContext context) => BlocListener<AuthBloc, AuthState>(
         bloc: _authBloc,
-        builder: (context, state) {
-          _state = state;
-          return _InheritedAuthentication(
-            controller: this,
-            state: _state,
-            child: widget.child,
-          );
+        listenWhen: (prev, curr) =>
+            prev.isAuthenticated != curr.isAuthenticated,
+        listener: (context, state) {
+          final bloc = context.read<LearningBloc>();
+          if (state.isAuthenticated == true) {
+            bloc.add(LearningEvent.fetchCurrent);
+            bloc.add(LearningEvent.fetchLearning);
+          } else {
+            bloc.add(LearningEvent.clear);
+          }
         },
+        child: BlocBuilder<AuthBloc, AuthState>(
+          bloc: _authBloc,
+          builder: (context, state) {
+            _state = state;
+            return _InheritedAuthentication(
+              controller: this,
+              state: _state,
+              child: widget.child,
+            );
+          },
+        ),
       );
 
   @override
