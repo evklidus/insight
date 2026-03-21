@@ -1,7 +1,9 @@
 import 'package:flutter/services.dart';
 
 class Flavor {
-  static String get current => appFlavor ?? 'No flavors';
-  static bool get isDev => appFlavor == 'dev';
-  static bool get isProd => appFlavor == 'prod';
+  static const _defaultFlavor = 'dev';
+
+  static String get current => appFlavor ?? _defaultFlavor;
+  static bool get isDev => current == _defaultFlavor;
+  static bool get isProd => current == 'prod';
 }

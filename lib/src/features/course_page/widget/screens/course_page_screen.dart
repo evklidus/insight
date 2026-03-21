@@ -109,6 +109,7 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
             ),
           ),
         );
+        _image = null;
       }
 
       setState(() => _isEditing = false);

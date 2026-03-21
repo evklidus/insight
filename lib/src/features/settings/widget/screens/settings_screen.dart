@@ -6,9 +6,9 @@ import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/utils/current_flavor.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
-import 'package:insight/src/common/widgets/adaptive_scaffold.dart';
+import 'package:insight/src/common/widgets/app_bars/custom_sliver_app_bar.dart';
 import 'package:insight/src/common/widgets/buttons/adaptive_button.dart';
-import 'package:insight/src/common/widgets/app_bars/custom_app_bar.dart';
+import 'package:insight/src/common/widgets/custom_android_refresh_indicator.dart';
 import 'package:insight/src/common/widgets/test_values_widget.dart';
 import 'package:insight/src/features/auth/widget/auth_scope.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
@@ -24,107 +24,120 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  Future<void> _onRefresh() async {
+    final profileBloc = context.read<ProfileBloc>();
+    final block = profileBloc.stream.first;
+    profileBloc.add(const ProfileEvent.fetch());
+    await block;
+  }
+
   @override
   Widget build(BuildContext context) {
     final authScope = AuthScope.of(context);
 
-    return AdaptiveScaffold(
-      appBar: const CustomAppBar(
-        title: AppStrings.settings,
-      ),
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 16,
-          bottom: MediaQuery.paddingOf(context).bottom,
-        ),
-        child: ListView(
-          children: [
-            AnimatedSwitcher(
-              duration: standartDuration,
-              child: authScope.isAuthenticated
-                  ? ProfileWidget(
-                      onPressed: () =>
-                          context.goRelativeNamed(RouteKeys.profile.name),
-                      onEditPressed: () => context.goRelativeNamed(
-                        RouteKeys.profile.name,
-                        queryParams: {'isEditing': 'true'},
-                      ),
-                    )
-                  : SettingRow(
-                      title: AppStrings.signIn,
-                      icon: Icon(
-                        isNeedCupertino
-                            ? CupertinoIcons.person_fill
-                            : Icons.login_rounded,
-                      ),
-                      onTap: () =>
-                          context.goRelativeNamed(RouteKeys.login.name),
-                    ),
+    return CustomAndroidRefreshIndicator(
+      onRefresh: _onRefresh,
+      child: CustomScrollView(
+        slivers: [
+          const CustomSliverAppBar(
+            title: AppStrings.settings,
+          ),
+          CupertinoSliverRefreshControl(onRefresh: _onRefresh),
+          SliverPadding(
+            padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: 16,
+              bottom: MediaQuery.paddingOf(context).bottom,
             ),
-            const SizedBox(height: 20),
-            // Theme
-            const ThemeChangeWidget(),
-            AnimatedSwitcher(
-              duration: standartDuration,
-              child: authScope.isAuthenticated
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                        child: Column(
-                        children: [
-                          SettingRow(
-                            title: AppStrings.myCourses,
-                            icon: Icon(
-                              isNeedCupertino
-                                  ? CupertinoIcons.person_solid
-                                  : Icons.person,
-                            ),
-                            onTap: () => context
-                                .goRelativeNamed(RouteKeys.userCourses.name),
+            sliver: SliverList.list(
+              children: [
+                AnimatedSwitcher(
+                  duration: standartDuration,
+                  child: authScope.isAuthenticated
+                      ? ProfileWidget(
+                          onPressed: () =>
+                              context.goRelativeNamed(RouteKeys.profile.name),
+                          onEditPressed: () => context.goRelativeNamed(
+                            RouteKeys.profile.name,
+                            queryParams: {'isEditing': 'true'},
                           ),
-                          const SizedBox(height: 12),
-                          SettingRow(
-                            title: AppStrings.myInvitations,
-                            icon: Icon(
-                              isNeedCupertino
-                                  ? CupertinoIcons.mail_solid
-                                  : Icons.mail_outline,
-                            ),
-                            onTap: () => context
-                                .goRelativeNamed(RouteKeys.invitations.name),
+                        )
+                      : SettingRow(
+                          title: AppStrings.signIn,
+                          icon: Icon(
+                            isNeedCupertino
+                                ? CupertinoIcons.person_fill
+                                : Icons.login_rounded,
                           ),
-                        ],
-                      ),
-                    )
-                  : const SizedBox.shrink(),
+                          onTap: () =>
+                              context.goRelativeNamed(RouteKeys.login.name),
+                        ),
+                ),
+                const SizedBox(height: 20),
+                // Theme
+                const ThemeChangeWidget(),
+                AnimatedSwitcher(
+                  duration: standartDuration,
+                  child: authScope.isAuthenticated
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Column(
+                            children: [
+                              SettingRow(
+                                title: AppStrings.myCourses,
+                                icon: Icon(
+                                  isNeedCupertino
+                                      ? CupertinoIcons.person_solid
+                                      : Icons.person,
+                                ),
+                                onTap: () => context.goRelativeNamed(
+                                    RouteKeys.userCourses.name),
+                              ),
+                              const SizedBox(height: 12),
+                              SettingRow(
+                                title: AppStrings.myInvitations,
+                                icon: Icon(
+                                  isNeedCupertino
+                                      ? CupertinoIcons.mail_solid
+                                      : Icons.mail_outline,
+                                ),
+                                onTap: () => context.goRelativeNamed(
+                                    RouteKeys.invitations.name),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                ),
+                const SizedBox(height: 20),
+                // About app
+                SettingRow(
+                  title: 'О приложении',
+                  icon: Icon(
+                    isNeedCupertino
+                        ? CupertinoIcons.info_circle_fill
+                        : Icons.info_rounded,
+                  ),
+                  onTap: () => context.goRelativeNamed('about'),
+                ),
+                const SizedBox(height: 20),
+                if (!Flavor.isProd) const TestValues(),
+                const SizedBox(height: 20),
+                if (authScope.isAuthenticated)
+                  AdaptiveButton(
+                    onPressed: () {
+                      authScope.logout();
+                      context.read<ProfileBloc>().add(
+                            const ProfileEvent.clear(),
+                          );
+                    },
+                    child: const Text(AppStrings.signOut),
+                  ),
+              ],
             ),
-            const SizedBox(height: 20),
-            // About app
-            SettingRow(
-              title: 'О приложении',
-              icon: Icon(
-                isNeedCupertino
-                    ? CupertinoIcons.info_circle_fill
-                    : Icons.info_rounded,
-              ),
-              onTap: () => context.goRelativeNamed('about'),
-            ),
-            const SizedBox(height: 20),
-            if (!Flavor.isProd) const TestValues(),
-            const SizedBox(height: 20),
-            if (authScope.isAuthenticated)
-              AdaptiveButton(
-                onPressed: () {
-                  authScope.logout();
-                  context.read<ProfileBloc>().add(
-                        const ProfileEvent.clear(),
-                      );
-                },
-                child: const Text(AppStrings.signOut),
-              ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
