@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/utils/extensions/go_relative_named.dart';
@@ -31,6 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Form(
         key: formKey,
         child: AutofillGroup(
+          onDisposeAction: AutofillContextAction.cancel,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -81,12 +83,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           email: email!,
                           password: password!,
                           onSuccess: (message) {
+                            TextInput.finishAutofillContext(shouldSave: true);
                             context.goRelativeNamed(RouteKeys.login.name);
-                            InsightSnackBar.showSuccessful(context,
-                                text: message);
+                            InsightSnackBar.showSuccessful(
+                              context,
+                              text: message,
+                            );
                           },
-                          onError: (message) =>
-                              InsightSnackBar.showError(context, text: message),
+                          onError: (message) => InsightSnackBar.showError(
+                            context,
+                            text: message,
+                          ),
                         );
                       }
                     },

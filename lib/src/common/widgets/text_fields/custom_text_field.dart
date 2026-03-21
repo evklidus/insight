@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bounce_widget/flutter_bounce_widget.dart';
 import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 
@@ -63,7 +64,8 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? _validator;
   final InputType _type;
 
-  bool get _isForPassword => _type == InputType.password;
+  bool get _isForPassword =>
+      _type == InputType.password || _type == InputType.newPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -90,26 +92,178 @@ class CustomTextField extends StatelessWidget {
       InputType.lastName => TextInputType.name,
       _ => TextInputType.text,
     };
-    return TextFormField(
+
+    if (!_isForPassword) {
+      return TextFormField(
+        controller: _controller,
+        maxLines: _maxLines,
+        onChanged: _onChanged,
+        validator: _validator,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          fillColor: context.colorScheme.surfaceContainer,
+          filled: true,
+          hintText: _hintText,
+        ),
+        textCapitalization: textCapitalization,
+        autofillHints: autofillHints,
+        keyboardType: keyboardType,
+      );
+    }
+
+    return _PasswordTextField(
       controller: _controller,
-      maxLines: _isForPassword ? 1 : _maxLines,
+      hintText: _hintText,
       onChanged: _onChanged,
       validator: _validator,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        fillColor: context.colorScheme.surfaceContainer,
-        filled: true,
-        hintText: _hintText,
-      ),
-      obscureText: _isForPassword,
-      enableSuggestions: !_isForPassword,
-      autocorrect: !_isForPassword,
       textCapitalization: textCapitalization,
       autofillHints: autofillHints,
       keyboardType: keyboardType,
+    );
+  }
+}
+
+class _PasswordTextField extends StatefulWidget {
+  const _PasswordTextField({
+    this.controller,
+    this.hintText,
+    this.onChanged,
+    this.validator,
+    required this.textCapitalization,
+    required this.autofillHints,
+    required this.keyboardType,
+  });
+
+  final TextEditingController? controller;
+  final String? hintText;
+  final void Function(String)? onChanged;
+  final String? Function(String?)? validator;
+  final TextCapitalization textCapitalization;
+  final Iterable<String>? autofillHints;
+  final TextInputType keyboardType;
+
+  @override
+  State<_PasswordTextField> createState() => _PasswordTextFieldState();
+}
+
+class _PasswordTextFieldState extends State<_PasswordTextField> {
+  late final ValueNotifier<bool> _isPasswordVisible = ValueNotifier(false);
+
+  @override
+  void dispose() {
+    _isPasswordVisible.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: _isPasswordVisible,
+      builder: (context, isPasswordVisible, child) {
+        return TextFormField(
+          controller: widget.controller,
+          maxLines: 1,
+          onChanged: widget.onChanged,
+          validator: widget.validator,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            fillColor: context.colorScheme.surfaceContainer,
+            filled: true,
+            hintText: widget.hintText,
+            suffixIconConstraints: const BoxConstraints(
+              minWidth: 56,
+              minHeight: 56,
+            ),
+            suffixIcon: _PasswordVisibilityButton(
+              isPasswordVisible: isPasswordVisible,
+              onTap: () => _isPasswordVisible.value = !isPasswordVisible,
+            ),
+          ),
+          obscureText: !isPasswordVisible,
+          enableSuggestions: false,
+          autocorrect: false,
+          textCapitalization: widget.textCapitalization,
+          autofillHints: widget.autofillHints,
+          keyboardType: widget.keyboardType,
+        );
+      },
+    );
+  }
+}
+
+class _PasswordVisibilityButton extends StatelessWidget {
+  const _PasswordVisibilityButton({
+    required this.isPasswordVisible,
+    required this.onTap,
+  });
+
+  final bool isPasswordVisible;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+
+    return SizedBox(
+      width: 56,
+      height: 56,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: Semantics(
+          button: true,
+          label: isPasswordVisible ? 'Скрыть пароль' : 'Показать пароль',
+          child: BounceWidget(
+            onPressed: onTap,
+            child: Center(
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 220),
+                curve: Curves.easeOutCubic,
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: isPasswordVisible
+                      ? colorScheme.primary.withValues(alpha: 0.12)
+                      : colorScheme.onSurface.withValues(alpha: 0.06),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 220),
+                  switchInCurve: Curves.easeOutBack,
+                  switchOutCurve: Curves.easeInCubic,
+                  transitionBuilder: (child, animation) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: ScaleTransition(
+                        scale: Tween<double>(
+                          begin: 0.82,
+                          end: 1,
+                        ).animate(animation),
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    isPasswordVisible
+                        ? Icons.visibility_rounded
+                        : Icons.visibility_off_rounded,
+                    key: ValueKey(isPasswordVisible),
+                    color: isPasswordVisible
+                        ? colorScheme.primary
+                        : colorScheme.onSurfaceVariant,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -133,4 +287,4 @@ class CustomTextField extends StatelessWidget {
 //             placeholderStyle: context.textTheme.bodySmall,
 //             style: context.textTheme.bodyLarge,
 //           )
-//         : 
+//         :

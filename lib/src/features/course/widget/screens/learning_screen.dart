@@ -33,19 +33,21 @@ class LearningScreen extends StatefulWidget {
 }
 
 class _LearningScreenState extends State<LearningScreen> {
+  late final LearningBloc _learningBloc;
   @override
   void initState() {
     super.initState();
+    _learningBloc = context.read<LearningBloc>();
     if (AuthScope.of(context, listen: false).isAuthenticated) {
-      context.read<LearningBloc>().add(LearningEvent.fetchCurrent);
-      context.read<LearningBloc>().add(LearningEvent.fetchLearning);
+      _learningBloc.add(LearningEvent.fetchCurrent);
+      _learningBloc.add(LearningEvent.fetchLearning);
     }
   }
 
   Future<void> _onRefresh() async {
-    context.read<LearningBloc>().add(LearningEvent.fetchCurrent);
-    context.read<LearningBloc>().add(LearningEvent.fetchLearning);
-    await context.read<LearningBloc>().stream.first;
+    _learningBloc.add(LearningEvent.fetchCurrent);
+    _learningBloc.add(LearningEvent.fetchLearning);
+    await _learningBloc.stream.first;
   }
 
   @override
@@ -66,7 +68,6 @@ class _LearningScreenState extends State<LearningScreen> {
                   child: InformationWidget.empty(
                     title: AppStrings.needAuthToCreateCourse,
                     description: AppStrings.signIn,
-                    reloadFunc: null,
                   ),
                 ),
               )

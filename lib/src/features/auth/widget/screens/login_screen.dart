@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: const CustomAppBar(),
       body: AutofillGroup(
+        onDisposeAction: AutofillContextAction.cancel,
         child: Form(
           key: formKey,
           child: Column(
