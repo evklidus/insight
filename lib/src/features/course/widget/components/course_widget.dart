@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insight/src/common/constants/app_strings.dart';
 import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/custom_image_widget.dart';
@@ -49,19 +50,32 @@ class CourseWidget extends StatelessWidget {
         maxLines: 2,
       ),
       subtitle: _withCategory ? Text(categoryTag) : null,
-      trailing: _buildTrailing(context, isItsOwn),
+      trailing: statusBadge != null || isItsOwn
+          ? _CourseTrailingBadges(
+              statusBadge: statusBadge,
+              isItsOwn: isItsOwn,
+            )
+          : null,
     );
   }
+}
 
-  Widget? _buildTrailing(BuildContext context, bool isItsOwn) {
-    final badges = <Widget>[];
-    if (statusBadge != null) {
-      badges.add(_badge(context, statusBadge!));
-    }
-    if (isItsOwn) {
-      badges.add(_badge(context, 'Ваш'));
-    }
-    if (badges.isEmpty) return null;
+class _CourseTrailingBadges extends StatelessWidget {
+  const _CourseTrailingBadges({
+    required this.statusBadge,
+    required this.isItsOwn,
+  });
+
+  final String? statusBadge;
+  final bool isItsOwn;
+
+  @override
+  Widget build(BuildContext context) {
+    final badges = <Widget>[
+      if (statusBadge != null) _CoursePill(text: statusBadge!),
+      if (isItsOwn) const _CoursePill(text: AppStrings.courseYoursBadge),
+    ];
+
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: badges.length == 1
@@ -69,23 +83,32 @@ class CourseWidget extends StatelessWidget {
           : Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
+              spacing: 6,
               children: badges,
             ),
     );
   }
+}
 
-  Widget _badge(BuildContext context, String text) => Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(8),
+class _CoursePill extends StatelessWidget {
+  const _CoursePill({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
           ),
           color: context.colorScheme.surfaceContainerHighest,
         ),
-        child: Text(
-          text,
-          style: context.textTheme.labelLarge,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          child: Text(
+            text,
+            style: context.textTheme.labelMedium,
+          ),
         ),
       );
 }

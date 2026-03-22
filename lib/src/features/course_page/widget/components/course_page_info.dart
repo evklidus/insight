@@ -269,7 +269,7 @@ class _CourseTypeSegment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Text(
           text,
           style: context.textTheme.labelLarge,

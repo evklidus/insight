@@ -74,10 +74,10 @@ class AppStrings {
   static const create = 'Создать';
   static const title = 'Название';
   static const addLessonsAfterCreatingCourse =
-      'Добавлять уроки можно только после создания курса.';
+      'Добавлять уроки можно только после создания курса';
   static const courseSuccessfullyCreated = 'Курс успешно создан';
   static const courseNameHint = 'Самый лучший курс';
-  static const courseDescrHint = 'Прикольное описание';
+  static const courseDescrHint = 'Описание ещё лучше';
 
   static const lessoneNameHint = 'Самый лучший урок';
 
@@ -85,6 +85,7 @@ class AppStrings {
   static const learningNotStarted = 'Не начат';
   static const learningInProgress = 'В процессе';
   static const learningCompleted = 'Завершён';
+  static const courseYoursBadge = 'Ваш';
 
   // Categories
   static const sport = 'Спорт';
