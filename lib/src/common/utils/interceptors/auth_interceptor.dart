@@ -19,6 +19,37 @@ class AuthInterceptor extends Interceptor {
   /// Dio-клиент для retry (restClient). Нужен, если задан tryRefreshToken.
   final Dio? retryDio;
 
+  /// Один параллельный refresh на все 401 (ротация refresh на бэкенде).
+  Future<bool>? _refreshInFlight;
+
+  /// Ждущие 401 получают тот же [Future], что и первая попытка refresh.
+  Future<bool> _runRefreshLocked() => _refreshInFlight ??= _refreshOnce();
+
+  Future<bool> _refreshOnce() async {
+    try {
+      return await tryRefreshToken!();
+    } finally {
+      _refreshInFlight = null;
+    }
+  }
+
+  /// Логаут только если сервер отклонил уже новый access (401/403). Сеть/таймаут — сессия живая.
+  static bool _shouldLogoutAfterRetryError(Object error) {
+    if (error is! DioException) return false;
+    final code = error.response?.statusCode;
+    if (code == null) return false;
+    return code == 401 || code == 403;
+  }
+
+  static DioException _dioExceptionForRetry(RequestOptions opts, Object e) =>
+      e is DioException
+          ? e
+          : DioException(
+              requestOptions: opts,
+              error: e,
+              type: DioExceptionType.unknown,
+            );
+
   @override
   void onRequest(
     RequestOptions options,
@@ -40,7 +71,7 @@ class AuthInterceptor extends Interceptor {
     if (err.response?.statusCode == 401 &&
         tryRefreshToken != null &&
         retryDio != null) {
-      final refreshed = await tryRefreshToken!();
+      final refreshed = await _runRefreshLocked();
       if (refreshed) {
         final token = await getTokenFromDB();
         if (token != null) {
@@ -49,8 +80,12 @@ class AuthInterceptor extends Interceptor {
           try {
             final response = await retryDio!.fetch(opts);
             return handler.resolve(response);
-          } catch (_) {
-            // fall through to logout
+          } catch (e) {
+            final dioErr = _dioExceptionForRetry(opts, e);
+            if (_shouldLogoutAfterRetryError(e)) {
+              refreshToken();
+            }
+            return handler.reject(dioErr);
           }
         }
       }

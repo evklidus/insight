@@ -36,15 +36,14 @@ final class AuthStorageDataProviderImpl extends PreferencesDao
     required String accessToken,
     String? refreshToken,
   }) async {
-    _accessToken.set(accessToken);
+    await _accessToken.set(accessToken);
     if (refreshToken != null) {
-      _refreshToken.set(refreshToken);
+      await _refreshToken.set(refreshToken);
     }
   }
 
   @override
   Future<void> setLogout() async {
-    _accessToken.remove();
-    _refreshToken.remove();
+    await (_accessToken.remove(), _refreshToken.remove()).wait;
   }
 }
