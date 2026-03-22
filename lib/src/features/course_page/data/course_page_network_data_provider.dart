@@ -93,6 +93,7 @@ final class CoursePageNetworkDataProviderImpl
       if (course.name.isNotNull) 'name': course.name,
       if (course.description.isNotNull) 'description': course.description,
       if (course.tag.isNotNull) 'tag': course.tag,
+      if (course.isClosed.isNotNull) 'is_private': course.isClosed,
       if (course.imagePath.isNotNull)
         'image': await MultipartFile.fromFile(
           course.imagePath!,
