@@ -97,13 +97,11 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
   @override
   Future<List<({String categoryName, String categoryTag})>>
       getCategoryTags() async {
-    final response = await _client.get('/category_tags');
+    final response = await _client.get('/categories');
 
     if (response.data case final List categoryTagsJson) {
       if (categoryTagsJson.isEmpty) return const [];
-
-      // TODO: Потом получать названия из локальной функции
-      return categoryTagsJson
+      final tags = categoryTagsJson
           .cast<Map<String, dynamic>>()
           .map(
             (json) => (
@@ -112,6 +110,8 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
             ),
           )
           .toList(growable: false);
+
+      return tags;
     }
 
     throw FormatException(
