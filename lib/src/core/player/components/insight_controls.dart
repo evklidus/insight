@@ -27,7 +27,7 @@ class InsightControls extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16).copyWith(top: 8),
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(28),
@@ -40,13 +40,13 @@ class InsightControls extends StatelessWidget {
             controller,
             allowScrubbing: true,
             borderRadius: BorderRadius.circular(12),
-            padding: const EdgeInsets.symmetric(vertical: 6),
+            padding: const EdgeInsets.symmetric(vertical: 18),
             colors: VideoProgressColors(
               playedColor: iconColor,
               backgroundColor: iconColor.withOpacity(0.1),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
