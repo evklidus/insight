@@ -27,6 +27,7 @@ class WidgetSwitcher extends StatefulWidget {
     this.refresh,
     this.padding = const EdgeInsets.fromLTRB(16, 16, 16, 0),
     this.duration = standartDuration,
+    this.switchDelay = const Duration(milliseconds: 180),
     this.skeletonBuilder,
     required this.childBuilder,
   }) : _isForSliver = false;
@@ -37,6 +38,7 @@ class WidgetSwitcher extends StatefulWidget {
     this.refresh,
     this.padding = const EdgeInsets.fromLTRB(16, 16, 16, 0),
     this.duration = standartDuration,
+    this.switchDelay = const Duration(milliseconds: 180),
     this.skeletonBuilder,
     required this.childBuilder,
   }) : _isForSliver = true;
@@ -49,6 +51,7 @@ class WidgetSwitcher extends StatefulWidget {
   final Future<void> Function()? refresh;
   final EdgeInsets padding;
   final Duration duration;
+  final Duration switchDelay;
   final Widget Function(BuildContext context)? skeletonBuilder;
   final Widget Function(BuildContext context) childBuilder;
 
@@ -58,28 +61,99 @@ class WidgetSwitcher extends StatefulWidget {
   State<WidgetSwitcher> createState() => _WidgetSwitcherState();
 }
 
+enum _WidgetSwitcherView { error, skeleton, empty, content }
+
 class _WidgetSwitcherState extends State<WidgetSwitcher> {
+  late _WidgetSwitcherView _view;
+  Timer? _switchTimer;
+  bool _hasSeenProcessing = false;
+  bool _canShowEmpty = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _syncProgressFlags();
+    _view = _resolveView();
+  }
+
+  @override
+  void didUpdateWidget(covariant WidgetSwitcher oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _syncProgressFlags();
+
+    final targetView = _resolveView();
+    if (_view == targetView) {
+      _switchTimer?.cancel();
+      _switchTimer = null;
+      return;
+    }
+
+    _switchTimer?.cancel();
+    if (widget.switchDelay == Duration.zero) {
+      setState(() => _view = targetView);
+      return;
+    }
+
+    _switchTimer = Timer(
+      widget.switchDelay,
+      () {
+        if (!mounted) return;
+
+        final currentView = _resolveView();
+        if (currentView != targetView) {
+          return;
+        }
+
+        setState(() => _view = targetView);
+      },
+    );
+  }
+
+  void _syncProgressFlags() {
+    _hasSeenProcessing = _hasSeenProcessing || widget.state.isProcessing;
+    _canShowEmpty = _canShowEmpty ||
+        widget.state.hasData ||
+        widget.state.hasError ||
+        (_hasSeenProcessing && !widget.state.isProcessing);
+  }
+
+  _WidgetSwitcherView _resolveView() => switch (widget.state) {
+        (hasData: false, isProcessing: _, hasError: true) =>
+          _WidgetSwitcherView.error,
+        (hasData: false, isProcessing: true, hasError: false) =>
+          _WidgetSwitcherView.skeleton,
+        (hasData: false, isProcessing: false, hasError: false) => _canShowEmpty
+            ? _WidgetSwitcherView.empty
+            : _WidgetSwitcherView.skeleton,
+        _ => _WidgetSwitcherView.content,
+      };
+
+  @override
+  void dispose() {
+    _switchTimer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final child = switch (widget.state) {
-      (hasData: false, isProcessing: _, hasError: true) => widget._isForSliver
+    final child = switch (_view) {
+      _WidgetSwitcherView.error => widget._isForSliver
           ? SliverToBoxAdapter(
               child: InformationWidget.error(reloadFunc: widget.refresh),
             )
           : InformationWidget.error(reloadFunc: widget.refresh),
-      (hasData: false, isProcessing: _, hasError: false) =>
-        widget.skeletonBuilder?.call(context) ??
-            (
-              widget._isForSliver
-                  ? const SliverToBoxAdapter(
-                      child:
-                          Center(child: CircularProgressIndicator.adaptive()),
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    ),
-            ) as Widget,
-      _ => widget.childBuilder.call(context),
+      _WidgetSwitcherView.skeleton => widget.skeletonBuilder?.call(context) ??
+          (
+            widget._isForSliver
+                ? const SliverToBoxAdapter(
+                    child: Center(child: CircularProgressIndicator.adaptive()),
+                  )
+                : const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  ),
+          ) as Widget,
+      _WidgetSwitcherView.empty => widget.childBuilder.call(context),
+      _WidgetSwitcherView.content => widget.childBuilder.call(context),
     };
 
     final paddedWidget = widget._isForSliver
@@ -97,7 +171,10 @@ class _WidgetSwitcherState extends State<WidgetSwitcher> {
     } else {
       return AnimatedSwitcher(
         duration: widget.duration,
-        child: paddedWidget,
+        child: KeyedSubtree(
+          key: ValueKey(_view),
+          child: paddedWidget,
+        ),
       );
     }
   }
