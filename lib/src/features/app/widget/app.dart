@@ -4,7 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/features/app/widget/material_context.dart';
 import 'package:insight/src/features/auth/widget/auth_scope.dart';
-import 'package:insight/src/features/course/bloc/learning_bloc.dart';
+import 'package:insight/src/features/learning/bloc/learning_bloc.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight/src/features/settings/bloc/settings_bloc.dart';
 import 'package:insight/src/features/settings/widget/settings_scope.dart';
@@ -42,7 +42,8 @@ class _AppState extends State<App> {
     );
 
     _learningBloc = LearningBloc(
-      repository: DIContainer.instance.coursesRepository,
+      learningRepository: DIContainer.instance.learningRepository,
+      courseRepository: DIContainer.instance.coursesRepository,
     );
   }
 

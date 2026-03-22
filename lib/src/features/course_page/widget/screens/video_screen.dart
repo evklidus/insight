@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insight/src/core/player/insight_player.dart';
-import 'package:insight/src/features/course/bloc/learning_bloc.dart';
+import 'package:insight/src/features/learning/bloc/learning_bloc.dart';
 
 class VideoScreen extends StatelessWidget {
   const VideoScreen({

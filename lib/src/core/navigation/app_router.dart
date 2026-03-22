@@ -7,7 +7,7 @@ import 'package:insight/src/features/auth/widget/screens/login_screen.dart';
 import 'package:insight/src/features/auth/widget/screens/register_screen.dart';
 import 'package:insight/src/features/categories/widget/screens/categories_screen.dart';
 import 'package:insight/src/features/course/widget/screens/create_course_screen.dart';
-import 'package:insight/src/features/course/widget/screens/learning_screen.dart';
+import 'package:insight/src/features/learning/widget/screens/learning_screen.dart';
 import 'package:insight/src/features/course/widget/screens/my_courses_screen.dart';
 import 'package:insight/src/features/invitations/widget/screens/invitations_screen.dart';
 import 'package:insight/src/features/course_page/widget/screens/course_page_screen.dart';

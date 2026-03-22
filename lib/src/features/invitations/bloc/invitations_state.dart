@@ -16,7 +16,7 @@ final class InvitationsState {
   final bool hasError;
   final String? message;
 
-  bool get hasData => !isProcessing && !hasError;
+  bool get hasData => invitations.isNotEmpty;
 
   InvitationsState copyWith({
     List<UserInvitation>? invitations,

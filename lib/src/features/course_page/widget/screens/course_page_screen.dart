@@ -17,8 +17,9 @@ import 'package:insight/src/features/course_page/widget/components/invite_user_w
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
-import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
-import 'package:insight/src/features/course_page/bloc/course_page_state.dart';
+import 'package:insight/src/features/course_page/bloc/course_enroll/course_enroll_bloc.dart';
+import 'package:insight/src/features/course_page/bloc/course_page/course_page_bloc.dart';
+import 'package:insight/src/features/course_page/bloc/course_page/course_page_state.dart';
 import 'package:insight/src/features/course_page/widget/components/course_page_skeleton.dart';
 import 'package:insight/src/features/course_page/widget/components/course_page_info.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -165,8 +166,17 @@ class _CoursePageScreenState extends State<CoursePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _coursePageBloc,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<CoursePageBloc>.value(value: _coursePageBloc),
+        BlocProvider<CourseEnrollBloc>(
+          create: (context) => CourseEnrollBloc(
+            courseId: widget.coursePageId,
+            learningRepository: DIContainer.instance.learningRepository,
+            courseRepository: DIContainer.instance.coursesRepository,
+          )..add(CourseEnrollEvent.check()),
+        ),
+      ],
       child: BlocConsumer<CoursePageBloc, CoursePageState>(
         listener: (context, state) => state.mapOrNull(
           error: (errorState) =>

@@ -1,8 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:insight/src/features/course_page/bloc/course_page_state.dart';
+import 'package:insight/src/features/course_page/bloc/course_page/course_page_state.dart';
 import 'package:insight/src/features/course_page/data/course_page_repository.dart';
-import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
+import 'package:insight/src/features/course_page/bloc/course_page/course_page_bloc.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

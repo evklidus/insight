@@ -19,7 +19,7 @@ final class LearningCourse {
     return LearningCourse(
       course: course != null
           ? Course.fromJson(course as Map<String, dynamic>)
-          : throw FormatException('course required'),
+          : throw const FormatException('course required'),
       status: json['status'] as String,
       watchedCount: json['watched_count'] as int? ?? 0,
       totalLessons: json['total_lessons'] as int? ?? 0,

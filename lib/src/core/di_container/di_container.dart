@@ -15,6 +15,8 @@ import 'package:insight/src/features/categories/data/categories_network_data_pro
 import 'package:insight/src/features/categories/data/categories_repository.dart';
 import 'package:insight/src/features/course/data/course_network_data_provider.dart';
 import 'package:insight/src/features/course/data/course_repository.dart';
+import 'package:insight/src/features/learning/data/learning_network_data_provider.dart';
+import 'package:insight/src/features/learning/data/learning_repository.dart';
 import 'package:insight/src/features/course_page/data/course_page_network_data_provider.dart';
 import 'package:insight/src/features/course_page/data/course_page_repository.dart';
 import 'package:insight/src/features/invitations/data/invitations_firestore_data_provider.dart';
@@ -52,6 +54,7 @@ final class DIContainer {
   late final AuthStorageDataProvider authStorageDataProvider;
   late final CategoriesNetworkDataProvider categoriesNetworkDataProvider;
   late final CourseNetworkDataProvider courseNetworkDataProvider;
+  late final LearningNetworkDataProvider learningNetworkDataProvider;
   late final CoursePageNetworkDataProvider coursePageNetworkDataProvider;
   late final InvitationsNetworkDataProvider invitationsNetworkDataProvider;
   late final ProfileNetworkDataProvider profileNetworkDataProvider;
@@ -61,6 +64,7 @@ final class DIContainer {
   late final AuthRepository authRepository;
   late final CategoriesRepository categoriesRepository;
   late final CourseRepository coursesRepository;
+  late final LearningRepository learningRepository;
   late final CoursePageRepository coursePageRepository;
   late final InvitationsRepository invitationsRepository;
   late final ProfileRepository profileRepository;
@@ -133,6 +137,8 @@ final class DIContainer {
       categoriesNetworkDataProvider =
           CategoriesNetworkDataProviderImpl(restClient);
       courseNetworkDataProvider = CourseNetworkDataProviderImpl(restClient);
+      learningNetworkDataProvider =
+          LearningNetworkDataProviderImpl(restClient);
       coursePageNetworkDataProvider =
           CoursePageNetworkDataProviderImpl(restClient);
       invitationsNetworkDataProvider =
@@ -151,6 +157,8 @@ final class DIContainer {
         firebaseFirestore,
         firebaseStorage,
       );
+      learningNetworkDataProvider =
+          const LearningFirestoreDataProviderImpl();
       coursePageNetworkDataProvider = CoursePageFirestoreDataProviderImpl(
         firebaseAuth,
         firebaseFirestore,
@@ -180,6 +188,9 @@ final class DIContainer {
     );
     coursesRepository = CourseRepositoryImpl(
       networkDataProvider: courseNetworkDataProvider,
+    );
+    learningRepository = LearningRepositoryImpl(
+      networkDataProvider: learningNetworkDataProvider,
     );
     coursePageRepository = CoursePageRepositoryImpl(
       networkDataProvider: coursePageNetworkDataProvider,

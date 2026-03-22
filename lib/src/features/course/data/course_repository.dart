@@ -1,8 +1,6 @@
 import 'package:insight/src/features/course/data/course_network_data_provider.dart';
 import 'package:insight/src/features/course/model/course.dart';
 import 'package:insight/src/features/course/model/course_progress.dart';
-import 'package:insight/src/features/course/model/learning_course.dart';
-import 'package:insight/src/features/profile/model/user_current_lesson.dart';
 
 abstract interface class CourseRepository {
   Future<List<Course>> getCourse(String categoryTag);
@@ -22,10 +20,6 @@ abstract interface class CourseRepository {
   Future<void> enroll(String courseId);
 
   Future<void> completeLesson(String courseId, String lessonId);
-
-  Future<List<LearningCourse>> getMyLearning();
-
-  Future<UserCurrentLesson?> getCurrent();
 
   Future<CourseProgress?> getProgress(String courseId);
 }
@@ -70,13 +64,6 @@ final class CourseRepositoryImpl implements CourseRepository {
   @override
   Future<void> completeLesson(String courseId, String lessonId) =>
       _networkDataProvider.completeLesson(courseId, lessonId);
-
-  @override
-  Future<List<LearningCourse>> getMyLearning() =>
-      _networkDataProvider.getMyLearning();
-
-  @override
-  Future<UserCurrentLesson?> getCurrent() => _networkDataProvider.getCurrent();
 
   @override
   Future<CourseProgress?> getProgress(String courseId) =>

@@ -22,6 +22,13 @@ class AppAboutScreen extends StatefulWidget {
 }
 
 class _AppAboutScreenState extends State<AppAboutScreen> {
+  String get _versionLine {
+    const v = Pubspec.version;
+    final semver = '${v.major}.${v.minor}.${v.patch}';
+    final build = v.build.join('.');
+    return build.isEmpty ? 'Версия $semver' : 'Версия $semver сборка $build';
+  }
+
   int _imageTapCount = 0;
   final _maxTapCountToShowTestValues = 10;
 
@@ -61,10 +68,19 @@ class _AppAboutScreenState extends State<AppAboutScreen> {
                 AppStrings.appName,
                 style: context.textTheme.headlineLarge,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
               Text(
-                'Версия: ${Pubspec.version.representation}',
-                style: context.textTheme.titleLarge,
+                _versionLine,
+                style: context.textTheme.titleMedium,
+              ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Text(
+                  AppStrings.appAboutDescription,
+                  textAlign: TextAlign.center,
+                  style: context.textTheme.bodyMedium,
+                ),
               ),
               const SizedBox(height: 24),
               AnimatedOpacity(

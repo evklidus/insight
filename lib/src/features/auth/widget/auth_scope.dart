@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/core/di_container/di_container.dart';
 import 'package:insight/src/features/auth/bloc/auth_bloc.dart';
-import 'package:insight/src/features/course/bloc/learning_bloc.dart';
+import 'package:insight/src/features/learning/bloc/learning_bloc.dart';
 
 ///
 abstract mixin class AuthenticationController {
@@ -74,10 +74,10 @@ class _AuthScopeState extends State<AuthScope> with AuthenticationController {
         listener: (context, state) {
           final bloc = context.read<LearningBloc>();
           if (state.isAuthenticated == true) {
-            bloc.add(LearningEvent.fetchCurrent);
-            bloc.add(LearningEvent.fetchLearning);
+            bloc.add(const LearningEvent.fetchCurrent());
+            bloc.add(const LearningEvent.fetchLearning());
           } else {
-            bloc.add(LearningEvent.clear);
+            bloc.add(const LearningEvent.clear());
           }
         },
         child: BlocBuilder<AuthBloc, AuthState>(

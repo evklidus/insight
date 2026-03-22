@@ -6,8 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:insight/src/features/course/model/course.dart';
 import 'package:insight/src/features/course/model/course_progress.dart';
-import 'package:insight/src/features/course/model/learning_course.dart';
-import 'package:insight/src/features/profile/model/user_current_lesson.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -29,10 +27,6 @@ abstract interface class CourseNetworkDataProvider {
   Future<void> enroll(String courseId);
 
   Future<void> completeLesson(String courseId, String lessonId);
-
-  Future<List<LearningCourse>> getMyLearning();
-
-  Future<UserCurrentLesson?> getCurrent();
 
   Future<CourseProgress?> getProgress(String courseId);
 }
@@ -134,23 +128,6 @@ final class CourseNetworkDataProviderImpl implements CourseNetworkDataProvider {
   Future<void> completeLesson(String courseId, String lessonId) => _client.post(
         '/courses/$courseId/lessons/${Uri.encodeComponent(lessonId)}/complete',
       );
-
-  @override
-  Future<List<LearningCourse>> getMyLearning() async {
-    final response = await _client.get('/courses/my/learning');
-    final list = response.data as List<dynamic>? ?? [];
-    return list
-        .map((e) => LearningCourse.fromJson(e as Map<String, dynamic>))
-        .toList();
-  }
-
-  @override
-  Future<UserCurrentLesson?> getCurrent() async {
-    final response = await _client.get('/courses/my/current');
-    final data = response.data;
-    if (data == null || data is! Map<String, dynamic>) return null;
-    return UserCurrentLesson.fromJson(data);
-  }
 
   @override
   Future<CourseProgress?> getProgress(String courseId) async {
@@ -311,12 +288,6 @@ final class CourseFirestoreDataProviderImpl
   Future<void> completeLesson(String courseId, String lessonId) async {
     throw UnimplementedError('Learning mode not supported for Firebase');
   }
-
-  @override
-  Future<List<LearningCourse>> getMyLearning() async => [];
-
-  @override
-  Future<UserCurrentLesson?> getCurrent() async => null;
 
   @override
   Future<CourseProgress?> getProgress(String courseId) async => null;

@@ -95,6 +95,8 @@ class AppStrings {
   // Settings
   static const settings = 'Настройки';
   static const signOut = 'Выйти';
+  static const appAboutDescription =
+      'Платформа для онлайн-обучения: курсы, уроки и ваш прогресс в одном месте';
 
   // Auth
   static const registration = 'Регистрация';

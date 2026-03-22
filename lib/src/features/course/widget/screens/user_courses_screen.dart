@@ -10,8 +10,8 @@ import 'package:insight/src/common/widgets/information_widget.dart';
 import 'package:insight/src/common/widgets/separated_column.dart';
 import 'package:insight/src/common/widgets/shimmer.dart';
 import 'package:insight/src/common/widgets/widget_switcher.dart';
-import 'package:insight/src/features/course/bloc/learning_bloc.dart';
-import 'package:insight/src/features/course/bloc/learning_state.dart';
+import 'package:insight/src/features/learning/bloc/learning_bloc.dart';
+import 'package:insight/src/features/learning/bloc/learning_state.dart';
 import 'package:insight/src/features/course/widget/components/course_widget.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
@@ -27,11 +27,11 @@ class _UserCoursesScreenState extends State<UserCoursesScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<LearningBloc>().add(LearningEvent.fetchLearning);
+    context.read<LearningBloc>().add(const LearningEvent.fetchLearning());
   }
 
   Future<void> _onRefresh() async {
-    context.read<LearningBloc>().add(LearningEvent.fetchLearning);
+    context.read<LearningBloc>().add(const LearningEvent.fetchLearning());
     await context.read<LearningBloc>().stream.first;
   }
 
@@ -51,11 +51,13 @@ class _UserCoursesScreenState extends State<UserCoursesScreen> {
               listenWhen: (prev, curr) => curr.hasError && !prev.hasError,
               listener: (context, state) => InsightSnackBar.showError(
                 context,
-                text: state.message ?? AppStrings.somethingWrong,
+                text: state.message.isEmpty
+                    ? AppStrings.somethingWrong
+                    : state.message,
               ),
               builder: (context, state) => WidgetSwitcher.sliver(
                 state: (
-                  hasData: !state.isProcessing && !state.hasError,
+                  hasData: state.hasData,
                   isProcessing: state.isProcessing,
                   hasError: state.hasError,
                 ),
@@ -101,7 +103,7 @@ class _UserCoursesScreenState extends State<UserCoursesScreen> {
                                   },
                                   extra: () => context
                                       .read<LearningBloc>()
-                                      .add(LearningEvent.fetchLearning),
+                                      .add(const LearningEvent.fetchLearning()),
                                 ),
                               ),
                             ],

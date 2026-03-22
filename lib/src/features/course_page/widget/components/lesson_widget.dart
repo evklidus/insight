@@ -6,7 +6,7 @@ import 'package:insight/src/common/constants/base_constants.dart';
 import 'package:insight/src/common/constants/route_keys.dart';
 import 'package:insight/src/common/utils/extensions/context_extension.dart';
 import 'package:insight/src/common/widgets/insight_list_tile.dart';
-import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
+import 'package:insight/src/features/course_page/bloc/course_page/course_page_bloc.dart';
 import 'package:insight/src/features/course_page/model/lesson.dart';
 
 class LessonWidget extends StatelessWidget {

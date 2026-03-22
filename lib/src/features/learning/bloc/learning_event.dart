@@ -3,21 +3,18 @@ part of 'learning_bloc.dart';
 sealed class LearningEvent {
   const LearningEvent();
 
-  static const LearningEvent fetchCurrent = _LearningEvent$FetchCurrent();
-  static const LearningEvent fetchLearning = _LearningEvent$FetchLearning();
-  static const LearningEvent clear = _LearningEvent$Clear();
+  const factory LearningEvent.fetchCurrent() = _LearningEvent$FetchCurrent;
 
-  factory LearningEvent.completeLesson({
+  const factory LearningEvent.fetchLearning() = _LearningEvent$FetchLearning;
+
+  const factory LearningEvent.clear() = _LearningEvent$Clear;
+
+  const factory LearningEvent.completeLesson({
     required String courseId,
     required String lessonId,
-  }) =>
-      _LearningEvent$CompleteLesson(
-        courseId: courseId,
-        lessonId: lessonId,
-      );
+  }) = _LearningEvent$CompleteLesson;
 
-  factory LearningEvent.enroll(String courseId) =>
-      _LearningEvent$Enroll(courseId);
+  const factory LearningEvent.enroll(String courseId) = _LearningEvent$Enroll;
 }
 
 final class _LearningEvent$FetchCurrent extends LearningEvent {

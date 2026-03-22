@@ -13,7 +13,7 @@ import 'package:insight/src/common/widgets/text_fields/custom_text_field.dart';
 import 'package:insight/src/common/widgets/insight_dismissible.dart';
 import 'package:insight/src/features/profile/bloc/profile_bloc.dart';
 import 'package:insight_snackbar/insight_snackbar.dart';
-import 'package:insight/src/features/course_page/bloc/course_page_bloc.dart';
+import 'package:insight/src/features/course_page/bloc/course_page/course_page_bloc.dart';
 import 'package:insight/src/features/course_page/model/course_page.dart';
 import 'package:insight/src/features/course_page/widget/components/add_course_button.dart';
 import 'package:insight/src/features/course_page/widget/components/lesson_widget.dart';
@@ -208,7 +208,7 @@ class _CoursePageScreenLoadedState extends State<CoursePageInfo> {
                 ),
         ),
         const SizedBox(height: 20),
-        if (!isItsOwn) AddCourseButton(courseId: widget.coursePage.id),
+        if (!isItsOwn) const AddCourseButton(),
         if (widget.coursePage.lessons?.isNotEmpty ?? false)
           AbsorbPointer(
             absorbing: widget.editData.isEditing,
