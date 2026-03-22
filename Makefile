@@ -27,4 +27,4 @@ gen:
 	dart run build_runner build --delete-conflicting-outputs
 
 ipa:
-	flutter build ipa --flavor prod
+	flutter build ipa --release --flavor prod
